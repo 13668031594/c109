@@ -18,5 +18,5 @@ Route::group(['namespace' => 'Login'], function () {
 
 Route::group(['middleware' => 'auth:api'], function () {
 
-
+    Route::get('user', 'Login\LoginController@get_member');
 });

@@ -69,4 +69,11 @@ class LoginController extends ApiController
 
         return parent::success();
     }
+
+    public function get_member()
+    {
+        $member = $this->get_member();
+
+        return parent::success(['member' => $member]);
+    }
 }

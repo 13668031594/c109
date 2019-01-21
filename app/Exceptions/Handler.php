@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof JsonException) return response()->json(json_decode($exception->getMessage(),true));//ajax请求失败，返回json错误信息
-
+dd($exception->getTraceAsString());
         return parent::render($request, $exception);
     }
 }
