@@ -15,3 +15,8 @@ Route::group(['namespace' => 'Login'], function () {
     Route::get('captcha', 'LoginController@captcha');
     Route::post('login', 'LoginController@login');
 });
+
+Route::group(['middleware' => 'auth:api'], function () {
+
+
+});
