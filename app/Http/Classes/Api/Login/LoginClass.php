@@ -138,7 +138,7 @@ class LoginClass extends ApiClass
         $result = Route::dispatch($request)->getContent();
 
         //进行令牌兑换
-        $response =json_decode($result,true);
+        $response = json_decode($result, true);
 
         //检查令牌兑换情况
         if (isset($response['access_token'])) {
@@ -201,8 +201,10 @@ class LoginClass extends ApiClass
                 'code_number' => $request->post('code_number'),
             ])) {
 
+                $other = self::captcha_fils();
+
                 //验证码错误
-                parent::error_json('验证码错误');
+                parent::error_json('验证码错误', '000', $other);
             };
         }
 
@@ -219,20 +221,10 @@ class LoginClass extends ApiClass
             //添加失败次数
             self::fails_add($fails_times);
 
-            //失败次数
-            $fails_times = self::fails_times();
-
-            //验证码
-            $captcha = ($fails_times >= 3) ? self::captcha() : null;
-
-            //结果集
-            $other = [
-                'fails_times' => $fails_times,
-                'captcha' => $captcha,
-            ];
+            $other = self::captcha_fils();
 
             //反馈账号密码错误
-            parent::error_json('手机号或密码错误','000',$other);
+            parent::error_json('手机号或密码错误', '000', $other);
         }
 
         //验证通过
@@ -320,5 +312,20 @@ class LoginClass extends ApiClass
 
         Cache::put($name, ($times + 1), 60);
 
+    }
+
+    public function captcha_fils()
+    {
+        //失败次数
+        $fails_times = self::fails_times();
+
+        //验证码
+        $captcha = ($fails_times >= 3) ? self::captcha() : null;
+
+        //结果集
+        return [
+            'fails_times' => $fails_times,
+            'captcha' => $captcha,
+        ];
     }
 }
