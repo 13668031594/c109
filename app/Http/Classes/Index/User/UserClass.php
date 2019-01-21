@@ -43,7 +43,7 @@ class UserClass extends IndexClass
     }
 
     //团队，1级
-    public function team($member_id)
+    public function team($member_id,$tree = false)
     {
         //结果数组
         $result = [
@@ -72,7 +72,7 @@ class UserClass extends IndexClass
             $fathers[$v['referee_id']][] = $v;
         }
 
-        $result['team'] = self::get_tree($member_id, $fathers);
+        $result['team'] = self::get_tree($member_id, $fathers,$tree);
 
         return $result;
     }
@@ -84,7 +84,7 @@ class UserClass extends IndexClass
         return parent::delete_prefix($member->toArray());
     }
 
-    public function get_tree($father_id, $team)
+    public function get_tree($father_id, $team,$tree)
     {
         if (!isset($team[$father_id])) return [];
 
@@ -93,12 +93,16 @@ class UserClass extends IndexClass
         foreach ($team[$father_id] as $k => $v) {
 
             $result[$k]['uid'] = $v['uid'];
-            $result[$k]['name'] = $v['nickname'];
-            $result[$k]['hosting'] = $v['hosting'];
-            $result[$k]['phone'] = $v['phone'];
-            $result[$k]['last_buy_time'] = $v['last_buy_time'];
-            $result[$k]['created_at'] = $v['created_at'];
+            $result[$k]['nickname'] = $v['nickname'];
             $result[$k]['status'] = $v['status'];
+
+            if (!$tree){
+
+                $result[$k]['hosting'] = $v['hosting'];
+                $result[$k]['phone'] = $v['phone'];
+                $result[$k]['last_buy_time'] = $v['last_buy_time'];
+                $result[$k]['created_at'] = $v['created_at'];
+            }
 //            if (isset($team[$v['id']])) $result[$k]['children'] = self::get_tree($v['id'], $team);
         }
 

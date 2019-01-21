@@ -39,7 +39,7 @@ class UserController extends ApiController
 
     public function tree($uid)
     {
-        $result = $this->classes->team($uid);
+        $result = $this->classes->team($uid,1);
 
         return parent::success($result);
     }
