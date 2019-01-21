@@ -19,7 +19,7 @@ class IndexClass extends Classes
     {
         if (is_null($this->member)) {
 
-            $member = auth('api')->user();
+            $member = auth('api')->user() ?? auth('web')->user();
 
             $this->member = parent::delete_prefix($member->toArray());
         }

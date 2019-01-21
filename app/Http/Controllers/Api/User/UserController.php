@@ -15,6 +15,7 @@ class UserController extends ApiController
         $this->classes = new UserClass();
     }
 
+    //修改密码
     public function password(Request $request)
     {
         $this->classes->validator_password($request);
@@ -24,6 +25,7 @@ class UserController extends ApiController
         return parent::success();
     }
 
+    //查看下级
     public function team(Request $request)
     {
         $member = $this->classes->get_member();
@@ -37,10 +39,27 @@ class UserController extends ApiController
         return parent::success($result);
     }
 
+    //下级展开
     public function tree($uid)
     {
-        $result = $this->classes->team($uid,1);
+        $result = $this->classes->team($uid, 1);
 
         return parent::success($result);
+    }
+
+    //修改下单模式
+    public function mode()
+    {
+        $this->classes->mode();
+
+        return parent::success();
+    }
+
+    //修改托管模式
+    public function hosting()
+    {
+        $this->classes->hosting();
+
+        return parent::success();
     }
 }

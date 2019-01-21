@@ -43,7 +43,7 @@ class UserClass extends IndexClass
     }
 
     //团队，1级
-    public function team($member_id,$tree = false)
+    public function team($member_id, $tree = false)
     {
         //结果数组
         $result = [
@@ -57,7 +57,7 @@ class UserClass extends IndexClass
                 ['young_families', 'like', '%' . $member_id . '%']
             ],
         ];
-        $team = parent::list_all('member',$other);
+        $team = parent::list_all('member', $other);
 
         //没有下级
         if (count($team) <= 0) return $result;
@@ -72,11 +72,12 @@ class UserClass extends IndexClass
             $fathers[$v['referee_id']][] = $v;
         }
 
-        $result['team'] = self::get_tree($member_id, $fathers,$tree);
+        $result['team'] = self::get_tree($member_id, $fathers, $tree);
 
         return $result;
     }
 
+    //读取会员信息
     public function read($uid)
     {
         $member = MemberModel::whereUid($uid)->first();
@@ -84,7 +85,8 @@ class UserClass extends IndexClass
         return parent::delete_prefix($member->toArray());
     }
 
-    public function get_tree($father_id, $team,$tree)
+    //下级信息格式组合
+    public function get_tree($father_id, $team, $tree)
     {
         if (!isset($team[$father_id])) return [];
 
@@ -96,7 +98,7 @@ class UserClass extends IndexClass
             $result[$k]['nickname'] = $v['nickname'];
             $result[$k]['status'] = $v['status'];
 
-            if (!$tree){
+            if (!$tree) {
 
                 $result[$k]['hosting'] = $v['hosting'];
                 $result[$k]['phone'] = $v['phone'];
@@ -107,5 +109,25 @@ class UserClass extends IndexClass
         }
 
         return $result;
+    }
+
+    //修改下单模式
+    public function mode()
+    {
+        $member = parent::get_member();
+
+        if ($member['mode'] == '20') parent::error_json('无法切换下单模式');
+
+        MemberModel::whereUid($member['uid'])->update(['young_mode' => '20']);
+    }
+
+    //修改下单模式
+    public function hosting()
+    {
+        $member = parent::get_member();
+
+        $end = $member['hosting'] == '10' ? '20' : '10';
+
+        MemberModel::whereUid($member['uid'])->update(['young_hosting' => $end]);
     }
 }
