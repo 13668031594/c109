@@ -30,17 +30,17 @@ class UserClass extends IndexClass
     public function validator_password(Request $request)
     {
         $term = [
-            'old|旧密码' => 'required|string|between:6,24',
+//            'old|旧密码' => 'required|string|between:6,24',
             'new|新密码' => 'required|string|between:6,24',
-            'again|确认密码' => 'required|string|between:6,24',
+//            'again|确认密码' => 'required|string|between:6,24',
         ];
 
         parent::validators_json($request->post(), $term);
 
-        $new = $request->post('new');
-        $again = $request->post('again');
+//        $new = $request->post('new');
+//        $again = $request->post('again');
 
-        if ($new != $again) parent::error_json('确认密码输入错误');
+//        if ($new != $again) parent::error_json('确认密码输入错误');
     }
 
     //密码修改
@@ -48,7 +48,7 @@ class UserClass extends IndexClass
     {
         $member = auth('api')->user();
 
-        if (!\Hash::check($request->post('old'), $member->password)) parent::error_json('旧密码输入错误');
+//        if (!\Hash::check($request->post('old'), $member->password)) parent::error_json('旧密码输入错误');
 
         $member->password = \Hash::make($request->post('new'));
         $member->save();
