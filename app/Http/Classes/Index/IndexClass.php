@@ -6,11 +6,11 @@
  * Time: 下午2:10
  */
 
-namespace App\Http\Classes\Api;
+namespace App\Http\Classes\Index;
 
 use App\Http\Classes\Classes;
 
-class ApiClass extends Classes
+class IndexClass extends Classes
 {
     private $member = null;
 

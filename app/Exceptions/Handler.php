@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use InvalidArgumentException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,8 +49,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof JsonException) return response()->json(json_decode($exception->getMessage(),true));//ajax请求失败，返回json错误信息
-dd($exception->getTraceAsString());
+        if ($exception instanceof JsonException) return response()->json(json_decode($exception->getMessage(), true));//ajax请求失败，返回json错误信息
+
+        if ($exception instanceof InvalidArgumentException)
+            if ($exception->getMessage() == 'Route [login] not defined.')
+                abort(403, '请重新登录');
+
         return parent::render($request, $exception);
     }
 }

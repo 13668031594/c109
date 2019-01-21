@@ -227,7 +227,7 @@
                 <div class="layui-form-mid layui-word-aux">初始密码为：123456</div>
             </div>
 
-            <div class="layui-form-item">
+            {{--<div class="layui-form-item">
                 <label class="layui-form-label">支付密码</label>
                 <div class="layui-input-inline">
                     <input type="password" name="pay_pass" required lay-verify="pass" placeholder="支付密码"
@@ -235,7 +235,7 @@
                            value='{{isset($self) ? 'sba___duia' : '123456'}}' maxlength="20">
                 </div>
                 <div class="layui-form-mid layui-word-aux">初始密码为：123456</div>
-            </div>
+            </div>--}}
         </div>
         <hr>
         <div class="layui-form-min">

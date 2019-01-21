@@ -18,5 +18,16 @@ Route::group(['namespace' => 'Login'], function () {
 
 Route::group(['middleware' => 'auth:api'], function () {
 
-    Route::get('user', 'Login\LoginController@get_member');
+    Route::group(['namespace' => 'Login'], function () {
+
+        Route::get('user', 'LoginController@get_member');//会员资料
+        Route::get('logout', 'LoginController@logout');//登出
+    });
+
+    Route::group(['namespace' => 'User'], function () {
+
+        Route::post('password', 'UserController@password');//修改登录密码
+        Route::get('team', 'UserController@team');//直系下级
+        Route::get('tree/{uid}', 'UserController@tree');//无限级展开
+    });
 });

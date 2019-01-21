@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Login;
 
-use App\Http\Classes\Api\Login\LoginClass;
+use App\Http\Classes\Index\Login\ApiLoginClass;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
 
@@ -12,7 +12,7 @@ class LoginController extends ApiController
 
     public function __construct()
     {
-        $this->class = new LoginClass();
+        $this->class = new ApiLoginClass();
     }
 
     /**
@@ -72,8 +72,8 @@ class LoginController extends ApiController
 
     public function get_member()
     {
-        $member = $this->get_member();
-
+        $member = $this->class->get_member();
+dd(auth('api')->user());
         return parent::success(['member' => $member]);
     }
 }

@@ -74,7 +74,8 @@ class MemberClass extends AdminClass implements ListInterface
         $model->young_phone = $request->post('phone');
         $model->young_email = $request->post('email');
         $model->password = \Hash::make($request->post('password'));
-        $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
+//        $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
+        $model->young_pay_pass = \Hash::make($request->post('password'));
         $model->young_nickname = $request->post('nickname');
         $model->young_status = $request->post('status');
         $model->young_type = $request->post('type');
@@ -106,7 +107,7 @@ class MemberClass extends AdminClass implements ListInterface
         $model->young_phone = $request->post('phone');
         $model->young_email = $request->post('email');
         if ($request->post('password') != 'sba___duia') $model->password = \Hash::make($request->post('password'));
-        if ($request->post('pay_pass') != 'sba___duia') $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
+//        if ($request->post('pay_pass') != 'sba___duia') $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
         $model->young_nickname = $request->post('nickname');
         if ($request->post('status') != $model->young_status) {
 
@@ -154,7 +155,7 @@ class MemberClass extends AdminClass implements ListInterface
             'email|邮箱' => 'required|string|max:30|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/|unique:member_models,young_email',
             'nickname|昵称' => 'required|string|between:1,10',
             'password|密码' => 'required|string|between:6,24',
-            'pay_pass|支付密码' => 'required|string|between:6,24',
+//            'pay_pass|支付密码' => 'required|string|between:6,24',
             'bank_id|收款银行' => 'nullable|exists:bank_models,id',
             'bank_address|支行' => 'nullable|max:30',
             'bank_man|收款人' => 'nullable|max:30',
@@ -179,7 +180,7 @@ class MemberClass extends AdminClass implements ListInterface
             'phone|手机号' => 'required|string|regex:/^1[3456789]\d{9}$/|unique:member_models,young_phone,' . $id . ',uid',
             'email|邮箱' => 'required|string|max:30|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/|unique:member_models,young_email,' . $id . ',uid',
             'password|密码' => 'required|string|between:6,24',
-            'pay_pass|支付密码' => 'required|string|between:6,24',
+//            'pay_pass|支付密码' => 'required|string|between:6,24',
             'bank_id|收款银行' => 'nullable|exists:bank_models,id',
             'bank_address|支行' => 'nullable|max:30',
             'bank_man|收款人' => 'nullable|max:30',

@@ -6,9 +6,9 @@
  * Time: 下午6:09
  */
 
-namespace App\Http\Classes\Api\Login;
+namespace App\Http\Classes\Index\Login;
 
-use App\Http\Classes\Api\ApiClass;
+use App\Http\Classes\Index\IndexClass;
 use App\Models\Member\MemberModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Arr;
 
-class LoginClass extends ApiClass
+class ApiLoginClass extends IndexClass
 {
     /**
      * 账号密码登录,并颁发令牌
@@ -51,12 +51,9 @@ class LoginClass extends ApiClass
         //修改会员登录信息
         self::member_change($member);
 
-        $result['uid'] = $member->uid;
-        $result['nickname'] = $member->young_nickname;
-        $result['phone'] = $member->young_phone;
-        $result['email'] = $member->young_email;
-        $result['referee_id'] = $member->young_referee_id;
-        $result['referee_nickname'] = $member->young_referee_nickname;
+        $model = new MemberModel();
+        $result['member'] = parent::delete_prefix($member->toArray());
+        $result['contrast'] = $model->arrays();
 
         //返回令牌信息
         return $result;
@@ -109,7 +106,7 @@ class LoginClass extends ApiClass
             'client_id' => env('CLIENT_ID_ADMIN'),
             'client_secret' => env('CLIENT_SECRET_ADMIN'),
             'scope' => '',
-            'guard' => 'api',
+//            'guard' => 'api',
         ]);
 
         //添加其他信息(账号或令牌)
@@ -285,7 +282,7 @@ class LoginClass extends ApiClass
     {
         $member = parent::get_member();
 
-        self::delete_old_token($member['id']);
+        self::delete_old_token($member['uid']);
     }
 
     /**

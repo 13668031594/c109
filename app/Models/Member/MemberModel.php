@@ -217,6 +217,12 @@ class MemberModel extends Authenticatable
         20 => '老会员'
     ];
 
+    //托管
+    public $hosting = [
+        10 => '开启',
+        20 => '关闭',
+    ];
+
     //所有对比数组
     public function arrays()
     {
