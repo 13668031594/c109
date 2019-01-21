@@ -1,0 +1,111 @@
+.layui-fluid{
+    padding:15px;
+}
+.m-breadcrumb{
+    padding-bottom:10px;
+    border-bottom:#efefef solid 1px;
+    margin-bottom:10px;
+}
+.layui-tab-card{
+    box-shadow: none;
+}
+.layui-form-min{
+    max-width:700px;
+}
+.layui-op .layui-nav-item1{
+    position: relative;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+    line-height: 60px;
+}
+.layui-op .layui-nav-item1 a{
+    margin-right:20px;
+    color:#bbb ;
+}
+.layui-op .layui-nav-item1 a:hover{
+    color:#efefef ;
+    -webkit-transition: all .2s;
+}
+.layui-op .layui-nav-bar{
+    height: 0px;
+}
+
+.layui-form-border{
+    border:#efefef solid 1px;
+    padding:15px 0px;
+}
+.custom-select{
+    height:25px;
+    border:#ccc solid 1px;
+    padding:0px 5px;
+}
+.layui-query-select .layui-select-title .layui-input{
+    height:30px;
+}
+.layui-query-select .layui-form-select dl{
+    top:32px !important;
+}
+.layui-form-query{
+    margin-left:10px;
+}
+/* 表格搜索input小一点的 */
+.layui-input-mid{
+    height:30px;
+}
+.layui-form-label-mid{
+    padding: 0px 15px;
+    line-height:30px;
+}
+
+/* 图片 */
+.images-item {
+    position: relative;
+    height: 212px;
+    width: 212px;
+    display: inline-block;
+}
+
+.images-item-img {
+    vertical-align: middle;
+    height: 200px;
+    width: 200px;
+    border: #ccc solid 1px;
+    padding: 5px;
+    display: table-cell;
+    text-align: center;
+}
+
+.images-item-img img {
+
+    max-width: 100%;
+    /*width:100%;*/
+    height:200px;
+}
+
+.images-item .layui-block {
+    margin-bottom: 10px;
+}
+
+/* 图片的背景层 */
+.images-bg {
+    position: absolute;
+    height: 212px;
+    width: 212px;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.images-button-container {
+    position: absolute;
+    z-index: 11;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100px;
+    height: 80px;
+    margin: auto;
+    text-align: center;
+}

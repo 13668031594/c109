@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>会员</title>
+    <link rel="stylesheet" href="{{$static}}layui/css/layui.css"/>
+    <link rel="stylesheet" href="{{$static}}res/css/common.css"/>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+</head>
+
+<div class="layui-fluid">
+
+    <div class="layui-row m-breadcrumb">
+        <span class="layui-breadcrumb" lay-separator="/">
+          <a href="javascript:;">首页</a>
+          <a><cite>会员列表</cite></a>
+        </span>
+    </div>
+
+    <div class="toolTable">
+        <button class="layui-btn layui-btn-sm" data-type="addData">
+            <i class="layui-icon">&#xe654;</i>添加会员
+        </button>
+    </div>
+
+    <table lay-filter="table" id='idTable' lay-data='{id:"idTable"}'>
+    </table>
+</div>
+
+<script src="{{$static}}layui/layui.js"></script>
+
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/wallet?id=@{{ d.id }}">详情</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/wallet-record?id=@{{ d.id }}">钱包</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/record?id=@{{ d.id }}">记录</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i lass="layui-icon layui-icon-delete"></i>删除</a>
+</script>
+<script>
+
+    layui.config({
+        base: '{{$static}}res/js/common/'
+    }).use(['layer', 'mTable', 'jquery', 'element'], function () {
+
+        var layer = layui.layer;
+        var mTable = layui.mTable;
+        var status = {!! $status !!};
+        var type = {!! $type !!};
+        var mode = {!! $mode !!};
+        var act_from = {!! $act_from !!};
+        var act = {!! $act !!};
+        var liq = {!! $liq !!};
+        var grade = {!! $grade !!};
+
+        mTable.init({
+            url: {
+                del: '/admin/member/delete',
+                table: '/admin/member/table',
+                edit: '/admin/member/edit',
+                add: '/admin/member/create'
+            },
+            isPage: true,
+            cols: [[
+                {field: 'account', width: 80, title: '帐号'},
+                {field: 'phone', width: 120, title: '手机'},
+                {field: 'email', width: 200, title: '邮箱'},
+                {field: 'nickname', width: 100, title: '昵称'},
+                {
+                    field: 'status', width: 80, title: '状态', templet: function (d) {
+                    return '<span class="layui-badge  layui-bg-blue">' + status[d.status] + '</span>'
+
+                }
+                },
+                {
+                    field: 'status', width: 80, title: '激活', templet: function (d) {
+                    return '<span class="layui-badge  layui-bg-blue">' + act[d.act] + '</span>'
+
+                }
+                },
+                {
+                    field: 'mode', width: 80, title: '下单', templet: function (d) {
+                    return '<span class="layui-badge layui-bg-green">' + mode[d.mode] + '</span>'
+
+                }
+                },
+                {
+                    field: 'grade', width: 80, title: '身份', templet: function (d) {
+                    return '<span class="layui-badge">' + grade[d.grade] + '</span>'
+
+                }
+                },
+                {
+                    field: 'type', width: 80, title: '收益', templet: function (d) {
+                    return '<span class="layui-badge layui-bg-gray">' + type[d.type] + '</span>'
+
+                }
+                },
+                {field: 'poundage', width: 100, title: '手续费'},
+                {field: 'balance', width: 100, title: '余额'},
+                {field: 'gxd', width: 100, title: '贡献点'},
+                {field: 'reward', width: 100, title: '奖励'},
+                {field: 'created_at', width: 170, title: '创建时间'},
+                {fixed: 'right', title: '操作', minWidth: 150, align: 'center', toolbar: '#tableTool'}
+            ]]
+        });
+        mTable.render();
+    });
+</script>
+</body>
+
+</html>
