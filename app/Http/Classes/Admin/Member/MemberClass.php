@@ -68,7 +68,7 @@ class MemberClass extends AdminClass implements ListInterface
         //添加银行卡信息
         $model = $model->change_bank($model, $request);
         //添加推荐人信息
-        $model = $model->referee($model, $request);
+        $model = $model->referee($model, $request->post('referee'));
         //添加基础信息
         $model->young_account = 'hold';
         $model->young_phone = $request->post('phone');

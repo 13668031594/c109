@@ -9,11 +9,23 @@
 namespace App\Http\Classes\Index\User;
 
 use App\Http\Classes\Index\IndexClass;
+use App\Http\Classes\Index\SmsClass;
 use App\Models\Member\MemberModel;
 use Illuminate\Http\Request;
 
 class UserClass extends IndexClass
 {
+    //密码修改验证
+    public function validator_phone(Request $request)
+    {
+        $member = parent::get_member();
+
+        $request->request->add(['phone' => $member['phone']]);
+
+        $class = new SmsClass();
+        $class->validator_phone($request);
+    }
+
     //密码修改验证
     public function validator_password(Request $request)
     {
@@ -40,75 +52,6 @@ class UserClass extends IndexClass
 
         $member->password = \Hash::make($request->post('new'));
         $member->save();
-    }
-
-    //团队，1级
-    public function team($member_id, $tree = false)
-    {
-        //结果数组
-        $result = [
-            'number' => 0,
-            'team' => json_encode([]),
-        ];
-
-        //获取下级信息
-        $other = [
-            'where' => [
-                ['young_families', 'like', '%' . $member_id . '%']
-            ],
-        ];
-        $team = parent::list_all('member', $other);
-
-        //没有下级
-        if (count($team) <= 0) return $result;
-
-        $result['number'] = count($team);//下级总数
-
-        //下级结果数组
-        $fathers = [];
-
-        foreach ($team as $v) {
-
-            $fathers[$v['referee_id']][] = $v;
-        }
-
-        $result['team'] = self::get_tree($member_id, $fathers, $tree);
-
-        return $result;
-    }
-
-    //读取会员信息
-    public function read($uid)
-    {
-        $member = MemberModel::whereUid($uid)->first();
-
-        return parent::delete_prefix($member->toArray());
-    }
-
-    //下级信息格式组合
-    public function get_tree($father_id, $team, $tree)
-    {
-        if (!isset($team[$father_id])) return [];
-
-        $result = [];
-
-        foreach ($team[$father_id] as $k => $v) {
-
-            $result[$k]['uid'] = $v['uid'];
-            $result[$k]['nickname'] = $v['nickname'];
-            $result[$k]['status'] = $v['status'];
-
-            if (!$tree) {
-
-                $result[$k]['hosting'] = $v['hosting'];
-                $result[$k]['phone'] = $v['phone'];
-                $result[$k]['last_buy_time'] = $v['last_buy_time'];
-                $result[$k]['created_at'] = $v['created_at'];
-            }
-//            if (isset($team[$v['id']])) $result[$k]['children'] = self::get_tree($v['id'], $team);
-        }
-
-        return $result;
     }
 
     //修改下单模式

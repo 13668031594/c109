@@ -72,6 +72,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $young_hosting 托管
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
@@ -110,6 +111,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungGradeTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungGxd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungGxdAll($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungHosting($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungLastBuyTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungLastBuyTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungLastLoginIp($value)
@@ -267,13 +269,12 @@ class MemberModel extends Authenticatable
     }
 
     //配置推荐人信息
-    public function referee(self $memberModel, Request $request)
+    public function referee(self $memberModel, $referee_account = null)
     {
-        $referee_account = $request->post('referee');
         if (empty($referee_account)) return $memberModel;
 
         $test = new MemberModel();
-        $referee = $test->where('young_account', '=', $request->post('referee'))->first();
+        $referee = $test->where('young_account', '=', $referee_account)->first();
 
         $families = empty($referee->young_families) ? $referee->uid : ($referee->young_families . ',' . $referee->uid);
 
@@ -308,6 +309,8 @@ class MemberModel extends Authenticatable
         $memberModel->young_account = $account->young_account;
 
         $memberModel->save();
+
+        return $memberModel;
     }
 
     //上级昵称修改
