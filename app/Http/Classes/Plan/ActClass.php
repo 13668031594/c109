@@ -41,10 +41,19 @@ class ActClass extends PlanClass
             return;
         }
 
-        //今日激活的会员id
-        $ids = ($number <= $this->set['accountActNum']) ? self::all_act() : self::rob_act();
+        if ($this->set['accountActNum'] <= 0) {
 
-        dd($ids);
+            $record = '激活码发放数为0,激活人数0';
+            self::store_plan($record);
+            return;
+        }
+
+        $ids = self::all_act();
+        $this->set['accountActNum'] = 1;
+        //今日激活的会员id
+        $act_ids = ($number <= $this->set['accountActNum']) ? $ids : self::rob_act($ids);
+
+        dd($act_ids);
     }
 
     private function all_act()
@@ -52,15 +61,14 @@ class ActClass extends PlanClass
         return MemberActModel::whereYoungStatus('10')->get(['id'])->pluck('id')->toArray();
     }
 
-    private function rob_act()
+    private function rob_act($ids)
     {
         //今日激活数
         $number = $this->set['accountActNum'];
 
-        //今日抢激活的所有id
-        $ids = self::all_act();
+        array_rand($ids,$number);
 
-
+        return $ids;
     }
 
     private function store_plan($record, $status = 10)

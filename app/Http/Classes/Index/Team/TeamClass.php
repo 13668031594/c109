@@ -206,9 +206,9 @@ class TeamClass extends IndexClass
         if ($this->set['accountActSwitch'] != 'on') parent::error_json('暂时无法激活账号');
 
         //抢激活时间
-        /*if ((time() < parent::set_time($this->set['accountActStart'])) ||
+        if ((time() < parent::set_time($this->set['accountActStart'])) ||
             (time() > parent::set_time($this->set['accountActEnd']))
-        ) parent::error_json('请在每天 ' . $this->set['accountActStart'] . ' 至 ' . $this->set['accountActEnd'] . ' 抢激活');*/
+        ) parent::error_json('请在每天 ' . $this->set['accountActStart'] . ' 至 ' . $this->set['accountActEnd'] . ' 抢激活');
 
         //本人数据
         $self = parent::get_member();
@@ -245,5 +245,7 @@ class TeamClass extends IndexClass
         //会员状态变更为激活中
         $member->young_act = '20';
         $member->save();
+
+        return $member->young_act;
     }
 }

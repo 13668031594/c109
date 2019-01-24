@@ -75,8 +75,8 @@ class TeamController extends ApiController
     //申请激活
     public function act($uid)
     {
-        $this->classes->act($uid);
+        $status = $this->classes->act($uid);
 
-        return parent::success();
+        return parent::success(['status' => $status]);
     }
 }
