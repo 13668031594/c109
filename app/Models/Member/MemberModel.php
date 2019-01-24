@@ -225,6 +225,12 @@ class MemberModel extends Authenticatable
         20 => '关闭',
     ];
 
+    //自动购买
+    public $auto = [
+        10 => '开启',
+        20 => '关闭',
+    ];
+
     //所有对比数组
     public function arrays()
     {

@@ -10,6 +10,10 @@ class PlanController extends Controller
     //开始执行计划任务
     public function index()
     {
+        \DB::beginTransaction();
+
         new ActClass();//执行抢激活码任务
+
+        \DB::commit();
     }
 }
