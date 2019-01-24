@@ -52,7 +52,7 @@ class ApiLoginClass extends IndexClass
         self::member_change($member);
 
         $model = new MemberModel();
-        $result['member'] = self::referee($member);
+        $result['member'] = self::referee($member->toArray());
         $result['contrast'] = $model->arrays();
 
         //返回令牌信息
@@ -330,9 +330,8 @@ class ApiLoginClass extends IndexClass
     }
 
     //获取上级信息
-    private function referee(MemberModel $memberModel)
+    public function referee($member)
     {
-        $member = parent::delete_prefix($memberModel->toArray());
         $member['referee_phone'] = '无';
         $member['referee_email'] = '无';
 

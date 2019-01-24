@@ -9,10 +9,18 @@
 namespace App\Http\Classes\Index;
 
 use App\Http\Classes\Classes;
+use App\Http\Classes\Set\SetClass;
 
 class IndexClass extends Classes
 {
     private $member = null;
+    protected $set = null;
+
+    public function __construct()
+    {
+        $class = new SetClass();
+        $this->set = $class->index();
+    }
 
     //获取管理员信息
     public function get_member()
@@ -25,5 +33,11 @@ class IndexClass extends Classes
         }
 
         return $this->member;
+    }
+
+    //生成配置中的时间格式
+    public function set_time($name)
+    {
+        return strtotime(date('Y-m-d '). $this->set[$name] . ':00');
     }
 }

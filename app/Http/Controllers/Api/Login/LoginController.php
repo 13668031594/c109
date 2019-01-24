@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Login;
 
 use App\Http\Classes\Index\Login\ApiLoginClass;
+use App\Http\Classes\Set\SetClass;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
 
@@ -59,6 +60,9 @@ class LoginController extends ApiController
         //清空失败次数
         $this->class->fails_add(-1);
 
+        $class = new SetClass();
+        $result['set'] = $class->index();
+
         //返回状态码
         return parent::success($result);
     }
@@ -73,6 +77,8 @@ class LoginController extends ApiController
     public function get_member()
     {
         $member = $this->class->get_member();
+
+        $member = $this->class->referee($member);
 
         return parent::success(['member' => $member]);
     }

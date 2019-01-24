@@ -39,5 +39,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('banks', 'TeamController@banks');//获取银行列表
         Route::get('reg/{phone}', 'TeamController@sms');//短信验证
         Route::post('reg', 'TeamController@reg');//添加新的账号
+        Route::get('act/{uid}', 'TeamController@act');//抢激活
     });
 });

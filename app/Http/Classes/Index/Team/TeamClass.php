@@ -9,8 +9,12 @@
 namespace App\Http\Classes\Index\Team;
 
 use App\Http\Classes\Index\IndexClass;
+use App\Http\Classes\Set\SetClass;
+use App\Models\Member\MemberActModel;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberSmsModel;
+use App\Models\Member\MemberWalletModel;
+use Hamcrest\Core\Set;
 use Illuminate\Http\Request;
 
 class TeamClass extends IndexClass
@@ -116,6 +120,15 @@ class TeamClass extends IndexClass
     //注册验证
     public function validator_reg(Request $request)
     {
+        if ($this->set['accountRegSwitch'] != 'on') parent::error_json('暂时无法注册账号');
+
+        if ($this->set['accountRegGxd'] > 0) {
+
+            $self = parent::get_member();
+
+            if ($self['gxd'] < $this->set['accountRegGxd']) parent::error_json($this->set['walletGxd'] . '不足');
+        }
+
         $term = [
             'phone|手机号' => 'required|string|regex:/^1[3456789]\d{9}$/|unique:member_models,young_phone',
             'email|邮箱' => 'required|string|max:30|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/|unique:member_models,young_email',
@@ -153,6 +166,7 @@ class TeamClass extends IndexClass
 //        $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
         $model->young_pay_pass = \Hash::make($request->post('password'));
         $model->young_nickname = $request->post('nickname');
+        $model->young_mode = $this->set['accountModeDefault'];
         $model->save();
         //添加账号信息
         $end = $model->new_account($model);
@@ -160,5 +174,75 @@ class TeamClass extends IndexClass
         \DB::commit();
 
         return parent::delete_prefix($end->toArray());
+    }
+
+    //注册账号消耗贡献点
+    public function reg_gxd()
+    {
+        //不扣贡献点
+        if ($this->set['accountRegGxd'] <= 0) return;
+
+        $self = parent::get_member();
+
+        $member = MemberModel::whereUid($self['uid'])->first();
+        $member->young_gxd -= $this->set['accountRegGxd'];
+        $member->save();
+
+        $change = [
+            'gxd' => (0 - $this->set['accountRegGxd']),
+        ];
+
+        $record = '注册账号，消耗『' . $this->set['walletGxd'] . '』' . $this->set['accountRegGxd'];
+
+        $wallet = new MemberWalletModel();
+        $wallet->store_record($member, $change, '20', $record);
+    }
+
+    //抢激活
+    public function act($uid)
+    {
+        //激活开关
+        if ($this->set['accountActSwitch'] != 'on') parent::error_json('暂时无法激活账号');
+
+        //抢激活时间
+        /*if ((time() < parent::set_time('accountActStart')) ||
+            (time() > parent::set_time('accountActEnd'))
+        ) parent::error_json('请在每天 ' . $this->set['accountActStart'] . ' 至 ' . $this->set['accountActEnd'] . ' 抢激活');*/
+
+        //本人数据
+        $self = parent::get_member();
+
+        //激活会员数据
+        $member = MemberModel::whereUid($uid)->first();
+
+        //会员不存在，报错
+        if (is_null($member)) parent::error_json('会员不存在');
+
+        //会员已经激活，报错
+        if ($member->young_act != '10') parent::error_json('请勿重复申请激活');
+
+        //会员不是自己的下级，报错
+        if ($member->young_referee_id != $self['uid']) parent::error_json('只能激活自己的下级');
+
+        //关闭负债激活且激活手续费大于0，进行手续费余额判断
+        if (($this->set['accountActPoundageNone'] == 'off') && ($this->set['accountActPoundage'] > 0)) {
+
+            //获取今日抢激活数量
+            $all_number = new MemberActModel();
+            $all_number = $all_number->where('young_referee_id', '=', $self['uid'])->where('young_status', '=', '10')->count();
+
+            //判断手续费是否足够支持全部激活
+            if ($self['poundage'] < ($all_number * $this->set['accountActPoundage'])) parent::error_json($this->set['walletGxd'] . '不足');
+        }
+
+        //添加抢激活记录
+        $model = new MemberActModel();
+        $model->uid = $uid;
+        $model->young_referee_id = $self['uid'];
+        $model->save();
+
+        //会员状态变更为激活中
+        $member->young_act = '20';
+        $member->save();
     }
 }
