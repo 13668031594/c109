@@ -52,7 +52,7 @@ class ApiLoginClass extends IndexClass
         self::member_change($member);
 
         $model = new MemberModel();
-        $result['member'] = self::referee($member->toArray());
+        $result['member'] = self::referee(parent::delete_prefix($member->toArray()));
         $result['contrast'] = $model->arrays();
 
         //返回令牌信息
@@ -345,7 +345,6 @@ class ApiLoginClass extends IndexClass
                 $member['referee_email'] = $referee->young_email;
             }
         }
-
 
         return $member;
     }

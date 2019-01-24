@@ -169,9 +169,7 @@ class SetClass extends AdminClass
             'typeOld|成为老会员时间' => 'required|integer|between:1,100000000',//成为老会员时间
         ];
 
-        $result = parent::validators_json($request->post(), $rule);
-
-        if (!is_null($result)) parent::error_json(0, $result);
+        parent::validators_json($request->post(), $rule);
     }
 
     //充值，删除配置文件
