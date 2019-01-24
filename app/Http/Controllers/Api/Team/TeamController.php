@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api\Team;
 
 use App\Http\Classes\Index\SmsClass;
 use App\Http\Classes\Index\Team\TeamClass;
-use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class TeamController extends AdminController
+class TeamController extends ApiController
 {
     private $classes;
 
@@ -37,7 +36,6 @@ class TeamController extends AdminController
 
         return parent::success(['member' => $member]);
     }
-
 
     //查看下级
     public function team(Request $request)
