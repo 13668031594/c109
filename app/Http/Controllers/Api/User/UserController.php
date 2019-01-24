@@ -58,4 +58,12 @@ class UserController extends ApiController
         return parent::success();
     }
 
+    //修改自动买单模式
+    public function auto()
+    {
+        $this->classes->auto();
+
+        return parent::success();
+    }
+
 }

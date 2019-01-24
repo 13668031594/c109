@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('password', 'UserController@password');//修改登录密码
         Route::get('mode', 'UserController@mode');//切换下单模式
         Route::get('hosting', 'UserController@hosting');//切换托管模式
+        Route::get('auto', 'UserController@auto');//切换自动买单模式
     });
 
     Route::group(['namespace' => 'Team'], function () {

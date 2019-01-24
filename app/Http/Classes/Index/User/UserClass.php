@@ -73,4 +73,14 @@ class UserClass extends IndexClass
 
         MemberModel::whereUid($member['uid'])->update(['young_hosting' => $end]);
     }
+
+    //修改自动买单开关
+    public function auto()
+    {
+        $member = parent::get_member();
+
+        $end = $member['auto_buy'] == '10' ? '20' : '10';
+
+        MemberModel::whereUid($member['uid'])->update(['young_auto_buy' => $end]);
+    }
 }
