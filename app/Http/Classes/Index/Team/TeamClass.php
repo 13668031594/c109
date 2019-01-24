@@ -35,8 +35,6 @@ class TeamClass extends IndexClass
         //没有下级
         if (count($team) <= 0) return $result;
 
-        $result['number'] = count($team);//下级总数
-
         //下级结果数组
         $fathers = [];
 
@@ -46,6 +44,7 @@ class TeamClass extends IndexClass
         }
 
         $result['team'] = self::get_tree($member_id, $fathers, $tree);
+        $result['number'] = count($result['team']);//下级总数
 
         return $result;
     }
@@ -77,8 +76,10 @@ class TeamClass extends IndexClass
                 $result[$k]['phone'] = $v['phone'];
                 $result[$k]['last_buy_time'] = $v['last_buy_time'];
                 $result[$k]['created_at'] = $v['created_at'];
+            } else {
+
+                $result[$k]['children'] = isset($team[$v['uid']]) ? '1' : '0';
             }
-//            if (isset($team[$v['id']])) $result[$k]['children'] = self::get_tree($v['id'], $team);
         }
 
         return $result;
@@ -125,7 +126,7 @@ class TeamClass extends IndexClass
             'bank_man|收款人' => 'required|max:30',
             'bank_no|收款账号' => 'required|max:30',
             'alipay|支付宝' => 'required|max:30',
-            'note|备注' => 'required|max:40',
+            'note|备注' => 'nullable|max:40',
         ];
 
         parent::validators_json($request->post(), $term);

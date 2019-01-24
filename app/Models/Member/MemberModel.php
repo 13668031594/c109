@@ -246,7 +246,7 @@ class MemberModel extends Authenticatable
     {
         $memberModel->young_bank_address = $request->post('bank_address');
         $memberModel->young_alipay = $request->post('alipay');
-        $memberModel->young_note = $request->post('note');
+        $memberModel->young_note = $request->post('note') ?? null;
         $memberModel->young_bank_man = $request->post('bank_man');
         $memberModel->young_bank_no = $request->post('bank_no');
         $memberModel->young_bank_id = null;

@@ -52,7 +52,7 @@ class ApiLoginClass extends IndexClass
         self::member_change($member);
 
         $model = new MemberModel();
-        $result['member'] = parent::delete_prefix($member->toArray());
+        $result['member'] = self::referee($member);
         $result['contrast'] = $model->arrays();
 
         //返回令牌信息
@@ -327,5 +327,27 @@ class ApiLoginClass extends IndexClass
             'fails_times' => $fails_times,
             'captcha' => $captcha,
         ];
+    }
+
+    //获取上级信息
+    private function referee(MemberModel $memberModel)
+    {
+        $member = parent::delete_prefix($memberModel->toArray());
+        $member['referee_phone'] = '无';
+        $member['referee_email'] = '无';
+
+        if (!empty($member['referee_id'])) {
+
+            $referee = MemberModel::whereUid($member['referee_id'])->first();
+
+            if (!is_null($referee)) {
+
+                $member['referee_phone'] = $referee->young_phone;
+                $member['referee_email'] = $referee->young_email;
+            }
+        }
+
+
+        return $member;
     }
 }

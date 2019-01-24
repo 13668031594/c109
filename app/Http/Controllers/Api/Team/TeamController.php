@@ -71,4 +71,10 @@ class TeamController extends ApiController
         //反馈
         return parent::success(['time' => $end]);
     }
+
+    //申请激活
+    public function act($uid)
+    {
+
+    }
 }
