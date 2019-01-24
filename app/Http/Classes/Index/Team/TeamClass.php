@@ -25,7 +25,7 @@ class TeamClass extends IndexClass
         //结果数组
         $result = [
             'number' => 0,
-            'team' => json_encode([]),
+            'team' => [],
         ];
 
         //获取下级信息
