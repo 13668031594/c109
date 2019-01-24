@@ -80,6 +80,7 @@ class TeamClass extends IndexClass
                 $result[$k]['phone'] = $v['phone'];
                 $result[$k]['last_buy_time'] = $v['last_buy_time'];
                 $result[$k]['created_at'] = $v['created_at'];
+                $result[$k]['act'] = $v['act'];
             } else {
 
                 $result[$k]['children'] = isset($team[$v['uid']]) ? '1' : '0';
@@ -205,8 +206,8 @@ class TeamClass extends IndexClass
         if ($this->set['accountActSwitch'] != 'on') parent::error_json('暂时无法激活账号');
 
         //抢激活时间
-        /*if ((time() < parent::set_time('accountActStart')) ||
-            (time() > parent::set_time('accountActEnd'))
+        /*if ((time() < parent::set_time($this->set['accountActStart'])) ||
+            (time() > parent::set_time($this->set['accountActEnd']))
         ) parent::error_json('请在每天 ' . $this->set['accountActStart'] . ' 至 ' . $this->set['accountActEnd'] . ' 抢激活');*/
 
         //本人数据

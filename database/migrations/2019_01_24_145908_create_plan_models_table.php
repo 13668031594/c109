@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMemberActModelsTable extends Migration
+class CreatePlanModelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateMemberActModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('member_act_models', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
+        Schema::create('plan_models', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('uid')->comment('需要激活的会员id');
-            $table->integer('young_referee_id')->comment('上级id');
-            $table->char('young_status', 2)->default('10')->comment('状态');
+            $table->string('young_type')->comment('任务类型');
+            $table->string('young_status')->comment('执行情况');
+            $table->string('young_record')->comment('文字记录');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateMemberActModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('member_act_models');
+        Schema::dropIfExists('plan_models');
     }
 }

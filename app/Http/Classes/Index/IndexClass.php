@@ -10,9 +10,12 @@ namespace App\Http\Classes\Index;
 
 use App\Http\Classes\Classes;
 use App\Http\Classes\Set\SetClass;
+use App\Http\Traits\TimeTrait;
 
 class IndexClass extends Classes
 {
+    use TimeTrait;
+
     private $member = null;
     protected $set = null;
 
@@ -35,9 +38,5 @@ class IndexClass extends Classes
         return $this->member;
     }
 
-    //生成配置中的时间格式
-    public function set_time($name)
-    {
-        return strtotime(date('Y-m-d '). $this->set[$name] . ':00');
-    }
+
 }

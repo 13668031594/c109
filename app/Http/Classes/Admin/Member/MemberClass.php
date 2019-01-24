@@ -12,6 +12,7 @@ namespace App\Http\Classes\Member;
 use App\Http\Classes\Admin\AdminClass;
 use App\Http\Classes\ListInterface;
 use App\Models\Member\MemberAccountModel;
+use App\Models\Member\MemberActModel;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberRecordModel;
 use App\Models\Member\MemberWalletModel;
@@ -228,6 +229,9 @@ class MemberClass extends AdminClass implements ListInterface
 
         $wallet = new MemberRecordModel();
         $wallet->store_record($member, 10, '管理员激活了您的账号');
+
+        //作废这个会员之前所有的激活记录
+        MemberActModel::whereUid($uid)->update(['young_status' => '40']);
     }
 
     //记录数据
