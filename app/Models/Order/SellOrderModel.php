@@ -44,7 +44,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SellOrderModel extends Model
 {
-    public $type = [
+    public $status = [
         10 => '匹配中',
         20 => '待收款',
         30 => '完结',

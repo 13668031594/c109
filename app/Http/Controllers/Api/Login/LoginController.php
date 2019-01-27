@@ -63,6 +63,8 @@ class LoginController extends ApiController
         $class = new SetClass();
         $result['set'] = $class->index();
 
+        $result['contrast'] = $this->class->contrast();
+
         //返回状态码
         return parent::success($result);
     }

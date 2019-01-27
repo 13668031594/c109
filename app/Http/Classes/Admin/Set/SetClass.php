@@ -10,6 +10,7 @@ namespace App\Http\Classes\Set;
 
 use App\Http\Classes\Admin\AdminClass;
 use App\Http\Traits\ImageTrait;
+use App\Models\Order\BuyOrderModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 

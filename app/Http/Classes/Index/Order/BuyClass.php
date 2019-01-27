@@ -25,7 +25,8 @@ class BuyClass extends IndexClass
         ];
 
         $other = [
-            'where' => $where
+            'where' => $where,
+            'select' => ['id','young_order as orderNo','young_amount','created_at','young_status','young_number'],
         ];
 
         return parent::list_page('buy_order', $other);

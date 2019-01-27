@@ -10,6 +10,9 @@ namespace App\Http\Classes\Index\Login;
 
 use App\Http\Classes\Index\IndexClass;
 use App\Models\Member\MemberModel;
+use App\Models\Order\BuyOrderModel;
+use App\Models\Order\MatchOrderModel;
+use App\Models\Order\SellOrderModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -347,5 +350,32 @@ class ApiLoginClass extends IndexClass
         }
 
         return $member;
+    }
+
+
+    public function contrast()
+    {
+        $result = [];
+
+        $buy = new BuyOrderModel();
+        $result['buy'] = [
+            'status' => $buy->status,
+            'from' => $buy->from,
+            'abn' => $buy->abn,
+        ];
+
+        $sell = new SellOrderModel();
+        $result['sell'] = [
+            'status' => $sell->status
+        ];
+
+        $match = new MatchOrderModel();
+        $result['match'] = [
+            'status' => $match->status,
+            'abn' => $match->abn
+
+        ];
+
+        return $result;
     }
 }
