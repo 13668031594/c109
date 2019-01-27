@@ -200,7 +200,7 @@ class SellClass extends IndexClass
 
         //扣除会员余额
         $member = MemberModel::whereUid($member['uid'])->first();
-        $member->young_balance -= $data['total'];
+//        $member->young_balance -= $data['total'];
         if (is_null($member->young_first_sell_time)) {
             $member->young_first_sell_time = DATE;
             $member->young_first_sell_total = $data['total'];

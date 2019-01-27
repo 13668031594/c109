@@ -19,7 +19,7 @@ class BuyController extends ApiController
     //购买订单列表
     public function index()
     {
-        $result = $this->classes->index();
+        $result = $this->classes->index('1');
 
         return parent::success($result);
     }
@@ -109,5 +109,21 @@ class BuyController extends ApiController
         $class->pay_reward();
 
         return parent::success();
+    }
+
+    //全部数据
+    public function all()
+    {
+        $result = $this->classes->index();
+
+        return parent::success($result);
+    }
+
+    //全部数据
+    public function withdraw()
+    {
+        $result = $this->classes->index('2');
+
+        return parent::success($result);
     }
 }

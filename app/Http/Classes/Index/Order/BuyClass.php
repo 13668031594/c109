@@ -16,13 +16,19 @@ use Illuminate\Http\Request;
 
 class BuyClass extends IndexClass
 {
-    public function index()
+    public function index($type = null)
     {
         $member = parent::get_member();
 
         $where = [
-            ['uid', '=', $member['uid']]
+            ['uid', '=', $member['uid']],
         ];
+
+        if ($type == '1') $where[] = ['young_status', '<', 70];
+        if ($type == '2') {
+            $where[] = ['young_status', '>=', 70];
+            $where[] = ['young_status', '<', 90];
+        }
 
         $other = [
             'where' => $where,
@@ -282,7 +288,7 @@ class BuyClass extends IndexClass
             $begin = strtotime('tomorrow');
         } else {
 
-            $begin = strtotime('+ '.$last->young_days.'day',strtotime($last->created_at));
+            $begin = strtotime('+ ' . $last->young_days . 'day', strtotime($last->created_at));
         }
 
         $set = $this->set;
@@ -372,5 +378,24 @@ class BuyClass extends IndexClass
         $member->young_auto_number = $request->post('number') ?? null;
         $member->young_auto_time = $request->post('time') ?? null;
         $member->save();
+    }
+
+    public function withdraw_index()
+    {
+        $member = parent::get_member();
+
+        $where = [
+            ['uid', '=', $member['uid']]
+        ];
+
+        $other = [
+            'where' => $where,
+            'orderBy' => [
+                'created_at' => 'desc'
+            ],
+            'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number'],
+        ];
+
+        $result = parent::list_page('buy_order', $other);
     }
 }
