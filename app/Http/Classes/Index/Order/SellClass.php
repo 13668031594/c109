@@ -90,11 +90,14 @@ class SellClass extends IndexClass
         if (($set['sellPoundageNone'] == 'off') && ($member['poundage'] < 0)) parent::error_json('手续费为负时，无法卖出');
 
         $term = [
-            'total|订单总价' => 'required|numeric|between:1,100000000',
-            'type|支付钱包' => 'required|in:0,1'
+            'amount|订单总价' => 'required|numeric|between:1,100000000',
+            'accountType|支付类型' => 'required|in:1,2'
         ];
 
         parent::validators_json($request->post(), $term);
+
+        $data['total'] = $data['amount'];
+        $data['type'] = $data['accountType'];
 
         if (($data['total'] % $set['sellTimes']) != '0') parent::error_json('卖出金额必须是『' . $set['sellTimes'] . '』的正整数倍');
         if ($data['total'] < $set['sellBase']) parent::error_json('卖出金额必须大于：' . $set['sellBase']);
@@ -112,7 +115,7 @@ class SellClass extends IndexClass
         }
 
         $type = $request->post('type');
-        if ($type == '0') {
+        if ($type == '1') {
 
             if ($member['balance'] < $data['total']) parent::error_json($this->set['walletBalance'] . '不足');
         } else {
@@ -140,6 +143,9 @@ class SellClass extends IndexClass
         $data = $request->post();
         $member = parent::get_member();
 
+        $data['total'] = $data['amount'];
+        $data['type'] = $data['accountType'];
+
         //新增订单信息
         $order = new SellOrderModel();
         $order->young_order = $order->new_order();
@@ -166,7 +172,7 @@ class SellClass extends IndexClass
         $member->young_last_sell_total = $data['total'];
         $member->young_all_sell_total += $data['total'];
 
-        if ($data['type'] == '0') {
+        if ($data['type'] == '1') {
 
             $member->young_balance -= $data['total'];
 

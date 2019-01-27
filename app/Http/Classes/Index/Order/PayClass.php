@@ -58,6 +58,7 @@ class PayClass extends IndexClass
 
         //保存并修改订单状态
         $match->young_pay = $url;
+        $match->young_pay_time = DATE;
         $match->young_status = 20;
         $match->save();
     }
