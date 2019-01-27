@@ -192,7 +192,9 @@ class BuyClass extends IndexClass
                 break;
         }
 
-        if (($set['buyPoundageNone'] != 'on') && ($data > $member['poundage'])) parent::error_json($this->set['walletPoundage'] . '不足');
+        $poundage = $data['poundage'] * $data['number'];
+
+        if (($set['buyPoundageNone'] != 'on') && ($poundage > $member['poundage'])) parent::error_json($this->set['walletPoundage'] . '不足');
         if ($data['poundage'] != $set['buyPoundage']) parent::error_json('请刷新重试（poundage）');
         if ($data['amount'] != $set['goodsTotal']) parent::error_json('请刷新重试（amount）');
         if ($data['total'] != ($data['amount'] * $data['number'])) parent::error_json('请刷新重试（total）');
@@ -204,6 +206,7 @@ class BuyClass extends IndexClass
     {
         $data = $request->post();
         $member = parent::get_member();
+        $poundage = $data['poundage'] * $data['number'];
 
         //新增订单信息
         $order = new BuyOrderModel();
@@ -216,7 +219,7 @@ class BuyClass extends IndexClass
         $order->young_in = number_format(($data['inPro'] * $data['total'] / 100), 2, '.', '');
         $order->young_amount = $data['amount'];
         $order->young_number = $data['number'];
-        $order->young_poundage = $data['poundage'];
+        $order->young_poundage = $poundage;
         $order->young_name = $this->set['goodsName'];
         $order->young_first_total = number_format(($data['total'] * $this->set['matchFirstPro'] / 100), 2, '.', '');
         $order->young_first_pro = $this->set['matchFirstPro'];
@@ -225,7 +228,7 @@ class BuyClass extends IndexClass
 
         //扣除会员手续费
         $member = MemberModel::whereUid($member['uid'])->first();
-        $member->young_poundage -= $data['poundage'];
+        $member->young_poundage -= $poundage;
         if (is_null($member->young_first_buy_time)) {
             $member->young_first_buy_time = DATE;
             $member->young_first_buy_total = $data['total'];
@@ -237,9 +240,9 @@ class BuyClass extends IndexClass
 
         //添加钱包记录
         $wallet = new MemberWalletModel();
-        $record = '自主排单，订单号『' . $order->young_order . '』,扣除『' . $this->set['walletPoundage'] . '』' . $data['poundage'];
+        $record = '自主排单，订单号『' . $order->young_order . '』,扣除『' . $this->set['walletPoundage'] . '』' . $poundage;
         $keyword = $order->young_order;
-        $change = ['poundage' => (0 - $data['poundage'])];
+        $change = ['poundage' => (0 - $poundage)];
         $wallet->store_record($member, $change, 40, $record, $keyword);
     }
 

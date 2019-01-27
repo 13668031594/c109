@@ -15,6 +15,11 @@ class RobClass extends IndexClass
     //开始抢单
     public function store()
     {
+        $member = parent::get_member();//会员参数
 
+
+        $set = $this->set;//配置文件
+
+        if ($set['buySwitch'] != 'on') parent::error_json('暂时无法抢单');//手动排单开关
     }
 }
