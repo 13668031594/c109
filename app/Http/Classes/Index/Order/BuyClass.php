@@ -272,7 +272,7 @@ class BuyClass extends IndexClass
     {
         $member = parent::get_member();
 
-        if ($member['mode'] != '20') parent::error_json('只有未防撞状态才能开启自动采集');
+//        if ($member['mode'] != '20') parent::error_json('只有未防撞状态才能开启自动采集');
 
         $last = new BuyOrderModel();
         $last = $last->where('uid', '=', $member['uid'])->orderBy('created_at', 'desc')->first();
@@ -282,7 +282,7 @@ class BuyClass extends IndexClass
             $begin = strtotime('tomorrow');
         } else {
 
-            $begin = strtotime($last->created_at) + strtotime($last->young_days);
+            $begin = strtotime('+ '.$last->young_days.'day',strtotime($last->created_at));
         }
 
         $set = $this->set;
