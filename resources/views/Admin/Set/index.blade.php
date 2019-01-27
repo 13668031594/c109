@@ -33,7 +33,7 @@
                 <li>注册激活</li>
                 <li>删号设置</li>
                 <li>钱包设置</li>
-                <li>买单抢单</li>
+                <li>订单买卖</li>
                 <li>商品设置</li>
                 <li>匹配设置</li>
                 <li>付款设置</li>
@@ -366,6 +366,43 @@
 
                 </div>
                 <div class="layui-tab-item">
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">负债买出</label>
+                        <div class="layui-input-inline" style="width:70px;">
+                            <input type="checkbox" id='sellPoundageNone' lay-filter="sellPoundageNone"
+                                   lay-skin="switch"
+                                   lay-text="开启|关闭" {{$self['sellPoundageNone'] == 'on' ? 'checked' : ''}}/>
+                            <input type="hidden" id='sellPoundageNoneValue' name="buyPoundageNone"
+                                   value="{{$self['sellPoundageNone']}}"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">是否允许用户负手续费时卖出</div>
+                    </div>
+
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">卖出基数</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="sellBase" title="卖出基数" lay-filter="numberZ"
+                                       placeholder="卖出基数" autocomplete="off" value="{{$self['sellBase']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">卖出订单不得低于此金额</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">卖出倍数</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="sellTimes" title="卖出倍数" lay-filter="numberZ"
+                                       placeholder="卖出倍数" autocomplete="off" value="{{$self['sellTimes']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">卖出订单金额必须是此数的正整数倍</div>
+                        </div>
+                    </div>
+
                     <div class="layui-form-item">
                         <label class="layui-form-label">手动买入</label>
                         <div class="layui-input-inline" style="width:70px;">
@@ -741,7 +778,7 @@
                             </div>
                             <div class="layui-form-mid layui-word-aux">是否允许手续费不足时提现</div>
                         </div>
-                        <div class="layui-form-min">
+                        {{--<div class="layui-form-min">
                             <div class="layui-form-item">
                                 <label class="layui-form-label">提现基数</label>
                                 <div class="layui-input-inline">
@@ -762,7 +799,7 @@
                                 </div>
                                 <div class="layui-form-mid layui-word-aux">提现的数额必须是此数的正整数倍</div>
                             </div>
-                        </div>
+                        </div>--}}
                         <div class="layui-form-min">
                             <div class="layui-form-item">
                                 <label class="layui-form-label">沉淀比例</label>
@@ -785,7 +822,7 @@
                                 <div class="layui-form-mid layui-word-aux">老会员提现时，消耗的贡献点数</div>
                             </div>
                         </div>
-                        <div class="layui-form-min">
+                        {{--<div class="layui-form-min">
                             <div class="layui-form-item">
                                 <label class="layui-form-label">提现禁止</label>
                                 <div class="layui-input-inline">
@@ -795,7 +832,7 @@
                                 </div>
                                 <div class="layui-form-mid layui-word-aux">上次派单时间超过此数时，无法提现奖励账户</div>
                             </div>
-                        </div>
+                        </div>--}}
                     </div>
                 </div>
                 <div class="layui-tab-item">
@@ -1010,6 +1047,13 @@
                 $('#buyPoundageNoneValue').prop('value', 'on');
             } else {
                 $('#buyPoundageNoneValue').prop('value', 'off');
+            }
+        });
+        form.on('switch(sellPoundageNone)', function (data) {
+            if (data.elem.checked) {
+                $('#sellPoundageNoneValue').prop('value', 'on');
+            } else {
+                $('#sellPoundageNoneValue').prop('value', 'off');
             }
         });
         form.on('switch(buyTotalUpSwitch)', function (data) {

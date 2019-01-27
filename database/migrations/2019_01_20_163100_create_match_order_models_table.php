@@ -18,7 +18,6 @@ class CreateMatchOrderModelsTable extends Migration
 
             //基础
             $table->char('young_status', 2)->default('10')->comment('状态');
-            $table->char('young_abn', 2)->default('10')->comment('异常');
             $table->decimal('young_total', 18, 2)->comment('金额');
 
             //买家信息

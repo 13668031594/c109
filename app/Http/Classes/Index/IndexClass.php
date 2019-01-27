@@ -17,7 +17,7 @@ class IndexClass extends Classes
     use TimeTrait;
 
     private $member = null;
-    protected $set = null;
+    public $set = null;
 
     public function __construct()
     {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Plan;
 
 use App\Http\Classes\Plan\ActClass;
+use App\Http\Classes\Plan\AutoClass;
+use App\Http\Classes\Plan\MatchClass;
 use App\Http\Controllers\Controller;
 
 class PlanController extends Controller
@@ -13,6 +15,10 @@ class PlanController extends Controller
         \DB::beginTransaction();
 
         new ActClass();//执行抢激活码任务
+
+        new AutoClass();//自动排单
+
+        new MatchClass();//执行订单匹配
 
         \DB::commit();
     }

@@ -121,6 +121,8 @@ class SetClass extends AdminClass
             'robStartTime|抢单开始时间' => 'required_if:robSwitch,on|date_format:"H:i"',//抢单开始时间
             'robEndTime|抢单结束时间' => 'required_if:robSwitch,on|date_format:"H:i"|after:robStartTime',//抢单结束时间
             'robResultTime|发放结果时间' => 'required_if:robSwitch,on|date_format:"H:i"|after:robEndTime',//发放结果时间
+            'sellBase|卖出订单基数' => 'required|integer|between:0,100000000',//奖励提现基数
+            'sellTimes|卖出订单倍数' => 'required|integer|between:0,100000000',//奖励提现倍数
             //商品设置
             'goodsName|商品名称' => 'required|string|max:40',//商品名称
             'goodsTotal|商品金额' => 'required|integer|between:1,100000000',//商品金额
@@ -227,6 +229,9 @@ class SetClass extends AdminClass
             'robStartTime' => '07:00',//抢单开始时间
             'robEndTime' => '07:10',//抢单结束时间
             'robResultTime' => '07:30',//发放结果时间
+            'sellBase' => '100',//卖出基数
+            'sellTimes' => '100',//卖出倍数
+            'sellPoundageNone' => 'off',//负手续费卖出开关
             //商品设置
             'goodsName' => '测试商品',//商品名称
             'goodsTotal' => '1000',//商品金额
@@ -239,7 +244,7 @@ class SetClass extends AdminClass
             'goodsCeil1' => '12',//未防撞模式收益时间上限
             //匹配设置
             'matchNewMember' => '1',//新会员立即匹配数
-            'matchFirstStart' => '2',//付余款匹配开始时间
+            'matchFirstStart' => '2',//首付款匹配开始时间
             'matchTailStart' => '4',//全款匹配开始时间
             'matchFirstPro' => '20',//预付款百分比
             //付款设置
@@ -258,14 +263,14 @@ class SetClass extends AdminClass
             'inOvertimeAuto' => 'on',//超时自动确认收款
             'inOvertimePunishGxd' => '300',//超时扣除贡献点
             //奖励提现
-            'rewardPro' => '50',//下级买单奖励比例
+            'rewardPro' => '5',//下级买单奖励比例
             'rewardSwitch' => 'on',//奖励账户提现开关
-            'rewardBase' => '100',//奖励提现基数
-            'rewardTimes' => '100',//奖励提现倍数
+//            'rewardBase' => '100',//奖励提现基数
+//            'rewardTimes' => '100',//奖励提现倍数
             'rewardDeposit' => '50',//提现沉淀比例
             'rewardPoundageNone' => 'on',//负手续费提现开关
             'rewardGxd' => '0',//老会员提现消耗贡献点
-            'rewardTime' => '365',//提现禁止时间
+//            'rewardTime' => '365',//提现禁止时间
             //利率与状态
             'typePro0' => '0.6',//静态利率
             'typePro1' => '1',//动态利率

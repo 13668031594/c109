@@ -42,4 +42,24 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('reg', 'TeamController@reg');//添加新的账号
         Route::get('act/{uid}', 'TeamController@act');//抢激活
     });
+
+    Route::group(['namespace' => 'Order'], function () {
+
+        Route::get('buy-list', 'BuyController@index');//买单列表
+        Route::get('buy/{id}', 'BuyController@show');//订单详情
+        Route::get('buy', 'BuyController@create');//买单设置
+        Route::post('buy', 'BuyController@store');//下购买订单
+        Route::get('auto', 'BuyController@auto_index');//自主排单设置
+        Route::post('auto', 'BuyController@auto_change');//修改自主排单设置
+        Route::post('pay', 'BuyController@pay');//订单付款
+
+        Route::get('sell-list', 'SellController@index');//卖单列表
+        Route::get('sell/{id}', 'SellController@show');//订单详情
+        Route::get('sell', 'SellController@create');//卖单设置
+        Route::post('sell', 'SellController@store');//下挂卖订单
+        Route::get('pay/{id}', 'SellController@confirm');//确认付款
+
+//        Route::get('rob','RobController@index');
+//        Route::post('rob','RobController@store');
+    });
 });

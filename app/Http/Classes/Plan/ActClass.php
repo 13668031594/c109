@@ -30,7 +30,7 @@ class ActClass extends PlanClass
             ->first();
 
         //已经成功发放过激活码
-        if (!empty($test->toArray())) return;
+//        if (!empty($test->toArray())) return;
 
         //判断今天抢激活码的人数是否超过总发放激活码数
         $number = MemberActModel::whereYoungStatus('10')->count();
@@ -134,7 +134,7 @@ class ActClass extends PlanClass
         foreach ($referee as $k => $v) {
 
             //合计扣除的手续费
-            $diff = count($v) . $poundage;
+            $diff = count($v) * $poundage;
 
             //扣除手续费
             $member = MemberModel::whereUid($k)->first();

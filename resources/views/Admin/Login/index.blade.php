@@ -81,7 +81,7 @@
                     <dl class="layui-nav-child">
                         <!--<dd><a href="javascript:;" data-menu='/admin/member_grade/index'><i class="layui-icon layui-icon-set-sm"></i> 等级管理</a></dd>-->
                         <dd><a href="javascript:;" data-menu='/admin/member/index'><i class="layui-icon layui-icon-user"></i> 会员列表</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/goods/index'><i class="layui-icon layui-icon-file"></i> 产品列表</a></dd>
+                        <dd><a href="javascript:;" data-menu='/admin/rank/index'><i class="layui-icon layui-icon-file"></i> 等级列表</a></dd>
                     </dl>
                 </li>
                 <!--<li class="layui-nav-item layui-nav-itemed">

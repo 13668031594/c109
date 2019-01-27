@@ -46,7 +46,39 @@ class SellOrderModel extends Model
 {
     public $type = [
         10 => '匹配中',
-        20 => '完结',
-        30 => '退款',
+        20 => '待收款',
+        30 => '完结',
+//        30 => '退款',
     ];
+
+    //获取新的订单号
+    public function new_order()
+    {
+        $key = 'S' . date('Ymd');
+
+        $number = new SellOrderModel();
+        $number = $number->where('created_at', '>=', date('Y-m-d') . ' 00:00:00')->count();
+        $number++;
+
+        $len = strlen('S20181127000001');
+
+        for ($i = ($len - strlen($key) - strlen($number)); $i > 0; $i--) {
+
+            $key .= '0';
+        }
+
+        $key .= $number;
+
+        //验证订单号是否被占用
+        $test = new SellOrderModel();
+        $test = $test->where('young_order', '=', $key)->first();
+
+        if (!is_null($test)) {
+
+            return self::new_order();
+        } else {
+
+            return $key;
+        }
+    }
 }

@@ -93,5 +93,13 @@ Route::group(['namespace' => 'Member'], function () {
     Route::get('/member/record', 'MemberController@record')->name('member.index');//记录页面
     Route::get('/member/record-table', 'MemberController@record_table')->name('member.index');//记录数据
     Route::get('/member/record-delete', 'MemberController@record_delete')->name('member.record_delete');//删除记录
+
+    Route::get('/rank/index', 'RankController@index')->name('rank.index');//管理员首页
+    Route::get('/rank/table', 'RankController@table')->name('rank.index');//管理员列表
+    Route::get('/rank/create', 'RankController@create')->name('rank.create');//管理员添加
+    Route::post('/rank/store', 'RankController@store')->name('rank.create');//管理员添加
+    Route::get('/rank/edit', 'RankController@edit')->name('rank.edit');//管理员编辑
+    Route::post('/rank/update/{id}', 'RankController@update')->name('rank.edit');//管理员编辑
+    Route::get('/rank/delete', 'RankController@destroy')->name('rank.destroy');//管理员删除
 });
 

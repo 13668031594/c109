@@ -3,50 +3,25 @@
 namespace App\Http\Controllers\Api\Team;
 
 use App\Http\Classes\Index\SmsClass;
+use App\Http\Classes\Index\Team\RegClass;
 use App\Http\Classes\Index\Team\TeamClass;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
 
 class TeamController extends ApiController
 {
-    private $classes;
-
-    public function __construct()
-    {
-        $this->classes = new TeamClass();
-    }
-
-    public function banks()
-    {
-        $banks = $this->classes->banks();
-
-        return parent::success(['banks' => $banks]);
-    }
-
-    //添加新的账号
-    public function reg(Request $request)
-    {
-        //验证短信验证码
-        $class = new SmsClass();
-        $class->validator_phone($request);
-
-        $this->classes->validator_reg($request);
-
-        $member = $this->classes->reg($request);
-
-        return parent::success(['member' => $member]);
-    }
-
     //查看下级
     public function team(Request $request)
     {
-        $member = $this->classes->get_member();
+        $class = new TeamClass();
+
+        $member = $class->get_member();
 
         $id = $request->get('id') ?? $member['uid'];
 
-        $result = $this->classes->team($id);
+        $result = $class->team($id);
 
-        $result['member'] = $this->classes->read($id);
+        $result['member'] = $class->read($id);
 
         return parent::success($result);
     }
@@ -54,15 +29,55 @@ class TeamController extends ApiController
     //下级展开
     public function tree($uid)
     {
-        $result = $this->classes->team($uid, 1);
+        $class = new TeamClass();
+
+        $result = $class->team($uid, 1);
 
         return parent::success($result);
+    }
+
+    //申请激活
+    public function act($uid)
+    {
+        $class = new TeamClass();
+
+        $status = $class->act($uid);
+
+        return parent::success(['status' => $status]);
+    }
+
+    public function banks()
+    {
+        $class = new RegClass();
+
+        $banks = $class->banks();
+
+        return parent::success(['banks' => $banks]);
+    }
+
+
+    //添加新的账号
+    public function reg(Request $request)
+    {
+        $reg = new RegClass();
+
+        //验证短信验证码
+        $class = new SmsClass();
+        $class->validator_phone($request);
+
+        $reg->validator_reg($request);
+
+        $member = $reg->reg($request);
+
+        return parent::success(['member' => $member]);
     }
 
     //注册短信
     public function sms($phone)
     {
-        $this->classes->validator_sms($phone);
+        $reg = new RegClass();
+
+        $reg->validator_sms($phone);
 
         $class = new SmsClass();
 
@@ -70,13 +85,5 @@ class TeamController extends ApiController
 
         //反馈
         return parent::success(['time' => $end]);
-    }
-
-    //申请激活
-    public function act($uid)
-    {
-        $status = $this->classes->act($uid);
-
-        return parent::success(['status' => $status]);
     }
 }

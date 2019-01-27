@@ -9,11 +9,12 @@
 namespace App\Http\Classes\Plan;
 
 use App\Http\Classes\Set\SetClass;
+use App\Http\Traits\ModelTrait;
 use App\Http\Traits\TimeTrait;
 
 class PlanClass
 {
-    use TimeTrait;
+    use TimeTrait, ModelTrait;
 
     public $set;
 
