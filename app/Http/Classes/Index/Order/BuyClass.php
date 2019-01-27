@@ -380,22 +380,49 @@ class BuyClass extends IndexClass
         $member->save();
     }
 
-    public function withdraw_index()
+    public function withdraw($id)
     {
         $member = parent::get_member();
 
-        $where = [
-            ['uid', '=', $member['uid']]
-        ];
+        $buy = BuyOrderModel::whereId($id)->first();
 
-        $other = [
-            'where' => $where,
-            'orderBy' => [
-                'created_at' => 'desc'
-            ],
-            'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number'],
-        ];
+        if ($buy->uid != $member['uid']) parent::error_json('只能提现自己的订单');
 
-        $result = parent::list_page('buy_order', $other);
+        if (($buy->young_status != 76) && ($buy->young_status != 80)) parent::error_json('此订单还不能提现');
+
+        if (($buy->young_status == 76) && ($member['poundage'] < $buy->young_poundage) && ($this->set['buyPoundageNone'] != 'on')) parent::error_json('请先充值手续费为正数');
+
+        $member = MemberModel::whereUid($member['uid'])->first();
+        $change = [];
+        $record = '';
+        if ($buy->young_status == 76) {
+
+            $member->young_poundage -= $buy->young_poundage;
+
+            //添加钱包记录
+            $record = '订单提现，订单号『' . $buy->young_order . '』,获得『' . $this->set['walletBalance'] . '』' . $buy->young_in . '，补缴『' . $this->set['walletPoundage'] . '』' . $buy->young_poundage;
+            $change = ['balance' => $buy->young_in, 'poundage' => (0 - $buy->young_poundage)];
+        } elseif ($buy->young_status == 80) {
+
+
+            //添加钱包记录
+            $record = '订单提现，订单号『' . $buy->young_order . '』,获得『' . $this->set['walletBalance'] . '』' . $buy->young_in;
+            $change = ['balance' => $buy->young_in];
+        } else {
+
+            parent::error_json('提现失败');
+        }
+
+        $buy->young_status = 90;
+        $buy->save();
+
+        $member->young_balance += $buy->young_in;
+        $member->young_balance_all += $buy->young_in;
+        $member->save();
+
+        $wallet = new MemberWalletModel();
+        $keyword = $buy->young_order;
+        $wallet->store_record($member, $change, 41, $record, $keyword);
+
     }
 }

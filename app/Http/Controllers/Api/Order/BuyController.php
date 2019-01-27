@@ -126,4 +126,11 @@ class BuyController extends ApiController
 
         return parent::success($result);
     }
+
+    public function withdraw_post($id)
+    {
+        $this->classes->withdraw($id);
+
+        return parent::success();
+    }
 }
