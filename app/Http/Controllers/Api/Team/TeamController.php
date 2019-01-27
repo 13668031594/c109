@@ -31,7 +31,7 @@ class TeamController extends ApiController
     {
         $class = new TeamClass();
 
-        $result = $class->team($uid, 1);
+        $result = $class->child($uid);
 
         return parent::success($result);
     }

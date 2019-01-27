@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 class TeamClass extends IndexClass
 {
     //团队，1级
-    public function team($member_id, $tree = false)
+    public function team($member_id)
     {
         //结果数组
         $result = [
@@ -31,9 +31,52 @@ class TeamClass extends IndexClass
         //获取下级信息
         $other = [
             'where' => [
+                ['young_referee_id', '=', $member_id]
+            ],
+            'select' => ['uid', 'young_nickname', 'young_status', 'young_hosting', 'young_phone', 'young_last_buy_time', 'created_at', 'young_act'],
+        ];
+
+        $team = parent::list_all('member', $other);
+
+        //没有下级
+        if (count($team) <= 0) return $result;
+
+        $result['team'] = $team;
+        $result['number'] = count($team);//下级总数
+
+        return $result;
+    }
+
+    //读取会员信息
+    public function read($uid)
+    {
+        $member = MemberModel::whereUid($uid)->first();
+
+        return parent::delete_prefix($member->toArray());
+    }
+
+    //团队，所有
+    public function child($member_id)
+    {
+        $member = parent::get_member();
+
+        $number = new MemberModel();
+        $number = $number->where('young_families', 'like', '%' . $member['uid'] . '%')->count();
+
+        //结果数组
+        $result = [
+            'number' => $number,
+            'team' => [],
+        ];
+
+        //获取下级信息
+        $other = [
+            'where' => [
                 ['young_families', 'like', '%' . $member_id . '%']
             ],
+            'select' => ['uid', 'young_nickname', 'young_referee_id', 'young_status'],
         ];
+
         $team = parent::list_all('member', $other);
 
         //没有下级
@@ -47,22 +90,13 @@ class TeamClass extends IndexClass
             $fathers[$v['referee_id']][] = $v;
         }
 
-        $result['team'] = self::get_tree($member_id, $fathers, $tree);
-        $result['number'] = count($result['team']);//下级总数
+        $result['team'] = self::get_tree($member_id, $fathers);
 
         return $result;
     }
 
-    //读取会员信息
-    public function read($uid)
-    {
-        $member = MemberModel::whereUid($uid)->first();
-
-        return parent::delete_prefix($member->toArray());
-    }
-
     //下级信息格式组合
-    public function get_tree($father_id, $team, $tree)
+    public function get_tree($father_id, $team)
     {
         if (!isset($team[$father_id])) return [];
 
@@ -73,18 +107,7 @@ class TeamClass extends IndexClass
             $result[$k]['uid'] = $v['uid'];
             $result[$k]['nickname'] = $v['nickname'];
             $result[$k]['status'] = $v['status'];
-
-            if (!$tree) {
-
-                $result[$k]['hosting'] = $v['hosting'];
-                $result[$k]['phone'] = $v['phone'];
-                $result[$k]['last_buy_time'] = $v['last_buy_time'];
-                $result[$k]['created_at'] = $v['created_at'];
-                $result[$k]['act'] = $v['act'];
-            } else {
-
-                $result[$k]['children'] = isset($team[$v['uid']]) ? '1' : '0';
-            }
+            $result[$k]['children'] = isset($team[$v['uid']]) ? '1' : '0';
         }
 
         return $result;
@@ -139,4 +162,6 @@ class TeamClass extends IndexClass
 
         return $member->young_act;
     }
+
+
 }
