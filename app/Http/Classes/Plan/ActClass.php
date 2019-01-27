@@ -97,6 +97,8 @@ class ActClass extends PlanClass
     //激活
     public function act($ids)
     {
+        if (count($ids) <= 0) return;
+
         $model = new MemberModel();
         $model->whereIn('uid', $ids)->update(['young_act' => '30', 'young_act_time' => DATE, 'young_act_from' => '20']);
         $model = new MemberActModel();

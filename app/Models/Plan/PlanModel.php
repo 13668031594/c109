@@ -27,7 +27,8 @@ use Illuminate\Database\Eloquent\Model;
 class PlanModel extends Model
 {
     public $type = [
-        'act' => '激活账号'
+        'act' => '激活账号',
+        'rob' => '抢单',
     ];
 
     public $status = [

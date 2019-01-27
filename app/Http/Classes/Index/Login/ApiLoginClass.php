@@ -10,8 +10,10 @@ namespace App\Http\Classes\Index\Login;
 
 use App\Http\Classes\Index\IndexClass;
 use App\Models\Member\MemberModel;
+use App\Models\Member\MemberWalletModel;
 use App\Models\Order\BuyOrderModel;
 use App\Models\Order\MatchOrderModel;
+use App\Models\Order\RobModel;
 use App\Models\Order\SellOrderModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -374,6 +376,16 @@ class ApiLoginClass extends IndexClass
             'status' => $match->status,
             'abn' => $match->abn
 
+        ];
+
+        $rob = new RobModel();
+        $result['rob'] =[
+            'status' => $rob->status,
+        ];
+
+        $wallet = new MemberWalletModel();
+        $result['wallet'] = [
+            'type' => $wallet->type,
         ];
 
         return $result;

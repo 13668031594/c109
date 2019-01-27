@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Plan;
 use App\Http\Classes\Plan\ActClass;
 use App\Http\Classes\Plan\AutoClass;
 use App\Http\Classes\Plan\MatchClass;
+use App\Http\Classes\Plan\RobClass;
 use App\Http\Controllers\Controller;
 
 class PlanController extends Controller
@@ -13,6 +14,8 @@ class PlanController extends Controller
     public function index()
     {
         \DB::beginTransaction();
+
+        new RobClass();//执行抢单发放
 
         new ActClass();//执行抢激活码任务
 

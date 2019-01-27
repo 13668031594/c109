@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('mode', 'UserController@mode');//切换下单模式
         Route::get('hosting', 'UserController@hosting');//切换托管模式
 //        Route::get('auto', 'UserController@auto');//切换自动买单模式
-        Route::get('wallet-type', 'UserController@wallet');//钱包变动类型
+//        Route::get('wallet-type', 'UserController@wallet');//钱包变动类型
         Route::get('wallet', 'UserController@wallet_table');//钱包变更
     });
 
@@ -61,7 +61,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('sell', 'SellController@store');//下挂卖订单
         Route::get('pay/{id}', 'SellController@confirm');//确认付款
 
-//        Route::get('rob','RobController@index');
-//        Route::post('rob','RobController@store');
+        Route::get('rob', 'RobController@index');//抢单申请列表
+        Route::post('rob', 'RobController@store');//发送抢单申请
+        Route::post('rob-buy', 'RobController@buy');//抢到单后，下单列表
     });
 });
