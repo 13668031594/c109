@@ -360,17 +360,17 @@ class BuyClass extends IndexClass
         }
 
         $term = [
-            'switchValue|自动采集开关' => 'required|numeric|between:1,100000000',
-            'number|采集数量' => 'required|integer|between:1,' . $number_max,
-            'time|收益时间' => 'required|integer|between:' . $time_lower . ',' . $time_ceil,
+            'switchValue|自动采集开关' => 'required|in:10,20',
+            'number|采集数量' => 'required_if:switchValue,10|integer|between:1,' . $number_max,
+            'time|收益时间' => 'required_if:switchValue,10|integer|between:' . $time_lower . ',' . $time_ceil,
         ];
 
         parent::validators_json($request->post(), $term);
 
         $member = MemberModel::whereUid($member['uid'])->first();
         $member->young_auto_buy = $request->post('switchValue');
-        $member->young_auto_number = $request->post('number');
-        $member->young_auto_time = $request->post('time');
+        $member->young_auto_number = $request->post('number') ?? null;
+        $member->young_auto_time = $request->post('time') ?? null;
         $member->save();
     }
 }

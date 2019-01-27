@@ -208,7 +208,7 @@ class MemberClass extends AdminClass implements ListInterface
     {
         $other = [
             'orderBy' => [
-                'sort' => 'asc'
+                'young_sort' => 'asc'
             ]
         ];
 

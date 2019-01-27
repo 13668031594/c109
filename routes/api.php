@@ -65,4 +65,12 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('rob', 'RobController@store');//发送抢单申请
         Route::post('rob-buy', 'RobController@buy');//抢到单后，下单列表
     });
+
+    Route::group(['namespace' => 'Trad'], function () {
+
+        Route::get('trad', 'TradController@index');//列表
+        Route::get('trad/{id}', 'TradController@buy');//购买
+        Route::post('trad', 'TradController@sell');//卖出
+
+    });
 });

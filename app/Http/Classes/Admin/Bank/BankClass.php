@@ -19,7 +19,7 @@ class BankClass extends AdminClass implements ListInterface
     public function index()
     {
         $orderBy = [
-            'sort' => 'asc',
+            'young_sort' => 'asc',
         ];
 
         $where = [

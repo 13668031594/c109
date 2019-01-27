@@ -16,6 +16,7 @@ use App\Models\Order\BuyOrderModel;
 use App\Models\Order\MatchOrderModel;
 use App\Models\Order\RobModel;
 use App\Models\Order\SellOrderModel;
+use App\Models\Trad\TradModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -394,6 +395,9 @@ class ApiLoginClass extends IndexClass
         $result['wallet'] = [
             'type' => $wallet->type,
         ];
+
+        $trad = new TradModel();
+        $result['trad'] = $trad->status;
 
         return $result;
     }

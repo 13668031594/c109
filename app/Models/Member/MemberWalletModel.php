@@ -63,6 +63,7 @@ class MemberWalletModel extends Model
         60 => '付款奖励',
         70 => '付款惩罚',
         80 => '下级奖励',
+        90 => '钱包交易',
     ];
 
     //添加新的变更记录

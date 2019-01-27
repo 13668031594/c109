@@ -131,7 +131,16 @@ class WalletClass extends AdminClass
             $where[] = ['young_type', '=', $type];
         }
 
-        return parent::list_page('member_wallet', ['where' => $where]);
+        $orderBy = [
+            'id' => 'desc'
+        ];
+
+        $other = [
+            'where' => $where,
+            'orderBy' => $orderBy
+        ];
+
+        return parent::list_page('member_wallet', $other);
     }
 
     public function record_delete($ids)
