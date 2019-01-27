@@ -203,7 +203,7 @@ class MemberModel extends Authenticatable
     public $type = [
         10 => '动态',
         20 => '静态',
-        30 => '永久动态',
+        30 => '永动',
     ];
 
     //激活
@@ -216,7 +216,7 @@ class MemberModel extends Authenticatable
     //激活方式
     public $act_from = [
         10 => '待激活',
-        20 => '上级激活',
+        20 => '已激活',
         30 => '后台激活',
     ];
 

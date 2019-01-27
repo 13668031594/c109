@@ -30,7 +30,7 @@ class MemberRecordModel extends Model
 {
     //变更类型
     public $type = [
-        10 => '管理员调整'
+        10 => '后台调整'
     ];
 
     //添加新的变更记录

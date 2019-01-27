@@ -54,7 +54,7 @@ class MemberWalletModel extends Model
 {
     //变更类型
     public $type = [
-        10 => '管理员调整',
+        10 => '后台调整',
         20 => '注册账号',
         30 => '激活账号',
         40 => '买单',
@@ -62,7 +62,7 @@ class MemberWalletModel extends Model
         55 => '提现',
         60 => '付款奖励',
         70 => '付款惩罚',
-        80 => '下级买单奖励',
+        80 => '下级奖励',
     ];
 
     //添加新的变更记录
