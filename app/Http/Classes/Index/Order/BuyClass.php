@@ -26,7 +26,7 @@ class BuyClass extends IndexClass
 
         $other = [
             'where' => $where,
-            'select' => ['id','young_order as orderNo','young_amount','created_at','young_status','young_number'],
+            'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number'],
         ];
 
         return parent::list_page('buy_order', $other);
@@ -46,17 +46,17 @@ class BuyClass extends IndexClass
             'where' => $where,
             'orderBy' => $order,
             'select' => [
-                'id','young_buy_order as buyCode','young_sell_order as sellCode','young_total as amount','created_at',
-                'young_status','young_buy_nickname as to','young_pay_time as payTime','young_bank_name as bankName',
-                'young_bank_no as bankNo','young_bank_address as bankAddress','young_bank_man as bankUser','young_alipay',
-                'young_note as bankNote','young_sell_nickname as payee','young_sell_uid'
+                'id', 'young_buy_order as buyCode', 'young_sell_order as sellCode', 'young_total as amount', 'created_at',
+                'young_status', 'young_buy_nickname as to', 'young_pay_time as payTime', 'young_bank_name as bankName',
+                'young_bank_no as bankNo', 'young_bank_address as bankAddress', 'young_bank_man as bankUser', 'young_alipay',
+                'young_note as bankNote', 'young_sell_nickname as payee', 'young_sell_uid'
             ],
         ];
 
         $member = parent::get_member();
 
         $result = parent::list_all('match_order', $other);
-        foreach ($result as &$v){
+        foreach ($result as &$v) {
 
             $v['payeeReferee'] = MemberModel::whereUid($v['sell_uid'])->first()->young_referee_nickname;
             unset($v['sell_uid']);
@@ -106,7 +106,7 @@ class BuyClass extends IndexClass
             'buyTotalUpSwitch' => $setting['buyTotalUpSwitch'],
             'goodsName' => $setting['goodsName'],
             'goodsTotal' => $setting['goodsTotal'],
-            'goodsCover' => $setting['goodsCover'],
+            'goodsCover' => 'http://' . env('LOCALHOST') . '/' . $setting['goodsCover'],
             'topOrder' => self::top_order(),
         ];
 

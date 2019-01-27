@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Classes\Index\SmsClass;
 use App\Http\Classes\Index\User\UserClass;
+use App\Http\Classes\Member\WalletClass;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Member\MemberWalletModel;
 use Illuminate\Http\Request;
 
 class UserController extends ApiController
@@ -66,4 +68,27 @@ class UserController extends ApiController
         return parent::success();
     }
 
+    //记录页面
+    public function wallet()
+    {
+        $model = new MemberWalletModel();
+
+        $type = $model->type;
+
+        return parent::success(['type' => $type]);
+    }
+
+    //记录数据
+    public function wallet_table(Request $request)
+    {
+        $member = $this->classes->get_member();
+
+        $request->request->add(['id' => $member['uid']]);
+
+        $class = new WalletClass();
+
+        $result = $class->record_table($request);
+
+        return parent::success($result);
+    }
 }

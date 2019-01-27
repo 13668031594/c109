@@ -20,5 +20,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class RobModel extends Model
 {
-    //
+    public $status = [
+        '10' => '待摇号',
+        '20' => '中选',
+        '30' => '落选',
+        '40' => '作废',
+        '50' => '已下单'
+    ];
 }

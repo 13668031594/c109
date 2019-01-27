@@ -15,6 +15,8 @@ class CreateRobModelsTable extends Migration
     {
         Schema::create('rob_models', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('uid')->comment('需要激活的会员id');
+            $table->char('young_status', 2)->default('10')->comment('状态');
             $table->timestamps();
         });
     }

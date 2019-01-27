@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('mode', 'UserController@mode');//切换下单模式
         Route::get('hosting', 'UserController@hosting');//切换托管模式
 //        Route::get('auto', 'UserController@auto');//切换自动买单模式
+        Route::get('wallet-type', 'UserController@wallet');//钱包变动类型
+        Route::get('wallet', 'UserController@wallet_table');//钱包变更
     });
 
     Route::group(['namespace' => 'Team'], function () {
