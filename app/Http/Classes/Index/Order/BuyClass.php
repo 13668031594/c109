@@ -32,7 +32,17 @@ class BuyClass extends IndexClass
             'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number'],
         ];
 
-        return parent::list_page('buy_order', $other);
+        $result = parent::list_page('buy_order', $other);
+
+        //判断是否加速
+        $number = $this->set['matchNewMember'];
+        $model = new BuyOrderModel();
+        $ids = $model->where('uid', '=', $member['uid'])->limit($number)->orderBy('created_at', 'desc')->get(['id']);
+        $speed = [];
+        if (count($ids) > 0) $speed = $ids->pluck('id')->toArray();
+        foreach ($result['message'] as $v) $v['speed'] = in_array($v['id'], $speed) ? '1' : '0';
+
+        return $result;
     }
 
     public function match($id)
