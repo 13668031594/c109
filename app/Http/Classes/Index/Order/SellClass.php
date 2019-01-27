@@ -13,6 +13,7 @@ use App\MemberWithdrawModel;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Order\BuyOrderModel;
+use App\Models\Order\MatchOrderModel;
 use App\Models\Order\SellOrderModel;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,15 @@ class SellClass extends IndexClass
             'where' => $where
         ];
 
-        return parent::list_page('sell_order', $other);
+        $result = parent::list_page('sell_order', $other);
+
+        foreach ($result['message'] as &$v){
+
+            $v['match_20'] = MatchOrderModel::whereYoungSellId($v['id'])->where('young_status','=','20')->count();
+            $v['match'] = MatchOrderModel::whereYoungSellId($v['id'])->count();
+        }
+
+        return $result;
     }
 
     public function match($id)
@@ -62,6 +71,7 @@ class SellClass extends IndexClass
             $v['toReferee'] = MemberModel::whereUid($v['buy_uid'])->first()->young_referee_nickname;
             unset($v['buy_uid']);
             $v['payeeReferee'] = $member['referee_nickname'];
+
         }
 
         return $result;
