@@ -33,9 +33,9 @@ class SellClass extends IndexClass
 
         $result = parent::list_page('sell_order', $other);
 
-        foreach ($result['message'] as &$v){
+        foreach ($result['message'] as &$v) {
 
-            $v['match_20'] = MatchOrderModel::whereYoungSellId($v['id'])->where('young_status','=','20')->count();
+            $v['match_20'] = MatchOrderModel::whereYoungSellId($v['id'])->where('young_status', '=', '20')->count();
             $v['match'] = MatchOrderModel::whereYoungSellId($v['id'])->count();
         }
 
@@ -49,24 +49,25 @@ class SellClass extends IndexClass
         ];
 
         $order = [
-            'created_at' => 'desc'
+            'young_status' => 'asc',
+            'created_at' => 'desc',
         ];
 
         $other = [
             'where' => $where,
             'orderBy' => $order,
             'select' => [
-                'id','young_buy_order as buyCode','young_sell_order as sellCode','young_total as amount','created_at',
-                'young_status','young_buy_nickname as to','young_pay_time as payTime','young_bank_name as bankName',
-                'young_bank_no as bankNo','young_bank_address as bankAddress','young_bank_man as bankUser','young_alipay',
-                'young_note as bankNote','young_sell_nickname as payee','young_buy_uid'
+                'id', 'young_buy_order as buyCode', 'young_sell_order as sellCode', 'young_total as amount', 'created_at',
+                'young_status', 'young_buy_nickname as to', 'young_pay_time as payTime', 'young_bank_name as bankName',
+                'young_bank_no as bankNo', 'young_bank_address as bankAddress', 'young_bank_man as bankUser', 'young_alipay',
+                'young_note as bankNote', 'young_sell_nickname as payee', 'young_buy_uid'
             ],
         ];
 
         $member = parent::get_member();
 
         $result = parent::list_all('match_order', $other);
-        foreach ($result as &$v){
+        foreach ($result as &$v) {
 
             $v['toReferee'] = MemberModel::whereUid($v['buy_uid'])->first()->young_referee_nickname;
             unset($v['buy_uid']);
@@ -75,6 +76,15 @@ class SellClass extends IndexClass
         }
 
         return $result;
+    }
+
+    public function existAmount($id)
+    {
+        $a = SellOrderModel::whereId($id)->first();
+
+        $amount = $a->young_total - $a->young_remind;
+
+        return $amount;
     }
 
     public function record($id)

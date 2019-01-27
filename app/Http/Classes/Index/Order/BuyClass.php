@@ -45,6 +45,13 @@ class BuyClass extends IndexClass
         return $result;
     }
 
+    public function existAmount($id)
+    {
+        $amount = BuyOrderModel::whereId($id)->first()->young_tail_complete;
+
+        return $amount;
+    }
+
     public function match($id)
     {
         $where = [
@@ -52,7 +59,8 @@ class BuyClass extends IndexClass
         ];
 
         $order = [
-            'created_at' => 'desc'
+            'young_status' => 'asc',
+            'created_at' => 'desc',
         ];
 
         $other = [

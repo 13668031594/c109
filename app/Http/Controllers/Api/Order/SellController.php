@@ -33,6 +33,7 @@ class SellController extends ApiController
 //        $record = $this->classes->record($id);
 
         $result = [
+            'existAmount' => $this->classes->existAmount($id),
             'match' => $match,
 //            'record' => $record,
         ];
