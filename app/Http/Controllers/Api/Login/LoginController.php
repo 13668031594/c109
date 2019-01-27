@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Login;
 use App\Http\Classes\Index\Login\ApiLoginClass;
 use App\Http\Classes\Set\SetClass;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Member\MemberModel;
 use Illuminate\Http\Request;
 
 class LoginController extends ApiController
@@ -60,10 +61,9 @@ class LoginController extends ApiController
         //清空失败次数
         $this->class->fails_add(-1);
 
-
         $result['set'] = $this->class->set();
 
-        $result['contrast'] = $this->class->contrast();
+        $result = array_merge($result,$this->class->contrast());
 
         //返回状态码
         return parent::success($result);
@@ -82,11 +82,15 @@ class LoginController extends ApiController
 
         $member = $this->class->referee($member);
 
+        $model = new MemberModel();
+
         $result = [
             'member' => $member,
             'set' => $this->class->set(),
-            'contrast' => $this->class->contrast(),
+            'contrast' => $model->arrays(),
         ];
+
+        $result = array_merge($result,$this->class->contrast());
 
         return parent::success($result);
     }
