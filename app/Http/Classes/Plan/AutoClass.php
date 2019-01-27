@@ -63,7 +63,7 @@ class AutoClass extends PlanClass
                 if ($last->young_status < 70) continue;
 
                 //计算下次下单时间
-                $begin = strtotime($last->created_at) + strtotime($last->young_days);
+                $begin = strtotime('+ ' . $last->young_days . 'day', strtotime($last->created_at));
 
                 //预算时间未到
                 if ($begin <= time()) continue;
@@ -157,7 +157,7 @@ class AutoClass extends PlanClass
         if (count($this->insert) > 0) {
 
             $order->insert($this->insert);
-            $this->table_update('member_models',$members,'uid');
+            $this->table_update('member_models', $members, 'uid');
         }
     }
 }
