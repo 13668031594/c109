@@ -17,6 +17,8 @@ class CreateRobModelsTable extends Migration
             $table->increments('id');
             $table->integer('uid')->comment('需要激活的会员id');
             $table->char('young_status', 2)->default('10')->comment('状态');
+            $table->string('young_order', 2)->nullable()->comment('下单的订单号');
+            $table->string('young_order_id', 2)->nullable()->comment('下单的id');
             $table->timestamps();
         });
     }
