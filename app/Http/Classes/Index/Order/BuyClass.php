@@ -26,6 +26,9 @@ class BuyClass extends IndexClass
 
         $other = [
             'where' => $where,
+            'orderBy' => [
+                'created_at' => 'desc'
+            ],
             'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number'],
         ];
 
@@ -146,7 +149,7 @@ class BuyClass extends IndexClass
         $data = $request->post();//获取参数
         $member = parent::get_member();//会员参数
 
-        if ($set['buySwitch'] != 'on') parent::error_json('暂时无法排单');//手动排单开关
+        if ($set['buySwitch'] != 'on') parent::error_json('暂时无法采集');//手动采集开关
 
         //寻找该会员的最后一个订单
         $last = new BuyOrderModel();
@@ -175,7 +178,7 @@ class BuyClass extends IndexClass
         $term = [
             'total|订单总价' => 'required|numeric|between:1,100000000',
             'amount|商品单价' => 'required|numeric|between:1,100000000',
-            'number|排单数量' => 'required|integer|between:1,' . $number_max,
+            'number|采集数量' => 'required|integer|between:1,' . $number_max,
             'time|收益时间' => 'required|integer|between:' . $time_lower . ',' . $time_ceil,
             'poundage|手续费' => 'required|integer|between:1,100000000',
             'inPro|收益率' => 'required|numeric|between:0,100',
@@ -240,13 +243,13 @@ class BuyClass extends IndexClass
 
         //添加钱包记录
         $wallet = new MemberWalletModel();
-        $record = '自主排单，订单号『' . $order->young_order . '』,扣除『' . $this->set['walletPoundage'] . '』' . $poundage;
+        $record = '自主采集，订单号『' . $order->young_order . '』,扣除『' . $this->set['walletPoundage'] . '』' . $poundage;
         $keyword = $order->young_order;
         $change = ['poundage' => (0 - $poundage)];
         $wallet->store_record($member, $change, 40, $record, $keyword);
     }
 
-    //自主排单列表
+    //自主采集列表
     public function auto_list($number, $time)
     {
         $member = parent::get_member();
@@ -287,8 +290,8 @@ class BuyClass extends IndexClass
 
         if ($time < $time_lower) $time = $time_lower;//保证收益周期不低于配置周期
         if ($time > $time_ceil) $time = $time_ceil;//保证收益周期不高于配置周期
-        if ($number <= 0) $number = 1;//保证排单数量不小于1
-        if ($number > $number_max) $number = $number_max;//保证排单数量不大于配置最高数量
+        if ($number <= 0) $number = 1;//保证采集数量不小于1
+        if ($number > $number_max) $number = $number_max;//保证采集数量不大于配置最高数量
 
         $result = [];
         for ($i = 6; $i > 0; $i--) {
@@ -317,7 +320,7 @@ class BuyClass extends IndexClass
         $member = parent::get_member();//会员参数
 
         if ($member['mode'] != '20') parent::error_json('只有未防撞状态才能开启自动采集');
-        if ($set['buySwitch'] != 'on') parent::error_json('暂时无法排单');//手动排单开关
+        if ($set['buySwitch'] != 'on') parent::error_json('暂时无法采集');//手动采集开关
 
         $number_max = 0;
         $time_lower = 0;
@@ -340,7 +343,7 @@ class BuyClass extends IndexClass
 
         $term = [
             'switchValue|自动采集开关' => 'required|numeric|between:1,100000000',
-            'number|排单数量' => 'required|integer|between:1,' . $number_max,
+            'number|采集数量' => 'required|integer|between:1,' . $number_max,
             'time|收益时间' => 'required|integer|between:' . $time_lower . ',' . $time_ceil,
         ];
 

@@ -9,6 +9,7 @@
 namespace App\Http\Classes\Index\Login;
 
 use App\Http\Classes\Index\IndexClass;
+use App\Http\Classes\Set\SetClass;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Order\BuyOrderModel;
@@ -354,6 +355,12 @@ class ApiLoginClass extends IndexClass
         return $member;
     }
 
+    public function set()
+    {
+        $class = new SetClass();
+
+        return $class->index();
+    }
 
     public function contrast()
     {
@@ -379,7 +386,7 @@ class ApiLoginClass extends IndexClass
         ];
 
         $rob = new RobModel();
-        $result['rob'] =[
+        $result['rob'] = [
             'status' => $rob->status,
         ];
 

@@ -60,8 +60,8 @@ class LoginController extends ApiController
         //清空失败次数
         $this->class->fails_add(-1);
 
-        $class = new SetClass();
-        $result['set'] = $class->index();
+
+        $result['set'] = $this->class->set();
 
         $result['contrast'] = $this->class->contrast();
 
@@ -82,6 +82,12 @@ class LoginController extends ApiController
 
         $member = $this->class->referee($member);
 
-        return parent::success(['member' => $member]);
+        $result = [
+            'member' => $member,
+            'set' => $this->class->set(),
+            'contrast' => $this->class->contrast(),
+        ];
+
+        return parent::success($result);
     }
 }

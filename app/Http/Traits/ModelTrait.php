@@ -70,7 +70,8 @@ trait ModelTrait
 
         foreach ($orderBy as $k => $v) {
 
-            if (!is_array($v)) continue;
+            if (!is_string($v)) continue;
+            if (!is_string($k)) continue;
 
             $this->table = $this->table->orderBy($k, $v);
         }

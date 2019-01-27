@@ -54,17 +54,17 @@ class UserClass extends IndexClass
         $member->save();
     }
 
-    //修改下单模式
+    //修改采集模式
     public function mode()
     {
         $member = parent::get_member();
 
-        if ($member['mode'] == '20') parent::error_json('无法切换下单模式');
+        if ($member['mode'] == '20') parent::error_json('无法切换采集模式');
 
         MemberModel::whereUid($member['uid'])->update(['young_mode' => '20']);
     }
 
-    //修改下单模式
+    //修改采集模式
     public function hosting()
     {
         $member = parent::get_member();
