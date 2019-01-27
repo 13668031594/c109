@@ -85,9 +85,7 @@ class UserController extends ApiController
 
         $request->request->add(['id' => $member['uid']]);
 
-        $class = new WalletClass();
-
-        $result = $class->record_table($request);
+        $result = $this->classes->record_table($request);
 
         return parent::success($result);
     }
