@@ -18,6 +18,7 @@ class CreateBuyOrderModelsTable extends Migration
             $table->string('young_order')->comment('订单号');
             $table->integer('uid')->comment('买家id');
             $table->char('young_status', 2)->default('10')->comment('状态');
+            $table->char('young_abn', 2)->default('10')->comment('异常');
 
             //收益相关
             $table->decimal('young_total', 18, 2)->comment('总金额');
