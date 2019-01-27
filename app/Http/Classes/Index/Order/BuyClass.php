@@ -24,6 +24,7 @@ class BuyClass extends IndexClass
             ['uid', '=', $member['uid']],
         ];
 
+        $type = \request()->get('type');
         if ($type == '1') $where[] = ['young_status', '<', 70];
         if ($type == '2') {
             $where[] = ['young_status', '>=', 70];

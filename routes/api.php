@@ -48,8 +48,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['namespace' => 'Order'], function () {
 
         Route::get('buy-list', 'BuyController@index');//买单列表
-        Route::get('buy-all', 'BuyController@all');//全部买单列表
-        Route::get('withdraw', 'BuyController@withdraw');//买单列表
         Route::get('withdraw/{id}', 'BuyController@withdraw_post');//买单列表
         Route::get('buy-list', 'BuyController@index');//买单列表
         Route::get('buy/{id}', 'BuyController@show');//订单详情
