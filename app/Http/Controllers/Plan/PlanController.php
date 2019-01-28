@@ -8,6 +8,7 @@ use App\Http\Classes\Plan\AutoClass;
 use App\Http\Classes\Plan\BuyOverClass;
 use App\Http\Classes\Plan\MatchClass;
 use App\Http\Classes\Plan\RobClass;
+use App\Http\Classes\Plan\WageClass;
 use App\Http\Controllers\Controller;
 
 class PlanController extends Controller
@@ -16,6 +17,8 @@ class PlanController extends Controller
     public function index()
     {
         \DB::beginTransaction();
+
+        new WageClass();//发工资
 
         new AccountClass();//封号操作
 
@@ -28,8 +31,6 @@ class PlanController extends Controller
         new MatchClass();//执行订单匹配
 
         new BuyOverClass();//订单收益完结
-
-        //发放工资
 
         \DB::commit();
     }

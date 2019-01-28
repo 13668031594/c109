@@ -29,6 +29,7 @@ class PlanModel extends Model
     public $type = [
         'act' => '激活账号',
         'rob' => '抢单',
+        'wage' => '发工资',
     ];
 
     public $status = [

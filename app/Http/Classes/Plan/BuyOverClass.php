@@ -16,7 +16,7 @@ class BuyOverClass extends PlanClass
     {
         parent::__construct();
 
-        $today_w = date('w', DATE);
+        $today_w = date('w');
 
         if ($today_w == '6') {
 

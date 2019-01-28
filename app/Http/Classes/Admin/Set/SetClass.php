@@ -122,8 +122,8 @@ class SetClass extends AdminClass
             'robStartTime|抢单开始时间' => 'required_if:robSwitch,on|date_format:"H:i"',//抢单开始时间
             'robEndTime|抢单结束时间' => 'required_if:robSwitch,on|date_format:"H:i"|after:robStartTime',//抢单结束时间
             'robResultTime|发放结果时间' => 'required_if:robSwitch,on|date_format:"H:i"|after:robEndTime',//发放结果时间
-            'sellBase|卖出订单基数' => 'required|integer|between:0,100000000',//奖励提现基数
-            'sellTimes|卖出订单倍数' => 'required|integer|between:0,100000000',//奖励提现倍数
+//            'sellBase|卖出订单基数' => 'required|integer|between:0,100000000',//奖励提现基数
+//            'sellTimes|卖出订单倍数' => 'required|integer|between:0,100000000',//奖励提现倍数
             //商品设置
             'goodsName|商品名称' => 'required|string|max:40',//商品名称
             'goodsTotal|商品金额' => 'required|integer|between:1,100000000',//商品金额
@@ -156,12 +156,12 @@ class SetClass extends AdminClass
             //奖励提现
             'rewardPro|下级买单奖励比例' => 'required|numeric|between:0,100',//下级买单奖励比例
             'rewardSwitch|奖励账户提现开关' => 'required|in:on,off',//奖励账户提现开关
-            'rewardBase|奖励提现基数' => 'required|integer|between:0,100000000',//奖励提现基数
-            'rewardTimes|奖励提现倍数' => 'required|integer|between:0,100000000',//奖励提现倍数
+//            'rewardBase|奖励提现基数' => 'required|integer|between:0,100000000',//奖励提现基数
+//            'rewardTimes|奖励提现倍数' => 'required|integer|between:0,100000000',//奖励提现倍数
             'rewardDeposit|提现沉淀比例' => 'required|numeric|between:0,100',//提现沉淀比例
             'rewardPoundageNone|负手续费提现开关' => 'required|in:on,off',//负手续费提现开关
             'rewardGxd|奖励提现消耗贡献点' => 'required|integer|between:0,100000000',//老会员提现消耗贡献点
-            'rewardTime|提现禁止时间' => 'required|integer|between:1,365',//提现禁止时间
+//            'rewardTime|提现禁止时间' => 'required|integer|between:1,365',//提现禁止时间
             //利率与状态
             'typePro0|静态利率' => 'required|numeric|between:0,100',//静态利率
             'typePro1|动态利率' => 'required|numeric|between:0,100',//动态利率
