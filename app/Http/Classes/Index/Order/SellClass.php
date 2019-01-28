@@ -29,7 +29,7 @@ class SellClass extends IndexClass
 
         $other = [
             'where' => $where,
-            'select' => ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status', 'young_abn'],
+            'select' => ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status'],
         ];
 
         $result = parent::list_page('sell_order', $other);
