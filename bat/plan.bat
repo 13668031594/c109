@@ -2,4 +2,4 @@
 start http://jwzs.ythx123.com/plan
 choice /t 10 /d y /n >nul
 
-taskkill iexplore.exe
+taskkill /IM iexplore.exe
