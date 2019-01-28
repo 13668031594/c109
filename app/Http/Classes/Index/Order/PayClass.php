@@ -24,12 +24,11 @@ class PayClass extends IndexClass
     public function pay($id,Request $request)
     {
         $term = [
-            'image|支付凭证' => 'required|max:1024',
+            'image|支付凭证' => 'required|image|max:1024',
         ];
 
         parent::validators_json($request->all(), $term);
 
-        parent::error_json('哈哈哈哈哈哈');
         $begin = parent::set_time($this->set['payStart']);
         $end = parent::set_time($this->set['payEnd']);
         $now = time();

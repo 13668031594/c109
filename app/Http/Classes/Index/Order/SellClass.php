@@ -27,6 +27,10 @@ class SellClass extends IndexClass
             ['uid', '=', $member['uid']]
         ];
 
+        $type = \request()->get('type');
+        if ($type == '1')$where[] = ['young_status','<>','30'];
+        if ($type == '2')$where[] = ['young_status','=','30'];
+
         $other = [
             'where' => $where,
             'select' => ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status'],

@@ -26,13 +26,13 @@ class RobClass extends PlanClass
 
         //判断今天是否成功触发了抢单
         $test = new PlanModel();
-        $test->where('young_type', '=', 'rob')
+        $test = $test->where('young_type', '=', 'rob')
             ->where('young_status', '=', '10')
             ->where('created_at', '>=', date('Y-m-d 00:00:00'))
             ->first();
 
         //已经成功发放过抢单
-        if (!empty($test->toArray())) return;
+        if (!is_null($test)) return;
 
         //判断今天抢单人数
         $number = RobModel::whereYoungStatus('10')->count();

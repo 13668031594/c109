@@ -17,6 +17,8 @@ class WageClass extends PlanClass
 {
     private $where_time;//筛选时间段
     private $order_poundage;//订单支付的手续费
+    private $rank;//参与发工资的等级
+    private $wage;//工资发放表
 
     public function __construct()
     {
@@ -53,6 +55,20 @@ class WageClass extends PlanClass
         }
 
         //获取满足分佣条件的会员等级
+        self::rank();
+
+        //没有符合发工资的等级
+        if (empty($this->rank)) {
+
+            $record = '没有符合工资发放条件的会员等级，工资发放为0';
+            self::store_plan($record);
+            return;
+        }
+
+        //循环订单，组合工资发放数组
+
+
+        dd('123');
     }
 
     //添加本次激活记录
@@ -114,6 +130,72 @@ class WageClass extends PlanClass
     public function rank()
     {
         $rank = new MemberRankModel();
-        $rank = $rank->where('young_wage','>',0)->orderBy('young_sort');
+        $rank = $rank->where('young_wage', '>', 0)->orderBy('young_sort', 'asc')->all(['id', 'young_wage']);
+
+        if (count($rank) <= 0) return;
+
+        foreach ($rank as $v) $this->rank[$v->id] = $v->young_wage;
+    }
+
+    public function group_wage()
+    {
+        foreach ($this->order_poundage as $k => $v) {
+
+            //寻找会员
+            $member = MemberModel::whereUid($k)->first();
+            if (is_null($member) || empty($member->young_families)) return;
+
+            //寻找参与发放工资的上级
+            $referee_ids = explode(',', $member->young_families);
+            $families = new MemberModel();
+            $families = $families->whereIn('uid', $referee_ids)//是上级
+            ->whereIn('young_rank_id', array_keys($this->rank))//属于参与分佣的等级
+            ->where('young_status', '!=', '30')//没有被封停
+            ->orderBy('uid', 'desc')//由近及远
+            ->all();
+
+            //没有上级，下一个
+            if (empty($families)) continue;
+
+            //赋值等级数组
+            $rank = $this->rank;
+
+            //循环发放工资
+            foreach ($families as $va) {
+
+                //没有可以发放工资的等级了
+                if (empty($rank)) break;
+
+                //当前等级工资已经发放过了
+                if (!in_array($va->young_rank_id, array_keys($rank))) break;
+
+                //初始化工资比例
+                $pro = 0;
+
+                //计算当发工资
+                foreach ($rank as $k => $v) {
+
+                    //等级已经大于上级等级，跳出循环
+                    if ($k > $va->young_rank_id) break;
+
+                    //叠加工资比例
+                    $pro += $v;
+
+                    //工资已发，剔除数组
+                    unset($rank[$k]);
+                }
+
+                //没有工资可发
+                if ($pro <= 0) continue;
+
+                //计算当发工资
+                $wage = number_format(($v * $pro), 2, '.', '');
+
+                //没有可发工资，下一个
+                if ($wage <= 0) continue;
+
+
+            }
+        }
     }
 }

@@ -24,13 +24,13 @@ class ActClass extends PlanClass
 
         //判断今天是否成功发放了激活码
         $test = new PlanModel();
-        $test->where('young_type', '=', 'act')
+        $test = $test->where('young_type', '=', 'act')
             ->where('young_status', '=', '10')
             ->where('created_at', '>=', date('Y-m-d 00:00:00'))
             ->first();
 
         //已经成功发放过激活码
-        if (!empty($test->toArray())) return;
+        if (!is_null($test)) return;
 
         //判断今天抢激活码的人数是否超过总发放激活码数
         $number = MemberActModel::whereYoungStatus('10')->count();
