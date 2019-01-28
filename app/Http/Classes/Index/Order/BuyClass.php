@@ -54,7 +54,13 @@ class BuyClass extends IndexClass
 
     public function existAmount($id)
     {
-        $amount = BuyOrderModel::whereId($id)->first()->young_tail_complete;
+        $amount = 0;
+
+        $order = BuyOrderModel::whereId($id)->first();
+
+        if (!is_null($order->young_first_match))$amount += $order->young_first_total;
+
+        $amount += $order->young_tail_complete;
 
         return $amount;
     }
