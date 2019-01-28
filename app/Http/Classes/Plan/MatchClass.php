@@ -140,10 +140,10 @@ WHERE b.uid = u.uid
 AND b.young_abn = 10
 AND b.young_status = 40
 AND b.created_at <= '{$date}'
-AND b.young_tail_complete < b.young_tail_total
-ORDER BY b.created_at ASC
-";
-        if (count($others) > 0) $sql .= "AND b.id NOT IN (" . implode(',', $others) . ")";
+AND b.young_tail_complete < b.young_tail_total";
+        if (count($others) > 0) $sql .= " AND b.id NOT IN (" . implode(',', $others) . ")";
+
+        $sql .= " ORDER BY b.created_at ASC";
 
         $a = \DB::select($sql);
 
