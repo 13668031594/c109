@@ -24,19 +24,14 @@ class RegClass extends IndexClass
     {
         $other = [
             'orderBy' => [
-                'sort' => 'asc'
+                'young_sort' => 'asc'
             ]
         ];
 
         return parent::list_all('bank', $other);
     }
 
-    /**
-     * 发送验证码前验证
-     *
-     * @param $phone
-     * @param $time
-     */
+    //发送验证码前验证
     public function validator_sms($phone)
     {
         $term = [
