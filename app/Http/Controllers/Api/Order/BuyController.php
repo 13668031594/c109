@@ -97,7 +97,7 @@ class BuyController extends ApiController
     }
 
     //订单付款
-    public function pay(Request $request)
+    public function pay($id,Request $request)
     {
         \DB::beginTransaction();
 
@@ -105,7 +105,7 @@ class BuyController extends ApiController
         $class = new PayClass();
 
         //添加支付信息
-        $class->pay($request);
+        $class->pay($id,$request);
 
         //给予支付奖励
         $class->pay_reward();

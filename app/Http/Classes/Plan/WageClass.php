@@ -92,5 +92,6 @@ class WageClass extends PlanClass
         $buys = $buys->groupBy('uid')->toArray();
 
         dd($buys);
+//        foreach ($buys as $k => $v)
     }
 }

@@ -21,7 +21,7 @@ class PayClass extends IndexClass
     use ImageTrait;
 
     //付款惩罚
-    public function pay(Request $request)
+    public function pay($id,Request $request)
     {
         $term = [
             'image|支付凭证' => 'required|image|max:1024',
@@ -34,7 +34,7 @@ class PayClass extends IndexClass
         $now = time();
         if (($now < $begin) || ($now > $end)) parent::error_json('请在每天 ' . $this->set['payStart'] . ' 至 ' . $this->set['payEnd'] . ' 付款');
 
-        $id = $request->post('id');
+//        $id = $request->post('id');
 
         //获取会员
         $member = parent::get_member();
