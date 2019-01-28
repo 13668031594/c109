@@ -1,5 +1,5 @@
 @echo off  
-start http://jwzs.ythx123.com/plan
-choice /t 10 /d y /n >nul
 
-taskkill /IM iexplore.exe
+start “” “C:\Program Files\Internet Explorer\iexplore.exe” “http://jwzs.ythx123.com/plan”
+ping -n 10 127.1>nul
+taskkill /im iexplore.exe /f
