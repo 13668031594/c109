@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Plan;
 use App\Http\Classes\Plan\AccountClass;
 use App\Http\Classes\Plan\ActClass;
 use App\Http\Classes\Plan\AutoClass;
+use App\Http\Classes\Plan\BuyOverClass;
 use App\Http\Classes\Plan\MatchClass;
 use App\Http\Classes\Plan\RobClass;
 use App\Http\Controllers\Controller;
@@ -25,6 +26,8 @@ class PlanController extends Controller
         new AutoClass();//自动排单
 
         new MatchClass();//执行订单匹配
+
+        new BuyOverClass();//订单收益完结
 
         \DB::commit();
     }

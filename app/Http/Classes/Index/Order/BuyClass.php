@@ -244,7 +244,7 @@ class BuyClass extends IndexClass
         $order->young_total = $data['total'];
         $order->young_days = $data['time'];
         $order->young_in_pro = $data['inPro'];
-        $order->young_in = number_format(($data['inPro'] * $data['total'] / 100), 2, '.', '');
+        $order->young_in = number_format(($data['inPro'] * $data['total'] * $data['time'] / 100), 2, '.', '');
         $order->young_amount = $data['amount'];
         $order->young_number = $data['number'];
         $order->young_poundage = $poundage;

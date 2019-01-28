@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('auto', 'BuyController@auto_index');//自主排单设置
         Route::post('auto', 'BuyController@auto_change');//修改自主排单设置
         Route::post('pay', 'BuyController@pay');//订单付款
+        Route::post('pay/{id}', 'BuyController@pay');//订单付款
 
         Route::get('sell-list', 'SellController@index');//卖单列表
         Route::get('sell/{id}', 'SellController@show');//订单详情

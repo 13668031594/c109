@@ -131,7 +131,7 @@ class RobClass extends PlanClass
         $order->young_amount = $rob->young_amount;
         $order->young_number = $rob->young_number;
         $order->young_poundage = $poundage;
-        $order->young_in = number_format(($rob->young_in_pro * $rob->young_total / 100), 2, '.', '');
+        $order->young_in = number_format(($rob->young_in_pro * $rob->young_total * $rob->young_time / 100), 2, '.', '');
         $order->young_name = $this->set['goodsName'];
         $order->young_first_total = number_format(($rob->young_total * $this->set['matchFirstPro'] / 100), 2, '.', '');
         $order->young_first_pro = $this->set['matchFirstPro'];

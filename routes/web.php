@@ -11,7 +11,9 @@
 |
 */
 Route::get('/', function () {
-    return view('welcome');
+    return view('test');
 });
+
+Route::post('test','Api\Order\BuyController@pay');
 
 Route::get('plan', 'Plan\PlanController@index');

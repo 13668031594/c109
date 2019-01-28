@@ -16,15 +16,24 @@ class AccountClass extends PlanClass
     {
         parent::__construct();
 
+        //满足注册不排单封号的
         $reg_ids = self::reg_ids();
 
+        //满足后台激活不排单封号的
         $act_ids = self::act_ids();
 
+        //所有id
         $stop_ids = array_merge($reg_ids, $act_ids);
 
-        if (count($stop_ids) <= 0)return;
+        //没有需要封号的
+        if (count($stop_ids) <= 0) return;
 
-//        $stop_ids
+        //去除重复的
+        $stop_ids = array_unique($stop_ids);
+
+        //修改状态
+        $model = new MemberModel();
+        $model->whereIn('uid', $stop_ids)->update(['young_status' => '30']);
     }
 
     //寻找自主注册，且打到封号标准的会员
