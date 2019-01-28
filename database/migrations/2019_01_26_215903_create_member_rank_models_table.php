@@ -14,6 +14,7 @@ class CreateMemberRankModelsTable extends Migration
     public function up()
     {
         Schema::create('member_rank_models', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('young_name')->comment('名称');
             $table->integer('young_sort')->comment('排序');

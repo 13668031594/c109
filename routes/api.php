@@ -65,7 +65,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::get('rob', 'RobController@index');//抢单申请列表
         Route::post('rob', 'RobController@store');//发送抢单申请
-        Route::post('rob-buy', 'RobController@buy');//抢到单后，下单列表
     });
 
     Route::group(['namespace' => 'Trad'], function () {

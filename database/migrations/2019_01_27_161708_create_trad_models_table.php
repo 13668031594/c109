@@ -14,6 +14,7 @@ class CreateTradModelsTable extends Migration
     public function up()
     {
         Schema::create('trad_models', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
 
             //基础

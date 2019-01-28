@@ -24,20 +24,11 @@ class RobController extends ApiController
         return parent::success($result);
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $this->classes->store();
-
-        return parent::success();
-    }
-
-    public function buy(Request $request)
-    {
-        $this->classes->validator_buy($request);
-
         \DB::beginTransaction();
 
-        $this->classes->buy($request);
+        $this->classes->store($request);
 
         \DB::commit();
 

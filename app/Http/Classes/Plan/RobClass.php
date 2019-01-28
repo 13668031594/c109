@@ -11,6 +11,7 @@ namespace App\Http\Classes\Plan;
 use App\Models\Member\MemberActModel;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
+use App\Models\Order\BuyOrderModel;
 use App\Models\Order\RobModel;
 use App\Models\Plan\PlanModel;
 
@@ -98,7 +99,9 @@ class RobClass extends PlanClass
         if (count($ids) <= 0) return;
 
         $model = new RobModel();
-        $model->whereIn('id', $ids)->where('young_status', '=', '10')->update(['young_status' => '20']);
+        $model->whereIn('id', $ids)->where('young_status', '=', '10')->update(['young_status' => '30']);
+
+        foreach ($ids as $v)self::store_buy($v);
     }
 
     //激活失败
@@ -108,5 +111,56 @@ class RobClass extends PlanClass
 
         $model = new RobModel();
         $model->whereIn('id', $ids)->where('young_status', '=', '10')->update(['young_status' => '30']);
+    }
+
+    public function store_buy($id)
+    {
+        $rob = RobModel::whereId($id)->first();
+
+        $member = MemberModel::whereUid($rob->uid)->first();
+        $poundage = $rob->young_poundage;
+
+        //新增订单信息
+        $order = new BuyOrderModel();
+        $order->young_order = $order->new_order();
+        $order->young_from = '30';//抢单
+        $order->uid = $member->uid;
+        $order->young_total = $rob->young_total;
+        $order->young_days = $rob->young_time;
+        $order->young_in_pro = $rob->young_in_pro;
+        $order->young_amount = $rob->young_amount;
+        $order->young_number = $rob->young_number;
+        $order->young_poundage = $poundage;
+        $order->young_in = number_format(($rob->young_in_pro * $rob->young_total / 100), 2, '.', '');
+        $order->young_name = $this->set['goodsName'];
+        $order->young_first_total = number_format(($rob->young_total * $this->set['matchFirstPro'] / 100), 2, '.', '');
+        $order->young_first_pro = $this->set['matchFirstPro'];
+        $order->young_tail_total = $order->young_total - $order->young_first_total;
+        $order->save();
+
+        //扣除会员手续费
+        $member = MemberModel::whereUid($member['uid'])->first();
+        $member->young_poundage -= $poundage;
+        if (is_null($member->young_first_buy_time)) {
+            $member->young_first_buy_time = DATE;
+            $member->young_first_buy_total = $rob->young_total;
+        }
+        $member->young_last_buy_time = DATE;
+        $member->young_last_buy_total = $rob->young_total;
+        $member->young_all_buy_total += $rob->young_total;
+        $member->save();
+
+        //添加钱包记录
+        $wallet = new MemberWalletModel();
+        $record = '抢单采集，订单号『' . $order->young_order . '』,扣除『' . $this->set['walletPoundage'] . '』' . $poundage;
+        $keyword = $order->young_order;
+        $change = ['poundage' => (0 - $poundage)];
+        $wallet->store_record($member, $change, 42, $record, $keyword);
+
+        //修改抢单记录
+        $rob->young_order = $order->young_order;
+        $rob->young_order_id = $order->id;
+        $rob->young_status = '50';
+        $rob->save();
     }
 }

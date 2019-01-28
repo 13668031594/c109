@@ -34,7 +34,7 @@ class RobClass extends IndexClass
     }
 
     //开始抢单
-    public function store()
+    public function store(Request $request)
     {
         $member = parent::get_member();//会员参数
 
@@ -75,37 +75,12 @@ class RobClass extends IndexClass
             ->first();
         if (!is_null($last)) parent::error_json('上一个抢单的订单尚未付完全款');
 
-        //满足抢单条件，生成抢单记录
-        $rob->uid = $member['uid'];
-        $rob->save();
-    }
-
-    public function validator_buy(Request $request)
-    {
-        $set = $this->set;//配置文件
-        $data = $request->post();//获取参数
-        $member = parent::get_member();//会员参数
-
-//        if ($member['mode'] != '20') parent::error_json('只有开启未防撞模式的会员才能参与抢单');
-
-        if ($set['buySwitch'] != 'on') parent::error_json('暂时无法采集');//手动采集开关
-
-        //寻找该会员的最后一个订单
-        $last = new BuyOrderModel();
-        $last = $last->where('uid', '=', $member['uid'])
-            ->where('young_from', '=', '30')
-            ->where('young_status', '<', '70')
-            ->orderBy('created_at', 'desc')
-            ->first();
-        if (!is_null($last)) parent::error_json('上一个抢单的订单尚未付完全款');
-
         //各项参数
         $time_lower = $set['goodsLower1'];
         $time_ceil = $set['goodsCeil1'];
         $number_max = $set['goodsTop1'];
 
         $term = [
-            'id|抢单记录' => 'required|exists:rob_models,id',
             'total|订单总价' => 'required|numeric|between:1,100000000',
             'amount|商品单价' => 'required|numeric|between:1,100000000',
             'number|采集数量' => 'required|integer|between:1,' . $number_max,
@@ -116,10 +91,7 @@ class RobClass extends IndexClass
 
         parent::validators_json($request->post(), $term);
 
-        $rob = RobModel::whereId($request->post('id'))->first();
-        if ($rob->uid != $member['uid']) parent::error_json('您没有这个权限');
-//        if ($rob->young_status != '20') parent::error_json('无法使用这次抢单采集');
-
+        $data = $request->post();
 
         switch ($member['type']) {
             case '20':
@@ -138,57 +110,15 @@ class RobClass extends IndexClass
         if ($data['total'] != ($data['amount'] * $data['number'])) parent::error_json('请刷新重试（total）');
         $top = self::top_order();
         if (($set['buyTotalUpSwitch'] == 'on') && ($data['total'] < $top)) parent::error_json('订单金额不得低于' . $top);
-    }
 
-    public function buy(Request $request)
-    {
-        $data = $request->post();
-        $member = parent::get_member();
-        $poundage = $data['poundage'] * $data['number'];
-
-        //新增订单信息
-        $order = new BuyOrderModel();
-        $order->young_order = $order->new_order();
-        $order->young_from = '30';//抢单
-        $order->uid = $member['uid'];
-        $order->young_total = $data['total'];
-        $order->young_days = $data['time'];
-        $order->young_in_pro = $data['inPro'];
-        $order->young_in = number_format(($data['inPro'] * $data['total'] / 100), 2, '.', '');
-        $order->young_amount = $data['amount'];
-        $order->young_number = $data['number'];
-        $order->young_poundage = $poundage;
-        $order->young_name = $this->set['goodsName'];
-        $order->young_first_total = number_format(($data['total'] * $this->set['matchFirstPro'] / 100), 2, '.', '');
-        $order->young_first_pro = $this->set['matchFirstPro'];
-        $order->young_tail_total = $order->young_total - $order->young_first_total;
-        $order->save();
-
-        //扣除会员手续费
-        $member = MemberModel::whereUid($member['uid'])->first();
-        $member->young_poundage -= $poundage;
-        if (is_null($member->young_first_buy_time)) {
-            $member->young_first_buy_time = DATE;
-            $member->young_first_buy_total = $data['total'];
-        }
-        $member->young_last_buy_time = DATE;
-        $member->young_last_buy_total = $data['total'];
-        $member->young_all_buy_total += $data['total'];
-        $member->save();
-
-        //添加钱包记录
-        $wallet = new MemberWalletModel();
-        $record = '抢单采集，订单号『' . $order->young_order . '』,扣除『' . $this->set['walletPoundage'] . '』' . $poundage;
-        $keyword = $order->young_order;
-        $change = ['poundage' => (0 - $poundage)];
-        $wallet->store_record($member, $change, 40, $record, $keyword);
-
-        //修改抢单记录
-        $rob = RobModel::whereId($request->post('id'))->first();
-        $rob->young_order = $order->young_order;
-        $rob->young_order_id = $order->id;
-        $rob->young_status = '50';
-//        dd($rob->young_order);
+        //满足抢单条件，生成抢单记录
+        $rob->uid = $member['uid'];
+        $rob->young_total = $data['total'];
+        $rob->young_time = $data['time'];
+        $rob->young_in_pro = $data['inPro'];
+        $rob->young_amount = $data['amount'];
+        $rob->young_number = $data['number'];
+        $rob->young_poundage = $poundage;
         $rob->save();
     }
 

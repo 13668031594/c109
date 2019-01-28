@@ -14,6 +14,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $young_order_id 下单的id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property float $young_total 总价
+ * @property float $young_amount 商品单价
+ * @property float $young_poundage 手续费
+ * @property float $young_in_pro 收益率
+ * @property int $young_number 采集数量
+ * @property int $young_time 收益时间
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel query()
@@ -21,9 +27,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereUid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereYoungAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereYoungInPro($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereYoungNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereYoungOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereYoungOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereYoungPoundage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereYoungStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereYoungTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\RobModel whereYoungTotal($value)
  * @mixin \Eloquent
  */
 class RobModel extends Model

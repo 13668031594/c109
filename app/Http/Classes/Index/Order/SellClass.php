@@ -229,6 +229,11 @@ class SellClass extends IndexClass
             $keyword = $order->young_order;
             $change = ['reward' => (0 - $data['total'])];
             $wallet->store_record($member, $change, 55, $record, $keyword);
+
+            $withdraw = new MemberWithdrawModel();
+            $withdraw->uid = $member['uid'];
+            $withdraw->young_reward = $data['total'];
+            $withdraw->save();
         }
 
 
