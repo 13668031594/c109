@@ -10,6 +10,7 @@ namespace App\Http\Classes\Plan;
 
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberRankModel;
+use App\Models\Member\MemberWalletModel;
 use App\Models\Order\BuyOrderModel;
 use App\Models\Plan\PlanModel;
 
@@ -27,7 +28,7 @@ class WageClass extends PlanClass
 
         //今天几号
         $day = date('d');
-        $day = 5;
+
         //5号和20号发工资
         if (($day != '5') && ($day != '20')) return;
 
@@ -67,9 +68,25 @@ class WageClass extends PlanClass
         }
 
         //循环订单，组合工资发放数组
+        self::group_wage();
 
+        //每人可以发
+        if (empty($this->wage)) {
 
-        dd('123');
+            $record = '没有人满足工资发放条件，工资发放为0';
+            self::store_plan($record);
+            return;
+        }
+
+        //添加钱包变更记录
+        self::insert_wallet($day);
+
+        //修改会员资料
+        self::update_member();
+
+        //发放完毕
+        $record = '本次发放工资：' . array_sum($this->wallet) . '，发放人数：' . count($this->wallet);
+        self::store_plan($record);
     }
 
     //添加本次激活记录
@@ -131,7 +148,7 @@ class WageClass extends PlanClass
     public function rank()
     {
         $rank = new MemberRankModel();
-        $rank = $rank->where('young_wage', '>', 0)->orderBy('young_sort', 'asc')->all(['id', 'young_wage']);
+        $rank = $rank->where('young_wage', '>', 0)->orderBy('young_sort', 'asc')->get(['id', 'young_wage']);
 
         if (count($rank) <= 0) return;
 
@@ -144,6 +161,7 @@ class WageClass extends PlanClass
 
             //寻找会员
             $member = MemberModel::whereUid($k)->first();
+            $member->young_families = '1,2,3,4';
             if (is_null($member) || empty($member->young_families)) return;
 
             //寻找参与发放工资的上级
@@ -152,8 +170,9 @@ class WageClass extends PlanClass
             $families = $families->whereIn('uid', $referee_ids)//是上级
             ->whereIn('young_rank_id', array_keys($this->rank))//属于参与分佣的等级
             ->where('young_status', '!=', '30')//没有被封停
+            ->orderBy('young_rank_id', 'asc')//由近及远
             ->orderBy('uid', 'desc')//由近及远
-            ->all();
+            ->get();
 
             //没有上级，下一个
             if (empty($families)) continue;
@@ -201,7 +220,13 @@ class WageClass extends PlanClass
                     $this->wage[$va->uid] = [
                         'uid' => $va->uid,
                         'young_reward' => $va->young_reward,
-                        'young_reward_all' => $va->young_reward_all
+                        'young_reward_all' => $va->young_reward_all,
+                        'young_balance' => $va->young_balance,
+                        'young_balance_all' => $va->young_balance_all,
+                        'young_gxd' => $va->young_gxd,
+                        'young_gxd_all' => $va->young_gxd_all,
+                        'young_poundage' => $va->young_poundage,
+                        'young_poundage_all' => $va->young_poundage_all,
                     ];
                 }
 
@@ -215,6 +240,50 @@ class WageClass extends PlanClass
                 //修改记录中的奖励钱包变更数
                 $this->wallet[$va->uid] += $wage;
             }
+        }
+    }
+
+    //修改会员记录
+    private function update_member()
+    {
+        parent::table_update('member_models', $this->wage,'uid');
+    }
+
+    //添加工资发放记录
+    private function insert_wallet($day)
+    {
+        $insert = [];
+
+        foreach ($this->wallet as $k => $v) {
+
+            $member = $this->wage[$k];
+
+            $i['uid'] = $member['uid'];
+            $i['young_type'] = '91';
+            $i['young_record'] = '每月' . $day . '日工资发放，本次发放：' . $v;
+            $i['young_keyword'] = '';
+            $i['young_balance'] = 0;
+            $i['young_balance_all'] = $member['young_balance_all'];
+            $i['young_balance_now'] = $member['young_balance'];
+            $i['young_poundage'] = 0;
+            $i['young_poundage_all'] = $member['young_poundage_all'];
+            $i['young_poundage_now'] = $member['young_poundage'];
+            $i['young_gxd'] = 0;
+            $i['young_gxd_all'] = $member['young_gxd_all'];
+            $i['young_gxd_now'] = $member['young_gxd'];
+            $i['young_reward'] = $v;
+            $i['young_reward_all'] = $member['young_reward_all'];
+            $i['young_reward_now'] = $member['young_reward'];
+            $i['created_at'] = DATE;
+            $i['updated_at'] = DATE;
+
+            $insert[] = $i;
+        }
+
+        if (count($insert) > 0) {
+
+            $model = new MemberWalletModel();
+            $model->insert($insert);
         }
     }
 }

@@ -102,10 +102,22 @@ class MatchOrderModel extends Model
         //尝试完结挂售订单
         self::over_sell($match);
 
+        //修改订单状态
         $buy = BuyOrderModel::whereId($match->young_buy_id)->first();
         $buy->young_status = 40;//修改到等待尾款匹配状态
         $buy->young_first_end = DATE;//修改首付款完结时间
         $buy->save();
+
+        //将上一个订单解冻
+        $model = new BuyOrderModel();
+        $model->where('uid','=',$buy->uid)
+            ->where('young_status','=','75')
+            ->where('young_from','<>','20')
+            ->update(['young_status' => '80']);
+        $model->where('uid','=',$buy->uid)
+            ->where('young_status','=','75')
+            ->where('young_from','=','20')
+            ->update(['young_status' => '79']);
     }
 
     //完结购买订单
