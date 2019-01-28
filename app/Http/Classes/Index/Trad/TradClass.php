@@ -24,7 +24,8 @@ class TradClass extends IndexClass
 
         ];
 
-        if (request()->get('id')) $where[] = ['young_sell_uid', '=', $member['uid']];
+        if (request()->get('sell_id')) $where[] = ['young_sell_uid', '=', $member['uid']];
+        if (request()->get('buy_id')) $where[] = ['young_buy_uid', '=', $member['uid']];
 
         $other = [
             'where' => $where,
