@@ -18,7 +18,7 @@ class PlanController extends Controller
     {
         \DB::beginTransaction();
 
-//        new WageClass();//发工资
+        new WageClass();//发工资
 
         new AccountClass();//封号操作
 

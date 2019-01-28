@@ -19,6 +19,7 @@ class WageClass extends PlanClass
     private $order_poundage;//订单支付的手续费
     private $rank;//参与发工资的等级
     private $wage;//工资发放表
+    private $wallet;//工资发放记录
 
     public function __construct()
     {
@@ -194,7 +195,25 @@ class WageClass extends PlanClass
                 //没有可发工资，下一个
                 if ($wage <= 0) continue;
 
+                //初始化会员变更数组中的数据
+                if (!isset($this->wage[$va->uid])) {
 
+                    $this->wage[$va->uid] = [
+                        'uid' => $va->uid,
+                        'young_reward' => $va->young_reward,
+                        'young_reward_all' => $va->young_reward_all
+                    ];
+                }
+
+                //初始化会员钱包变更数组中的数据
+                if (!isset($this->wallet[$va->uid])) $this->wallet[$va->uid] = 0;
+
+                //修改会员奖励抢包
+                $this->wage[$va->uid]['young_reward'] += $wage;
+                $this->wage[$va->uid]['young_reward_all'] += $wage;
+
+                //修改记录中的奖励钱包变更数
+                $this->wallet[$va->uid] += $wage;
             }
         }
     }

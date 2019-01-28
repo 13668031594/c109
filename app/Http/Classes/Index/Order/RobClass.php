@@ -48,7 +48,7 @@ class RobClass extends IndexClass
         $begin = parent::set_time($this->set['robStartTime']);
         $end = parent::set_time($this->set['robEndTime']);
         $now = time();
-        if (($now < $begin) || ($now > $end)) parent::error_json('请在每天 ' . $this->set['payStart'] . ' 至 ' . $this->set['payEnd'] . ' 参与抢单');
+        if (($now < $begin) || ($now > $end)) parent::error_json('请在每天 ' . $this->set['robStartTime'] . ' 至 ' . $this->set['robEndTime'] . ' 参与抢单');
 
         //抢单模型
         $rob = new RobModel();
