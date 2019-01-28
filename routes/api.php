@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('sell', 'SellController@create');//卖单设置
         Route::post('sell', 'SellController@store');//下挂卖订单
         Route::get('pay/{id}', 'SellController@confirm');//确认付款
+        Route::get('abn/{id}', 'SellController@abn');//报告收款异常
 
         Route::get('rob', 'RobController@index');//抢单申请列表
         Route::post('rob', 'RobController@store');//发送抢单申请

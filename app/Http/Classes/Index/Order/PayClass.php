@@ -12,6 +12,7 @@ use App\Http\Classes\Index\IndexClass;
 use App\Http\Traits\ImageTrait;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
+use App\Models\Order\BuyOrderModel;
 use App\Models\Order\MatchOrderModel;
 use Illuminate\Http\Request;
 
@@ -142,5 +143,37 @@ class PayClass extends IndexClass
 
         //触发付款完结后的一系列操作
         $match->match_end($id);
+    }
+
+    //确认付款
+    public function abn($id)
+    {
+        $begin = parent::set_time($this->set['inStart']);
+        $end = parent::set_time($this->set['inEnd']);
+        $now = time();
+        if (($now < $begin) || ($now > $end)) parent::error_json('请在每天 ' . $this->set['inStart'] . ' 至 ' . $this->set['inEnd'] . ' 报告异常');
+
+        //获取会员
+        $member = parent::get_member();
+
+        //获取匹配订单
+        $match = MatchOrderModel::whereId($id)->first();
+
+        if (is_null($match)) parent::error_json('未找到该匹配订单');
+
+        //判断归属人
+        if ($match->young_sell_uid != $member['uid']) parent::error_json('只能修改自己的订单');
+
+        //判断订单状态
+        if (($match->young_status != '20') || ($match->young_abn != '10')) parent::error_json('该订单无法报告异常');
+
+        //保存并修改订单状态
+        $match->young_abn = 20;
+        $match->save();
+
+        //将响应母订单也报告异常
+        $buy = BuyOrderModel::whereId($match->young_buy_id)->first();
+        $buy->young_abn = 20;
+        $buy->save();
     }
 }

@@ -70,4 +70,13 @@ class SellController extends ApiController
 
         return parent::success();
     }
+
+    public function abn($id)
+    {
+        $class = new PayClass();
+
+        $class->abn($id);
+
+        return parent::success();
+    }
 }

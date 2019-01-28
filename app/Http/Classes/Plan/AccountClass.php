@@ -8,12 +8,61 @@
 
 namespace App\Http\Classes\Plan;
 
+use App\Models\Member\MemberModel;
+
 class AccountClass extends PlanClass
 {
     public function __construct()
     {
         parent::__construct();
 
+        $reg_ids = self::reg_ids();
 
+        $act_ids = self::act_ids();
+
+        $stop_ids = array_merge($reg_ids, $act_ids);
+
+        if (count($stop_ids) <= 0)return;
+
+//        $stop_ids
+    }
+
+    //寻找自主注册，且打到封号标准的会员
+    private function reg_ids()
+    {
+        if ($this->set['deleteIndexRegSwitch'] == 'off') return [];
+
+        if (empty($this->set['deleteIndexRegTime'])) $date = DATE;
+        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['deleteIndexRegTime'] . ' day'));
+
+        $model = new MemberModel();
+        $ids = $model->where('created_at', '<', $date)
+            ->where('young_first_buy_time', '=', null)
+            ->where('young_status', '<>', '30')
+            ->get(['uid'])
+            ->pluck('uid')
+            ->toArray();
+
+        return $ids;
+    }
+
+    //后台激活，未排单的
+    private function act_ids()
+    {
+        if ($this->set['deleteAdminActSwitch'] == 'off') return [];
+
+        if (empty($this->set['deleteAdminActTime'])) $date = DATE;
+        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['deleteAdminActTime'] . ' day'));
+
+        $model = new MemberModel();
+        $ids = $model->where('young_act_time', '<', $date)
+            ->where('young_first_buy_time', '=', null)
+            ->where('young_status', '<>', '30')
+            ->where('young_act_from', '=', '30')
+            ->get(['uid'])
+            ->pluck('uid')
+            ->toArray();
+
+        return $ids;
     }
 }

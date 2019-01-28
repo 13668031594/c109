@@ -44,8 +44,10 @@ class MatchClass extends PlanClass
             if ($v->young_status == '10') $_10[] = $v;
             if ($v->young_status == '40') $_40[] = $v;
         }
+
         //新会员首付款匹配
         self::match_10($_10);
+
         //新会员尾款匹配
         self::match_40($_40);
 
@@ -56,7 +58,7 @@ class MatchClass extends PlanClass
         self::match_10($first);
 
         //获取所有尾款订单
-        $tail = self::first_match($others);
+        $tail = self::tail_match($others);
 
         //匹配尾款
         self::match_40($tail);
@@ -117,6 +119,7 @@ WHERE b.uid = u.uid
 AND b.young_abn = 10
 AND b.young_status = 10
 AND b.created_at <= '{$date}'
+ORDER BY b.created_at ASC
 ";
         if (count($others) > 0) $sql .= "AND b.id NOT IN (" . implode(',', $others) . ")";
 
@@ -137,6 +140,7 @@ AND b.young_abn = 10
 AND b.young_status = 40
 AND b.created_at <= '{$date}'
 AND b.young_tail_complete < b.young_tail_total
+ORDER BY b.created_at ASC
 ";
         if (count($others) > 0) $sql .= "AND b.id NOT IN (" . implode(',', $others) . ")";
 
@@ -160,7 +164,7 @@ AND b.young_tail_complete < b.young_tail_total
                 //剩余卖出款不足
                 if ($this->remind <= 0) return;
 
-//                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
+                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
 
                 //卖出订单可以一次性付清首付款
                 if ($v->young_first_total <= $va->young_remind) {
@@ -231,7 +235,7 @@ AND b.young_tail_complete < b.young_tail_total
                 //买入订单已经全部匹配完成，进入下一个订单
                 if ($complete <= 0) break;
 
-//                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
+                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
 
                 //金额为买入订单首付款金额
                 $total = ($complete >= $va->young_remind) ? $va->young_remind : $complete;
