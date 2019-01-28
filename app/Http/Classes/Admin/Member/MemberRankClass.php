@@ -60,6 +60,7 @@ class MemberRankClass extends AdminClass implements ListInterface
         \DB::beginTransaction();
 
         $model = MemberRankModel::whereid($id)->first();
+
         $model->young_name = $request->post('name');
         $model->young_child = $request->post('child');
         $model->young_discount = $request->post('discount');

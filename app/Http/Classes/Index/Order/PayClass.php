@@ -40,7 +40,7 @@ class PayClass extends IndexClass
         $member = parent::get_member();
 
         //获取匹配订单
-        $match = MatchOrderModel::whereId(100)->first();
+        $match = MatchOrderModel::whereId($id)->first();
 
         if (is_null($match)) parent::error_json('未找到该匹配订单');
 
