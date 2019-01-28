@@ -61,7 +61,7 @@ class SellClass extends IndexClass
                 'id', 'young_buy_order as buyCode', 'young_sell_order as sellCode', 'young_total as amount', 'created_at',
                 'young_status', 'young_buy_nickname as to', 'young_pay_time as payTime', 'young_bank_name as bankName',
                 'young_bank_no as bankNo', 'young_bank_address as bankAddress', 'young_bank_man as bankUser', 'young_alipay',
-                'young_note as bankNote', 'young_sell_nickname as payee', 'young_buy_uid', 'young_abn'
+                'young_note as bankNote', 'young_sell_nickname as payee', 'young_buy_uid', 'young_abn', 'young_pay', 'young_pay_time'
             ],
         ];
 
@@ -70,10 +70,11 @@ class SellClass extends IndexClass
         $result = parent::list_all('match_order', $other);
         foreach ($result as &$v) {
 
-            $v['toReferee'] = MemberModel::whereUid($v['buy_uid'])->first()->young_referee_nickname;
-            unset($v['buy_uid']);
-            $v['payeeReferee'] = $member['referee_nickname'];
-
+            $v['payeeReferee'] = MemberModel::whereUid($v['sell_uid'])->first()->young_referee_nickname;
+            $v['toReferee'] = $member['referee_nickname'];
+            $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . '/' . $v['pay']);
+            unset($v['sell_uid']);
+            unset($v['pay']);
         }
 
         return $result;
