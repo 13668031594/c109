@@ -70,10 +70,10 @@ class SellClass extends IndexClass
         $result = parent::list_all('match_order', $other);
         foreach ($result as &$v) {
 
-            $v['payeeReferee'] = MemberModel::whereUid($v['sell_uid'])->first()->young_referee_nickname;
-            $v['toReferee'] = $member['referee_nickname'];
+            $v['toReferee'] = MemberModel::whereUid($v['buy_uid'])->first()->young_referee_nickname;
+            $v['payeeReferee'] = $member['referee_nickname'];
             $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . '/' . $v['pay']);
-            unset($v['sell_uid']);
+            unset($v['buy_uid']);
             unset($v['pay']);
         }
 
