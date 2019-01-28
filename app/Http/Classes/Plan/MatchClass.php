@@ -110,6 +110,7 @@ ORDER BY b.young_status ASC, b.created_at ASC
 
     private function first_match($others)
     {
+        $others = [1];
         $add = $this->set['matchFirstStart'];
         $str = empty($add) ? 'today' : '- ' . $add . 'day';
         $date = date('Y-m-d H:i:s', strtotime($str));
@@ -118,11 +119,11 @@ ORDER BY b.young_status ASC, b.created_at ASC
 WHERE b.uid = u.uid 
 AND b.young_abn = 10
 AND b.young_status = 10
-AND b.created_at <= '{$date}'
-ORDER BY b.created_at ASC
-";
-        if (count($others) > 0) $sql .= "AND b.id NOT IN (" . implode(',', $others) . ")";
+AND b.created_at <= '{$date}'";
+        if (count($others) > 0) $sql .= " AND b.id NOT IN (" . implode(',', $others) . ")";
 
+        $sql .= " ORDER BY b.created_at ASC";
+//dd($sql);
         $a = \DB::select($sql);
 
         return $a;
