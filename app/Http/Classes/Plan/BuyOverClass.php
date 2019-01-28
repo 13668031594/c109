@@ -21,20 +21,20 @@ class BuyOverClass extends PlanClass
         if ($today_w == '6') {
 
             //今天周六
-            self::week_6();
+            self::order_add(2);
         } elseif ($today_w == '0') {
 
             //今天周日
-            self::week_7();
+            self::order_add(1);
         } else {
 
             //工作日，修改状态
-            self::week_over();
+            self::order_over();
         }
     }
 
     //周六，今天到收益时间的，给增加收益
-    public function week_6()
+    public function order_add($add)
     {
         //寻找收益中，且完结时间小于等于今天的
         $buy = BuyOrderModel::whereYoungStatus('70')
@@ -49,37 +49,12 @@ class BuyOverClass extends PlanClass
 
         foreach ($buy as $v) {
 
-            $add_in = number_format(($v->young_in_pro * $v->young_total * 2 / 100), 2, '.', '');
+            $add_in = number_format(($v->young_in_pro * $v->young_total * $add / 100), 2, '.', '');
 
             $u['id'] = $v->id;
-            $u['young_in'] = $v['young_in'] = $add_in;
-
-            $update[] = $u;
-        }
-
-        if (count($update) > 0) parent::table_update('buy_order_models', $update);
-    }
-
-    //周日，今天到收益时间的，给增加收益
-    public function week_7()
-    {
-        //寻找收益中，且完结时间小于等于今天的
-        $buy = BuyOrderModel::whereYoungStatus('70')
-            ->where('young_in_over', '<=', date('Y-m-d 23:59:59'))
-            ->where('young_in_over', '>=', date('Y-m-d 00:00:00'))
-            ->get();
-
-        if (count($buy) <= 0) return;
-
-        //所有参与编辑的
-        $update = [];
-
-        foreach ($buy as $v) {
-
-            $add_in = number_format(($v->young_in_pro * $v->young_total / 100), 2, '.', '');
-
-            $u['id'] = $v->id;
-            $u['young_in'] = $v['young_in'] = $add_in;
+            $u['young_in'] = $v['young_in'] + $add_in;
+            $u['young_days'] = $v['young_days'] + $add;
+            $u['young_in_over'] = date('Y-m-d H:i:s', strtotime('+' . $add . ' day', strtotime($v['young_in_over'])));
 
             $update[] = $u;
         }
@@ -88,7 +63,7 @@ class BuyOverClass extends PlanClass
     }
 
     //工作日，正常完结订单
-    public function week_over()
+    public function order_over()
     {
         //寻找收益中，且完结时间小于等于今天的
         $buy = BuyOrderModel::whereYoungStatus('70')

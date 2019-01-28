@@ -99,6 +99,8 @@ class BuyController extends ApiController
     //订单付款
     public function pay(Request $request)
     {
+        \DB::beginTransaction();
+
         //支付类
         $class = new PayClass();
 
@@ -107,6 +109,8 @@ class BuyController extends ApiController
 
         //给予支付奖励
         $class->pay_reward();
+
+        \DB::commit();
 
         return parent::success();
     }

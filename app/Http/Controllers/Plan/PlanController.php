@@ -29,6 +29,8 @@ class PlanController extends Controller
 
         new BuyOverClass();//订单收益完结
 
+        //发放工资
+
         \DB::commit();
     }
 }
