@@ -83,4 +83,42 @@ class UserClass extends IndexClass
 
         MemberModel::whereUid($member['uid'])->update(['young_auto_buy' => $end]);
     }
+
+    public function family_binding(Request $request)
+    {
+        $member = parent::get_member();
+
+        if (!is_null($member['family_account'])) parent::error_json('您已经绑定过了');
+
+        $time = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding',time());
+
+//        if (!empty($time) && ($time > time())) parent::error_json('操作过于频繁');
+
+        //表单验证条件
+        $term = [
+            'account|账号' => 'required|between:6,24',
+            'password|密码' => 'required|between:6,24',
+        ];
+
+        parent::validators_json($request->post(), $term);
+
+        $url = "http://family-api.ythx123.com/c109?account={$request->post('account')}&password={$request->post('password')}";
+
+        $result = parent::url_get($url);
+
+        if ($result == 'fails') {
+
+            $fails = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding_fails',0);
+            $fails++;
+            \Cache::put($_SERVER["REMOTE_ADDR"] . 'family_binding_fails', $fails, 60);
+            if ($fails >= 3) \Cache::put($_SERVER["REMOTE_ADDR"] . 'family_binding', (time() + 60), 60);
+
+            parent::error_json('账号或密码输入错误');
+        }
+
+        $member = MemberModel::whereUid($member['uid'])->first();
+        $member->young_family_account = $request->post('account');
+        $member->young_family_binding = DATE;
+        $member->save();
+    }
 }

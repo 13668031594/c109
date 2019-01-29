@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 //        Route::get('auto', 'UserController@auto');//切换自动买单模式
 //        Route::get('wallet-type', 'UserController@wallet');//钱包变动类型
         Route::get('wallet', 'UserController@wallet_table');//钱包变更
+        Route::post('family', 'UserController@family_binding');//家谱绑定
     });
 
     Route::group(['namespace' => 'Team'], function () {

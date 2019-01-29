@@ -89,4 +89,12 @@ class UserController extends ApiController
 
         return parent::success($result);
     }
+
+    //绑定家谱账号
+    public function family_binding(Request $request)
+    {
+        $this->classes->family_binding($request);
+
+        return parent::success();
+    }
 }

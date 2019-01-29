@@ -21,6 +21,5 @@ class DefaultCustomer extends Seeder
             $model->young_text = '还未上线';
             $model->save();
         }
-
     }
 }

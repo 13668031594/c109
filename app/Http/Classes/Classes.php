@@ -176,4 +176,73 @@ class Classes
 
         throw new JsonException(json_encode($result));
     }
+
+    /**
+     * 访问url，get
+     *
+     * @param string $url
+     * @return mixed|string
+     */
+    protected function url_get($url)
+    {
+        //初始化一个curl会话
+        $ch = curl_init();
+        //初始化CURL回话链接地址，设置要抓取的url
+        curl_setopt($ch, CURLOPT_URL, $url);
+        //对认证证书来源的检查，FALSE表示阻止对证书的合法性检查
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        //从证书中检查SSL加密算法是否存在
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        //设置将获得的结果是否保存在字符串中还是输出到屏幕上，0输出，非0不输出
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        //执行请求，获取结果
+        $result = curl_exec($ch);
+        //关闭会话
+        curl_close($ch);
+
+        //反馈结果
+        return $result;
+    }
+
+    /**
+     * 访问url，post
+     *
+     * @param $url
+     * @param $post_data
+     * @param int $timeout
+     * @return mixed
+     */
+    protected function url_post($url, $post_data, $timeout = 5)
+    {
+        /*$ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        if ($post_data != '') {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+//            curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
+        }
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+//        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);//https路径必填参数
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);//https路径必填参数
+        curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1);//https路径必填参数
+        $file_contents = curl_exec($ch);
+        curl_close($ch);
+        return $file_contents;*/
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
 }
