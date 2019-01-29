@@ -277,7 +277,6 @@ class ApiLoginClass extends IndexClass
 //        $user_id = 'member_api-' . $user_id;
 
         $result = DB::table('oauth_access_tokens')
-            ->where('client_id', '=', env('CLIENT_ID_ADMIN'))
             ->where('user_id', '=', $user_id)
             ->get();
 
