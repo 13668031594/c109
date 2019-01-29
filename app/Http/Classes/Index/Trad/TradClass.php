@@ -23,11 +23,33 @@ class TradClass extends IndexClass
     {
         $member = parent::get_member();
 
-        $where = [
-        ];
+        $type = \request()->get('type');
 
-        if (request()->get('sell_id')) $where[] = ['young_sell_uid', '=', $member['uid']];
-        if (request()->get('buy_id')) $where[] = ['young_buy_uid', '=', $member['uid']];
+        if (is_null($type)) {
+
+            $where = [
+                ['young_status', '=', '10'],
+                ['young_sell_uid', '<>', $member['uid']]
+            ];
+        } else {
+
+            if ($type == '1') {
+
+                //我的挂售
+
+                $where = [
+                    ['young_sell_uid', '=', $member['uid']]
+                ];
+            } else {
+
+                //我的认购
+
+                $where = [
+                    ['young_buy_uid', '=', $member['uid']]
+                ];
+            }
+
+        }
 
         $other = [
             'where' => $where,
