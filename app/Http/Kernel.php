@@ -70,5 +70,8 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'cross' => \App\Http\Middleware\AllowCrossRequestMiddleware::class,//跨域中间件
+        'apiAct30' => \App\Http\Middleware\ApiMemberAct30::class,//必须激活
+        'apiStatus30' => \App\Http\Middleware\ApiMemberStatus30::class,//账号被封停
+        'apiStatus20' => \App\Http\Middleware\ApiMemberStatus20::class,//账号被冻结
     ];
 }

@@ -238,7 +238,13 @@ class ApiLoginClass extends IndexClass
         //验证通过
 
         //保存账号模型为变量
-        $member = \Auth::guard('web')->user();
+        $member = auth('api')->user();
+
+        if (is_null($member)) parent::error_json('登录失败(auth)');
+
+        //是否激活
+        if ($member->young_act != '30') parent::error_json('该账号尚未激活');
+        if ($member->young_status == '30') parent::error_json('该账号已被封停');
 
         //删除auth中的账号模型
         \Auth::logout();
