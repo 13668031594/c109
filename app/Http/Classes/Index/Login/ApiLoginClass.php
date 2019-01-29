@@ -401,4 +401,14 @@ class ApiLoginClass extends IndexClass
 
         return $result;
     }
+
+    public function version()
+    {
+        $set = self::set();
+
+        return [
+            'IOS' => $set['versionIos'],
+            'Android' => $set['versionAndroid'],
+        ];
+    }
 }

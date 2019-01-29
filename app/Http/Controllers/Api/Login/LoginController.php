@@ -63,7 +63,7 @@ class LoginController extends ApiController
 
         $result['set'] = $this->class->set();
 
-        $result['contrast'] = array_merge($result['contrast'],$this->class->contrast());
+        $result['contrast'] = array_merge($result['contrast'], $this->class->contrast());
 
         //返回状态码
         return parent::success($result);
@@ -90,8 +90,15 @@ class LoginController extends ApiController
             'contrast' => $model->arrays(),
         ];
 
-        $result['contrast'] = array_merge($result['contrast'],$this->class->contrast());
+        $result['contrast'] = array_merge($result['contrast'], $this->class->contrast());
 
         return parent::success($result);
+    }
+
+    public function version()
+    {
+        $version = $this->class->version();
+
+        return parent::success(['version' => $version]);
     }
 }
