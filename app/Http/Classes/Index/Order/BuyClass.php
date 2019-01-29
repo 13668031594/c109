@@ -83,7 +83,8 @@ class BuyClass extends IndexClass
                 'id', 'young_buy_order as buyCode', 'young_sell_order as sellCode', 'young_total as amount', 'created_at',
                 'young_status', 'young_buy_nickname as to', 'young_pay_time as payTime', 'young_bank_name as bankName',
                 'young_bank_no as bankNo', 'young_bank_address as bankAddress', 'young_bank_man as bankUser', 'young_alipay',
-                'young_note as bankNote', 'young_sell_nickname as payee', 'young_sell_uid', 'young_abn', 'young_pay', 'young_pay_time'
+                'young_note as bankNote', 'young_sell_nickname as payee', 'young_sell_uid', 'young_abn', 'young_pay',
+                'young_pay_time','young_order'
             ],
         ];
 

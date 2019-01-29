@@ -19,6 +19,7 @@ class MatchClass extends PlanClass
     private $match = [];//匹配订单添加数组
     private $buy_10 = [];//购买订单编辑数组
     private $buy_40 = [];//购买订单编辑数组
+    private $match_order;//匹配交易号
 
     public function __construct()
     {
@@ -33,6 +34,9 @@ class MatchClass extends PlanClass
 
         //获取新会员的快速匹配订单
         $new = self::new_member();
+
+        //计算交易号
+        self::match_order();
 
         $others = [];//排除id
         $_10 = [];//首付款匹配订单
@@ -110,13 +114,23 @@ ORDER BY b.young_status ASC, b.created_at ASC
         return $a;
     }
 
+    private function match_order()
+    {
+        $order = 100000;
+
+        $add = new MatchOrderModel();
+        $add = $add->count();
+
+        $this->match_order = ($order + $add + 1);
+    }
+
     private function first_match($others)
     {
         $add = $this->set['matchFirstStart'];
         $str = empty($add) ? 'today' : '- ' . $add . 'day';
         $date = date('Y-m-d H:i:s', strtotime($str));
 
-        $sql = "SELECT b.* FROM young_member_models as u,young_buy_order_models as b 
+        $sql = "SELECT b.*, u.young_nickname FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
 AND b.young_abn = 10
@@ -137,7 +151,7 @@ AND b.created_at <= '{$date}'";
         $str = empty($add) ? 'today' : '- ' . $add . 'day';
         $date = date('Y-m-d H:i:s', strtotime($str));
 
-        $sql = "SELECT b.* FROM young_member_models as u,young_buy_order_models as b 
+        $sql = "SELECT b.*, u.young_nickname FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
 AND b.young_abn = 10
@@ -168,7 +182,7 @@ AND b.young_tail_complete < b.young_tail_total";
                 //剩余卖出款不足
                 if ($this->remind <= 0) return;
 
-                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
+//                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
 
                 //卖出订单可以一次性付清首付款
                 if ($v->young_first_total <= $va->young_remind) {
@@ -239,7 +253,7 @@ AND b.young_tail_complete < b.young_tail_total";
                 //买入订单已经全部匹配完成，进入下一个订单
                 if ($complete <= 0) break;
 
-                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
+//                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
 
                 //金额为买入订单首付款金额
                 $total = ($complete >= $va->young_remind) ? $va->young_remind : $complete;
@@ -268,7 +282,9 @@ AND b.young_tail_complete < b.young_tail_total";
     //添加匹配订单
     private function match_add($buy, $sell, $total, $type)
     {
+//        dump($buy);
         $match = [
+            'young_order' => 'M' . $this->match_order,
             'young_total' => $total,
             'young_buy_id' => $buy->id,
             'young_buy_order' => $buy->young_order,
@@ -291,6 +307,8 @@ AND b.young_tail_complete < b.young_tail_total";
         ];
 
         $this->match[] = $match;
+
+        $this->match_order++;
     }
 
     private function all_change()
