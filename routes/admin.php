@@ -103,3 +103,15 @@ Route::group(['namespace' => 'Member'], function () {
     Route::get('/rank/delete', 'RankController@destroy')->name('rank.destroy');//管理员删除
 });
 
+//客服
+Route::group(['namespace' => 'Customer'], function () {
+
+    Route::get('/customer/index', 'CustomerController@index')->name('customer.index');//客服首页
+    Route::get('/customer/table', 'CustomerController@table')->name('customer.index');//客服列表
+    Route::get('/customer/create', 'CustomerController@create')->name('customer.create');//客服添加
+    Route::post('/customer/store', 'CustomerController@store')->name('customer.create');//客服添加
+    Route::get('/customer/edit', 'CustomerController@edit')->name('customer.edit');//客服编辑
+    Route::post('/customer/update/{id}', 'CustomerController@update')->name('customer.edit');//客服编辑
+    Route::get('/customer/delete', 'CustomerController@destroy')->name('customer.destroy');//客服删除
+});
+

@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
 //        $this->call(DefaultPrompt::class);
 //        $this->call(DefaultMemberAccount::class);
         $this->call(DefaultMemberRank::class);
+        $this->call(DefaultCustomer::class);
     }
 }

@@ -82,6 +82,7 @@
                         <!--<dd><a href="javascript:;" data-menu='/admin/member_grade/index'><i class="layui-icon layui-icon-set-sm"></i> 等级管理</a></dd>-->
                         <dd><a href="javascript:;" data-menu='/admin/member/index'><i class="layui-icon layui-icon-user"></i> 会员列表</a></dd>
                         <dd><a href="javascript:;" data-menu='/admin/rank/index'><i class="layui-icon layui-icon-file"></i> 等级列表</a></dd>
+                        <dd><a href="javascript:;" data-menu='/admin/customer/index'><i class="layui-icon layui-icon-file"></i> 客服列表</a></dd>
                     </dl>
                 </li>
                 <!--<li class="layui-nav-item layui-nav-itemed">
@@ -102,14 +103,14 @@
                         <!--<dd><a href="javascript:;" data-menu='/admin/send/bat'><i class="layui-icon layui-icon-util"></i> 批量发货</a></dd>-->
                     </dl>
                 </li>
-                <li class="layui-nav-item layui-nav-itemed">
+                {{--<li class="layui-nav-item layui-nav-itemed">
                 <a class="" href="javascript:;"><i class="layui-icon layui-icon-layouts"></i> 统计</a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" data-menu='/admin/bill/total'><i class="layui-icon layui-icon-spread-left"></i> 销售额</a></dd>
                     <dd><a href="javascript:;" data-menu='/admin/bill/member'><i class="layui-icon layui-icon-spread-left"></i> 会员新增</a></dd>
                     <dd><a href="javascript:;" data-menu='/admin/bill/withdraw'><i class="layui-icon layui-icon-spread-left"></i> 会员新增</a></dd>
                 </dl>
-                </li>
+                </li>--}}
 
             </ul>
         </div>

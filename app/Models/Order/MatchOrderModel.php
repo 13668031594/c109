@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $young_abn 异常
  * @property string $young_type 类型
  * @property string|null $young_pay_time 打款时间
+ * @property string|null $young_order 交易号
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\MatchOrderModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\MatchOrderModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\MatchOrderModel query()
@@ -53,6 +54,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\MatchOrderModel whereYoungBuyOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\MatchOrderModel whereYoungBuyUid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\MatchOrderModel whereYoungNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\MatchOrderModel whereYoungOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\MatchOrderModel whereYoungPay($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\MatchOrderModel whereYoungPayTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\MatchOrderModel whereYoungSellId($value)
