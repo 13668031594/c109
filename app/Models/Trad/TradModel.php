@@ -22,17 +22,31 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $young_pay 支付凭证
  * @property float $young_poundage 手续费
+ * @property int|null $young_bank_id 银行id
+ * @property string|null $young_bank_name 银行名称
+ * @property string|null $young_bank_address 支行
+ * @property string|null $young_bank_no 银行卡号
+ * @property string|null $young_bank_man 收款人姓名
+ * @property string|null $young_alipay 支付宝
+ * @property string|null $young_note 备注
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungAlipay($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungBankAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungBankId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungBankMan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungBankName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungBankNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungBuyNickname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungBuyUid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungGxd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungPay($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungPayTime($value)

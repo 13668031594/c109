@@ -87,6 +87,18 @@ class TradClass extends IndexClass
         parent::validators_json($request->post(), $term);
 
         $member = parent::get_member();
+        if (empty($member['bank_no']) ||
+            empty($member['bank_man'])
+        ) parent::error_json('请先完善收款信息');
+
+        if (empty($member['alipay'])) {
+
+            if (empty($member['bank_id']) ||
+                empty($member['bank_name']) ||
+                empty($member['bank_address'])
+            ) parent::error_json('请先完善收款信息');
+        }
+
         $data = $request->post();
         $set = $this->set;
         if ($data['gxd'] < $set['consignBase']) parent::error_json('挂售金额不得低于' . $set['consignBase']);
@@ -106,6 +118,13 @@ class TradClass extends IndexClass
         $model->young_balance = $data['balance'];
         $model->young_amount = $amount;
         $model->young_poundage = $poundage;
+        $model->young_bank_id = $member['bank_id'] ?? null;
+        $model->young_bank_name = $member['bank_name'] ?? null;
+        $model->young_bank_address = $member['bank_address'] ?? null;
+        $model->young_bank_no = $member['bank_no'] ?? null;
+        $model->young_bank_man = $member['bank_man'] ?? null;
+        $model->young_alipay = $member['alipay'] ?? null;
+        $model->young_note = $member['note'] ?? null;
         $model->save();
 
         //扣除会员钱包
