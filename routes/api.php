@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth:api', 'apiAct30','apiStatus30']], function 
         Route::get('reg/{phone}', 'TeamController@sms')->middleware('apiStatus20');//短信验证
         Route::post('reg', 'TeamController@reg')->middleware('apiStatus20');//添加新的账号
         Route::get('act/{uid}', 'TeamController@act')->middleware('apiStatus20');//抢激活
+        Route::post('hosting', 'TeamController@hosting')->middleware('apiStatus20');//切换到会员
     });
 
     Route::group(['namespace' => 'Order'], function () {

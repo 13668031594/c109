@@ -32,5 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::tokensExpireIn(Carbon::now()->addDays(env('ACCESS_TOKEN_DAYS', '15')));
 
         Passport::refreshTokensExpireIn(Carbon::now()->addDays(env('REFRESH_TOKEN_DAYS', '30')));
+
+        Passport::enableImplicitGrant();
     }
 }

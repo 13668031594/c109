@@ -241,8 +241,6 @@ class ApiLoginClass extends IndexClass
         $member = auth('api')->user();
 
         if (is_null($member)) parent::error_json('登录失败(auth)');
-
-        //是否激活
         if ($member->young_act != '30') parent::error_json('该账号尚未激活');
         if ($member->young_status == '30') parent::error_json('该账号已被封停');
 
