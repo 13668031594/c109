@@ -71,8 +71,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['namespace' => 'Trad'], function () {
 
         Route::get('trad', 'TradController@index');//列表
-        Route::get('trad/{id}', 'TradController@buy');//购买
         Route::post('trad', 'TradController@sell');//卖出
+        Route::get('trad-buy/{id}', 'TradController@buy');//认购
+        Route::post('trad-buy/{id}', 'TradController@pay');//支付
+        Route::get('trad/{id}', 'TradController@over');//确认
+
 
     });
 });

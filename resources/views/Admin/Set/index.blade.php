@@ -40,6 +40,8 @@
                 <li>收款设置</li>
                 <li>奖励钱包</li>
                 <li>账号状态</li>
+                <li>挂售设置</li>
+                <li>版本更新</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
@@ -911,6 +913,66 @@
                                        class="layui-input">
                             </div>
                             <div class="layui-form-mid layui-word-aux">永久动态的下单金额要求</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">挂售基数</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="consignBase" title="挂售基数" lay-filter="numberZ"
+                                       placeholder="挂售基数" autocomplete="off" value="{{$self['consignBase']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">挂售金额不得低于此数</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">挂售倍数</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="consignTimes" title="挂售倍数" lay-filter="numberZ"
+                                       placeholder="挂售倍数" autocomplete="off" value="{{$self['consignTimes']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">挂售金额必须为此数的正整数倍</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">手续费</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="consignPoundage" title="手续费" lay-filter="number"
+                                       placeholder="手续费" autocomplete="off" value="{{$self['consignPoundage']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">手续相当于此数百分比的手续费</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">IOS版本</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="versionIos" title="IOS版本" required
+                                       placeholder="IOS版本" autocomplete="off" value="{{$self['versionIos']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">IOS的APP版本</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">安卓版本</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="versionAndroid" title="安卓版本" required
+                                       placeholder="安卓版本" autocomplete="off" value="{{$self['versionAndroid']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">安卓的APP版本</div>
                         </div>
                     </div>
 

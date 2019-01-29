@@ -63,7 +63,7 @@ class AutoClass extends PlanClass
                 if ($last->young_status < 70) continue;
 
                 //计算下次下单时间
-                $begin = strtotime('+ ' . $last->young_days . 'day', strtotime($last->created_at));
+                $begin = strtotime('+' . $last->young_days . ' day', strtotime($last->created_at));
 
                 //预算时间未到
                 if ($begin <= time()) continue;

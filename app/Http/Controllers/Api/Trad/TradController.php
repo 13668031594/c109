@@ -23,6 +23,7 @@ class TradController extends ApiController
         return parent::success($result);
     }
 
+    //卖出
     public function sell(Request $request)
     {
         $this->classes->store($request);
@@ -30,9 +31,26 @@ class TradController extends ApiController
         return parent::success();
     }
 
+    //认购
     public function buy($id)
     {
         $this->classes->buy($id);
+
+        return parent::success();
+    }
+
+    //支付
+    public function pay($id, Request $request)
+    {
+        $this->classes->pay($id, $request);
+
+        return parent::success();
+    }
+
+    //确认
+    public function over($id)
+    {
+        $this->classes->over($id);
 
         return parent::success();
     }

@@ -36,7 +36,7 @@ class BuyClass extends IndexClass
             'orderBy' => [
                 'created_at' => 'desc'
             ],
-            'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number', 'young_abn'],
+            'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number', 'young_abn','young_in_over'],
         ];
 
         $result = parent::list_page('buy_order', $other);
@@ -397,14 +397,14 @@ class BuyClass extends IndexClass
 
         if ($buy->uid != $member['uid']) parent::error_json('只能提现自己的订单');
 
-        if (($buy->young_status != 76) && ($buy->young_status != 80)) parent::error_json('此订单还不能提现');
+        if (($buy->young_status != 79) && ($buy->young_status != 80)) parent::error_json('此订单还不能提现');
 
-        if (($buy->young_status == 76) && ($member['poundage'] < $buy->young_poundage) && ($this->set['buyPoundageNone'] != 'on')) parent::error_json('请先充值手续费为正数');
+        if (($buy->young_status == 79) && ($member['poundage'] < $buy->young_poundage) && ($this->set['buyPoundageNone'] != 'on')) parent::error_json('请先充值手续费为正数');
 
         $member = MemberModel::whereUid($member['uid'])->first();
         $change = [];
         $record = '';
-        if ($buy->young_status == 76) {
+        if ($buy->young_status == 79) {
 
             $member->young_poundage -= $buy->young_poundage;
 

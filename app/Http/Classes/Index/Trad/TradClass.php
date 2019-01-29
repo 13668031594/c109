@@ -9,6 +9,7 @@
 namespace App\Http\Classes\Index\Trad;
 
 use App\Http\Classes\Index\IndexClass;
+use App\Http\Traits\ImageTrait;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Trad\TradModel;
@@ -16,12 +17,13 @@ use Illuminate\Http\Request;
 
 class TradClass extends IndexClass
 {
+    use ImageTrait;
+
     public function index()
     {
         $member = parent::get_member();
 
         $where = [
-
         ];
 
         if (request()->get('sell_id')) $where[] = ['young_sell_uid', '=', $member['uid']];
@@ -32,6 +34,7 @@ class TradClass extends IndexClass
             'orderBy' => [
                 'young_status' => 'asc',
                 'young_amount' => 'asc',
+                'created_at' => 'desc',
             ],
         ];
 
@@ -51,8 +54,12 @@ class TradClass extends IndexClass
 
         $member = parent::get_member();
         $data = $request->post();
-
-        if ($member['gxd'] < $data['gxd']) parent::error_json($this->set['walletGxd'] . '不足');
+        $set = $this->set;
+        if ($data['gxd'] < $set['consignBase']) parent::error_json('挂售金额不得低于' . $set['consignBase']);
+        if (($data['gxd'] % $set['consignTimes']) != '0') parent::error_json('挂售金额必须是『' . $set['consignTimes'] . '』的正整数倍');
+        $poundage = empty($set['consignPoundage']) ? 0 : number_format(($data['gxd'] * $set['consignPoundage'] / 100), 2, '.', '');
+        $all = $data['gxd'] + $poundage;
+        if ($member['gxd'] < $all) parent::error_json($this->set['walletGxd'] . '不足，共需：' . $all);
 
         $amount = number_format(($data['gxd'] / $data['balance']), 8, '.', '');
         if ($amount <= 0) parent::error_json('单价过低，不得超过小数点后8位');
@@ -68,59 +75,99 @@ class TradClass extends IndexClass
 
         //扣除会员钱包
         $member = MemberModel::whereUid($member['uid'])->first();
-        $member->young_gxd -= $data['gxd'];
+        $member->young_gxd -= $all;
         $member->save();
 
         //添加钱包记录
         $wallet = new MemberWalletModel();
         $record = $this->set['walletGxd'] . '卖出，订单号『' . $model->young_order . '』,扣除『' . $this->set['walletGxd'] . '』' . $data['gxd'];
+        if (!empty($poundage)) $record .= '，支付手续费：' . $poundage;
         $keyword = $model->young_order;
-        $change = ['gxd' => (0 - $data['gxd'])];
+        $change = ['gxd' => (0 - $all)];
         $wallet->store_record($member, $change, 90, $record, $keyword);
     }
 
+    //认购订单
     public function buy($id)
     {
         $trad = TradModel::whereId($id)->first();
         if (is_null($trad)) parent::error_json('订单不存在');
 
-        $member = parent::get_member();
-        if ($trad->young_sell_uid == $member['uid']) parent::error_json('不能购买自己的订单');
+        if ($trad->young_status != '10') parent::error_json('不能认购');
 
-        if ($member['balance'] < $trad->young_balance) parent::error_json($this->set['walletBalance'] . '不足');
+        $member = parent::get_member();
+//        if ($trad->young_sell_uid == $member['uid']) parent::error_json('不能认购自己的订单');
+
+        $trad->young_status = '20';
+        $trad->young_buy_uid = $member['uid'];
+        $trad->young_buy_nickname = $member['nickname'];
+        $trad->save();
+    }
+
+    //提交付款凭证
+    public function pay($id, Request $request)
+    {
+        $term = [
+            'image|支付凭证' => 'required|image|max:1024',
+        ];
+
+        parent::validators_json($request->all(), $term);
+
+        //获取会员
+        $member = parent::get_member();
+
+        $trad = TradModel::whereId($id)->first();
+        if (is_null($trad)) parent::error_json('订单不存在');
+
+        //判断归属人
+        if ($trad->young_buy_uid != $member['uid']) parent::error_json('只能支付自己的订单');
+
+        //判断订单状态
+        if (!in_array($trad->young_status, [20, 30])) parent::error_json('订单无法付款');
+
+        //保存付款凭证
+        $images = $request->file('image')->store('public/Trad');
+        //获取图片地址
+        $new = $this->cut($images, 400, 'public/Trad/' . $id);
+        $url = \Storage::url($new);
+//        $url = '123';
+        //保存并修改订单状态
+        $trad->young_pay = $url;
+        $trad->young_pay_time = DATE;
+        $trad->young_status = '30';
+        $trad->save();
+    }
+
+    //确认收款
+    public function over($id)
+    {
+        $trad = TradModel::whereId($id)->first();
+        if (is_null($trad)) parent::error_json('订单不存在');
+
+        if ($trad->young_status != '30') parent::error_json('不能完结此订单');
+
+        $member = parent::get_member();
+        if ($trad->young_sell_uid != $member['uid']) parent::error_json('只能确认自己的订单');
+
+        $buy = MemberModel::whereUid($trad->young_buy_uid)->first();
 
         //修改订单状态
         $trad->young_status = 50;
-        $trad->young_buy_uid = $member['uid'];
-        $trad->young_buy_nickname = $member['nickname'];
-        $trad->young_pay_time = DATE;
         $trad->save();
 
-        //扣除会员钱包
-        $member = MemberModel::whereUid($member['uid'])->first();
-        $member->young_balance -= $trad->young_balance;
+        //加会员钱包
+        $member = MemberModel::whereUid($buy->uid)->first();
         $member->young_gxd += $trad->young_gxd;
         $member->young_gxd_all += $trad->young_gxd;
         $member->save();
 
         //添加钱包记录
         $wallet = new MemberWalletModel();
-        $record = $this->set['walletGxd'] . '买入，订单号『' . $trad->young_order . '』,扣除『' . $this->set['walletBalance'] . '』' . $trad->young_balance . '，获得『' . $this->set['walletGxd'] . '』' . $trad->young_gxd;
+        $record = $this->set['walletGxd'] . '买入，订单号『' . $trad->young_order . '』，获得『' . $this->set['walletGxd'] . '』' . $trad->young_gxd;
         $keyword = $trad->young_order;
-        $change = ['gxd' => $trad->young_gxd, 'balance' => (0 - $trad->young_balance)];
-        $wallet->store_record($member, $change, 90, $record, $keyword);
-
-        //扣除会员钱包
-        $member = MemberModel::whereUid($trad->young_sell_uid)->first();
-        $member->young_balance += $trad->young_balance;
-        $member->young_balance_all += $trad->young_balance;
-        $member->save();
-
-        //添加钱包记录
-        $wallet = new MemberWalletModel();
-        $record = $this->set['walletGxd'] . '卖出成功，订单号『' . $trad->young_order . '』,获得『' . $this->set['walletBalance'] . '』' . $trad->young_balance;
-        $keyword = $trad->young_order;
-        $change = ['balance' => $trad->young_balance];
+        $change = ['gxd' => $trad->young_gxd];
         $wallet->store_record($member, $change, 90, $record, $keyword);
     }
+
+
 }

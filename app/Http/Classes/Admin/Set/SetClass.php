@@ -170,6 +170,13 @@ class SetClass extends AdminClass
             'typeAllNum|永动状态推荐人数' => 'required|integer|between:1,100000000',//永动状态推荐人数
             'typeAllTotal|永动状态推荐人买单金额' => 'required|integer|between:1,100000000',//永动状态推荐人买单金额
             'typeOld|成为老会员时间' => 'required|integer|between:1,100000000',//成为老会员时间
+            //挂售设置
+            'consignBase|挂售基数' => 'required|integer|between:1,100000000',
+            'consignTimes|挂售倍数' => 'required|integer|between:1,100000000',
+            'consignPoundage|挂售手续费' => 'required|numeric|between:0,100',
+            //在线更新
+            'versionIos|IOS版本' => 'required|string|max:20',
+            'versionAndroid|安卓版本' => 'required|string|max:20',
         ];
 
         parent::validators_json($request->post(), $rule);
@@ -280,6 +287,13 @@ class SetClass extends AdminClass
             'typeAllNum' => '3',//永动状态推荐人数
             'typeAllTotal' => '3000',//永动状态推荐人买单金额
             'typeOld' => '90',//判断成为老会员的时间
+            //挂售设置
+            'consignBase' => '100',
+            'consignTimes' => '100',
+            'consignPoundage' => '15',
+            //在线更新
+            'versionIos' => '1.0.1',
+            'versionAndroid' => '1.0.1',
         ];
     }
 

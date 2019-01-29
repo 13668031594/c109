@@ -48,14 +48,14 @@ class MatchClass extends PlanClass
         //新会员首付款匹配
         self::match_10($_10);
 
-        //新会员尾款匹配
-        self::match_40($_40);
-
         //获取所有首付款匹配订单
         $first = self::first_match($others);
 
         //首付款匹配
         self::match_10($first);
+
+        //新会员尾款匹配
+        self::match_40($_40);
 
         //获取所有尾款订单
         $tail = self::tail_match($others);
@@ -78,6 +78,7 @@ class MatchClass extends PlanClass
     {
         $sql = "SELECT s.*,u.young_nickname FROM young_sell_order_models as s,young_member_models as u 
 WHERE young_remind > 0 
+AND u.young_status = 10
 AND s.uid = u.uid 
 AND s.young_status = 10
 ORDER BY young_remind ASC,created_at ASC 
@@ -96,6 +97,7 @@ ORDER BY young_remind ASC,created_at ASC
 
         $sql = "SELECT b.* , u.young_nickname FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
+AND u.young_status = 10
 AND (SELECT COUNT('*') FROM young_buy_order_models WHERE uid = u.uid) <= {$number}
 AND b.young_abn = 10
 AND b.young_status in (10,40)
@@ -110,19 +112,19 @@ ORDER BY b.young_status ASC, b.created_at ASC
 
     private function first_match($others)
     {
-        $others = [1];
         $add = $this->set['matchFirstStart'];
         $str = empty($add) ? 'today' : '- ' . $add . 'day';
         $date = date('Y-m-d H:i:s', strtotime($str));
 
         $sql = "SELECT b.* FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
+AND u.young_status = 10
 AND b.young_abn = 10
 AND b.young_status = 10
 AND b.created_at <= '{$date}'";
         if (count($others) > 0) $sql .= " AND b.id NOT IN (" . implode(',', $others) . ")";
 
-        $sql .= " ORDER BY b.created_at ASC";
+        $sql .= " ORDER BY u.young_grade ASC , b.created_at ASC";
 //dd($sql);
         $a = \DB::select($sql);
 
@@ -137,13 +139,14 @@ AND b.created_at <= '{$date}'";
 
         $sql = "SELECT b.* FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
+AND u.young_status = 10
 AND b.young_abn = 10
 AND b.young_status = 40
 AND b.created_at <= '{$date}'
 AND b.young_tail_complete < b.young_tail_total";
         if (count($others) > 0) $sql .= " AND b.id NOT IN (" . implode(',', $others) . ")";
 
-        $sql .= " ORDER BY b.created_at ASC";
+        $sql .= " ORDER BY u.young_grade ASC , b.created_at ASC";
 
         $a = \DB::select($sql);
 

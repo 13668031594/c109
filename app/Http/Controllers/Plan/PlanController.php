@@ -6,6 +6,7 @@ use App\Http\Classes\Plan\AccountClass;
 use App\Http\Classes\Plan\ActClass;
 use App\Http\Classes\Plan\AutoClass;
 use App\Http\Classes\Plan\BuyOverClass;
+use App\Http\Classes\Plan\GradeClass;
 use App\Http\Classes\Plan\MatchClass;
 use App\Http\Classes\Plan\RobClass;
 use App\Http\Classes\Plan\WageClass;
@@ -31,6 +32,8 @@ class PlanController extends Controller
         new MatchClass();//执行订单匹配
 
         new BuyOverClass();//订单收益完结
+
+        new GradeClass();//新老会员
 
         \DB::commit();
     }

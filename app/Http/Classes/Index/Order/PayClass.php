@@ -21,7 +21,7 @@ class PayClass extends IndexClass
     use ImageTrait;
 
     //付款惩罚
-    public function pay($id,Request $request)
+    public function pay($id, Request $request)
     {
         $term = [
             'image|支付凭证' => 'required|image|max:1024',
@@ -50,7 +50,7 @@ class PayClass extends IndexClass
         if (!in_array($match->young_status, [10, 11])) parent::error_json('订单已经付过款了');
 
         //保存付款凭证
-        $images = $request->file('image')->store('public/Set');
+        $images = $request->file('image')->store('public/Order');
         //获取图片地址
         $new = $this->cut($images, 400, 'public/Order/' . $id);
         $url = \Storage::url($new);
