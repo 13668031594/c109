@@ -182,7 +182,7 @@ AND b.young_tail_complete < b.young_tail_total";
                 //剩余卖出款不足
                 if ($this->remind <= 0) return;
 
-//                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
+                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
 
                 //卖出订单可以一次性付清首付款
                 if ($v->young_first_total <= $va->young_remind) {
@@ -253,7 +253,7 @@ AND b.young_tail_complete < b.young_tail_total";
                 //买入订单已经全部匹配完成，进入下一个订单
                 if ($complete <= 0) break;
 
-//                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
+                if ($v->uid == $va->uid) continue;//同一个人的订单，跳过
 
                 //金额为买入订单首付款金额
                 $total = ($complete >= $va->young_remind) ? $va->young_remind : $complete;
