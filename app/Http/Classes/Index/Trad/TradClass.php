@@ -74,6 +74,11 @@ class TradClass extends IndexClass
 
         $result = parent::list_page('trad', $other);
 
+        foreach ($result as &$v){
+
+            $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . '/' . $v['pay']);
+        }
+
         return $result;
     }
 
