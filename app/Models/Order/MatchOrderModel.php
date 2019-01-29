@@ -145,7 +145,16 @@ class MatchOrderModel extends Model
         $buy->young_in_over = date('Y-m-d H:i:s', strtotime('+ ' . $buy->young_days . 'day'));
         $buy->save();
 
-        MemberModel::whereUid($buy->uid)->update(['young_formal' => '20', 'young_formal_time' => DATE]);
+        //修改为正式会员
+        $member = MemberModel::whereUid($buy->uid)->first();
+        if ($member->young_formal == '10') {
+
+            $member->young_formal = '20';
+            $member->young_formal_time = DATE;
+        }
+
+        //修改上级状态
+        self::type_change($member->young_referee_id);
 
         //分佣给上级
         self::reward($buy);
@@ -238,5 +247,34 @@ class MatchOrderModel extends Model
                 }
             }
         }
+    }
+
+    //修改上级下单类型
+    private function type_change($uid)
+    {
+        $set = new SetClass();
+        $set = $set->index();
+
+        //判断是否满足永动条件
+        $number = MemberModel::whereYoungRefereeId($uid)
+            ->where('young_format', '=', '20')
+            ->where('young_all_buy_total', '>=', $set['typeAllTotal'])
+            ->count();
+
+        //满足永动条件
+        if ($number >= $set['typeAllNum']){
+
+            //修改为永动状态
+            MemberModel::whereUid($uid)->update(['young_type' => '30']);
+            return;
+        }
+
+        //静态转动态
+        $number = MemberModel::whereYoungRefereeId($uid)
+            ->where('young_format', '=', '20')
+            ->where('young_all_buy_total', '>=', $set['type01'])
+            ->count();
+
+        if ($number > 0)MemberModel::whereUid($uid)->update(['young_type' => '10']);
     }
 }

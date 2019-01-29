@@ -36,7 +36,7 @@ class BuyClass extends IndexClass
             'orderBy' => [
                 'created_at' => 'desc'
             ],
-            'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number', 'young_abn','young_in_over'],
+            'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_in_over'],
         ];
 
         $result = parent::list_page('buy_order', $other);
@@ -58,7 +58,7 @@ class BuyClass extends IndexClass
 
         $order = BuyOrderModel::whereId($id)->first();
 
-        if (!is_null($order->young_first_match))$amount += $order->young_first_total;
+        if (!is_null($order->young_first_match)) $amount += $order->young_first_total;
 
         $amount += $order->young_tail_complete;
 
@@ -84,7 +84,7 @@ class BuyClass extends IndexClass
                 'young_status', 'young_buy_nickname as to', 'young_pay_time as payTime', 'young_bank_name as bankName',
                 'young_bank_no as bankNo', 'young_bank_address as bankAddress', 'young_bank_man as bankUser', 'young_alipay',
                 'young_note as bankNote', 'young_sell_nickname as payee', 'young_sell_uid', 'young_abn', 'young_pay',
-                'young_pay_time','young_order'
+                'young_pay_time', 'young_order'
             ],
         ];
 
@@ -243,7 +243,21 @@ class BuyClass extends IndexClass
     {
         $data = $request->post();
         $member = parent::get_member();
+        $set = $this->set;
         $poundage = $data['poundage'] * $data['number'];
+        $gxd_pro = 0;//贡献点比例
+        $gxd = 0;//贡献点
+        if ($member['type'] == '20') {
+
+            $gxd_pro = ($set['typePro1'] - $set['typePro0']);
+            if ($gxd_pro > 0) {
+
+                $gxd = number_format(($gxd_pro * $data['total'] * $data['time'] / 100), 2, '.', '');
+            }else{
+
+                $gxd_pro = 0;
+            }
+        }
 
         //新增订单信息
         $order = new BuyOrderModel();
@@ -261,6 +275,8 @@ class BuyClass extends IndexClass
         $order->young_first_total = number_format(($data['total'] * $this->set['matchFirstPro'] / 100), 2, '.', '');
         $order->young_first_pro = $this->set['matchFirstPro'];
         $order->young_tail_total = $order->young_total - $order->young_first_total;
+        $order->young_gxd_pro = $gxd_pro;
+        $order->young_gxd = $gxd;
         $order->save();
 
         //扣除会员手续费
@@ -405,29 +421,41 @@ class BuyClass extends IndexClass
         $member = MemberModel::whereUid($member['uid'])->first();
         $change = [];
         $record = '';
+        $all = $buy->young_in + $buy->young_total;
         if ($buy->young_status == 79) {
 
             $member->young_poundage -= $buy->young_poundage;
 
             //添加钱包记录
-            $record = '订单提现，订单号『' . $buy->young_order . '』,获得『' . $this->set['walletBalance'] . '』' . $buy->young_in . '，补缴『' . $this->set['walletPoundage'] . '』' . $buy->young_poundage;
+            $record = '订单提现，订单号『' . $buy->young_order . '』,获得『' . $this->set['walletBalance'] . '』' . $all . '，补缴『' . $this->set['walletPoundage'] . '』' . $buy->young_poundage;
             $change = ['balance' => $buy->young_in, 'poundage' => (0 - $buy->young_poundage)];
         } elseif ($buy->young_status == 80) {
 
 
             //添加钱包记录
-            $record = '订单提现，订单号『' . $buy->young_order . '』,获得『' . $this->set['walletBalance'] . '』' . $buy->young_in;
+            $record = '订单提现，订单号『' . $buy->young_order . '』,获得『' . $this->set['walletBalance'] . '』' . $all;
             $change = ['balance' => $buy->young_in];
         } else {
 
             parent::error_json('提现失败');
         }
 
+
         $buy->young_status = 90;
         $buy->save();
 
-        $member->young_balance += $buy->young_in;
-        $member->young_balance_all += $buy->young_in;
+
+        $member->young_balance += $all;
+        $member->young_balance_all += $all;
+        $member->young_all_in_total += $buy->young_in;
+        if ($buy->young_gxd > 0) {
+
+            $member->young_gxd += $buy->young_gxd;
+            $member->young_gxd_all += $buy->young_gxd;
+
+            $change['gxd'] = $buy->young_gxd;
+            $record .= '，获得『' . $this->set['walletGxd'] . '』' . $buy->young_gxd;
+        }
         $member->save();
 
         $wallet = new MemberWalletModel();

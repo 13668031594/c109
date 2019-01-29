@@ -50,9 +50,11 @@ class BuyOverClass extends PlanClass
         foreach ($buy as $v) {
 
             $add_in = number_format(($v->young_in_pro * $v->young_total * $add / 100), 2, '.', '');
+            $gxd_in = empty($v->young_gxd_pro) ? 0 : number_format(($v->young_gxd_pro * $v->young_total * $add / 100), 2, '.', '');
 
             $u['id'] = $v->id;
             $u['young_in'] = $v['young_in'] + $add_in;
+            $u['young_gxd'] = $v['young_gxd'] + $gxd_in;
             $u['young_days'] = $v['young_days'] + $add;
             $u['young_in_over'] = date('Y-m-d H:i:s', strtotime('+' . $add . ' day', strtotime($v['young_in_over'])));
 

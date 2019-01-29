@@ -113,6 +113,18 @@ class AutoClass extends PlanClass
             //计算总金额
             $total = $number * $amount;
 
+            $gxd_pro = 0;//贡献点比例
+            $gxd = 0;//贡献点
+            if ($member['type'] == '20') {
+
+                $gxd_pro = ($set['typePro1'] - $set['typePro0']);
+                if ($gxd_pro > 0) {
+
+                    $gxd_pro = 0;
+                    $gxd = number_format(($gxd_pro * $total * $time / 100), 2, '.', '');
+                }
+            }
+
             //新增订单信息
             $insert = [];
             $insert['young_order'] = $young_order;
@@ -129,6 +141,8 @@ class AutoClass extends PlanClass
             $insert['young_first_total'] = number_format(($total * $set['matchFirstPro'] / 100), 2, '.', '');
             $insert['young_first_pro'] = $set['matchFirstPro'];
             $insert['young_tail_total'] = $insert['young_total'] - $insert['young_first_total'];
+            $insert['young_gxd'] = $gxd;
+            $insert['young_gxd_pro'] = $gxd_pro;
             $insert['created_at'] = DATE;
             $insert['updated_at'] = DATE;
 

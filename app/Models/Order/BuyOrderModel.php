@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $young_poundage 手续费
  * @property string $young_abn 异常
  * @property float $young_tail_complete 已经匹配尾款
+ * @property float $young_gxd_pro 收益贡献点比例
+ * @property float $young_gxd 收益贡献点
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel query()
@@ -47,6 +49,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungFirstPro($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungFirstTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungFrom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungGxd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungGxdPro($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungIn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungInOver($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungInPro($value)

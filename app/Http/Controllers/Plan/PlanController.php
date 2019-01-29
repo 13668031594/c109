@@ -9,6 +9,7 @@ use App\Http\Classes\Plan\BuyOverClass;
 use App\Http\Classes\Plan\GradeClass;
 use App\Http\Classes\Plan\MatchClass;
 use App\Http\Classes\Plan\RobClass;
+use App\Http\Classes\Plan\TypeClass;
 use App\Http\Classes\Plan\WageClass;
 use App\Http\Controllers\Controller;
 
@@ -18,6 +19,10 @@ class PlanController extends Controller
     public function index()
     {
         \DB::beginTransaction();
+
+        new GradeClass();//新老会员
+
+        new TypeClass();//修改会员下单类型
 
         new WageClass();//发工资
 
@@ -33,7 +38,7 @@ class PlanController extends Controller
 
         new BuyOverClass();//订单收益完结
 
-        new GradeClass();//新老会员
+
 
         \DB::commit();
     }

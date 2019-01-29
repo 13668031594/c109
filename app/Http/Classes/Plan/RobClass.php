@@ -120,6 +120,20 @@ class RobClass extends PlanClass
         $member = MemberModel::whereUid($rob->uid)->first();
         $poundage = $rob->young_poundage;
 
+        $set = $this->set;
+
+        $gxd_pro = 0;//贡献点比例
+        $gxd = 0;//贡献点
+        if ($member['type'] == '20') {
+
+            $gxd_pro = ($set['typePro1'] - $set['typePro0']);
+            if ($gxd_pro > 0) {
+
+                $gxd_pro = 0;
+                $gxd = number_format(($gxd_pro * $rob->young_total * $rob->young_time / 100), 2, '.', '');
+            }
+        }
+
         //新增订单信息
         $order = new BuyOrderModel();
         $order->young_order = $order->new_order();
@@ -136,6 +150,8 @@ class RobClass extends PlanClass
         $order->young_first_total = number_format(($rob->young_total * $this->set['matchFirstPro'] / 100), 2, '.', '');
         $order->young_first_pro = $this->set['matchFirstPro'];
         $order->young_tail_total = $order->young_total - $order->young_first_total;
+        $order->young_gxd = $gxd;
+        $order->young_gxd_pro = $gxd_pro;
         $order->save();
 
         //扣除会员手续费
