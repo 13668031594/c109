@@ -28,7 +28,7 @@ class PayClass extends IndexClass
         ];
 
         parent::validators_json($request->all(), $term);
-
+dd(1);
         $begin = parent::set_time($this->set['payStart']);
         $end = parent::set_time($this->set['payEnd']);
         $now = time();

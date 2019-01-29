@@ -14,6 +14,6 @@ Route::get('/', function () {
     return view('test');
 });
 
-Route::post('test','Api\Order\BuyController@pay');
+Route::post('test/{id}','Api\Order\BuyController@pay');
 
 Route::get('plan', 'Plan\PlanController@index');

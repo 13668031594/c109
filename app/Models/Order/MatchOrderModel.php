@@ -112,13 +112,13 @@ class MatchOrderModel extends Model
 
         //将上一个订单解冻
         $model = new BuyOrderModel();
-        $model->where('uid','=',$buy->uid)
-            ->where('young_status','=','75')
-            ->where('young_from','<>','20')
+        $model->where('uid', '=', $buy->uid)
+            ->where('young_status', '=', '75')
+            ->where('young_from', '<>', '20')
             ->update(['young_status' => '80']);
-        $model->where('uid','=',$buy->uid)
-            ->where('young_status','=','75')
-            ->where('young_from','=','20')
+        $model->where('uid', '=', $buy->uid)
+            ->where('young_status', '=', '75')
+            ->where('young_from', '=', '20')
             ->update(['young_status' => '79']);
     }
 
@@ -145,7 +145,7 @@ class MatchOrderModel extends Model
         $buy->young_in_over = date('Y-m-d H:i:s', strtotime('+ ' . $buy->young_days . 'day'));
         $buy->save();
 
-        MemberModel::whereUid($buy->uid)->update(['young_formal' => '20']);
+        MemberModel::whereUid($buy->uid)->update(['young_formal' => '20', 'young_formal_time' => DATE]);
 
         //分佣给上级
         self::reward($buy);

@@ -13,7 +13,7 @@
 
     </head>
     <body>
-        <form action="/test" method="post" enctype="multipart/form-data">
+        <form action="/test/1" method="post" enctype="multipart/form-data">
             <table>
                 <tr>
                     <td>上传文件</td>

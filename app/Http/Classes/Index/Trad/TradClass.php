@@ -180,7 +180,7 @@ class TradClass extends IndexClass
         $member = parent::get_member();
 //        if ($trad->young_sell_uid == $member['uid']) parent::error_json('不能认购自己的订单');
 
-        $trad->young_status = '60';
+        $trad->young_status = '20';
         $trad->young_buy_uid = $member['uid'];
         $trad->young_buy_nickname = $member['nickname'];
         $trad->save();
