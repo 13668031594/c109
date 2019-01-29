@@ -3,6 +3,7 @@
 namespace App\Models\Member;
 
 use App\Models\Bank\BankModel;
+use App\Models\Customer\CustomerModel;
 use Illuminate\Http\Request;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -339,5 +340,18 @@ class MemberModel extends Authenticatable
     public function referee_nickname(self $memberModel)
     {
         MemberModel::whereYoungRefereeId($memberModel->uid)->update(['young_referee_nickname' => $memberModel->young_nickname]);
+    }
+
+    public function rand_customer(self $memberModel)
+    {
+        $customer = new CustomerModel();
+
+        $c = $customer->get(['id'])->pluck('id')->toArray();
+
+        $rand = array_rand($c,1);
+
+        $memberModel->young_customer = $c[$rand];
+
+        return $memberModel;
     }
 }

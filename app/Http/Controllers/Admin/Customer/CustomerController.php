@@ -6,7 +6,6 @@ use App\Http\Classes\Admin\Customer\CustomerClass;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ListInterface;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class CustomerController extends AdminController implements ListInterface
 {

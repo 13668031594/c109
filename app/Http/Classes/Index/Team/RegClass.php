@@ -79,6 +79,8 @@ class RegClass extends IndexClass
 
         $model = new MemberModel();
 
+        //添加客服信息
+        $model = $model->rand_customer($model);
         //添加银行卡信息
         $model = $model->change_bank($model, $request);
         //添加推荐人信息

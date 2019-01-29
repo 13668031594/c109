@@ -10,6 +10,7 @@ namespace App\Http\Classes\Index\Login;
 
 use App\Http\Classes\Index\IndexClass;
 use App\Http\Classes\Set\SetClass;
+use App\Models\Customer\CustomerModel;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Order\BuyOrderModel;
@@ -410,5 +411,12 @@ class ApiLoginClass extends IndexClass
             'IOS' => $set['versionIos'],
             'Android' => $set['versionAndroid'],
         ];
+    }
+
+    public function customer($customer_id)
+    {
+        $customer = CustomerModel::whereId($customer_id)->first(['young_nickname', 'young_text']);
+
+        return parent::delete_prefix($customer->toArray());
     }
 }
