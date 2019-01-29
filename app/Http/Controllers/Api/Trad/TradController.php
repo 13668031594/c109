@@ -31,6 +31,13 @@ class TradController extends ApiController
         return parent::success();
     }
 
+    public function back($id)
+    {
+        $this->classes->back($id);
+
+        return parent::success();
+    }
+
     //认购
     public function buy($id)
     {

@@ -31,6 +31,12 @@ class TradClass extends IndexClass
                 ['young_status', '=', '10'],
                 ['young_sell_uid', '<>', $member['uid']]
             ];
+
+            $orderBy = [
+                'young_status' => 'asc',
+                'young_amount' => 'asc',
+                'created_at' => 'desc',
+            ];
         } else {
 
             if ($type == '1') {
@@ -40,6 +46,11 @@ class TradClass extends IndexClass
                 $where = [
                     ['young_sell_uid', '=', $member['uid']]
                 ];
+
+                $orderBy = [
+                    'young_status' => 'asc',
+                    'created_at' => 'desc',
+                ];
             } else {
 
                 //我的认购
@@ -47,17 +58,18 @@ class TradClass extends IndexClass
                 $where = [
                     ['young_buy_uid', '=', $member['uid']]
                 ];
+
+                $orderBy = [
+                    'young_status' => 'asc',
+                    'created_at' => 'desc',
+                ];
             }
 
         }
 
         $other = [
             'where' => $where,
-            'orderBy' => [
-                'young_status' => 'asc',
-                'young_amount' => 'asc',
-                'created_at' => 'desc',
-            ],
+            'orderBy' => $orderBy,
         ];
 
         $result = parent::list_page('trad', $other);
@@ -93,6 +105,7 @@ class TradClass extends IndexClass
         $model->young_gxd = $data['gxd'];
         $model->young_balance = $data['balance'];
         $model->young_amount = $amount;
+        $model->young_poundage = $poundage;
         $model->save();
 
         //扣除会员钱包
@@ -109,6 +122,34 @@ class TradClass extends IndexClass
         $wallet->store_record($member, $change, 90, $record, $keyword);
     }
 
+    //撤回
+    public function back($id)
+    {
+        $member = parent::get_member();
+
+        $model = TradModel::whereId($id)->first();
+        if (is_null($model)) parent::error_json('订单不存在');
+        if ($model->young_sell_uid != $member['uid']) parent::error_json('只能撤回自己的订单');
+        if ($model->young_status != '10') parent::error_json('该订单已无法撤回');
+
+        $model->young_status = '60';
+        $model->save();
+
+        $all = ($model->young_gxd + $model->young_poundage);
+
+        //扣除会员钱包
+        $member = MemberModel::whereUid($member['uid'])->first();
+        $member->young_gxd += $all;
+        $member->save();
+
+        //添加钱包记录
+        $wallet = new MemberWalletModel();
+        $record = $this->set['walletGxd'] . '卖出订单撤回，订单号『' . $model->young_order . '』,返还『' . $this->set['walletGxd'] . '』' . $all;
+        $keyword = $model->young_order;
+        $change = ['gxd' => $all];
+        $wallet->store_record($member, $change, 90, $record, $keyword);
+    }
+
     //认购订单
     public function buy($id)
     {
@@ -120,7 +161,7 @@ class TradClass extends IndexClass
         $member = parent::get_member();
 //        if ($trad->young_sell_uid == $member['uid']) parent::error_json('不能认购自己的订单');
 
-        $trad->young_status = '20';
+        $trad->young_status = '60';
         $trad->young_buy_uid = $member['uid'];
         $trad->young_buy_nickname = $member['nickname'];
         $trad->save();

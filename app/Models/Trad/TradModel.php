@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $young_pay 支付凭证
+ * @property float $young_poundage 手续费
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel query()
@@ -35,6 +36,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungPay($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungPayTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungPoundage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungSellNickname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungSellUid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Trad\TradModel whereYoungStatus($value)
@@ -47,6 +49,7 @@ class TradModel extends Model
         20 => '待付款',
         30 => '待确认',
         50 => '完结',
+        60 => '撤回',
     ];
 
     //获取新的订单号

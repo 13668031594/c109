@@ -12,6 +12,7 @@
 */
 Route::group(['namespace' => 'Login'], function () {
 
+    Route::get('version', 'LoginController@version');
     Route::get('captcha', 'LoginController@captcha');
     Route::post('login', 'LoginController@login');
 });
@@ -72,10 +73,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::get('trad', 'TradController@index');//列表
         Route::post('trad', 'TradController@sell');//卖出
+        Route::get('trad-back/{id}', 'TradController@back');//撤回
         Route::get('trad-buy/{id}', 'TradController@buy');//认购
         Route::post('trad-buy/{id}', 'TradController@pay');//支付
         Route::get('trad/{id}', 'TradController@over');//确认
-
-
     });
 });
