@@ -99,7 +99,7 @@ class SellOrderModel extends Model
 
     private function test_order($num)
     {
-        $key = 'B' . $num;
+        $key = 'S' . $num;
 
         //验证订单号是否被占用
         $test = new SellOrderModel();
