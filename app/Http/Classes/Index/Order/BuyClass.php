@@ -435,13 +435,12 @@ class BuyClass extends IndexClass
 
             //添加钱包记录
             $record = '订单提现，订单号『' . $buy->young_order . '』,获得『' . $this->set['walletBalance'] . '』' . $all . '，补缴『' . $this->set['walletPoundage'] . '』' . $buy->young_poundage;
-            $change = ['balance' => $buy->young_in, 'poundage' => (0 - $buy->young_poundage)];
+            $change = ['balance' => $all, 'poundage' => (0 - $buy->young_poundage)];
         } elseif ($buy->young_status == 80) {
-
 
             //添加钱包记录
             $record = '订单提现，订单号『' . $buy->young_order . '』,获得『' . $this->set['walletBalance'] . '』' . $all;
-            $change = ['balance' => $buy->young_in];
+            $change = ['balance' => $all];
         } else {
 
             parent::error_json('提现失败');
