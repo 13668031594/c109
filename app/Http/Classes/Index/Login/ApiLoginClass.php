@@ -238,7 +238,7 @@ class ApiLoginClass extends IndexClass
         //验证通过
 
         //保存账号模型为变量
-        $member = auth('api')->user();
+        $member = auth('web')->user();
 
         if (is_null($member)) parent::error_json('登录失败(auth)');
         if ($member->young_act != '30') parent::error_json('该账号尚未激活');
