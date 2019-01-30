@@ -52,7 +52,7 @@ class SellOrderModel extends Model
     ];
 
     //获取新的订单号
-    public function new_order()
+    public function new_order_old()
     {
         $key = 'S' . date('Ymd');
 
@@ -75,10 +75,39 @@ class SellOrderModel extends Model
 
         if (!is_null($test)) {
 
-            return self::new_order();
+            return self::new_order_old();
         } else {
 
             return $key;
         }
+    }
+
+    public function new_order()
+    {
+        $num = 100000;
+
+        $number = new SellOrderModel();
+        $number = $number->count();
+        $number++;
+
+        $num += $number;
+
+        $key = self::test_order($num);
+
+        return $key;
+    }
+
+    private function test_order($num)
+    {
+        $key = 'B' . $num;
+
+        //验证订单号是否被占用
+        $test = new SellOrderModel();
+        $test = $test->where('young_order', '=', $key)->first();
+
+        if (is_null($test)) return $key;
+
+        $num++;
+        return self::test_order($num);
     }
 }
