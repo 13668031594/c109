@@ -72,7 +72,7 @@ class MatchOrderModel extends Model
         10 => '待付款',
         11 => '重新付款',
         20 => '待确认',
-        30 => '完结',
+        30 => '已完结',
     ];
 
     public $abn = [

@@ -18,13 +18,19 @@ class BuyClass extends AdminClass
         $where = [];
         $orderBy = [];
 
+        $leftJoin = [[
+            'table' => 'member as u',
+            'where' => ['a.uid', '=', 'u.uid'],
+        ]];
+
         $other = [
             'where' => $where,
             'orderBy' => $orderBy,
-//            'select' => '*,'
+            'select' => ["a.*", "u.young_nickname",'u.young_account','u.young_phone'],
+            'leftJoin' => $leftJoin
         ];
 
-        $result = parent::list_page('buy_order_models as a', $other);
+        $result = parent::list_page('buy_order as a', $other);
 
         return $result;
     }

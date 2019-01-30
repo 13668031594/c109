@@ -20,7 +20,9 @@ trait ModelTrait
     {
         if (empty($tableName)) exit('not have tableName');
 
-        $this->table = DB::table($tableName . $this->suffix);
+        $name = self::add_suffix($tableName);
+
+        $this->table = DB::table($name);
     }
 
     //统一查询筛选方法
@@ -28,6 +30,7 @@ trait ModelTrait
     {
         if (is_null($this->table)) exit('please initial table');
 
+        if (isset($other['leftJoin'])) self::leftJoin($other['leftJoin']);
         if (isset($other['select'])) self::select($other['select']);
         if (isset($other['where'])) self::where($other['where']);
         if (isset($other['whereIn'])) self::where_in($other['whereIn']);
@@ -74,6 +77,22 @@ trait ModelTrait
             if (!is_string($k)) continue;
 
             $this->table = $this->table->orderBy($k, $v);
+        }
+    }
+
+    //连表查询
+    protected function leftJoin($leftJoin = [])
+    {
+        if (is_null($this->table)) exit('please initial table');
+
+        foreach ($leftJoin as $v) {
+
+            if (!isset($v['table']) || !isset($v['where'])) continue;
+
+            $name = self::add_suffix($v['table']);
+            $where = $v['where'];
+
+            $this->table = $this->table->leftJoin($name, $where[0], $where[1], $where[2]);
         }
     }
 
@@ -127,4 +146,16 @@ trait ModelTrait
         }
     }
 
+    private function add_suffix(string $tableName)
+    {
+        $location = strpos($tableName, ' as');
+
+        if (!$location) return $tableName . $this->suffix;
+
+        $table = substr($tableName, 0, $location);
+
+        $name = str_replace($table, ($table . $this->suffix), $tableName);
+
+        return $name;
+    }
 }

@@ -47,7 +47,7 @@ class SellOrderModel extends Model
     public $status = [
         10 => '匹配中',
         20 => '待收款',
-        30 => '完结',
+        30 => '已完结',
 //        30 => '退款',
     ];
 

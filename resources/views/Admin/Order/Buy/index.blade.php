@@ -66,7 +66,10 @@
             },
             isPage: true,
             cols: [[
-//                {field: 'nickname', width: 100, title: '昵称'},
+                {field: 'order', width: 100, title: '订单号'},
+                {field: 'account', width: 80, title: '账号'},
+                {field: 'nickname', width: 100, title: '昵称'},
+                {field: 'phone', width: 120, title: '手机'},
                 {
                     field: 'status', width: 120, title: '状态', templet: function (d) {
                     return '<span class="layui-badge  layui-bg-blue">' + status[d.status] + '</span>'
@@ -75,7 +78,11 @@
                 },
                 {
                     field: 'abn', width: 80, title: '异常', templet: function (d) {
-                    return '<span class="layui-badge  layui-bg-blue">' + abn[d.abn] + '</span>'
+                    if (d.abn == '20') {
+                        return '<span class="layui-badge  layui-bg-red">' + abn[d.abn] + '</span>'
+                    } else {
+                        return '<span class="layui-badge  layui-bg-blue">' + abn[d.abn] + '</span>'
+                    }
 
                 }
                 },

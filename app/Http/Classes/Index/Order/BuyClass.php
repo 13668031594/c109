@@ -24,10 +24,13 @@ class BuyClass extends IndexClass
             ['uid', '=', $member['uid']],
         ];
 
-        $select = ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number', 'young_abn'];
+        $select = ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from'];
 
         $type = \request()->get('type');
-        if ($type == '1') $where[] = ['young_status', '<', 70];
+        if ($type == '1') {
+
+            $where[] = ['young_status', '<', 70];
+        }
         if ($type == '2') {
             $where[] = ['young_status', '>=', 70];
             $where[] = ['young_status', '<', 90];

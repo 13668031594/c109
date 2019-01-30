@@ -79,7 +79,7 @@ class BuyOrderModel extends Model
         75 => '冻结',
         79 => '付费提现',
         80 => '待提现',
-        90 => '完结',
+        90 => '已完结',
     ];
 
     public $abn = [
