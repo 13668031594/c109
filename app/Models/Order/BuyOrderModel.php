@@ -88,10 +88,22 @@ class BuyOrderModel extends Model
     ];
 
     public $from = [
-        10 => '手动采集',
-        20 => '自动采集',
+        10 => '手动',
+        20 => '自动',
         30 => '抢单'
     ];
+
+    //所有对比数组
+    public function arrays()
+    {
+        $result = [
+            'status' => $this->status,
+            'abn' => $this->abn,
+            'from' => $this->from,
+        ];
+
+        return $result;
+    }
 
     //获取新的订单号
     public function new_order()

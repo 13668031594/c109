@@ -95,10 +95,10 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;"><i class="layui-icon layui-icon-console"></i> 订单管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-menu='/admin/order/index'><i class="layui-icon layui-icon-log"></i> 报单列表</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/withdraw/index'><i class="layui-icon layui-icon-log"></i> 提现记录</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/exchange/index'><i class="layui-icon layui-icon-log"></i> 兑换列表</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/trade/index'><i class="layui-icon layui-icon-log"></i> 交易记录</a></dd>
+                        <dd><a href="javascript:;" data-menu='/admin/buy/index'><i class="layui-icon layui-icon-log"></i> 采集列表</a></dd>
+                        {{--<dd><a href="javascript:;" data-menu='/admin/withdraw/index'><i class="layui-icon layui-icon-log"></i> 提现记录</a></dd>--}}
+                        {{--<dd><a href="javascript:;" data-menu='/admin/exchange/index'><i class="layui-icon layui-icon-log"></i> 兑换列表</a></dd>--}}
+                        {{--<dd><a href="javascript:;" data-menu='/admin/trade/index'><i class="layui-icon layui-icon-log"></i> 交易记录</a></dd>--}}
                         <!--<dd><a href="javascript:;" data-menu='/admin/send/index'><i class="layui-icon layui-icon-log"></i> 发货列表</a></dd>-->
                         <!--<dd><a href="javascript:;" data-menu='/admin/send/bat'><i class="layui-icon layui-icon-util"></i> 批量发货</a></dd>-->
                     </dl>

@@ -24,11 +24,18 @@ class BuyClass extends IndexClass
             ['uid', '=', $member['uid']],
         ];
 
+        $select = ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number', 'young_abn'];
+
         $type = \request()->get('type');
         if ($type == '1') $where[] = ['young_status', '<', 70];
         if ($type == '2') {
             $where[] = ['young_status', '>=', 70];
             $where[] = ['young_status', '<', 90];
+            $select = array_merge($select, ['young_in_over', 'young_in']);
+        }
+        if ($type == '3') {
+            $where[] = ['young_status', '>=', 70];
+            $select = array_merge($select, ['young_in_over', 'young_in']);
         }
 
         $other = [
@@ -36,7 +43,7 @@ class BuyClass extends IndexClass
             'orderBy' => [
                 'created_at' => 'desc'
             ],
-            'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_in_over'],
+            'select' => $select,
         ];
 
         $result = parent::list_page('buy_order', $other);
@@ -253,7 +260,7 @@ class BuyClass extends IndexClass
             if ($gxd_pro > 0) {
 
                 $gxd = number_format(($gxd_pro * $data['total'] * $data['time'] / 100), 2, '.', '');
-            }else{
+            } else {
 
                 $gxd_pro = 0;
             }

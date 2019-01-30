@@ -115,3 +115,11 @@ Route::group(['namespace' => 'Customer'], function () {
     Route::get('/customer/delete', 'CustomerController@destroy')->name('customer.destroy');//客服删除
 });
 
+//采集
+Route::group(['namespace' => 'Order'], function () {
+
+    Route::get('/buy/index', 'BuyController@index')->name('buy.index');//客服首页
+    Route::get('/buy/table', 'BuyController@table')->name('buy.index');//客服列表
+
+});
+
