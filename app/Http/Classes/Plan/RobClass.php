@@ -152,6 +152,7 @@ class RobClass extends PlanClass
         $order->young_tail_total = $order->young_total - $order->young_first_total;
         $order->young_gxd = $gxd;
         $order->young_gxd_pro = $gxd_pro;
+        $order->young_grade = $member->young_grade;
         $order->save();
 
         //扣除会员手续费

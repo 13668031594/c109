@@ -143,6 +143,7 @@ class AutoClass extends PlanClass
             $insert['young_tail_total'] = $insert['young_total'] - $insert['young_first_total'];
             $insert['young_gxd'] = $gxd;
             $insert['young_gxd_pro'] = $gxd_pro;
+            $insert['young_grade'] = $member['young_grade'];
             $insert['created_at'] = DATE;
             $insert['updated_at'] = DATE;
 

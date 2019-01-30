@@ -20,9 +20,7 @@ class BuyController extends AdminController
 
     public function index()
     {
-        $model = new BuyOrderModel();
-
-        $result = $model->arrays();
+        $result = $this->classes->arrays();
 
         foreach ($result as &$v) $v = json_encode($v);
 
@@ -34,5 +32,18 @@ class BuyController extends AdminController
         $result = $this->classes->index();
 
         return parent::tables($result);
+    }
+
+    public function show(Request $request)
+    {
+        $id = $request->get('id');
+
+        $result = $this->classes->arrays();
+
+        $self = $this->classes->show($id);
+
+        $result['self'] = $self;
+
+        return parent::views('buy', $result);
     }
 }
