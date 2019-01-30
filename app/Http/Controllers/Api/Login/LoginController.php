@@ -104,4 +104,22 @@ class LoginController extends ApiController
 
         return parent::success(['version' => $version]);
     }
+
+    public function get_wallet()
+    {
+        $member = $this->class->get_member();
+
+        $result = [
+            'balance' => $member['balance'],
+            'balance_all' => $member['balance_all'],
+            'poundage' => $member['poundage'],
+            'poundage_all' => $member['poundage_all'],
+            'gxd' => $member['gxd'],
+            'gxd_all' => $member['gxd_all'],
+            'reward' => $member['reward'],
+            'reward_all' => $member['reward_all'],
+        ];
+
+        return parent::success($result);
+    }
 }

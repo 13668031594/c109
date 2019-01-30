@@ -17,11 +17,12 @@ Route::group(['namespace' => 'Login'], function () {
     Route::post('login', 'LoginController@login');
 });
 
-Route::group(['middleware' => ['auth:api', 'apiAct30','apiStatus30']], function () {
+Route::group(['middleware' => ['auth:api', 'apiAct30', 'apiStatus30']], function () {
 
     Route::group(['namespace' => 'Login'], function () {
 
         Route::get('user', 'LoginController@get_member');//会员资料
+        Route::get('user-wallet', 'LoginController@get_wallet');//获取钱包信息
         Route::get('logout', 'LoginController@logout');//登出
     });
 
