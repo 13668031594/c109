@@ -46,8 +46,8 @@
                                 <td>{{$self['order']}}</td>
                             </tr>
                             <tr>
-                                <td>下单时间</td>
-                                <td>{{$self['created_at']}}</td>
+                                <td>下单时间 / 下单身份</td>
+                                <td>{{$self['created_at']}} / {{$grade[$self['grade']]}}</td>
                             </tr>
                             <tr>
                                 <td>状态 / 来源 / 异常</td>
@@ -75,16 +75,16 @@
                                 <td>{{$self['first_match'] ?? '待匹配'}} / {{$self['first_end'] ?? '未完结'}}</td>
                             </tr>
                             <tr>
-                                <td>尾款</td>
-                                <td>{{$self['tail_total']}}</td>
+                                <td>尾款 / 已匹配</td>
+                                <td>{{$self['tail_total']}} / {{$self['tail_complete']}}</td>
                             </tr>
                             <tr>
                                 <td>匹配 / 完结</td>
                                 <td>{{$self['tail_match'] ?? '待匹配'}} / {{$self['tail_end'] ?? '未完结'}}</td>
                             </tr>
                             <tr>
-                                <td>收益 / 比例</td>
-                                <td>{{$self['in']}} / {{$self['in_pro']}}%</td>
+                                <td>收益 / 时间 / 比例</td>
+                                <td>{{$self['in']}} / {{$self['days']}} / {{$self['in_pro']}}%</td>
                             </tr>
                             <tr>
                                 <td>贡献点</td>
@@ -94,7 +94,6 @@
                         </table>
                     </div>
                 </fieldset>
-
             </div>
             <div class="layui-col-sm5 layui-col-sm-offset1">
                 <div style="max-width:400px;margin-top:10px;">
@@ -121,7 +120,15 @@
                                 </tr>
                                 <tr>
                                     <td>身份</td>
-                                    <td>{$self['member_grade_name']}</td>
+                                    <td>{{$grade[$self['u_grade']]}}</td>
+                                </tr>
+                                <tr>
+                                    <td>上级账号</td>
+                                    <td>{{$self['referee_account']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>上级昵称</td>
+                                    <td>{{$self['referee_nickname']}}</td>
                                 </tr>
                                 <!--<tr>
                                     <td>注册时间</td>
@@ -157,7 +164,7 @@
                 </div>
             </div>
         </div>
-        <fieldset class="layui-elem-field layui-field-title">
+        {{--<fieldset class="layui-elem-field layui-field-title">
             <legend>发货信息</legend>
             <div class="layui-field-box">
                 <table class="layui-table">
@@ -211,11 +218,10 @@
                     </tbody>
                 </table>
             </div>
-        </fieldset>
+        </fieldset>--}}
 
-        {if $self['order_status'] == '10'}
         <fieldset class="layui-elem-field layui-field-title">
-            <legend>待发货清单</legend>
+            <legend>匹配清单</legend>
             <div class="layui-field-box">
                 <table class="layui-table">
                     <colgroup>
@@ -223,24 +229,37 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>收货人</th>
-                        <th style="width: 170px;">联系电话</th>
-                        <th>地址</th>
+                        <th>交易号</th>
+                        <th>出售人</th>
+                        <th>出售订单号</th>
+                        <th>状态</th>
+                        <th>类型</th>
+                        <th>异常</th>
+                        <th>支付凭证</th>
+                        <th>支付时间</th>
+                        <th>匹配时间</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {foreach $express as $v}
-                    <tr>
-                        <td>{$v['name']}</td>
-                        <td>{$v['phone']}</td>
-                        <td>{$v['address']}</td>
-                    </tr>
-                    {/foreach}
+                    @foreach ($match as $v)
+                        <tr>
+                            <td>{{$v['order']}}</td>
+                            <td>{{$v['sell_nickname']}}</td>
+                            <td>{{$v['sell_order']}}</td>
+                            <td>{{$match_arrays['status'][$v['status']]}}</td>
+                            <td>{{$match_arrays['type'][$v['type']]}}</td>
+                            <td @if($v['abn'] == '20') style="color: red;" @endif>
+                                {{$match_arrays['abn'][$v['abn']]}}
+                            </td>
+                            <td><img src="{{$v['image']}}"></td>
+                            <td>{{$v['pay_time'] ?? '待支付'}}</td>
+                            <td>{{$v['created_at']}}</td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
         </fieldset>
-        {/if}
     </form>
 </div>
 <script src="{{$static}}layui/layui.js"></script>
@@ -255,7 +274,6 @@
     layui.config({
         base: '{{$static}}res/js/common/'
     }).use(['mForm', 'layer', 'element']);
-
 
     $(function () {
 

@@ -85,6 +85,18 @@ class MatchOrderModel extends Model
         20 => '尾款',
     ];
 
+    //所有对比数组
+    public function arrays()
+    {
+        $result = [
+            'status' => $this->status,
+            'abn' => $this->abn,
+            'type' => $this->type,
+        ];
+
+        return $result;
+    }
+
     //匹配订单付款完结后的一系列操作
     public function match_end($id)
     {
@@ -262,7 +274,7 @@ class MatchOrderModel extends Model
             ->count();
 
         //满足永动条件
-        if ($number >= $set['typeAllNum']){
+        if ($number >= $set['typeAllNum']) {
 
             //修改为永动状态
             MemberModel::whereUid($uid)->update(['young_type' => '30']);
@@ -275,6 +287,6 @@ class MatchOrderModel extends Model
             ->where('young_all_buy_total', '>=', $set['type01'])
             ->count();
 
-        if ($number > 0)MemberModel::whereUid($uid)->update(['young_type' => '10']);
+        if ($number > 0) MemberModel::whereUid($uid)->update(['young_type' => '10']);
     }
 }

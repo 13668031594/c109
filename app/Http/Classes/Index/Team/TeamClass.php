@@ -28,11 +28,17 @@ class TeamClass extends IndexClass
             'team' => [],
         ];
 
+        $orderBy = [
+            'young_status' => 'desc',
+            'created_at' => 'desc',
+        ];
+
         //获取下级信息
         $other = [
             'where' => [
                 ['young_referee_id', '=', $member_id]
             ],
+            'orderBy' => $orderBy,
             'select' => ['uid', 'young_nickname', 'young_status', 'young_hosting', 'young_phone', 'young_last_buy_time', 'created_at', 'young_act'],
         ];
 

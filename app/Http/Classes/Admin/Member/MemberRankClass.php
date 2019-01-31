@@ -10,6 +10,7 @@ namespace App\Http\Classes\Member;
 
 use App\Http\Classes\Admin\AdminClass;
 use App\Http\Classes\ListInterface;
+use App\Models\Member\MemberModel;
 use App\Models\Member\MemberRankModel;
 use Illuminate\Http\Request;
 
@@ -66,6 +67,8 @@ class MemberRankClass extends AdminClass implements ListInterface
         $model->young_discount = $request->post('discount');
         $model->young_wage = $request->post('wage');
         $model->save();
+
+        MemberModel::whereYoungRankId($id)->update(['young_rank_name' => $model->young_name]);
 
         \DB::commit();
     }

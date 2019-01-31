@@ -34,6 +34,7 @@ class BuyController extends AdminController
         return parent::tables($result);
     }
 
+    //订单详情
     public function show(Request $request)
     {
         $id = $request->get('id');
@@ -43,7 +44,32 @@ class BuyController extends AdminController
         $self = $this->classes->show($id);
 
         $result['self'] = $self;
+        $result['match'] = $this->classes->match($id);
 
         return parent::views('buy', $result);
+    }
+
+    //清除异常状态
+    public function abn(Request $request)
+    {
+        $id = $request->get('id');
+
+        $this->classes->abn($id);
+
+        return parent::success();
+    }
+
+    //编辑页面
+    public function edit(Request $request)
+    {
+        $id = $request->get('id');
+
+        $result = $this->classes->arrays();
+
+        $self = $this->classes->show($id);
+
+        $result['self'] = $self;
+
+        return parent::views('edit', $result);
     }
 }

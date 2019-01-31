@@ -121,6 +121,7 @@ Route::group(['namespace' => 'Order'], function () {
     Route::get('/buy/index', 'BuyController@index')->name('buy.index');//采集列表
     Route::get('/buy/table', 'BuyController@table')->name('buy.index');//采集数据
     Route::get('/buy/show', 'BuyController@show')->name('buy.index');//采集详情
-
+    Route::get('/buy/abn', 'BuyController@abn')->name('buy.abn');//清除异常
+    Route::get('/buy/edit', 'BuyController@edit')->name('buy.edit');//订单编辑
 });
 

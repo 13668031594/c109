@@ -41,7 +41,7 @@
     <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/buy/show?id=@{{ d.id }}">详情</a>
     {{--<a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/buy/wallet-record?id=@{{ d.id }}">钱包</a>--}}
     {{--<a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/buy/record?id=@{{ d.id }}">记录</a>--}}
-    {{--<a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>--}}
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
     {{--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i lass="layui-icon layui-icon-delete"></i>删除</a>--}}
 </script>
 <script>

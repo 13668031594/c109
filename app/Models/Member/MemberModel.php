@@ -234,8 +234,8 @@ class MemberModel extends Authenticatable
 
     //身份
     public $grade = [
-        10 => '新会员',
-        20 => '老会员'
+        10 => '编辑',
+        20 => '主编'
     ];
 
     //托管

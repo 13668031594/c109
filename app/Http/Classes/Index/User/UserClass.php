@@ -90,13 +90,14 @@ class UserClass extends IndexClass
 
         if (!is_null($member['family_account'])) parent::error_json('您已经绑定过了');
 
-        $time = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding',time());
+        $time = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding', time());
 
 //        if (!empty($time) && ($time > time())) parent::error_json('操作过于频繁');
 
         //表单验证条件
         $term = [
-            'account|账号' => 'required|between:6,24',
+            'account|账号' => 'required|between:6,24|unique:member_models,young_family_account',
+
             'password|密码' => 'required|between:6,24',
         ];
 
@@ -108,7 +109,7 @@ class UserClass extends IndexClass
 
         if ($result == 'fails') {
 
-            $fails = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding_fails',0);
+            $fails = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding_fails', 0);
             $fails++;
             \Cache::put($_SERVER["REMOTE_ADDR"] . 'family_binding_fails', $fails, 60);
             if ($fails >= 3) \Cache::put($_SERVER["REMOTE_ADDR"] . 'family_binding', (time() + 60), 60);
