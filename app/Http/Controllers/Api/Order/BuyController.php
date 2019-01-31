@@ -77,6 +77,8 @@ class BuyController extends ApiController
 
         $list = ($member['auto_buy'] == '10') ? $this->classes->auto_list($member['auto_number'], $member['auto_time']) : [];
 
+        $set['goodsTotal'] *= $member['auto_number'];
+
         $result = [
             'set' => $set,
             'member' => $m,
