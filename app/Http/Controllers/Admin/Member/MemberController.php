@@ -25,8 +25,10 @@ class MemberController extends AdminController implements ListInterface
     {
         $model = new MemberModel();
 
-        $result = $model->arrays();
-        foreach ($result as &$v) $v = json_encode($v);
+        $result = [];
+        $arrays = $model->arrays();
+        foreach ($arrays as $k => &$v) $result[$k] = json_encode($v);
+        $result['arrays'] = $arrays;
 
         return parent::views('index', $result);
     }

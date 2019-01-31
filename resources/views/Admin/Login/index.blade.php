@@ -96,6 +96,8 @@
                     <a class="" href="javascript:;"><i class="layui-icon layui-icon-console"></i> 订单管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" data-menu='/admin/buy/index'><i class="layui-icon layui-icon-log"></i> 采集列表</a></dd>
+                        <dd><a href="javascript:;" data-menu='/admin/sell/index'><i class="layui-icon layui-icon-log"></i> 寄售列表</a></dd>
+                        <dd><a href="javascript:;" data-menu='/admin/trad/index'><i class="layui-icon layui-icon-log"></i> 贡献点交易</a></dd>
                         {{--<dd><a href="javascript:;" data-menu='/admin/withdraw/index'><i class="layui-icon layui-icon-log"></i> 提现记录</a></dd>--}}
                         {{--<dd><a href="javascript:;" data-menu='/admin/exchange/index'><i class="layui-icon layui-icon-log"></i> 兑换列表</a></dd>--}}
                         {{--<dd><a href="javascript:;" data-menu='/admin/trade/index'><i class="layui-icon layui-icon-log"></i> 交易记录</a></dd>--}}

@@ -22,12 +22,37 @@ class MemberClass extends AdminClass implements ListInterface
 {
     public function index()
     {
+        $where = [];
+
+        $keywordType = \request()->get('keywordType');
+        $keyword = \request()->get('keyword');
+        $status = \request()->get('status');
+        $act = \request()->get('act');
+        $mode = \request()->get('mode');
+        $grade = \request()->get('grade');
+        $type = \request()->get('type');
+
+        switch ($keywordType) {
+            case 'account' :
+                $where[] = ['young_account', 'like', '%' . $keyword . '%'];
+                break;
+            case 'phone' :
+                $where[] = ['young_phone', 'like', '%' . $keyword . '%'];
+                break;
+            case 'nickname' :
+                $where[] = ['young_nickname', 'like', '%' . $keyword . '%'];
+                break;
+            default:
+                break;
+        }
+        if (!empty($status)) $where[] = ['young_status', '=', $status];
+        if (!empty($act)) $where[] = ['young_act', '=', $act];
+        if (!empty($mode)) $where[] = ['young_mode', '=', $mode];
+        if (!empty($grade)) $where[] = ['young_grade', '=', $grade];
+        if (!empty($type)) $where[] = ['young_type', '=', $type];
+
         $orderBy = [
             'uid' => 'desc',
-        ];
-
-        $where = [
-
         ];
 
         $other = [

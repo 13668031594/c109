@@ -11,16 +11,16 @@ namespace App\Http\Classes\Admin\Order;
 
 use App\Http\Classes\Admin\AdminClass;
 use App\Models\Member\MemberModel;
-use App\Models\Order\BuyOrderModel;
+use App\Models\Order\SellOrderModel;
 use App\Models\Order\MatchOrderModel;
 use Illuminate\Http\Request;
 
-class BuyClass extends AdminClass
+class SellClass extends AdminClass
 {
     //对比数组
     public function arrays()
     {
-        $model = new BuyOrderModel();
+        $model = new SellOrderModel();
 
         $arrays = $model->arrays();
 
@@ -42,14 +42,12 @@ class BuyClass extends AdminClass
         $keywordType = \request()->get('keywordType');
         $keyword = \request()->get('keyword');
         $status = \request()->get('status');
-        $abn = \request()->get('abn');
-        $from = \request()->get('from');
 
         switch ($keywordType) {
             case 'order' :
                 $where[] = ['a.young_order', 'like', '%' . $keyword . '%'];
                 break;
-            case 'account' :
+                case 'account' :
                 $where[] = ['u.young_account', 'like', '%' . $keyword . '%'];
                 break;
             case 'phone' :
@@ -62,8 +60,6 @@ class BuyClass extends AdminClass
                 break;
         }
         if (!empty($status)) $where[] = ['a.young_status', '=', $status];
-        if (!empty($abn)) $where[] = ['a.young_abn', '=', $abn];
-        if (!empty($from)) $where[] = ['a.young_from', '=', $from];
 
         $orderBy = [
             'created_at' => 'desc'
@@ -81,7 +77,7 @@ class BuyClass extends AdminClass
             'leftJoin' => $leftJoin
         ];
 
-        $result = parent::list_page('buy_order as a', $other);
+        $result = parent::list_page('sell_order as a', $other);
 
         return $result;
     }
@@ -90,12 +86,12 @@ class BuyClass extends AdminClass
     public function show($id)
     {
         $select = [
-            'buy_order_models.*', 'u.young_nickname', 'u.young_phone', 'u.young_account', 'u.young_grade as u_grade',
+            'sell_order_models.*', 'u.young_nickname', 'u.young_phone', 'u.young_account', 'u.young_grade as u_grade',
             'u.young_referee_account', 'u.young_referee_nickname'
         ];
 
-        $order = BuyOrderModel::whereId($id)
-            ->leftJoin('member_models as u', 'u.uid', '=', 'buy_order_models.uid')
+        $order = SellOrderModel::whereId($id)
+            ->leftJoin('member_models as u', 'u.uid', '=', 'sell_order_models.uid')
             ->select($select)
             ->first();
 
@@ -110,7 +106,7 @@ class BuyClass extends AdminClass
     public function match($id)
     {
         $where = [
-            ['young_buy_id', '=', $id]
+            ['young_sell_id', '=', $id]
         ];
 
         $orderBy = [
@@ -129,50 +125,30 @@ class BuyClass extends AdminClass
         return $result;
     }
 
-    //清除异常状态
-    public function abn($id)
-    {
-        BuyOrderModel::whereId($id)->update(['young_abn' => '10']);
-        MatchOrderModel::whereYoungBuyId($id)->update(['young_abn' => '10']);
-    }
-
     public function validator_update($id, Request $request)
     {
-        $model = new BuyOrderModel();
+        $model = new SellOrderModel();
 
         $term = [
-            'id' => 'required',
+            'id' => 'required|exists:sell_order_models,id',
             'total|总金额' => 'required|numeric|between:0,100000000',
-            'poundage|手续费' => 'required|numeric|between:0,100000000',
-            'in|收益' => 'required|numeric|between:0,100000000',
-            'gxd|贡献点' => 'required|numeric|between:0,100000000',
-            'first_total|首付款' => 'required|numeric|between:0,100000000',
-            'tail_total|尾款' => 'required|numeric|between:0,100000000',
-            'tail_complete|尾款已匹配' => 'required|numeric|between:0,100000000',
+            'remind|剩余金额' => 'required|numeric|between:0,100000000',
             'status|状态' => 'required|in:' . implode(',', array_keys($model->status)),
-            'from|来源' => 'required|in:' . implode(',', array_keys($model->from)),
         ];
 
         $request->request->add(['id' => $id]);
 
-        parent::validators_json($request->post(), $term);
+        parent::validators_json($request->post(),$term);
     }
 
     public function update($id, Request $request)
     {
         $data = $request->post();
-        $buy = BuyOrderModel::whereId($id)->first();
+        $sell = SellOrderModel::whereId($id)->first();
 
-
-        $buy->young_total = $data['total'];
-        $buy->young_poundage = $data['poundage'];
-        $buy->young_in = $data['in'];
-        $buy->young_gxd = $data['gxd'];
-        $buy->young_first_total = $data['first_total'];
-        $buy->young_tail_total = $data['tail_total'];
-        $buy->young_tail_complete = $data['tail_complete'];
-        $buy->young_status = $data['status'];
-        $buy->young_from = $data['from'];
-        $buy->save();
+        $sell->young_total = $data['total'];
+        $sell->young_remind = $data['remind'];
+        $sell->young_status = $data['status'];
+        $sell->save();
     }
 }

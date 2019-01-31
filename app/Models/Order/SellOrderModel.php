@@ -51,6 +51,13 @@ class SellOrderModel extends Model
 //        30 => '退款',
     ];
 
+    public function arrays()
+    {
+        return [
+            'status' => $this->status,
+        ];
+    }
+
     //获取新的订单号
     public function new_order_old()
     {

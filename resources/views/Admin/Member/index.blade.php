@@ -29,6 +29,64 @@
         <button class="layui-btn layui-btn-sm" data-type="addData">
             <i class="layui-icon">&#xe654;</i>添加会员
         </button>
+
+        <form class="layui-form layui-inline layui-form-query">
+            <div class="layui-input-inline layui-query-select" style="width:70px;">
+                <select name="status" lay-verify="" style="height:30px;">
+                    <option value="">状态</option>
+                    @foreach($arrays['status'] as $k => $v)
+                        <option value="{{$k}}">{{$v}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="layui-input-inline layui-query-select" style="width:70px;">
+                <select name="act" lay-verify="" style="height:30px;">
+                    <option value="">激活</option>
+                    @foreach($arrays['act'] as $k => $v)
+                        <option value="{{$k}}">{{$v}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="layui-input-inline layui-query-select" style="width:70px;">
+                <select name="mode" lay-verify="" style="height:30px;">
+                    <option value="">下单</option>
+                    @foreach($arrays['mode'] as $k => $v)
+                        <option value="{{$k}}">{{$v}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="layui-input-inline layui-query-select" style="width:70px;">
+                <select name="grade" lay-verify="" style="height:30px;">
+                    <option value="">身份</option>
+                    @foreach($arrays['grade'] as $k => $v)
+                        <option value="{{$k}}">{{$v}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="layui-input-inline layui-query-select" style="width:70px;">
+                <select name="type" lay-verify="" style="height:30px;">
+                    <option value="">收益</option>
+                    @foreach($arrays['type'] as $k => $v)
+                        <option value="{{$k}}">{{$v}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="layui-input-inline layui-query-select" style="width:70px;">
+                <select name="keywordType" lay-verify="" style="height:30px;">
+                    <option value="phone">手机</option>
+                    <option value="account">账号</option>
+                    <option value="nickname">昵称</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" name='keyword' placeholder="请输入关键字" class="layui-input layui-input-mid"/>
+            </div>
+            <div class="layui-input-inline">
+                <button class="layui-btn layui-btn-sm" lay-submit lay-filter="query">
+                    <i class="layui-icon ">&#xe615;</i>搜索
+                </button>
+            </div>
+        </form>
     </div>
 
     <table lay-filter="table" id='idTable' lay-data='{id:"idTable"}'>

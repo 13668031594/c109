@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Order;
+namespace App\Http\Controllers\Admin\Trad;
 
-use App\Http\Classes\Admin\Order\BuyClass;
+use App\Http\Classes\Admin\Trad\TradClass;
 use App\Http\Controllers\Admin\AdminController;
-use App\Models\Order\BuyOrderModel;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class BuyController extends AdminController
+class TradController extends AdminController
 {
     private $classes;
-    protected $view_dir = 'Order.Buy.';
+    protected $view_dir = 'Trad.';
 
     public function __construct()
     {
-        $this->classes = new BuyClass();
+        $this->classes = new TradClass();
     }
 
     public function index()
@@ -43,22 +41,9 @@ class BuyController extends AdminController
 
         $result = $this->classes->arrays();
 
-        $self = $this->classes->show($id);
+        $result['self'] = $this->classes->show($id);
 
-        $result['self'] = $self;
-        $result['match'] = $this->classes->match($id);
-
-        return parent::views('buy', $result);
-    }
-
-    //清除异常状态
-    public function abn(Request $request)
-    {
-        $id = $request->get('id');
-
-        $this->classes->abn($id);
-
-        return parent::success();
+        return parent::views('trad', $result);
     }
 
     //编辑页面

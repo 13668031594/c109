@@ -115,7 +115,7 @@ Route::group(['namespace' => 'Customer'], function () {
     Route::get('/customer/delete', 'CustomerController@destroy')->name('customer.destroy');//客服删除
 });
 
-//采集
+//订单
 Route::group(['namespace' => 'Order'], function () {
 
     Route::get('/buy/index', 'BuyController@index')->name('buy.index');//采集列表
@@ -123,5 +123,22 @@ Route::group(['namespace' => 'Order'], function () {
     Route::get('/buy/show', 'BuyController@show')->name('buy.index');//采集详情
     Route::get('/buy/abn', 'BuyController@abn')->name('buy.abn');//清除异常
     Route::get('/buy/edit', 'BuyController@edit')->name('buy.edit');//订单编辑
+    Route::post('/buy/update/{id}', 'BuyController@update')->name('buy.edit');//订单编辑
+
+    Route::get('/sell/index', 'SellController@index')->name('sell.index');//寄售列表
+    Route::get('/sell/table', 'SellController@table')->name('sell.index');//寄售数据
+    Route::get('/sell/show', 'SellController@show')->name('sell.index');//寄售详情
+    Route::get('/sell/edit', 'SellController@edit')->name('sell.edit');//订单编辑
+    Route::post('/sell/update/{id}', 'SellController@update')->name('sell.edit');//订单编辑
+});
+
+//订单
+Route::group(['namespace' => 'Trad'], function () {
+
+    Route::get('/trad/index', 'TradController@index')->name('trad.index');//挂售列表
+    Route::get('/trad/table', 'TradController@table')->name('trad.index');//挂售数据
+    Route::get('/trad/show', 'TradController@show')->name('trad.index');//挂售详情
+    Route::get('/trad/edit', 'TradController@edit')->name('trad.edit');//订单编辑
+    Route::post('/trad/update/{id}', 'TradController@update')->name('trad.edit');//订单编辑
 });
 

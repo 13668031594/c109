@@ -30,11 +30,12 @@ class MemberRecordModel extends Model
 {
     //变更类型
     public $type = [
-        10 => '后台调整'
+        10 => '后台调整',
+        20 => '收益状态'
     ];
 
     //添加新的变更记录
-    public function store_record(MemberModel $memberModel,$type, $record = '', $keyword = '')
+    public function store_record(MemberModel $memberModel, $type, $record = '', $keyword = '')
     {
         //初始化模型
         $wallet = new self;

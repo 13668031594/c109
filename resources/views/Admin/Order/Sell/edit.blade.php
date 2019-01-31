@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>采集</title>
+    <title>寄售</title>
     <link rel="stylesheet" href="{{$static}}layui/css/layui.css">
     <link rel="stylesheet" href="{{$static}}res/css/common.css"/>
     <!--[if lt IE 9]>
@@ -21,12 +21,12 @@
     <div class="layui-row m-breadcrumb">
         <span class="layui-breadcrumb" lay-separator="/">
           <a href="javascript:;">首页</a>
-          <a href="javascript:;">采集列表</a>
+          <a href="javascript:;">寄售列表</a>
           <a><cite>{{isset($self) ? '编辑' : '添加'}}</cite></a>
         </span>
     </div>
 
-    <form class="layui-form" action="/admin/buy/{{isset($self) ? 'update/'.$self['id'] : 'store'}}">
+    <form class="layui-form" action="/admin/sell/{{isset($self) ? 'update/'.$self['id'] : 'store'}}">
         <div class="layui-form-min">
 
             <div class="layui-form-item">
@@ -59,56 +59,11 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">手续费</label>
+                <label class="layui-form-label">剩余</label>
                 <div class="layui-input-block">
-                    <input type="text" name="poundage" required title="手续费" lay-verify="required|number"
-                           placeholder="手续费"
-                           autocomplete="off" class="layui-input" value='{{$self['poundage']}}'/>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">收益</label>
-                <div class="layui-input-block">
-                    <input type="text" name="in" required title="收益" lay-verify="required|number"
-                           placeholder="总收益"
-                           autocomplete="off" class="layui-input" value='{{$self['in']}}'/>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">贡献点</label>
-                <div class="layui-input-block">
-                    <input type="text" name="gxd" required title="贡献点" lay-verify="required|number"
-                           placeholder="总贡献点"
-                           autocomplete="off" class="layui-input" value='{{$self['gxd']}}'/>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">首付款</label>
-                <div class="layui-input-block">
-                    <input type="text" name="first_total" required title="首付款" lay-verify="required|number"
-                           placeholder="总首付款"
-                           autocomplete="off" class="layui-input" value='{{$self['first_total']}}'/>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">尾款</label>
-                <div class="layui-input-block">
-                    <input type="text" name="tail_total" required title="尾款" lay-verify="required|number"
-                           placeholder="尾款"
-                           autocomplete="off" class="layui-input" value='{{$self['tail_total']}}'/>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">尾款已匹配</label>
-                <div class="layui-input-block">
-                    <input type="text" name="tail_complete" required title="尾款已匹配" lay-verify="required|number"
-                           placeholder="尾款已匹配"
-                           autocomplete="off" class="layui-input" value='{{$self['tail_complete']}}'/>
+                    <input type="text" name="remind" required title="剩余" lay-verify="required|number"
+                           placeholder="剩余"
+                           autocomplete="off" class="layui-input" value='{{$self['remind']}}'/>
                 </div>
             </div>
 
@@ -123,16 +78,6 @@
                         <select name="status" lay-verify="">
                             @foreach($status as $k => $v)
                                 <option value="{{$k}}" {{(isset($self) && $self['status'] == $k) ? 'selected' : null}}>{{$v}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">来源</label>
-                    <div class="layui-input-inline" style="width:90px;">
-                        <select name="from" lay-verify="">
-                            @foreach($from as $k => $v)
-                                <option value="{{$k}}" {{(isset($self) && $self['from'] == $k) ? 'selected' : null}}>{{$v}}</option>
                             @endforeach
                         </select>
                     </div>

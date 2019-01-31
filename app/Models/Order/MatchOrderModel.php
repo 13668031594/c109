@@ -5,6 +5,7 @@ namespace App\Models\Order;
 use App\Http\Classes\Set\SetClass;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberRankModel;
+use App\Models\Member\MemberRecordModel;
 use App\Models\Member\MemberWalletModel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -204,17 +205,26 @@ class MatchOrderModel extends Model
         $poundage = $model->young_poundage;
         if ($poundage <= 0) return;
 
-        //计算奖励金额
-        $reward = number_format(($poundage * $set['rewardPro'] / 100), 2, '.', '');
-        if ($reward <= 0) return;
-
         //寻找买单人
         $member = MemberModel::whereUid($model->uid)->first();
         if (is_null($member) || empty($member->young_referee_id)) return;
 
         //寻找买单人上级
-        $referee = MemberModel::whereUid($member->young_referee_id)->first();
+        $referee = MemberModel::whereUid($member->young_referee_id)->where('young_status', '!=', 'status')->first();
         if (is_null($referee)) return;
+
+        //佣金灼烧制
+        $referee_top = BuyOrderModel::whereUid($referee->uid)->where('young_status', '>=', '70')->orderBy('young_poundage', 'desc')->first();
+        if (is_null($referee_top)) return;
+        if ($referee_top->young_poundage < $poundage) {
+
+            $poundage = $referee_top->young_poundage;
+        }
+
+        //计算奖励金额
+        $reward = number_format(($poundage * $set['rewardPro'] / 100), 2, '.', '');
+        if ($reward <= 0) return;
+
 
         //添加到奖励账户
         $referee->young_reward += $reward;
@@ -267,6 +277,10 @@ class MatchOrderModel extends Model
         $set = new SetClass();
         $set = $set->index();
 
+        $member = MemberModel::whereUid($uid)->first();
+
+        $type = $member->type;
+
         //判断是否满足永动条件
         $number = MemberModel::whereYoungRefereeId($uid)
             ->where('young_format', '=', '20')
@@ -277,7 +291,13 @@ class MatchOrderModel extends Model
         if ($number >= $set['typeAllNum']) {
 
             //修改为永动状态
-            MemberModel::whereUid($uid)->update(['young_type' => '30']);
+            $member->young_type = '30';
+            $member->young_type_time = DATE;
+
+            $record = new MemberRecordModel();
+            $text = '直系下级排单，收益状态变更为：' . $type[30];
+            $record->store_record($member,20,$text);
+
             return;
         }
 
@@ -287,6 +307,15 @@ class MatchOrderModel extends Model
             ->where('young_all_buy_total', '>=', $set['type01'])
             ->count();
 
-        if ($number > 0) MemberModel::whereUid($uid)->update(['young_type' => '10']);
+        if ($number > 0) {
+
+            //修改为永动状态
+            $member->young_type = '10';
+            $member->young_type_time = DATE;
+
+            $record = new MemberRecordModel();
+            $text = '直系下级排单，收益状态变更为：' . $type[10];
+            $record->store_record($member,20,$text);
+        }
     }
 }

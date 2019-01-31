@@ -59,12 +59,19 @@ use Illuminate\Database\Eloquent\Model;
 class TradModel extends Model
 {
     public $status = [
-        10 => '正常',
+        10 => '待认购',
         20 => '待付款',
         30 => '待确认',
         50 => '已完结',
         60 => '已撤回',
     ];
+
+    public function arrays()
+    {
+        return [
+            'status' => $this->status,
+        ];
+    }
 
     //获取新的订单号
     public function new_order()

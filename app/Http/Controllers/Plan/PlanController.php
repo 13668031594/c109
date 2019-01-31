@@ -8,6 +8,7 @@ use App\Http\Classes\Plan\AutoClass;
 use App\Http\Classes\Plan\BuyOverClass;
 use App\Http\Classes\Plan\GradeClass;
 use App\Http\Classes\Plan\MatchClass;
+use App\Http\Classes\Plan\MatchSureClass;
 use App\Http\Classes\Plan\RobClass;
 use App\Http\Classes\Plan\TypeClass;
 use App\Http\Classes\Plan\WageClass;
@@ -36,9 +37,9 @@ class PlanController extends Controller
 
         new MatchClass();//执行订单匹配
 
+        new MatchSureClass();//自动确认未收款的匹配订单
+
         new BuyOverClass();//订单收益完结
-
-
 
         \DB::commit();
     }
