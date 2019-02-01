@@ -97,8 +97,8 @@ Route::post('post-image',function (){
 
     $return = [
         'status' => 'fails',
-        'index' => $_POST['image'] ,
-        'imageId' => $_POST['id'],
+//        'index' => $_POST['image'] ,
+//        'imageId' => $_POST['id'],
         'file' => $_FILES,
         'message' => '失败'  ,
         'url' => '/1.txt'
