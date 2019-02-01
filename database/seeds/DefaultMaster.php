@@ -27,6 +27,9 @@ class DefaultMaster extends Seeder
 
         //初始管理员
         self::default_master($name);
+
+        //创建客服权限组
+        self::customer_power();
     }
 
     //创建超级管理员账号
@@ -90,5 +93,23 @@ class DefaultMaster extends Seeder
         ];
 
         \App\Models\Master\MasterModel::insert($insert);
+    }
+
+    private function customer_power()
+    {
+        $test = \App\Models\Master\MasterPowerModel::find(100001);
+
+        if (!is_null($test)) return $test->young_name;
+
+        $insert = [
+            'id' => '100001',
+            env('DB_COLUMN_PREFIX') . 'name' => '客服组',
+            env('DB_COLUMN_PREFIX') . 'note' => '客服所在权限组',
+            env('DB_COLUMN_PREFIX') . 'content' => '-1',
+            'created_at' => $this->date,
+            'updated_at' => $this->date,
+        ];
+
+        \App\Models\Master\MasterPowerModel::insert($insert);
     }
 }

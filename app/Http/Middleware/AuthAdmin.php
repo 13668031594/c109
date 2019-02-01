@@ -25,7 +25,7 @@ class AuthAdmin
 
         //获取路由信息
         $route = $request->route()->getAction();
-
+//dump($route);
         //没有路由别名
         if (!isset($route['as'])) abort(403, '没有权限!');
 
@@ -53,14 +53,17 @@ class AuthAdmin
         //有模型，且id为1（超级管理员）,无需验证权限
         if ($user->mid == '1') return $next($request);
 
+        //已登录去注销
+        if ($route == 'login.logout') return $next($request);
+
         //前往首页，无需验证
-        if ($route = 'login.index') return $next($request);
+        if ($route == 'login.index') return $next($request);
 
         //初始化权限组类
         $power_model = new MasterPowerClass();
 
         //获取管理员权限组权限
-        $powers = json_decode($power_model->get_storage_power($user->young_power_id), true);
+        $powers = $power_model->get_storage_power($user->young_power_id);
 
         //进行权限判定,全权限与针对权限
         if ((!in_array('-1', $powers)) && !in_array($route, $powers)) {

@@ -28,7 +28,7 @@ class AdminController extends Controller
     {
         $master = auth('master')->user();
 
-        if (is_null($master))return [];
+        if (is_null($master)) return [];
 
         if ($master->mid == '1') return ['-1'];
 

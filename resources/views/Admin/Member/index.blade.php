@@ -26,9 +26,11 @@
     </div>
 
     <div class="toolTable">
-        <button class="layui-btn layui-btn-sm" data-type="addData">
-            <i class="layui-icon">&#xe654;</i>添加会员
-        </button>
+        @if(in_array('member.create',$powers) || in_array('-1',$powers))
+            <button class="layui-btn layui-btn-sm" data-type="addData">
+                <i class="layui-icon">&#xe654;</i>添加会员
+            </button>
+        @endif
 
         <form class="layui-form layui-inline layui-form-query">
             <div class="layui-input-inline layui-query-select" style="width:70px;">
@@ -96,11 +98,20 @@
 <script src="{{$static}}layui/layui.js"></script>
 
 <script type="text/html" id="tableTool">
+    @if(in_array('member.wallet',$powers) || in_array('-1',$powers))
     <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/wallet?id=@{{ d.id }}">详情</a>
     <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/wallet-record?id=@{{ d.id }}">钱包</a>
+    @endif
+    @if(in_array('member.record',$powers) || in_array('-1',$powers))
     <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/record?id=@{{ d.id }}">记录</a>
+    @endif
+    @if(in_array('member.edit',$powers) || in_array('-1',$powers))
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+    @endif
+    @if(in_array('member.destroy',$powers) || in_array('-1',$powers))
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i lass="layui-icon layui-icon-delete"></i>删除</a>
+    @endif
+
 </script>
 <script>
 

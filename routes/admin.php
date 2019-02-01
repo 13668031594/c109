@@ -84,23 +84,23 @@ Route::group(['namespace' => 'Member'], function () {
 
     Route::get('/member/act', 'MemberController@act')->name('member.act');//后台激活会员
 
-    Route::get('/member/wallet', 'MemberController@wallet')->name('member.index');//钱包详情
-    Route::post('/member/wallet', 'MemberController@post_wallet')->name('member.wallet');//钱包充值
-    Route::get('/member/wallet-record', 'MemberController@wallet_record')->name('member.index');//记录页面
-    Route::get('/member/wallet-record-table', 'MemberController@wallet_record_table')->name('member.index');//记录数据
-    Route::get('/member/wallet-record-delete', 'MemberController@wallet_record_delete')->name('member.wallet');//删除记录
+    Route::get('/member/wallet', 'MemberController@wallet')->name('member.wallet');//钱包详情
+    Route::post('/member/wallet', 'MemberController@post_wallet')->name('member.wallet_change');//钱包充值
+    Route::get('/member/wallet-record', 'MemberController@wallet_record')->name('member.wallet');//记录页面
+    Route::get('/member/wallet-record-table', 'MemberController@wallet_record_table')->name('member.wallet');//记录数据
+    Route::get('/member/wallet-record-delete', 'MemberController@wallet_record_delete')->name('member.wallet_destroy');//删除记录
 
-    Route::get('/member/record', 'MemberController@record')->name('member.index');//记录页面
-    Route::get('/member/record-table', 'MemberController@record_table')->name('member.index');//记录数据
-    Route::get('/member/record-delete', 'MemberController@record_delete')->name('member.record_delete');//删除记录
+    Route::get('/member/record', 'MemberController@record')->name('member.record');//记录页面
+    Route::get('/member/record-table', 'MemberController@record_table')->name('member.record');//记录数据
+    Route::get('/member/record-delete', 'MemberController@record_delete')->name('member.record_destroy');//删除记录
 
-    Route::get('/rank/index', 'RankController@index')->name('rank.index');//管理员首页
-    Route::get('/rank/table', 'RankController@table')->name('rank.index');//管理员列表
-    Route::get('/rank/create', 'RankController@create')->name('rank.create');//管理员添加
-    Route::post('/rank/store', 'RankController@store')->name('rank.create');//管理员添加
-    Route::get('/rank/edit', 'RankController@edit')->name('rank.edit');//管理员编辑
-    Route::post('/rank/update/{id}', 'RankController@update')->name('rank.edit');//管理员编辑
-    Route::get('/rank/delete', 'RankController@destroy')->name('rank.destroy');//管理员删除
+    Route::get('/rank/index', 'RankController@index')->name('rank.index');//等级首页
+    Route::get('/rank/table', 'RankController@table')->name('rank.index');//等级列表
+    Route::get('/rank/create', 'RankController@create')->name('rank.create');//等级添加
+    Route::post('/rank/store', 'RankController@store')->name('rank.create');//等级添加
+    Route::get('/rank/edit', 'RankController@edit')->name('rank.edit');//等级编辑
+    Route::post('/rank/update/{id}', 'RankController@update')->name('rank.edit');//等级编辑
+    Route::get('/rank/delete', 'RankController@destroy')->name('rank.destroy');//等级删除
 });
 
 //客服

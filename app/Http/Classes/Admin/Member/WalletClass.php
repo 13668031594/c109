@@ -30,6 +30,8 @@ class WalletClass extends AdminClass
     {
         \DB::beginTransaction();
 
+        $master = parent::get_master();
+
         //寻找会员模型
         $member = MemberModel::whereUid($request->post('id'))->first();
 
@@ -44,10 +46,10 @@ class WalletClass extends AdminClass
         $changes = [];
         if ($number < 0) {
 
-            $record = '管理员扣除了您的『';
+            $record = '管理员『' . $master['nickname'] . '』扣除了您的『';
         } else {
 
-            $record = '管理员为您充值『';
+            $record = '管理员『' . $master['nickname'] . '』为您充值『';
         }
 
         //按类型充值

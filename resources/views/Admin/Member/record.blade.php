@@ -29,9 +29,12 @@
     </div>
 
     <div class="toolTable">
-        <button class="layui-btn layui-btn-sm layui-btn-danger" data-type="delData">
-            <i class="layui-icon ">&#xe640;</i>批量删除
-        </button>
+        @if(in_array('member.record_delete',$powers) || in_array('-1',$powers))
+            <button class="layui-btn layui-btn-sm layui-btn-danger" data-type="delData">
+                <i class="layui-icon ">&#xe640;</i>批量删除
+            </button>
+        @endif
+
         <form class="layui-form layui-inline layui-form-query">
 
             <div class="layui-input-inline layui-query-select" style="width:70px;">
@@ -41,7 +44,6 @@
                         <option value="{{$k}}">{{$v}}</option>
                     @endforeach
                 </select>
-
             </div>
             <div class="layui-input-inline">
                 <label class="layui-form-label layui-form-label-mid">时间筛选</label>
@@ -51,6 +53,7 @@
                            id="startTime" readonly/>
                 </div>
             </div>
+
             <div class="layui-input-inline">
                 <input type="text" placeholder="请选择结束时间" name="endTime" class="layui-input layui-input-mid" id="endTime"
                        readonly/>
@@ -71,8 +74,11 @@
 <script src="{{$static}}layui/layui.js"></script>
 
 <script type="text/html" id="tableTool">
+    @if(in_array('member.record_delete',$powers) || in_array('-1',$powers))
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
                 class="layui-icon layui-icon-delete"></i>删除</a>
+    @endif
+
 </script>
 
 <script>

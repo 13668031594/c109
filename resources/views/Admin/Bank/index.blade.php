@@ -26,9 +26,11 @@
     </div>
 
     <div class="toolTable">
-        <button class="layui-btn layui-btn-sm" data-type="addData">
-            <i class="layui-icon">&#xe654;</i>添加银行
-        </button>
+        @if(in_array('bank.create',$powers) || in_array('-1',$powers))
+            <button class="layui-btn layui-btn-sm" data-type="addData">
+                <i class="layui-icon">&#xe654;</i>添加银行
+            </button>
+        @endif
     </div>
 
     <table lay-filter="table" id='idTable' lay-data='{id:"idTable"}'>
@@ -38,9 +40,14 @@
 <script src="{{$static}}layui/layui.js"></script>
 
 <script type="text/html" id="tableTool">
+    @if(in_array('bank.edit',$powers) || in_array('-1',$powers))
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+    @endif
+    @if(in_array('bank.destroy',$powers) || in_array('-1',$powers))
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
                 class="layui-icon layui-icon-delete"></i>删除</a>
+    @endif
+
 </script>
 <script>
 

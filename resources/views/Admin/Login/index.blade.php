@@ -18,12 +18,14 @@
 
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-    <div class="layui-header" >
+    <div class="layui-header">
         <div class="layui-logo" style="color:#fff;">君王战神管理系统</div>
         <div class="layui-layout-left">
             <ul class="layui-nav layui-op">
-                <li class="layui-nav-item1"><a id='back' href="javascript:;"><i class="layui-icon layui-icon-return"></i> 返回</a></li>
-                <li class="layui-nav-item1"><a id='refresh' href="javascript:;"><i class="layui-icon layui-icon-refresh"></i> 刷新</a></li>
+                <li class="layui-nav-item1"><a id='back' href="javascript:;"><i
+                                class="layui-icon layui-icon-return"></i> 返回</a></li>
+                <li class="layui-nav-item1"><a id='refresh' href="javascript:;"><i
+                                class="layui-icon layui-icon-refresh"></i> 刷新</a></li>
             </ul>
         </div>
         <div class="layui-layout-right">
@@ -35,9 +37,9 @@
                         <dd><a id='loginout' href="javascript:;">退出系统</a></dd>
                     </dl>
                 </li>
-               <!-- <li class="layui-nav-item">
-                    <a href="###" id='loginout'><i class="layui-icon layui-icon-close-fill"></i> 退出</a>
-                </li>-->
+                <!-- <li class="layui-nav-item">
+                     <a href="###" id='loginout'><i class="layui-icon layui-icon-close-fill"></i> 退出</a>
+                 </li>-->
             </ul>
         </div>
     </div>
@@ -45,74 +47,68 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;"><i class="layui-icon layui-icon-app"></i> 系统管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-menu='/admin/set'><i class="layui-icon layui-icon-set-sm"></i> 系统设置</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/prompt/index'><i class="layui-icon layui-icon-set-sm"></i> 提示文字</a></dd>
-                        <!--<dd><a href="javascript:;" data-menu='/admin/express/index'><i class="layui-icon layui-icon-engine"></i> 快递列表</a></dd>-->
-                        <!--<dd><a href="javascript:;" data-menu='/admin/avatar/index'><i class="layui-icon layui-icon-theme"></i> 头像列表</a></dd>-->
-                        <dd><a href="javascript:;" data-menu='/admin/bank/index'><i class="layui-icon layui-icon-file"></i> 银行列表</a></dd>
-                        {{--<dd><a href="javascript:;" data-menu='/admin/welfare/index'><i class="layui-icon layui-icon-file"></i> 福利奖列表</a></dd>--}}
-                        {{--<dd><a href="javascript:;" data-menu='/admin/notice/index'><i class="layui-icon layui-icon-file"></i> 公告列表</a></dd>--}}
-                        {{--<dd><a href="javascript:;" data-menu='/admin/adv/index'><i class="layui-icon layui-icon-file"></i> 广告列表</a></dd>--}}
-                        <dd class="layui-this"><a href="javascript:;" data-menu='/admin/master/index'><i class="layui-icon layui-icon-face-smile-fine"></i> 管理员列表</a></dd>
-                    </dl>
-                </li>
+                @if(in_array('system',$powers) || in_array('-1',$powers))
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;"><i class="layui-icon layui-icon-app"></i> 系统管理</a>
+                        <dl class="layui-nav-child">
+                            @if(in_array('set.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/set'><i
+                                                class="layui-icon layui-icon-set-sm"></i> 系统设置</a></dd>
+                            @endif
+                            @if(in_array('prompt.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/prompt/index'><i
+                                                class="layui-icon layui-icon-set-sm"></i> 提示文字</a></dd>
+                            @endif
+                            @if(in_array('bank.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/bank/index'><i
+                                                class="layui-icon layui-icon-file"></i> 银行列表</a></dd>
+                            @endif
+                            @if(in_array('bank.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/master/index'><i
+                                                class="layui-icon layui-icon-face-smile-fine"></i> 管理员列表</a></dd>
+                            @endif
+                        </dl>
+                    </li>
+                @endif
+                @if(in_array('member',$powers) || in_array('-1',$powers))
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;"><i class="layui-icon layui-icon-username"></i> 会员管理</a>
+                        <dl class="layui-nav-child">
+                            @if(in_array('member.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/member/index'><i
+                                                class="layui-icon layui-icon-user"></i> 会员列表</a></dd>
+                            @endif
+                            @if(in_array('rank.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/rank/index'><i
+                                                class="layui-icon layui-icon-file"></i> 等级列表</a></dd>
+                            @endif
+                            @if(in_array('customer.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/customer/index'><i
+                                                class="layui-icon layui-icon-file"></i> 客服列表</a></dd>
+                            @endif
+                        </dl>
+                    </li>
+                @endif
 
-                <!--<li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;"><i class="layui-icon layui-icon-tabs"></i> 页面设置</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-menu='/admin/banner/index'><i class="layui-icon layui-icon-picture"></i> banner</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/adv/index'><i class="layui-icon layui-icon-link"></i> 广告管理</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="javascript:;" data-menu='/admin/notice/index'><i class="layui-icon layui-icon-notice"></i> 公告管理</a></li>
-                <li class="layui-nav-item"><a href="javascript:;" data-menu='/admin/article/index'><i class="layui-icon layui-icon-survey"></i> 文章管理</a></li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;"><i class="layui-icon layui-icon-layouts"></i> 导航管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-menu='/admin/nav/index'><i class="layui-icon layui-icon-set-sm"></i> 导航设置</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/link/index'><i class="layui-icon layui-icon-spread-left"></i> 快捷导航</a></dd>
-                    </dl>
-                </li>-->
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;"><i class="layui-icon layui-icon-username"></i> 会员管理</a>
-                    <dl class="layui-nav-child">
-                        <!--<dd><a href="javascript:;" data-menu='/admin/member_grade/index'><i class="layui-icon layui-icon-set-sm"></i> 等级管理</a></dd>-->
-                        <dd><a href="javascript:;" data-menu='/admin/member/index'><i class="layui-icon layui-icon-user"></i> 会员列表</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/rank/index'><i class="layui-icon layui-icon-file"></i> 等级列表</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/customer/index'><i class="layui-icon layui-icon-file"></i> 客服列表</a></dd>
-                    </dl>
-                </li>
-                <!--<li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;"><i class="layui-icon layui-icon-cart-simple"></i> 商品管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-menu='/admin/goods_class/index'><i class="layui-icon layui-icon-tips"></i> 商品分类</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/goods/index'><i class="layui-icon layui-icon-cart"></i> 商品列表</a></dd>
-                    </dl>
-                </li>-->
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;"><i class="layui-icon layui-icon-console"></i> 订单管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-menu='/admin/buy/index'><i class="layui-icon layui-icon-log"></i> 采集列表</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/sell/index'><i class="layui-icon layui-icon-log"></i> 寄售列表</a></dd>
-                        <dd><a href="javascript:;" data-menu='/admin/trad/index'><i class="layui-icon layui-icon-log"></i> 贡献点交易</a></dd>
-                        {{--<dd><a href="javascript:;" data-menu='/admin/withdraw/index'><i class="layui-icon layui-icon-log"></i> 提现记录</a></dd>--}}
-                        {{--<dd><a href="javascript:;" data-menu='/admin/exchange/index'><i class="layui-icon layui-icon-log"></i> 兑换列表</a></dd>--}}
-                        {{--<dd><a href="javascript:;" data-menu='/admin/trade/index'><i class="layui-icon layui-icon-log"></i> 交易记录</a></dd>--}}
-                        <!--<dd><a href="javascript:;" data-menu='/admin/send/index'><i class="layui-icon layui-icon-log"></i> 发货列表</a></dd>-->
-                        <!--<dd><a href="javascript:;" data-menu='/admin/send/bat'><i class="layui-icon layui-icon-util"></i> 批量发货</a></dd>-->
-                    </dl>
-                </li>
-                {{--<li class="layui-nav-item layui-nav-itemed">
-                <a class="" href="javascript:;"><i class="layui-icon layui-icon-layouts"></i> 统计</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="javascript:;" data-menu='/admin/bill/total'><i class="layui-icon layui-icon-spread-left"></i> 销售额</a></dd>
-                    <dd><a href="javascript:;" data-menu='/admin/bill/member'><i class="layui-icon layui-icon-spread-left"></i> 会员新增</a></dd>
-                    <dd><a href="javascript:;" data-menu='/admin/bill/withdraw'><i class="layui-icon layui-icon-spread-left"></i> 会员新增</a></dd>
-                </dl>
-                </li>--}}
+                @if(in_array('order',$powers) || in_array('-1',$powers))
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;"><i class="layui-icon layui-icon-console"></i> 订单管理</a>
+                        <dl class="layui-nav-child">
+                            @if(in_array('buy.index',$powers) || in_array('-1',$powers))
+                                <dd class="layui-this"><a href="javascript:;" data-menu='/admin/buy/index'><i
+                                                class="layui-icon layui-icon-log"></i> 采集列表</a></dd>
+                            @endif
+                            @if(in_array('sell.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/sell/index'><i
+                                                class="layui-icon layui-icon-log"></i> 寄售列表</a></dd>
+                            @endif
+                            @if(in_array('trad.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/trad/index'><i
+                                                class="layui-icon layui-icon-log"></i> 贡献点交易</a></dd>
+                            @endif
+                        </dl>
+                    </li>
+                @endif
 
             </ul>
         </div>
@@ -121,7 +117,8 @@
     <!-- 内容主体区域 -->
     <div class="layui-body" style='bottom:0;'>
         <!-- 默认地址 -->
-        <iframe style="vertical-align:top;" id='iframeMain' name='iframeMain' src="/admin/master/index" width='100%' height='100%' frameborder="0" class="layadmin-iframe"></iframe>
+        <iframe style="vertical-align:top;" id='iframeMain' name='iframeMain' src="/admin/buy/index" width='100%'
+                height='100%' frameborder="0" class="layadmin-iframe"></iframe>
     </div>
 
 </div>

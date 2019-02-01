@@ -29,9 +29,11 @@
     </div>
 
     <div class="toolTable">
-        <button class="layui-btn layui-btn-sm layui-btn-danger" data-type="delData">
-            <i class="layui-icon ">&#xe640;</i>批量删除
-        </button>
+        @if(in_array('member.record_destroy',$powers) || in_array('-1',$powers))
+            <button class="layui-btn layui-btn-sm layui-btn-danger" data-type="delData">
+                <i class="layui-icon ">&#xe640;</i>批量删除
+            </button>
+        @endif
         <form class="layui-form layui-inline layui-form-query">
 
             <div class="layui-input-inline layui-query-select" style="width:70px;">
@@ -80,8 +82,10 @@
 <script src="{{$static}}layui/layui.js"></script>
 
 <script type="text/html" id="tableTool">
+    @if(in_array('member.record_destroy',$powers) || in_array('-1',$powers))
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
                 class="layui-icon layui-icon-delete"></i>删除</a>
+    @endif
 </script>
 
 <script>

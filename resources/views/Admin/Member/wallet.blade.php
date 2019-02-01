@@ -103,38 +103,41 @@
                     </tbody>
                 </table>
             </div>
-            <div class="layui-col-sm7 layui-anim layui-anim-upbit">
-                <div style="max-width:400px;margin-top:10px;">
+            @if(in_array('member.wallet_change',$powers) || in_array('-1',$powers))
+                <div class="layui-col-sm7 layui-anim layui-anim-upbit">
+                    <div style="max-width:400px;margin-top:10px;">
 
-                    <!-- 编辑时写入id -->
-                    <input type='hidden' id='id' name="id" value='{{$self["uid"]}}'/>
+                        <!-- 编辑时写入id -->
+                        <input type='hidden' id='id' name="id" value='{{$self["uid"]}}'/>
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">操作类型</label>
-                        <div class="layui-input-block">
-                            <select name="type" lay-filter="type">
-                                <option value="0">余额</option>
-                                <option value="1">手续费</option>
-                                <option value="2">奖励账户</option>
-                                <option value="3">贡献点</option>
-                            </select>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">操作类型</label>
+                            <div class="layui-input-block">
+                                <select name="type" lay-filter="type">
+                                    <option value="0">余额</option>
+                                    <option value="1">手续费</option>
+                                    <option value="2">奖励账户</option>
+                                    <option value="3">贡献点</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">充值数量</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="number" required title="充值数量" lay-verify="required|number"
-                                   placeholder="请输入充值数量"
-                                   autocomplete="off" class="layui-input" value='0'/>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">充值数量</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="number" required title="充值数量" lay-verify="required|number"
+                                       placeholder="请输入充值数量"
+                                       autocomplete="off" class="layui-input" value='0'/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <button class="layui-btn" id='submit' lay-submit lay-filter="*">立即提交</button>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" id='submit' lay-submit lay-filter="*">立即提交</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
+
         </div>
     </form>
 </div>

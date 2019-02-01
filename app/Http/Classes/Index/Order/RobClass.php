@@ -106,10 +106,10 @@ class RobClass extends IndexClass
                 break;
         }
 
-        $poundage = $data['poundage'] * $data['number'];
+        $poundage = $set['buyPoundage'] * $data['number'];
 
         if (($set['buyPoundageNone'] != 'on') && ($poundage > $member['poundage'])) parent::error_json($this->set['walletPoundage'] . '不足');
-        if ($data['poundage'] != $set['buyPoundage']) parent::error_json('请刷新重试（poundage）');
+        if ($data['poundage'] != $poundage) parent::error_json('请刷新重试（poundage）');
         if ($data['amount'] != $set['goodsTotal']) parent::error_json('请刷新重试（amount）');
         if ($data['total'] != ($data['amount'] * $data['number'])) parent::error_json('请刷新重试（total）');
         $top = self::top_order();

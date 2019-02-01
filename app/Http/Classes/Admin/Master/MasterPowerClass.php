@@ -83,8 +83,14 @@ class MasterPowerClass extends AdminClass implements \App\Http\Classes\ListInter
         //判断是否有模型
         if (!is_null($power)) {
 
-            //获取权限数组
-            $content = is_null($power->young_content) ? [] : explode('|', $power->young_content);
+            if ($id == '100001') {
+
+                $content = self::customer();
+            } else {
+
+                //获取权限数组
+                $content = is_null($power->young_content) ? [] : explode('|', $power->young_content);
+            }
 
             //添加权限信息文件
             Storage::put($this->storage_map . $id, json_encode($content));
@@ -99,6 +105,8 @@ class MasterPowerClass extends AdminClass implements \App\Http\Classes\ListInter
      */
     public function get_storage_power($id)
     {
+        if ($id == '100001') return self::customer();
+
         //判断权限组文件是否存在
         if (!Storage::exists($this->storage_map . $id)) {
 
@@ -112,5 +120,11 @@ class MasterPowerClass extends AdminClass implements \App\Http\Classes\ListInter
         return json_decode(Storage::get($this->storage_map . $id), true);
     }
 
-
+    private function customer()
+    {
+        return [
+            'member', 'member.index', 'member.create', 'member.edit', 'member.act', 'member.wallet', 'member.record',
+            'order','buy.index', 'buy.abn','sell.index','trad.index',
+        ];
+    }
 }

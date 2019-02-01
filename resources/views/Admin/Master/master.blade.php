@@ -45,19 +45,19 @@
             </div>
         </div>
 
-        <input type="hidden" name="power_id" value="100000">
-        {{--<div class="layui-form-item">
+        {{--<input type="hidden" name="power_id" value="100000">--}}
+        <div class="layui-form-item">
             <label class="layui-form-label">管理员权限</label>
             <div class="layui-input-block">
-                <select name="power">
-                    @if(count($powers) >0)
-                        @foreach($powers as $v)
+                <select name="power_id">
+                    @if(count($power_list) >0)
+                        @foreach($power_list as $v)
                             <option value="{{$v['id']}}" {{(isset($self) && ($self['power_id'] == $v['id'])) ? 'selected' : ''}}>{{$v['name']}}
                         @endforeach
                     @endif
                 </select>
             </div>
-        </div>--}}
+        </div>
 
         @if (isset($self))
             <div class="layui-form-item">

@@ -56,7 +56,7 @@
                                     <span class="layui-badge-rim">{{$status[$self['status']]}}</span> /
                                     <span class="layui-badge-rim">{{$from[$self['from']]}}</span> /
                                     <span class="layui-badge-rim">{{$abn[$self['abn']]}}</span>
-                                    @if($self['abn'] == '20')
+                                    @if($self['abn'] == '20' && (in_array('buy.abn',$powers) || in_array('-1',$powers)))
                                         <a href="javascript:;" id="abnRemove"
                                            class="layui-badge layui-bg-green">解除异常</a>
                                     @endif

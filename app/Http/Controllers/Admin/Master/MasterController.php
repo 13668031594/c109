@@ -39,9 +39,9 @@ class MasterController extends AdminController implements ListInterface
         $powers = $this->classes->powers();
 
         $result = [
-            'powers' => $powers
+            'power_list' => $powers
         ];
-
+//dd($powers);
         return parent::views('master', $result);
     }
 
@@ -62,7 +62,7 @@ class MasterController extends AdminController implements ListInterface
 
         $result = [
             'self' => $self,
-            'powers' => $powers
+            'power_list' => $powers
         ];
 
         return parent::views('master', $result);
@@ -70,16 +70,16 @@ class MasterController extends AdminController implements ListInterface
 
     public function update($id, Request $request)
     {
-        $this->classes->validator_update($id,$request);
+        $this->classes->validator_update($id, $request);
 
-        $this->classes->update($id,$request);
+        $this->classes->update($id, $request);
 
         return parent::success('/admin/master/index');
     }
 
     public function destroy(Request $request)
     {
-        $ids = explode(',',$request->get('id'));
+        $ids = explode(',', $request->get('id'));
 
         $this->classes->validator_delete($ids);
 
