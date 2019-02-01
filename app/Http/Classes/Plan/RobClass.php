@@ -101,7 +101,7 @@ class RobClass extends PlanClass
         $model = new RobModel();
         $model->whereIn('id', $ids)->where('young_status', '=', '10')->update(['young_status' => '30']);
 
-        foreach ($ids as $v)self::store_buy($v);
+        foreach ($ids as $v) self::store_buy($v);
     }
 
     //激活失败

@@ -12,6 +12,7 @@ use App\Http\Classes\Index\IndexClass;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Order\BuyOrderModel;
+use App\Models\Order\RobModel;
 use Illuminate\Http\Request;
 
 class BuyClass extends IndexClass
@@ -190,11 +191,6 @@ class BuyClass extends IndexClass
 
         if ($set['buySwitch'] != 'on') parent::error_json('暂时无法采集');//手动采集开关
 
-        //寻找该会员的最后一个订单
-        $last = new BuyOrderModel();
-        $last = $last->where('uid', '=', $member['uid'])->where('young_status', '<', '70')->orderBy('created_at', 'desc')->first();
-        if (!is_null($last)) parent::error_json('上一个订单尚未付完全款');
-
         $number_max = 0;
         $time_lower = 0;
         $time_ceil = 0;
@@ -203,11 +199,24 @@ class BuyClass extends IndexClass
                 $time_lower = $set['goodsLower0'];
                 $time_ceil = $set['goodsCeil0'];
                 $number_max = $set['goodsTop0'];
+                //寻找该会员的最后一个订单
+                $last = new BuyOrderModel();
+                $last = $last->where('uid', '=', $member['uid'])->where('young_status', '<', '70')->orderBy('created_at', 'desc')->first();
+                if (!is_null($last)) parent::error_json('上一个订单尚未付完全款');
                 break;
             case '20':
                 $time_lower = $set['goodsLower1'];
                 $time_ceil = $set['goodsCeil1'];
                 $number_max = $set['goodsTop1'];
+                //寻找该会员的最后一个订单
+                $last = new BuyOrderModel();
+                $last = $last->where('uid', '=', $member['uid'])->orderBy('created_at', 'desc')->first();
+                if (!is_null($last)) {
+
+                    if ($last->young_status < 40) parent::error_json('上一个订单尚未付首款');
+                    if ($last->created_at >= date('Y-m-d 00:00:00')) parent::error_json('一天只能下一个单');
+                    if (time() < strtotime('+' . $last->young_days . ' day', strtotime($last->created_at))) parent::error_json('还未到下一个排单周期');
+                }
                 break;
             default:
                 parent::error_json('请刷新重试（mode）');
@@ -303,6 +312,9 @@ class BuyClass extends IndexClass
         $keyword = $order->young_order;
         $change = ['poundage' => (0 - $poundage)];
         $wallet->store_record($member, $change, 40, $record, $keyword);
+
+        //将自动抢单设定为失败
+        RobModel::whereUid($member->uid)->update(['young_status' => '30']);
     }
 
     //自主采集列表

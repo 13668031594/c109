@@ -69,11 +69,15 @@ class RobClass extends IndexClass
         //寻找该会员的最后一个订单
         $last = new BuyOrderModel();
         $last = $last->where('uid', '=', $member['uid'])
-            ->where('young_from', '=', '30')
-            ->where('young_status', '<', '70')
+//            ->where('young_from', '=', '30')
+//            ->where('young_status', '<', '40')
             ->orderBy('created_at', 'desc')
             ->first();
-        if (!is_null($last)) parent::error_json('上一个抢单的订单尚未付完全款');
+        if (!is_null($last)) {
+
+            if ($last->young_status < 40) parent::error_json('上一个订单尚未付首款');
+            if ($last->created_at >= date('Y-m-d 00:00:00')) parent::error_json('一天只能下一个单');
+        }
 
         //各项参数
         $time_lower = $set['goodsLower1'];
