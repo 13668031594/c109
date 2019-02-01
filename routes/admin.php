@@ -101,6 +101,9 @@ Route::group(['namespace' => 'Member'], function () {
     Route::get('/rank/edit', 'RankController@edit')->name('rank.edit');//等级编辑
     Route::post('/rank/update/{id}', 'RankController@update')->name('rank.edit');//等级编辑
     Route::get('/rank/delete', 'RankController@destroy')->name('rank.destroy');//等级删除
+
+    Route::get('/liq', 'MemberController@liq')->name('member.liq');
+    Route::post('/liq', 'MemberController@liq——post')->name('member.liq');
 });
 
 //客服

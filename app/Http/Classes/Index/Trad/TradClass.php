@@ -198,7 +198,7 @@ class TradClass extends IndexClass
             'image|支付凭证' => 'required|image|max:1024',
         ];
 
-        parent::validators_json($request->all(), $term);
+//        parent::validators_json($request->all(), $term);
 
         //获取会员
         $member = parent::get_member();
