@@ -82,9 +82,12 @@ Route::group(['middleware' => ['auth:api', 'apiAct30', 'apiStatus30']], function
     });
 });
 
-Route::post('post_image',function (){
+Route::post('post-image',function (){
 
-    if( !is_uploaded_file( $_FILES['image']["tmp_name"] ) ){
+    if (!isset($_FILES['image'])){
+
+        $return['message'] = '没有收到image';
+    }elseif( !is_uploaded_file( $_FILES['image']["tmp_name"] ) ){
         $return['message'] = '不是一个可以上传的文件' ;
     }else{
         if( move_uploaded_file($_FILES["image"]["tmp_name"], "upload/" . $_FILES["image"]["name"] ) ){
