@@ -99,9 +99,9 @@ Route::post('post-image',function (){
     }elseif( !is_uploaded_file( $_FILES['image']["tmp_name"] ) ){
         $return['message'] = '不是一个可以上传的文件' ;
     }else{
-        if( move_uploaded_file($_FILES["image"]["tmp_name"], "upload/" . $_FILES["image"]["name"] ) ){
-            $return['message'] = '成功' ;
-        }
+//        if( move_uploaded_file($_FILES["image"]["tmp_name"], "upload/" . $_FILES["image"]["name"] ) ){
+//            $return['message'] = '成功' ;
+//        }
     }
 
     return json_encode($return);
