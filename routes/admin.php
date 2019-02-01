@@ -103,7 +103,7 @@ Route::group(['namespace' => 'Member'], function () {
     Route::get('/rank/delete', 'RankController@destroy')->name('rank.destroy');//等级删除
 
     Route::get('/liq', 'MemberController@liq')->name('member.liq');
-    Route::post('/liq', 'MemberController@liq——post')->name('member.liq');
+    Route::post('/liq', 'MemberController@liq_post')->name('member.liq');
 });
 
 //客服
