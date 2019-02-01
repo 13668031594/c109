@@ -27,14 +27,13 @@ class PayClass extends IndexClass
             'image|支付凭证' => 'required|image|max:1024',
         ];
 
-        parent::validators_json($request->all(), $term);
-//dd(1);
+//        parent::validators_json($request->all(), $term);
+
         $begin = parent::set_time($this->set['payStart']);
         $end = parent::set_time($this->set['payEnd']);
         $now = time();
         if (($now < $begin) || ($now > $end)) parent::error_json('请在每天 ' . $this->set['payStart'] . ' 至 ' . $this->set['payEnd'] . ' 付款');
 
-//        $id = $request->post('id');
         //获取会员
         $member = parent::get_member();
 
