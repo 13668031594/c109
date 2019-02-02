@@ -264,6 +264,7 @@ class ApiLoginClass extends IndexClass
         $member->young_this_login_time = DATE;
         $member->young_last_login_ip = $member->young_this_login_ip;
         $member->young_this_login_ip = $_SERVER["REMOTE_ADDR"];
+        $member->young_cid = \request()->post('cid');
         $member->save();
     }
 

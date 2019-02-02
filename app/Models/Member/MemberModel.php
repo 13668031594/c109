@@ -83,7 +83,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $young_formal 正式
  * @property int $young_customer 客服id
  * @property string|null $young_formal_time 成为正式会员时间
- * @property string|null $young_type_change 收益类型变换基础时间
+ * @property string|null $young_cid 推送cid
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
@@ -113,6 +113,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungBankMan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungBankName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungBankNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungCid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungCustomer($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungFamilies($value)
@@ -159,7 +160,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungThisLoginIp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungThisLoginTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungTypeChange($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungTypeTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungWithdraw($value)
  * @mixin \Eloquent
