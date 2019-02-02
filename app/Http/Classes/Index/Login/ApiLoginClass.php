@@ -344,8 +344,8 @@ class ApiLoginClass extends IndexClass
     //获取上级信息
     public function referee($member)
     {
-        $member['referee_phone'] = '无';
-        $member['referee_email'] = '无';
+        $member['referee_phone'] = '88888888888';
+        $member['referee_email'] = '00000@qq.com';
 
         if (!empty($member['referee_id'])) {
 
