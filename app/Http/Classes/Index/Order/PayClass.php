@@ -119,7 +119,7 @@ class PayClass extends IndexClass
         $begin = parent::set_time($this->set['inStart']);
         $end = parent::set_time($this->set['inEnd']);
         $now = time();
-        if (($now < $begin) || ($now > $end)) parent::error_json('请在每天 ' . $this->set['inStart'] . ' 至 ' . $this->set['inEnd'] . ' 确认收款');
+//        if (($now < $begin) || ($now > $end)) parent::error_json('请在每天 ' . $this->set['inStart'] . ' 至 ' . $this->set['inEnd'] . ' 确认收款');
 
         //获取会员
         $member = parent::get_member();
@@ -130,10 +130,10 @@ class PayClass extends IndexClass
         if (is_null($match)) parent::error_json('未找到该匹配订单');
 
         //判断归属人
-        if ($match->young_sell_uid != $member['uid']) parent::error_json('只能确认自己的订单');
+//        if ($match->young_sell_uid != $member['uid']) parent::error_json('只能确认自己的订单');
 
         //判断订单状态
-        if ($match->young_status != '20') parent::error_json('该订单无法确认收款');
+//        if ($match->young_status != '20') parent::error_json('该订单无法确认收款');
 
         //保存并修改订单状态
         $match->young_status = 30;

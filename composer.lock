@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d89884e9db08899a573b28be3ceb1d14",
+    "content-hash": "58c952331394133204ddc67bf784862f",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1012,6 +1012,46 @@
                 "parser"
             ],
             "time": "2014-09-09T13:34:57+00:00"
+        },
+        {
+            "name": "earnp/getui",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/earnp/laravel-getui.git",
+                "reference": "f0b428c49991c37684adae5525c8a36eab3eb9fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/earnp/laravel-getui/zipball/f0b428c49991c37684adae5525c8a36eab3eb9fe",
+                "reference": "f0b428c49991c37684adae5525c8a36eab3eb9fe",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Earnp\\Getui\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "lusong",
+                    "email": "714628712@qq.com",
+                    "homepage": "https://phpartisan.cn"
+                }
+            ],
+            "description": "Laravel 5 Getui Package",
+            "time": "2018-06-01T01:53:11+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -6669,7 +6709,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "earnp/getui": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

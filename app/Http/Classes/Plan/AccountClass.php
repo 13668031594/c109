@@ -9,6 +9,7 @@
 namespace App\Http\Classes\Plan;
 
 use App\Models\Member\MemberModel;
+use function GuzzleHttp\Psr7\str;
 
 class AccountClass extends PlanClass
 {
@@ -37,9 +38,11 @@ class AccountClass extends PlanClass
         //去除重复的
         $stop_ids = array_unique($stop_ids);
 
+        $date = date('Y-m-d H:i:s', strtotime('-1 day'));
+
         //修改状态
         $model = new MemberModel();
-        $model->whereIn('uid', $stop_ids)->update(['young_status' => '30', 'young_status_time' => DATE]);
+        $model->whereIn('uid', $stop_ids)->where('young_status_time', '<', $date)->update(['young_status' => '30', 'young_status_time' => DATE]);
     }
 
     //寻找自主注册，且打到封号标准的会员

@@ -259,6 +259,14 @@
                         </div>
                         <div class="layui-form-mid layui-word-aux">发放激活码的时间</div>
                     </div>
+
+                    <label class="layui-form-label">禁止注册</label>
+                    <div class="layui-input-block">
+                            <textarea id="webCloseTxt" title="禁止注册的地区" name="actRegOut" lay-verify="reason"
+                                      placeholder="禁止注册的地区"
+                                      class="layui-textarea">{{$self['actRegOut']}}
+                            </textarea>
+                    </div>
                 </div>
                 <div class="layui-tab-item">
                     <div class="layui-form-item">
@@ -1009,7 +1017,7 @@
             , url: urls.upload
             , field: 'images'
             , exts: 'jpg|png|gif|bmp|jpeg'
-            , size: 500//kb
+            , size: 3000//kb
             , number: 1
             , done: function (res, index, upload) {
                 console.log(res);

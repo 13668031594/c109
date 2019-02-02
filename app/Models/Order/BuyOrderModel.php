@@ -138,7 +138,7 @@ class BuyOrderModel extends Model
         }
     }
 
-    public function new_order()
+    public function new_order_2()
     {
         $num = 100000;
 
@@ -165,5 +165,27 @@ class BuyOrderModel extends Model
 
         $num++;
         return self::test_order($num);
+    }
+
+    public function new_order()
+    {
+        $string = 'abcdefghijklmnopqrstuvwxvzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $max = strlen($string) - 1;
+        $min = 0;
+
+        $key = 'B';
+
+        for ($i = 6; $i > 0; $i--) {
+
+            $key .= $string[rand($min, $max)];
+        }
+
+        //验证订单号是否被占用
+        $test = new BuyOrderModel();
+        $test = $test->where('young_order', '=', $key)->first();
+
+        if (is_null($test)) return $key;
+
+        return self::new_order();
     }
 }

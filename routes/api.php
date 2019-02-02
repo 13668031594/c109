@@ -81,28 +81,3 @@ Route::group(['middleware' => ['auth:api', 'apiAct30', 'apiStatus30']], function
         Route::get('trad/{id}', 'TradController@over');//确认
     });
 });
-
-Route::post('post-image',function (){
-
-    $return = [
-        'status' => 'fails',
-//        'index' => $_POST['image'] ,
-//        'imageId' => $_POST['id'],
-        'file' => $_FILES,
-        'message' => '失败',
-        'url' => '/1.txt'
-    ];
-
-    if (!isset($_FILES['image'])){
-
-        $return['message'] = '没有收到image';
-    }elseif( !is_uploaded_file( $_FILES['image']["tmp_name"] ) ){
-        $return['message'] = '不是一个可以上传的文件' ;
-    }else{
-        if( move_uploaded_file($_FILES["image"]["tmp_name"], "upload/" . $_FILES["image"]["name"] ) ){
-            $return['message'] = '成功' ;
-        }
-    }
-
-    return json_encode($return);
-});

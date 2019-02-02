@@ -179,6 +179,9 @@ return [
 
         //api验证码
         \App\Vendor\ApiCaptcha\ApiCaptchaServiceProvider::class,
+
+        //个推
+        Earnp\Getui\GetuiServiceprovider::class,
     ],
 
     /*
@@ -227,6 +230,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Getui'     => Earnp\Getui\Facades\Getui::class,
     ],
 
 ];

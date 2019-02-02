@@ -11,7 +11,12 @@
 |
 */
 Route::get('/', function () {
-    return view('test');
+
+    $date = date('Ymd');
+    $a = \Earnp\Getui\Getui::getUserDataByDate($date);
+//    $a = \Earnp\Getui\Getui::getUserStatus();
+    dd($a);
+//    return view('test');
 });
 
 Route::post('test/{id}','Api\Order\BuyController@pay');

@@ -80,11 +80,14 @@ trait ImageTrait
             $new_image = $image;
         }
 
+//        $new_image = $image->resize(750, 1334);
+
         //判断是否传入名称
         $name = is_null($img_name) ? $name : $img_name;
 
         //新的文件名
         $new_url = $name . '_' . $length . '.' . $suffix;
+//        $new_url = $name . '_' . $length . '.png' ;
 
         //保存裁剪图片
         Storage::put($new_url, $new_image->encode());

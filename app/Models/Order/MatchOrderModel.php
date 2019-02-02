@@ -318,4 +318,26 @@ class MatchOrderModel extends Model
             $record->store_record($member,20,$text);
         }
     }
+
+    public function new_order()
+    {
+        $string = 'abcdefghijklmnopqrstuvwxvzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $max = strlen($string) - 1;
+        $min = 0;
+
+        $key = 'B';
+
+        for ($i = 6; $i > 0; $i--) {
+
+            $key .= $string[rand($min, $max)];
+        }
+
+        //验证订单号是否被占用
+        $test = new BuyOrderModel();
+        $test = $test->where('young_order', '=', $key)->first();
+
+        if (is_null($test)) return $key;
+
+        return self::new_order();
+    }
 }
