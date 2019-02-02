@@ -259,13 +259,13 @@
                         </div>
                         <div class="layui-form-mid layui-word-aux">发放激活码的时间</div>
                     </div>
-
-                    <label class="layui-form-label">禁止注册</label>
-                    <div class="layui-input-block">
-                            <textarea id="webCloseTxt" title="禁止注册的地区" name="actRegOut" lay-verify="reason"
-                                      placeholder="禁止注册的地区"
-                                      class="layui-textarea">{{$self['actRegOut']}}
-                            </textarea>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">禁止注册</label>
+                        <div class="layui-input-block">
+                        <textarea type="text" name="accountRegOut" title="禁止注册的地区"
+                                  placeholder="禁止注册的地区" autocomplete="off"
+                                  class="layui-textarea">{{$self['accountRegOut']}}</textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="layui-tab-item">

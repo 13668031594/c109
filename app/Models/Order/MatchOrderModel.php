@@ -247,7 +247,7 @@ class MatchOrderModel extends Model
         $families = explode(',', $member->young_families);
 
         $rank = new MemberRankModel();
-        $rank = $rank->orderBy('id', 'desc')->all();
+        $rank = $rank->orderBy('id', 'desc')->get();
 
         foreach ($families as $v) {
 
@@ -279,7 +279,9 @@ class MatchOrderModel extends Model
 
         $member = MemberModel::whereUid($uid)->first();
 
-        $type = $member->type;
+        if (is_null($member))return;
+
+        $type = $member->young_type;
 
         //判断是否满足永动条件
         $number = MemberModel::whereYoungRefereeId($uid)

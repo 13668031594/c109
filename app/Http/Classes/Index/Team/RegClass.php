@@ -70,6 +70,45 @@ class RegClass extends IndexClass
         parent::validators_json($request->post(), $term);
     }
 
+    //验证是否在禁止注册地区
+    public function validator_region($phone)
+    {
+        //禁止注册字符串
+        $out = $this->set['accountRegOut'];
+
+        //没有禁止注册
+        if (empty($out)) return;
+
+        //初始化数组
+        $out_array = [];
+
+        //拆开回车符号
+        $address = explode("\n", $out);
+
+        //拆开空格
+        foreach ($address as $v) {
+
+            $array = explode(" ", $v);
+
+            $out_array = array_merge($out_array, $array);
+        }
+
+        //接口路径
+        $url = "http://mobsec-dianhua.baidu.com/dianhua_api/open/location?tel=" . $phone;
+
+        //获取电话信息
+        $result = json_decode(parent::url_get($url), true);
+
+        //找到省级归属字段
+        if (!isset($result['response'][$phone]['detail']['province'])) return;
+
+        //省级地址
+        $province = $result['response'][$phone]['detail']['province'];
+
+        if (in_array($province, $out_array)) parent::error_json($province . '地区现在禁止注册了');
+    }
+
+
     //注册账号
     public function reg(Request $request)
     {
@@ -94,6 +133,7 @@ class RegClass extends IndexClass
         $model->young_pay_pass = \Hash::make($request->post('password'));
         $model->young_nickname = $request->post('nickname');
         $model->young_mode = $this->set['accountModeDefault'];
+        $model->young_type = '10';
         $model->save();
         //添加账号信息
         $end = $model->new_account($model);

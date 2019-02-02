@@ -48,7 +48,7 @@ class CreateMemberModelsTable extends Migration
             $table->timestamp('young_status_time')->nullable()->comment('账号状态变更时间');
             $table->char('young_mode', 2)->default('10')->comment('账号模式');
             $table->timestamp('young_mode_time')->nullable()->comment('账号模式变更时间');
-            $table->char('young_type', 2)->default('20')->comment('收益模式');
+            $table->char('young_type', 2)->default('10')->comment('收益模式');
             $table->timestamp('young_type_time')->nullable()->comment('收益模式变更时间');
             $table->char('young_liq', 2)->default('10')->comment('清算模式');
             $table->timestamp('young_liq_time')->nullable()->comment('清算模式变更时间');

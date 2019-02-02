@@ -66,7 +66,9 @@ class SellController extends ApiController
     {
         $class = new PayClass();
 
+        \DB::beginTransaction();
         $class->confirm($id);
+        \DB::commit();
 
         return parent::success();
     }
@@ -75,7 +77,9 @@ class SellController extends ApiController
     {
         $class = new PayClass();
 
+        \DB::beginTransaction();
         $class->abn($id);
+        \DB::commit();
 
         return parent::success();
     }

@@ -128,14 +128,18 @@ class BuyController extends ApiController
     //全部数据
     public function withdraw()
     {
+        \DB::beginTransaction();
         $result = $this->classes->index('2');
+        \DB::commit();
 
         return parent::success($result);
     }
 
     public function withdraw_post($id)
     {
+        \DB::beginTransaction();
         $this->classes->withdraw($id);
+        \DB::commit();
 
         return parent::success();
     }

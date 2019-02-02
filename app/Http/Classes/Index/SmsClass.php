@@ -49,17 +49,14 @@ class SmsClass extends IndexClass
         $code = rand(10000, 99999);
 
         //发送短信
-        $content = '';
         switch ($type) {
             case 'reset':
-                $content .= '您正在使用手机修改密码';
+                $content = "验证码为：{$code}，您正在修改密码，若非本人操作请无视此短信！";
                 break;
             default:
-                $content .= '您正在使用手机注册';
-
+                $content = "验证码为：{$code}，您正在注册成为平台玩家，感谢您的支持！";
                 break;
         }
-        $content .= '，验证码为：' . $code . '，2分钟内有效!';
 
         $result = $this->sendSms($phone, $content);
 

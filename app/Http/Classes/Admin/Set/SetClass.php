@@ -88,7 +88,7 @@ class SetClass extends AdminClass
             'accountActPoundage|激活收取手续费' => 'required|integer|between:0,100000000',//激活收取手续费
             'accountActPoundageNone|负手续费激活开关' => 'required|in:on,off',//负手续费激活开关
             'accountModeDefault|默认防撞模式' => 'required|in:10,20',//默认防撞模式
-            'actRegOut|禁止注册地区' => 'required|max:300',
+            'accountRegOut|禁止注册地区' => 'nullable|max:300',
             //删号设置
             'deleteIndexRegSwitch|自主注册不排单删号开关' => 'required|in:on,off',//自主注册不排单删号开关
             'deleteIndexRegTime|自主注册不排单删号时间' => 'required|integer|between:1,3650',//9天后删除
@@ -204,7 +204,7 @@ class SetClass extends AdminClass
             'accountActPoundage' => '2',//激活收取手续费
             'accountActPoundageNone' => 'on',//负手续费激活开关
             'accountModeDefault' => '10',//默认防撞模式
-            'actRegOut' => '',//禁止注册地区
+            'accountRegOut' => '',//禁止注册地区
             //删号设置
             'deleteIndexRegSwitch' => 'on',//自主注册不排单删号开关
             'deleteIndexRegTime' => '9',//9天后删除

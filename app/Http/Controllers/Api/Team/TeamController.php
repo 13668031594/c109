@@ -56,7 +56,6 @@ class TeamController extends ApiController
         return parent::success(['banks' => $banks]);
     }
 
-
     //添加新的账号
     public function reg(Request $request)
     {
@@ -64,9 +63,12 @@ class TeamController extends ApiController
 
         //验证短信验证码
         $class = new SmsClass();
+
         $class->validator_phone($request);
 
         $reg->validator_reg($request);
+
+        $reg->validator_region($request->post('phone'));
 
         $member = $reg->reg($request);
 
@@ -79,6 +81,8 @@ class TeamController extends ApiController
         $reg = new RegClass();
 
         $reg->validator_sms($phone);
+
+        $reg->validator_region($phone);
 
         $class = new SmsClass();
 
