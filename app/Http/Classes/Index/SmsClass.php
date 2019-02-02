@@ -24,7 +24,7 @@ class SmsClass extends IndexClass
         self::delete_sms($time);
 
         //发送
-        $end = self::send_sms($phone, $time, $templateCode);
+        $end = self::send_sms_dxb($phone, $time, $templateCode);
 
         return $end;
     }
@@ -96,6 +96,70 @@ class SmsClass extends IndexClass
         $model->save();
 
         return $end;
+    }
+
+    //发送短信
+    public function send_sms_dxb($phone, $time, $type = 'reg')
+    {
+        //生成验证码
+        $code = rand(10000, 99999);
+
+        //发送短信
+        $content = '【君王战神】';
+        switch ($type) {
+            case 'reset':
+                $content .= '您正在使用手机找回密码';
+                break;
+            default:
+                $content .= '您正在使用手机注册';
+
+                break;
+        }
+        $content .= '，验证码为：' . $code . '，2分钟内有效!';
+
+        $result = self::send_dxb($phone, $content);
+
+        //判断回执
+        if ($result != '0') parent::error_json('发送失败' . $result);
+
+        //生成结束时间
+        $end = $time + 120;
+
+        //添加到数据库
+        //添加到数据库
+        $model = new MemberSmsModel();
+        $model->young_phone = $phone;
+        $model->young_end = $end;
+        $model->young_code = $code;
+        $model->save();
+
+        return $end;
+    }
+
+    /**
+     * @param $phone //电话
+     * @param $content //内容
+     * @return mixed|null
+     */
+    public function send_dxb($phone, $content)
+    {
+        $statusStr = array(
+            "0" => "短信发送成功",
+            "-1" => "参数不全",
+            "-2" => "服务器空间不支持,请确认支持curl或者fsocket，联系您的空间商解决或者更换空间！",
+            "30" => "密码错误",
+            "40" => "账号不存在",
+            "41" => "余额不足",
+            "42" => "帐户已过期",
+            "43" => "IP地址限制",
+            "50" => "内容含有敏感词"
+        );
+        $smsapi = "http://api.smsbao.com/";
+        $user = "jy00795800"; //短信平台帐号
+        $pass = md5("asdasd123"); //短信平台密码
+        $sendurl = $smsapi . "sms?u=" . $user . "&p=" . $pass . "&m=" . $phone . "&c=" . urlencode($content);
+        $result = file_get_contents($sendurl);
+        return $result;
     }
 
     /**

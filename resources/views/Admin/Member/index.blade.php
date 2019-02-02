@@ -142,7 +142,7 @@
             cols: [[
                 {field: 'account', width: 80, title: '帐号'},
                 {field: 'phone', width: 120, title: '手机'},
-                {field: 'email', width: 200, title: '邮箱'},
+                {field: 'email', width: 150, title: '邮箱'},
                 {field: 'nickname', width: 100, title: '昵称'},
                 {
                     field: 'status', width: 80, title: '状态', templet: function (d) {
@@ -179,7 +179,7 @@
                 {field: 'gxd', width: 100, title: '贡献点'},
                 {field: 'reward', width: 100, title: '奖励'},
                 {field: 'created_at', width: 170, title: '创建时间'},
-                {fixed: 'right', title: '操作', minWidth: 150, align: 'center', toolbar: '#tableTool'}
+                {fixed: 'right', title: '操作', minWidth: 330, align: 'center', toolbar: '#tableTool'}
             ]]
         });
         mTable.render();

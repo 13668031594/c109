@@ -294,8 +294,8 @@ class SetClass extends AdminClass
             'consignTimes' => '100',
             'consignPoundage' => '15',
             //在线更新
-            'versionIos' => '1.0.1',
-            'versionAndroid' => '1.0.1',
+            'versionIos' => '1.0.0',
+            'versionAndroid' => '1.0.0',
         ];
     }
 

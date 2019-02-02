@@ -18,7 +18,7 @@ class UserController extends ApiController
         $this->classes = new UserClass();
     }
 
-    //注册短信
+    //修改密码短信
     public function sms()
     {
         $member = $this->classes->get_member();

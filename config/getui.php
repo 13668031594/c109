@@ -7,7 +7,7 @@
 			"http://sdk.open.api.igexin.com/apiex.htm",
 			"https://sdk.open.api.igexin.com/apiex.htm"
 		],
-		"CID" => "",
+		"CID" => "06d66ba1adc320ecf966a13a1fee32fd",
 		// 此处true为https域名，false为http，默认为false。
 		"HTTPS" => false,
     ];

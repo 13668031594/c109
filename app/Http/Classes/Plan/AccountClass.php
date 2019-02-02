@@ -9,6 +9,7 @@
 namespace App\Http\Classes\Plan;
 
 use App\Models\Member\MemberModel;
+use App\Models\Order\MatchOrderModel;
 use function GuzzleHttp\Psr7\str;
 
 class AccountClass extends PlanClass
@@ -29,8 +30,11 @@ class AccountClass extends PlanClass
         //满足未防撞长时间不排单的
         $mode_20_ids = self::mode_20_ids();
 
+        //超时未付收款封号
+        $not_pay_ids = self::not_pay();
+
         //所有id
-        $stop_ids = array_merge($reg_ids, $act_ids, $mode_10_ids, $mode_20_ids);
+        $stop_ids = array_merge($reg_ids, $act_ids, $mode_10_ids, $mode_20_ids, $not_pay_ids);
 
         //没有需要封号的
         if (count($stop_ids) <= 0) return;
@@ -116,5 +120,18 @@ class AccountClass extends PlanClass
             ->toArray();
 
         return $ids;
+    }
+
+    //超时未付款
+    public function not_pay()
+    {
+        $date = date('Y-m-d 00:00:00');
+
+        $match = new MatchOrderModel();
+        return $match->where('created_at', '<', $date)
+            ->where('young_status', '=', '10')
+            ->get(['young_buy_uid'])
+            ->pluck('young_buy_uid')
+            ->toArray();
     }
 }
