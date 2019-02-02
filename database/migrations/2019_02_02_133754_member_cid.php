@@ -14,7 +14,7 @@ class MemberCid extends Migration
     public function up()
     {
         Schema::table('member_models', function (Blueprint $table) {
-            $table->char('young_cid', 2)->nullable()->comment('推送cid');
+            $table->string('young_cid')->nullable()->comment('推送cid');
         });
     }
 
