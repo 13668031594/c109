@@ -9,6 +9,8 @@
 namespace App\Http\Classes\Index\Trad;
 
 use App\Http\Classes\Index\IndexClass;
+use App\Http\Traits\DxbSmsTrait;
+use App\Http\Traits\GetuiTrait;
 use App\Http\Traits\ImageTrait;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
@@ -17,7 +19,7 @@ use Illuminate\Http\Request;
 
 class TradClass extends IndexClass
 {
-    use ImageTrait;
+    use ImageTrait, DxbSmsTrait, GetuiTrait;
 
     public function index()
     {
@@ -74,7 +76,7 @@ class TradClass extends IndexClass
 
         $result = parent::list_page('trad', $other);
 
-        foreach ($result['message'] as &$v){
+        foreach ($result['message'] as &$v) {
 
             $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . '/' . $v['pay']);
         }
@@ -189,6 +191,13 @@ class TradClass extends IndexClass
         $trad->young_buy_uid = $member['uid'];
         $trad->young_buy_nickname = $member['nickname'];
         $trad->save();
+
+        $seller = MemberModel::whereUid($trad->young_sell_uid)->first();
+        if (is_null($seller)) return;
+        $body = '您的挂售订单被认购了';
+        $content = '您的挂售订单被认购了，订单号『' . $trad->young_order . '』';
+        if (!empty($seller->young_phone)) $this->sendSms($seller->young_phone, $content);
+        if (!empty($seller->young_cid)) $this->pushSms($seller->young_cid, $body);
     }
 
     //提交付款凭证
@@ -198,7 +207,7 @@ class TradClass extends IndexClass
             'image|支付凭证' => 'required|image|max:1024',
         ];
 
-//        parent::validators_json($request->all(), $term);
+        parent::validators_json($request->all(), $term);
 
         //获取会员
         $member = parent::get_member();
@@ -223,6 +232,13 @@ class TradClass extends IndexClass
         $trad->young_pay_time = DATE;
         $trad->young_status = '30';
         $trad->save();
+
+        $seller = MemberModel::whereUid($trad->young_sell_uid)->first();
+        if (is_null($seller)) return;
+        $body = '您的挂售订单已经付款，请确认';
+        $content = '您的挂售订单已经付款，请确认，订单号『' . $trad->young_order . '』';
+        if (!empty($seller->young_phone)) $this->sendSms($seller->young_phone, $content);
+        if (!empty($seller->young_cid)) $this->pushSms($seller->young_cid, $body);
     }
 
     //确认收款
@@ -254,6 +270,13 @@ class TradClass extends IndexClass
         $keyword = $trad->young_order;
         $change = ['gxd' => $trad->young_gxd];
         $wallet->store_record($member, $change, 90, $record, $keyword);
+
+        $buyer = MemberModel::whereUid($trad->young_buy_uid)->first();
+        if (is_null($buyer)) return;
+        $body = '你购买的挂售订单已经确认收款了';
+        $content = '你购买的挂售订单已经确认收款了，订单号『' . $trad->young_order . '』';
+        if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
+        if (!empty($buyer->young_cid)) $this->pushSms($buyer->young_cid, $body);
     }
 
 

@@ -21,6 +21,7 @@ class PlanController extends Controller
     {
         \DB::beginTransaction();
 
+        new MatchClass();//执行订单匹配
         new GradeClass();//新老会员
 
         new TypeClass();//修改会员下单类型
@@ -35,7 +36,6 @@ class PlanController extends Controller
 
         new AutoClass();//自动排单
 
-        new MatchClass();//执行订单匹配
 
         new MatchSureClass();//自动确认未收款的匹配订单
 

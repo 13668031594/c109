@@ -8,11 +8,15 @@
 
 namespace App\Http\Classes\Plan;
 
+use App\Http\Traits\DxbSmsTrait;
+use App\Http\Traits\GetuiTrait;
 use App\Models\Order\MatchOrderModel;
 use App\Models\Order\SellOrderModel;
+use App\Vendor\Sms\SmsTrait;
 
 class MatchClass extends PlanClass
 {
+    use DxbSmsTrait, GetuiTrait;
 
     private $remind;//剩余卖出金额
     private $sell;//卖出订单
@@ -20,6 +24,7 @@ class MatchClass extends PlanClass
     private $buy_10 = [];//购买订单编辑数组
     private $buy_40 = [];//购买订单编辑数组
     private $match_order;//匹配交易号
+    private $users = [];//会员信息表
 
     public function __construct()
     {
@@ -67,7 +72,11 @@ class MatchClass extends PlanClass
         //匹配尾款
         self::match_40($tail);
 
+        //修改所有修改
         self::all_change();
+
+        //发送推送消息
+        self::push_send();
     }
 
     private function all_remind()
@@ -80,7 +89,7 @@ class MatchClass extends PlanClass
     //所有的卖出订单
     private function all_sell()
     {
-        $sql = "SELECT s.*,u.young_nickname FROM young_sell_order_models as s,young_member_models as u 
+        $sql = "SELECT s.*,u.young_nickname , u.young_phone, u.young_cid FROM young_sell_order_models as s,young_member_models as u 
 WHERE young_remind > 0 
 AND u.young_status = 10
 AND s.uid = u.uid 
@@ -99,7 +108,7 @@ ORDER BY young_remind ASC,created_at ASC
 
         if (empty($number)) return [];
 
-        $sql = "SELECT b.* , u.young_nickname FROM young_member_models as u,young_buy_order_models as b 
+        $sql = "SELECT b.* , u.young_nickname, u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
 AND (SELECT COUNT('*') FROM young_buy_order_models WHERE uid = u.uid) <= {$number}
@@ -130,7 +139,7 @@ ORDER BY b.young_status ASC, b.created_at ASC
         $str = empty($add) ? 'today' : '- ' . $add . 'day';
         $date = date('Y-m-d H:i:s', strtotime($str));
 
-        $sql = "SELECT b.*, u.young_nickname FROM young_member_models as u,young_buy_order_models as b 
+        $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
 AND b.young_abn = 10
@@ -151,7 +160,7 @@ AND b.created_at <= '{$date}'";
         $str = empty($add) ? 'today' : '- ' . $add . 'day';
         $date = date('Y-m-d H:i:s', strtotime($str));
 
-        $sql = "SELECT b.*, u.young_nickname FROM young_member_models as u,young_buy_order_models as b 
+        $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
 AND b.young_abn = 10
@@ -283,8 +292,9 @@ AND b.young_tail_complete < b.young_tail_total";
     private function match_add($buy, $sell, $total, $type)
     {
 //        dump($buy);
+        $order = 'M' . $this->match_order;
         $match = [
-            'young_order' => 'M' . $this->match_order,
+            'young_order' => $order,
             'young_total' => $total,
             'young_buy_id' => $buy->id,
             'young_buy_order' => $buy->young_order,
@@ -309,6 +319,33 @@ AND b.young_tail_complete < b.young_tail_total";
         $this->match[] = $match;
 
         $this->match_order++;
+
+        if (!isset($this->users[$buy->uid])) {
+
+            $this->users[$buy->uid] = [
+                'phone' => $buy->young_phone,
+                'cid' => $buy->young_cid,
+                'content' => [],
+                'body' => [],
+            ];
+        }
+        if (!isset($this->users[$sell->uid])) {
+
+            $this->users[$sell->uid] = [
+                'phone' => $sell->young_phone,
+                'cid' => $sell->young_cid,
+                'content' => [],
+                'body' => [],
+            ];
+        }
+        $buy_content = '您的采集订单『' . $buy->young_order . '』已经匹配成功，交易号『' . $order . '』，请尽快付款';
+        $buy_body = '您的采集订单有了新的匹配情况';
+        $sell_content = '您的卖出订单『' . $sell->young_order . '』已经匹配成功，交易号『' . $order . '』，请注意收款';
+        $sell_body = '您的卖出订单有了新的匹配情况';
+        $this->users[$buy->uid]['content'][] = $buy_content;
+        $this->users[$buy->uid]['body'][] = $buy_body;
+        $this->users[$sell->uid]['content'][] = $sell_content;
+        $this->users[$sell->uid]['body'][] = $sell_body;
     }
 
     private function all_change()
@@ -321,6 +358,8 @@ AND b.young_tail_complete < b.young_tail_total";
 
             $a = (array)$v;
             unset($a['young_nickname']);
+            unset($a['young_phone']);
+            unset($a['young_cid']);
             $sell[] = $a;
         }
 
@@ -334,5 +373,17 @@ AND b.young_tail_complete < b.young_tail_total";
         //修改买入订单信息
         if (count($this->buy_10) > 0) $this->table_update('buy_order_models', $this->buy_10);
         if (count($this->buy_40) > 0) $this->table_update('buy_order_models', $this->buy_40);
+    }
+
+    private function push_send()
+    {
+        if (count($this->users) <= 0) return;
+
+        foreach ($this->users as $v) {
+
+            if (!empty($v['phone'])) foreach ($v['content'] as $va) $this->sendSms($v['phone'], $va);
+            if (!empty($v['cid'])) foreach ($v['body'] as $va) $this->pushSms($v['cid'], $va);
+
+        }
     }
 }

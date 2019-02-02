@@ -25,7 +25,7 @@ class UserController extends ApiController
 
         $class = new SmsClass();
 
-        $end = $class->send($member['phone']);
+        $end = $class->send($member['phone'],'reset');
 
         //反馈
         return parent::success(['time' => $end]);

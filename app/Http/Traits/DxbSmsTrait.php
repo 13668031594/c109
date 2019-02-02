@@ -8,15 +8,14 @@
 
 namespace App\Http\Traits;
 
-
-class SmsTrait
+trait DxbSmsTrait
 {
     /**
      * @param $phone //电话
      * @param $content //内容
      * @return mixed|null
      */
-    public function send($phone, $content)
+    public function sendSms($phone, $content)
     {
         $statusStr = array(
             "0" => "短信发送成功",
@@ -29,6 +28,7 @@ class SmsTrait
             "43" => "IP地址限制",
             "50" => "内容含有敏感词"
         );
+        $content = '【君王战神】' . $content;
         $smsapi = "http://api.smsbao.com/";
         $user = "jy00795800"; //短信平台帐号
         $pass = md5("asdasd123"); //短信平台密码

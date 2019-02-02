@@ -9,6 +9,8 @@
 namespace App\Http\Classes\Index\Order;
 
 use App\Http\Classes\Index\IndexClass;
+use App\Http\Traits\DxbSmsTrait;
+use App\Http\Traits\GetuiTrait;
 use App\Http\Traits\ImageTrait;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
@@ -18,7 +20,7 @@ use Illuminate\Http\Request;
 
 class PayClass extends IndexClass
 {
-    use ImageTrait;
+    use ImageTrait, DxbSmsTrait, GetuiTrait;
 
     //付款惩罚
     public function pay($id, Request $request)
@@ -27,7 +29,7 @@ class PayClass extends IndexClass
             'image|支付凭证' => 'required|image|max:1024',
         ];
 
-//        parent::validators_json($request->all(), $term);
+        parent::validators_json($request->all(), $term);
 
         $begin = parent::set_time($this->set['payStart']);
         $end = parent::set_time($this->set['payEnd']);
@@ -60,6 +62,13 @@ class PayClass extends IndexClass
         $match->young_pay_time = DATE;
         $match->young_status = 20;
         $match->save();
+
+        $seller = MemberModel::whereUid($match->young_sell_uid)->first();
+        if (is_null($seller))return;
+        $body = '您的卖出订单有了新的进展';
+        $content = '您的卖出订单有了新的进展，订单号『' . $match->young_sell_order . '』，交易号『' . $match->young_order . '』';
+        if (!empty($seller->young_phone)) $this->sendSms($seller->young_phone, $content);
+        if (!empty($seller->young_cid)) $this->pushSms($seller->young_cid, $body);
     }
 
     //付款奖励
@@ -119,7 +128,7 @@ class PayClass extends IndexClass
         $begin = parent::set_time($this->set['inStart']);
         $end = parent::set_time($this->set['inEnd']);
         $now = time();
-//        if (($now < $begin) || ($now > $end)) parent::error_json('请在每天 ' . $this->set['inStart'] . ' 至 ' . $this->set['inEnd'] . ' 确认收款');
+        if (($now < $begin) || ($now > $end)) parent::error_json('请在每天 ' . $this->set['inStart'] . ' 至 ' . $this->set['inEnd'] . ' 确认收款');
 
         //获取会员
         $member = parent::get_member();
@@ -130,10 +139,10 @@ class PayClass extends IndexClass
         if (is_null($match)) parent::error_json('未找到该匹配订单');
 
         //判断归属人
-//        if ($match->young_sell_uid != $member['uid']) parent::error_json('只能确认自己的订单');
+        if ($match->young_sell_uid != $member['uid']) parent::error_json('只能确认自己的订单');
 
         //判断订单状态
-//        if ($match->young_status != '20') parent::error_json('该订单无法确认收款');
+        if ($match->young_status != '20') parent::error_json('该订单无法确认收款');
 
         //保存并修改订单状态
         $match->young_status = 30;
@@ -141,6 +150,13 @@ class PayClass extends IndexClass
 
         //触发付款完结后的一系列操作
         $match->match_end($id);
+
+        $buyer = MemberModel::whereUid($match->young_buy_uid)->first();
+        if (is_null($buyer))return;
+        $body = '您的采集订单有了新的进展';
+        $content = '您的采集订单有了新的进展，订单号『' . $match->young_buy_order . '』，交易号『' . $match->young_order . '』';
+        if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
+        if (!empty($buyer->young_cid)) $this->pushSms($buyer->young_cid, $body);
     }
 
     //确认付款
@@ -169,9 +185,16 @@ class PayClass extends IndexClass
         $match->young_abn = 20;
         $match->save();
 
-        //将响应母订单也报告异常
+        //将相应订单也报告异常
         $buy = BuyOrderModel::whereId($match->young_buy_id)->first();
         $buy->young_abn = 20;
         $buy->save();
+
+        $buyer = MemberModel::whereUid($match->young_buy_uid)->first();
+        if (is_null($buyer))return;
+        $body = '您的采集订单发生了异常';
+        $content = '您的采集订单发生了异常，订单号『' . $buy->young_order . '』，交易号『' . $match->young_order . '』';
+        if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
+        if (!empty($buyer->young_cid)) $this->pushSms($buyer->young_cid, $body);
     }
 }
