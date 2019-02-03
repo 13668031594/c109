@@ -22,7 +22,7 @@ class ApiMemberStatus30
 
             $exception = [
                 'status' => 'fails',
-                'code' => '000',
+                'code' => '696',
                 'message' => '该账号已被封停，无法执行该操作',
             ];
 
