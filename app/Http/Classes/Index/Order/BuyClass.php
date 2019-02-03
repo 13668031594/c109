@@ -477,9 +477,9 @@ class BuyClass extends IndexClass
 
         $member = parent::get_member();
 
-        $set['goodsLower'] = $set['goodsLower1'];
-        $set['goodsCeil'] = $set['goodsCeil1'];
-        $set['goodsNumber'] = $set['goodsTop1'];
+        $set['goodsLower'] = $setting['goodsLower1'];
+        $set['goodsCeil'] = $setting['goodsCeil1'];
+        $set['goodsNumber'] = $setting['goodsTop1'];
 
         switch ($member['type']) {
             case '20':
