@@ -8,6 +8,8 @@
  */
 
 define('LARAVEL_START', microtime(true));
+date_default_timezone_set('Asia/Shanghai');
+define('DATE', date('Y-m-d H:i:s'));
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
@@ -50,7 +52,6 @@ $app = require_once __DIR__ . '/../bootstrap/app.php';
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
-define('DATE', date('Y-m-d H:i:s'));
 
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
