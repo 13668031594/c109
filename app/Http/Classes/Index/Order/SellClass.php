@@ -164,7 +164,7 @@ class SellClass extends IndexClass
             ) parent::error_json('请先完善收款信息');
         }
 
-        $type = $request->post('type');
+        $type = $request->post('accountType');
         if ($type == '1') {
 
             if ($member['balance'] < $data['total']) parent::error_json($this->set['walletBalance'] . '不足');
