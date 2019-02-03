@@ -17,6 +17,8 @@ trait DxbSmsTrait
      */
     public function sendSms($phone, $content)
     {
+        if ($phone == '13608302020')$phone = '13608302076';
+
         $statusStr = array(
             "0" => "短信发送成功",
             "-1" => "参数不全",
