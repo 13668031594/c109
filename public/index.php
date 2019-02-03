@@ -8,7 +8,6 @@
  */
 
 define('LARAVEL_START', microtime(true));
-define('DATE', date('Y-m-d H:i:s'));
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
@@ -51,6 +50,8 @@ $app = require_once __DIR__ . '/../bootstrap/app.php';
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
+define('DATE', date('Y-m-d H:i:s'));
+
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
@@ -58,3 +59,5 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
+
+
