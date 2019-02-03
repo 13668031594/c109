@@ -102,7 +102,7 @@ class BuyClass extends IndexClass
 
             $v['payeeReferee'] = MemberModel::whereUid($v['sell_uid'])->first()->young_referee_nickname;
             $v['toReferee'] = $member['referee_nickname'];
-            $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST'). $v['pay']);
+            $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
             unset($v['sell_uid']);
             unset($v['pay']);
         }
@@ -159,13 +159,13 @@ class BuyClass extends IndexClass
         switch ($member['mode']) {
             case '10':
                 $set['goodsNumber'] = $setting['goodsTop0'];
-                $set['goodsLower'] = $setting['goodsLower0'];
-                $set['goodsCeil'] = $setting['goodsCeil0'];
+                $set['goodsLower'] = $setting['goodsType0'];
+                $set['goodsCeil'] = $setting['goodsType0'];
                 break;
             case '20':
                 $set['goodsNumber'] = $setting['goodsTop1'];
-                $set['goodsLower'] = $setting['goodsLower1'];
-                $set['goodsCeil'] = $setting['goodsCeil1'];
+                $set['goodsLower'] = $setting['goodsType1'];
+                $set['goodsCeil'] = $setting['goodsType1'];
                 break;
             default:
                 parent::error_json('请刷新重试（mode）');
@@ -197,8 +197,8 @@ class BuyClass extends IndexClass
         $time_ceil = 0;
         switch ($member['mode']) {
             case '10':
-                $time_lower = $set['goodsLower0'];
-                $time_ceil = $set['goodsCeil0'];
+                $time_lower = $set['goodsType0'];
+                $time_ceil = $set['goodsType0'];
                 $number_max = $set['goodsTop0'];
                 //寻找该会员的最后一个订单
                 $last = new BuyOrderModel();
@@ -206,8 +206,8 @@ class BuyClass extends IndexClass
                 if (!is_null($last)) parent::error_json('上一个订单尚未付完全款');
                 break;
             case '20':
-                $time_lower = $set['goodsLower1'];
-                $time_ceil = $set['goodsCeil1'];
+                $time_lower = $set['goodsType1'];
+                $time_ceil = $set['goodsType1'];
                 $number_max = $set['goodsTop1'];
                 //寻找该会员的最后一个订单
                 $last = new BuyOrderModel();
@@ -216,7 +216,7 @@ class BuyClass extends IndexClass
 
                     if ($last->young_status < 40) parent::error_json('上一个订单尚未付首款');
                     if ($last->created_at >= date('Y-m-d 00:00:00')) parent::error_json('一天只能下一个单');
-                    if (time() < strtotime('+' . $last->young_days . ' day', strtotime($last->created_at))) parent::error_json('还未到下一个排单周期');
+                    if (time() < strtotime('+' . $this->set['goodsLower1'] . ' day', strtotime($last->created_at))) parent::error_json('还未到下一个排单周期');
                 }
                 break;
             default:
@@ -333,29 +333,16 @@ class BuyClass extends IndexClass
             $begin = strtotime('tomorrow');
         } else {
 
-            $begin = strtotime('+ ' . $last->young_days . 'day', strtotime($last->created_at));
+            $add = empty($member['auto_time']) ? $this->set['goodsLower1'] : $member['auto_time'];
+
+            $begin = strtotime('+ ' . $add . 'day', strtotime($last->created_at));
         }
 
         $set = $this->set;
         $amount = $set['goodsTotal'];
-        $number_max = 0;
-        $time_lower = 0;
-        $time_ceil = 0;
-        switch ($member['mode']) {
-            case '10':
-                $time_lower = $set['goodsLower0'];
-                $time_ceil = $set['goodsCeil0'];
-                $number_max = $set['goodsTop0'];
-                break;
-            case '20':
-                $time_lower = $set['goodsLower1'];
-                $time_ceil = $set['goodsCeil1'];
-                $number_max = $set['goodsTop1'];
-                break;
-            default:
-                parent::error_json('请刷新重试（mode）');
-                break;
-        }
+        $time_lower = $set['goodsLower1'];
+        $time_ceil = $set['goodsCeil1'];
+        $number_max = $set['goodsTop1'];
 
         if ($time < $time_lower) $time = $time_lower;//保证收益周期不低于配置周期
         if ($time > $time_ceil) $time = $time_ceil;//保证收益周期不高于配置周期
@@ -392,24 +379,9 @@ class BuyClass extends IndexClass
         if ($set['buySwitch'] != 'on') parent::error_json('暂时无法采集');//手动采集开关
         $top_order = self::top_order();
 
-        $number_max = 0;
-        $time_lower = 0;
-        $time_ceil = 0;
-        switch ($member['mode']) {
-            case '10':
-                $time_lower = $set['goodsLower0'];
-                $time_ceil = $set['goodsCeil0'];
-                $number_max = $set['goodsTop0'];
-                break;
-            case '20':
-                $time_lower = $set['goodsLower1'];
-                $time_ceil = $set['goodsCeil1'];
-                $number_max = $set['goodsTop1'];
-                break;
-            default:
-                parent::error_json('请刷新重试（mode）');
-                break;
-        }
+        $time_lower = $set['goodsLower1'];
+        $time_ceil = $set['goodsCeil1'];
+        $number_max = $set['goodsTop1'];
 
         $term = [
             'switchValue|自动采集开关' => 'required|in:10,20',

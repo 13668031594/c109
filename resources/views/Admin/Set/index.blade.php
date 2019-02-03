@@ -574,7 +574,7 @@
                         </div>
                         <div class="layui-form-mid layui-word-aux">未防撞模式下，一单购买商品数量</div>
                     </div>
-                    <div class="layui-form-item">
+                    {{--<div class="layui-form-item">
                         <label class="layui-form-label">防撞收益</label>
                         <div class="layui-input-inline" style="width: 40px;">
                             <input type="text" name="goodsLower0" lay-filter="numberZ" title="防撞收益"
@@ -588,7 +588,7 @@
                                    class="layui-input">
                         </div>
                         <div class="layui-form-mid layui-word-aux">防撞模式下，可选的收益时间，单位：天</div>
-                    </div>
+                    </div>--}}
                     <div class="layui-form-item">
                         <label class="layui-form-label">未防撞收益</label>
                         <div class="layui-input-inline" style="width: 40px;">

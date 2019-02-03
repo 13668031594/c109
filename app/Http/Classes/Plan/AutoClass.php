@@ -60,13 +60,15 @@ class AutoClass extends PlanClass
             if (!is_null($last)) {
 
                 //上一个订单尚未付款完成
-                if ($last->young_status < 70) continue;
+                if ($last->young_status < 40) continue;
 
                 //计算下次下单时间
-                $begin = strtotime('+' . $last->young_days . ' day', strtotime($last->created_at));
+                $begin = strtotime('+' . $member['auto_time'] . ' day', strtotime($last->created_at));
 
                 //预算时间未到
                 if ($begin <= time()) continue;
+
+                if ($last->created_at >= date('Y-m-d 00:00:00')) continue;
             }
 
             //初始化配置文件
@@ -76,25 +78,9 @@ class AutoClass extends PlanClass
             //初始化对比变量
             $time = $member['young_auto_time'];
             $number = $member['young_auto_number'];
-            $number_max = 0;
-            $time_lower = 0;
-            $time_ceil = 0;
-            //获取当前模式下的下单配置
-            switch ($member['young_mode']) {
-                case '10':
-                    $time_lower = $set['goodsLower0'];
-                    $time_ceil = $set['goodsCeil0'];
-                    $number_max = $set['goodsTop0'];
-                    break;
-                case '20':
-                    $time_lower = $set['goodsLower1'];
-                    $time_ceil = $set['goodsCeil1'];
-                    $number_max = $set['goodsTop1'];
-                    break;
-                default:
-                    continue;
-                    break;
-            }
+            $time_lower = $set['goodsLower1'];
+            $time_ceil = $set['goodsCeil1'];
+            $number_max = $set['goodsTop1'];
 
             switch ($member['young_type']) {
                 case '20':

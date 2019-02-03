@@ -181,9 +181,10 @@ class MemberController extends AdminController implements ListInterface
     }
 
     /**
-     * 团队展示，只显示1级
+     * 团队展示
      *
      * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function team(Request $request)
     {
@@ -196,4 +197,13 @@ class MemberController extends AdminController implements ListInterface
         return parent::views('team', $result);
     }
 
+
+    public function liq()
+    {
+
+    }
+
+    public function liq_post()
+    {
+    }
 }
