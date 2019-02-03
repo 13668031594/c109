@@ -459,4 +459,37 @@ class BuyClass extends IndexClass
         $wallet->store_record($member, $change, 41, $record, $keyword);
 
     }
+
+    public function auto_set()
+    {
+        $setting = $this->set;
+
+        $set = [
+            'buySwitch' => $setting['buySwitch'],
+            'buyPoundage' => $setting['buyPoundage'],
+            'buyPoundageNone' => $setting['buyPoundageNone'],
+            'buyTotalUpSwitch' => $setting['buyTotalUpSwitch'],
+            'goodsName' => $setting['goodsName'],
+            'goodsTotal' => $setting['goodsTotal'],
+            'goodsCover' => 'http://' . env('LOCALHOST') . '/' . $setting['goodsCover'],
+            'topOrder' => self::top_order(),
+        ];
+
+        $member = parent::get_member();
+
+        $set['goodsLower'] = $set['goodsLower1'];
+        $set['goodsCeil'] = $set['goodsCeil1'];
+        $set['goodsNumber'] = $set['goodsTop1'];
+
+        switch ($member['type']) {
+            case '20':
+                $set['inPro'] = $setting['typePro0'];
+                break;
+            default:
+                $set['inPro'] = $setting['typePro1'];
+                break;
+        }
+
+        return $set;
+    }
 }

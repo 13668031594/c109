@@ -73,7 +73,7 @@ $result['date'] = DATE;
             'auto_time' => $member['auto_time'],
         ];
 
-        $set = $this->classes->member_set();
+        $set = $this->classes->auto_set();
 
         $list = ($member['auto_buy'] == '10') ? $this->classes->auto_list($member['auto_number'], $member['auto_time']) : [];
 
