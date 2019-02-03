@@ -31,7 +31,8 @@ class HostingClass extends IndexClass
 
         //验证
         if (is_null($member)) parent::error_json('没有找到该会员');
-        if ($member->young_hosting != '10') parent::error_json('该会员已经关闭了托管模式');
+        if ($member->young_hosting != '20') parent::error_json('该会员已经关闭了托管模式');
+        if ($member->young_status = '30') parent::error_json('该会员已经被封停');
         if ($member->young_referee_id != $referee['uid']) parent::error_json('只能切换到自己的直系下级');
 
         return $member;
@@ -39,7 +40,7 @@ class HostingClass extends IndexClass
 
     public function delete_token(MemberModel $memberModel)
     {
-        \DB::table('oauth_access_tokens')->where('user_id','=',$memberModel->uid)->delete();
+        \DB::table('oauth_access_tokens')->where('user_id', '=', $memberModel->uid)->delete();
     }
 
     public function access_token(MemberModel $memberModel)
