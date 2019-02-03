@@ -81,6 +81,7 @@ Route::group(['namespace' => 'Member'], function () {
     Route::get('/member/edit', 'MemberController@edit')->name('member.edit');//会员编辑
     Route::post('/member/update/{id}', 'MemberController@update')->name('member.edit');//会员编辑
     Route::get('/member/delete', 'MemberController@destroy')->name('member.destroy');//会员删除
+    Route::get('/member/team','MemberController@team')->name('member.index');//会员团队
 
     Route::get('/member/act', 'MemberController@act')->name('member.act');//后台激活会员
 

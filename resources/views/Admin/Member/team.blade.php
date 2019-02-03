@@ -32,22 +32,22 @@
         <div class="layui-form-item">
             <label class="layui-form-label">推荐人</label>
             <div class="layui-form-mid">
-                <span class="layui-badge layui-bg-green">{$member['referee_phone']}</span> -
-                <span class="layui-badge layui-bg-green">{$member['referee_nickname']}</span>
+                <span class="layui-badge layui-bg-green">{{$member['referee_account']}}</span> -
+                <span class="layui-badge layui-bg-green">{{$member['referee_nickname']}}</span>
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">会员信息</label>
             <div class="layui-form-mid">
-                <span class="layui-badge layui-bg-green">{$member['phone']}</span> -
-                <span class="layui-badge layui-bg-green">{$member['nickname']}</span>
+                <span class="layui-badge layui-bg-green">{{$member['phone']}}</span> -
+                <span class="layui-badge layui-bg-green">{{$member['nickname']}}</span>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">直推人数</label>
+            <label class="layui-form-label">团队人数</label>
             <div class="layui-form-mid">
-                <span class="layui-badge layui-badge">{$number}</span>
+                <span class="layui-badge layui-badge">{{$number}}</span>
             </div>
         </div>
 
@@ -80,7 +80,7 @@
             name: '是少数'
         }]
     }];*/
-    var data = {$team};
+    var data = {!! $team !!};
 //    var data = [{"name":"\u5c0f\u6d0b\u6d0b"}];
 
     layui.use(['layer', 'element', 'tree'], function () {

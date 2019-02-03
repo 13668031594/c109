@@ -179,4 +179,21 @@ class MemberController extends AdminController implements ListInterface
 
         return parent::success();
     }
+
+    /**
+     * 团队展示，只显示1级
+     *
+     * @param Request $request
+     */
+    public function team(Request $request)
+    {
+        $id = $request->get('id');
+
+        $result = $this->classes->team($id);
+
+        $result['member'] = $this->classes->show($id);
+
+        return parent::views('team', $result);
+    }
+
 }

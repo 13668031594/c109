@@ -69,7 +69,9 @@ class MemberClass extends AdminClass implements ListInterface
 
     public function show($id)
     {
-        // TODO: Implement show() method.
+        $member = MemberModel::whereUid($id)->first();
+
+        return parent::delete_prefix($member->toArray());
     }
 
     public function create()
@@ -288,5 +290,55 @@ class MemberClass extends AdminClass implements ListInterface
     public function record_delete($ids)
     {
         MemberRecordModel::destroy($ids);
+    }
+
+
+    public function team($member_id)
+    {
+        //结果数组
+        $result = [
+            'number' => 0,
+            'team' => json_encode([]),
+        ];
+
+        //初始化模型
+        $model = new MemberModel();
+
+        //获取下级信息
+        $team = $model->where('young_families', 'like', '%' . $member_id . '%')
+            ->orWhere('young_referee_id', '=', $member_id)
+            ->get(['uid', 'young_referee_id', 'young_nickname']);
+
+        //没有下级
+        if (count($team) <= 0) return $result;
+
+        $result['number'] = count($team);//下级总数
+
+        //下级结果数组
+        $fathers = [];
+
+        foreach ($team as $v) {
+
+            $fathers[$v['young_referee_id']][] = $v;
+        }
+//dd($fathers);
+        $result['team'] = str_replace('"', "'", json_encode(self::get_tree($member_id, $fathers)));
+
+        return $result;
+    }
+
+    public function get_tree($father_id, $team)
+    {
+        if (!isset($team[$father_id])) return [];
+
+        $result = [];
+
+        foreach ($team[$father_id] as $k => $v) {
+
+            $result[$k]['name'] = $v['young_nickname'];
+            if (isset($team[$v['uid']])) $result[$k]['children'] = self::get_tree($v['uid'], $team);
+        }
+//        dd($result);
+        return $result;
     }
 }

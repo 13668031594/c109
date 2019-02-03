@@ -99,6 +99,7 @@
 
 <script type="text/html" id="tableTool">
     @if(in_array('member.wallet',$powers) || in_array('-1',$powers))
+    <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/team?id=@{{ d.id }}">团队</a>
     <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/wallet?id=@{{ d.id }}">详情</a>
     <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/wallet-record?id=@{{ d.id }}">钱包</a>
     @endif

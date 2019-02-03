@@ -20,7 +20,7 @@ class BuyController extends ApiController
     public function index()
     {
         $result = $this->classes->index('1');
-
+$result['date'] = DATE;
         return parent::success($result);
     }
 
