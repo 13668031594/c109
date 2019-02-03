@@ -42,7 +42,7 @@ class ApiLoginClass extends IndexClass
         if ($member->young_status == '3') parent::error_json('账号已被停用');
 
         //删除该账号历史登录令牌,以便获取新的令牌,并减少数据库负荷
-        self::delete_old_token($member->id);
+        self::delete_old_token($member->uid);
 
         //添加账号访问数据
         $add = ['username' => $member->young_account];
