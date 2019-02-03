@@ -87,6 +87,11 @@ class BillClass extends AdminClass
         $today_match_total = $match_order->where($where_today)->sum('young_total');
         $yesterday_match_total = $match_order->where($where_yesterday)->sum('young_total');
 
+        //手续费
+        $all_poundage = $buy_order->where($where_all)->sum('young_poundage');
+        $today_poundage = $buy_order->where($where_today)->sum('young_poundage');
+        $yesterday_poundage = $buy_order->where($where_yesterday)->sum('young_poundage');
+
         return [
             'type' => $times['type2'],
             'begin' => $begin,
@@ -115,6 +120,9 @@ class BillClass extends AdminClass
             'all_match_total' => $all_match_total,
             'today_match_total' => $today_match_total,
             'yesterday_match_total' => $yesterday_match_total,
+            'all_poundage' => $all_poundage,
+            'today_poundage' => $today_poundage,
+            'yesterday_poundage' => $yesterday_poundage,
         ];
     }
 

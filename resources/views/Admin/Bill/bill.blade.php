@@ -93,6 +93,26 @@
         </div>
     </fieldset>
     <fieldset class="layui-elem-field">
+        <legend>手续费</legend>
+        <div class="layui-field-box format-container">
+            <div class="layui-row layui-col-space30 format">
+                <div class="layui-col-md3">
+                    <h3>今日收入</h3>
+                    <div class='number'><span>{{$today_poundage}}</span>个</div>
+                </div>
+                <div class="layui-col-md3">
+                    <h3>昨日收入</h3>
+                    <div class='number'><span>{{$yesterday_poundage}}</span>个</div>
+                </div>
+                <div class="layui-col-md6">
+                    <h3>总收入</h3>
+                    <div class='number'><span>{{$all_poundage}}</span>个</div>
+                    <div class='prompt'>受上面的筛选影响</div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="layui-elem-field">
         <legend>采集数</legend>
         <div class="layui-field-box format-container">
             <div class="layui-row layui-col-space30 format">
