@@ -204,7 +204,7 @@ class TradClass extends IndexClass
     public function pay($id, Request $request)
     {
         $term = [
-            'image|支付凭证' => 'required|image|max:1024',
+            'image|支付凭证' => 'required|image|max:5120',
         ];
 
         parent::validators_json($request->all(), $term);
