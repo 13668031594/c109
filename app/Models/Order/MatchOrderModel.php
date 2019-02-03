@@ -222,7 +222,7 @@ class MatchOrderModel extends Model
         }
 
         //计算奖励金额
-        $reward = number_formal(($poundage * $set['rewardPro'] / 100), 2, '.', '');
+        $reward = number_format(($poundage * $set['rewardPro'] / 100), 2, '.', '');
         if ($reward <= 0) return;
 
 
