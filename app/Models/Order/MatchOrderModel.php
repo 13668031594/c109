@@ -222,7 +222,7 @@ class MatchOrderModel extends Model
         }
 
         //计算奖励金额
-        $reward = number_format(($poundage * $set['rewardPro'] / 100), 2, '.', '');
+        $reward = number_formal(($poundage * $set['rewardPro'] / 100), 2, '.', '');
         if ($reward <= 0) return;
 
 
@@ -285,7 +285,7 @@ class MatchOrderModel extends Model
 
         //判断是否满足永动条件
         $number = MemberModel::whereYoungRefereeId($uid)
-            ->where('young_format', '=', '20')
+            ->where('young_formal', '=', '20')
             ->where('young_all_buy_total', '>=', $set['typeAllTotal'])
             ->count();
 
@@ -305,7 +305,7 @@ class MatchOrderModel extends Model
 
         //静态转动态
         $number = MemberModel::whereYoungRefereeId($uid)
-            ->where('young_format', '=', '20')
+            ->where('young_formal', '=', '20')
             ->where('young_all_buy_total', '>=', $set['type01'])
             ->count();
 
