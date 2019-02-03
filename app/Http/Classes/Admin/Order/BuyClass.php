@@ -124,7 +124,7 @@ class BuyClass extends AdminClass
 
         $result = parent::list_all('match_order', $other);
 
-        foreach ($result as &$v) $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . '/' . $v['pay']);
+        foreach ($result as &$v) $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
 
         return $result;
     }

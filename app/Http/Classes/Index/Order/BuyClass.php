@@ -102,7 +102,7 @@ class BuyClass extends IndexClass
 
             $v['payeeReferee'] = MemberModel::whereUid($v['sell_uid'])->first()->young_referee_nickname;
             $v['toReferee'] = $member['referee_nickname'];
-            $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . '/' . $v['pay']);
+            $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST'). $v['pay']);
             unset($v['sell_uid']);
             unset($v['pay']);
         }

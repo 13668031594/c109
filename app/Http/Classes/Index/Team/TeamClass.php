@@ -83,7 +83,7 @@ class TeamClass extends IndexClass
                 ['young_families', 'like', '%' . $member_id . '%']
             ],
             'orWhere' => [
-                ['young_referee', '=', $member_id]
+                ['young_referee_id', '=', $member_id]
             ],
             'select' => ['uid', 'young_nickname', 'young_referee_id', 'young_status'],
         ];

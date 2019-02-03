@@ -89,7 +89,7 @@ class TradClass extends AdminClass
 
         $result = parent::list_page('trad as a', $other);
 
-        foreach ($result['message'] as &$v) $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . '/' . $v['pay']);
+        foreach ($result['message'] as &$v) $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST'). $v['pay']);
 
         return $result;
     }
@@ -114,7 +114,7 @@ class TradClass extends AdminClass
 
         $order = parent::delete_prefix($order->toArray());
 
-        $order['image'] = is_null($order['pay']) ? null : ('http://' . env('LOCALHOST') . '/' . $order['pay']);
+        $order['image'] = is_null($order['pay']) ? null : ('http://' . env('LOCALHOST'). $order['pay']);
 
         return $order;
     }

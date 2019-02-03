@@ -78,7 +78,7 @@ class TradClass extends IndexClass
 
         foreach ($result['message'] as &$v) {
 
-            $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . '/' . $v['pay']);
+            $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
         }
 
         return $result;
