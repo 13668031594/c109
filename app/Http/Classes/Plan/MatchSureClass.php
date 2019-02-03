@@ -32,7 +32,7 @@ class MatchSureClass extends PlanClass
         $member_model = new MemberModel();
         $wallet_model = new MemberWalletModel();
         foreach ($match as $v) {
-            dd($this->set['inOvertimeAuto'], $gxd);
+
             //有贡献点惩罚
             if ($gxd > 0) {
 
