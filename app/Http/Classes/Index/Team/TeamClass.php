@@ -67,7 +67,9 @@ class TeamClass extends IndexClass
         $member = parent::get_member();
 
         $number = new MemberModel();
-        $number = $number->where('young_families', 'like', '%' . $member['uid'] . '%')->count();
+        $number = $number->where('young_families', 'like', '%' . $member['uid'] . ',%')
+            ->orWhere('young_referee_id', '=', $member['uid'])
+            ->count();
 
         //结果数组
         $result = [
@@ -79,6 +81,9 @@ class TeamClass extends IndexClass
         $other = [
             'where' => [
                 ['young_families', 'like', '%' . $member_id . '%']
+            ],
+            'orWhere' => [
+                ['young_referee', '=', $member_id]
             ],
             'select' => ['uid', 'young_nickname', 'young_referee_id', 'young_status'],
         ];

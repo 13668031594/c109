@@ -33,6 +33,7 @@ trait ModelTrait
         if (isset($other['leftJoin'])) self::leftJoin($other['leftJoin']);
         if (isset($other['select'])) self::select($other['select']);
         if (isset($other['where'])) self::where($other['where']);
+        if (isset($other['orWhere'])) self::orWhere($other['orWhere']);
         if (isset($other['whereIn'])) self::where_in($other['whereIn']);
         if (isset($other['orderBy'])) self::order_by($other['orderBy']);
     }
@@ -51,6 +52,14 @@ trait ModelTrait
         if (is_null($this->table)) exit('please initial table');
 
         if (!empty($where)) $this->table = $this->table->where($where);
+    }
+
+    //orWhere筛选
+    protected function orWhere($where)
+    {
+        if (is_null($this->table)) exit('please initial table');
+
+        if (!empty($where)) $this->table = $this->table->orWhere($where);
     }
 
     //进行whereIn筛选
