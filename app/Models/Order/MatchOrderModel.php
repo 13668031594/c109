@@ -202,8 +202,8 @@ class MatchOrderModel extends Model
         $set = $set->index();
 
         //获取手续费情况
-        $poundage = $model->young_poundage;
-        if ($poundage <= 0) return;
+        $total = $model->young_total;
+        if ($total <= 0) return;
 
         //寻找买单人
         $member = MemberModel::whereUid($model->uid)->first();
@@ -214,17 +214,16 @@ class MatchOrderModel extends Model
         if (is_null($referee)) return;
 
         //佣金灼烧制
-        $referee_top = BuyOrderModel::whereUid($referee->uid)->where('young_status', '>=', '70')->orderBy('young_poundage', 'desc')->first();
+        $referee_top = BuyOrderModel::whereUid($referee->uid)->where('young_status', '>=', '70')->orderBy('young_total', 'desc')->first();
         if (is_null($referee_top)) return;
-        if ($referee_top->young_poundage < $poundage) {
+        if ($referee_top->young_total < $total) {
 
-            $poundage = $referee_top->young_poundage;
+            $total = $referee_top->young_total;
         }
 
         //计算奖励金额
-        $reward = number_format(($poundage * $set['rewardPro'] / 100), 2, '.', '');
+        $reward = number_format(($total * $set['rewardPro'] / 100), 2, '.', '');
         if ($reward <= 0) return;
-
 
         //添加到奖励账户
         $referee->young_reward += $reward;
@@ -235,7 +234,7 @@ class MatchOrderModel extends Model
         $record = '下级『' . $member->young_nickname . '』，订单号『' . $model->young_order . '』，付款完结，获得『' . $set['walletReward'] . '』' . $reward;
         $keyword = $model->young_order;
         $change = ['reward' => $reward];
-        $wallet->store_record($member, $change, 80, $record, $keyword);
+        $wallet->store_record($referee, $change, 80, $record, $keyword);
     }
 
     //尝试提升上级等级

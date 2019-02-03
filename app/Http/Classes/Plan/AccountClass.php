@@ -46,7 +46,10 @@ class AccountClass extends PlanClass
 
         //修改状态
         $model = new MemberModel();
-        $model->whereIn('uid', $stop_ids)->where('young_status_time', '<', $date)->update(['young_status' => '30', 'young_status_time' => DATE]);
+        $model->whereIn('uid', $stop_ids)->where(function ($query) use ($date) {
+
+            $query->where('young_status_time', '<', $date)->orWhere('young_status_time', '=', null);
+        })->update(['young_status' => '30', 'young_status_time' => DATE]);
     }
 
     //寻找自主注册，且打到封号标准的会员

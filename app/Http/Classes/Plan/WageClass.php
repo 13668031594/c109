@@ -123,9 +123,9 @@ class WageClass extends PlanClass
     {
         //时间筛选
         $where = [
-//            ['created_at', '>=', $this->where_time['begin']],
-//            ['created_at', '<', $this->where_time['end']],
-//            ['young_status', '=', '90']
+            ['created_at', '>=', $this->where_time['begin']],
+            ['created_at', '<', $this->where_time['end']],
+            ['young_status', '=', '90']
         ];
 
         //获取字段
@@ -161,7 +161,7 @@ class WageClass extends PlanClass
 
             //寻找会员
             $member = MemberModel::whereUid($k)->first();
-            $member->young_families = '1,2,3,4';
+//            $member->young_families = '1,2,3,4';
             if (is_null($member) || empty($member->young_families)) return;
 
             //寻找参与发放工资的上级
@@ -209,7 +209,7 @@ class WageClass extends PlanClass
                 if ($pro <= 0) continue;
 
                 //计算当发工资
-                $wage = number_format(($v * $pro), 2, '.', '');
+                $wage = number_format(($v * $pro * $this->set['walletPoundageBalance']), 2, '.', '');
 
                 //没有可发工资，下一个
                 if ($wage <= 0) continue;
@@ -246,7 +246,7 @@ class WageClass extends PlanClass
     //修改会员记录
     private function update_member()
     {
-        parent::table_update('member_models', $this->wage,'uid');
+        parent::table_update('member_models', $this->wage, 'uid');
     }
 
     //添加工资发放记录
