@@ -129,8 +129,8 @@ class SetClass extends AdminClass
             'goodsName|商品名称' => 'required|string|max:40',//商品名称
             'goodsTotal|商品金额' => 'required|integer|between:1,100000000',//商品金额
             'goodsCover|商品封面' => 'required|string',//商品封面
-            'goodsType0|防撞模式购买周期' => 'required|integer|between:1,100000000',//防撞模式购买周期
-            'goodsType1|未防撞模式购买周期' => 'required|integer|between:1,100000000',//未防撞模式购买周期
+//            'goodsType0|防撞模式购买周期' => 'required|integer|between:1,100000000',//防撞模式购买周期
+//            'goodsType1|未防撞模式购买周期' => 'required|integer|between:1,100000000',//未防撞模式购买周期
             'goodsTop0|防撞模式购买上限' => 'required|integer|between:1,100000000',//防撞模式购买上限
             'goodsTop1|未防撞模式购买上限' => 'required|integer|between:1,100000000',//未防撞模式购买上限
 //            'goodsLower0|防撞模式收益时间下限' => 'required|integer|between:1,365',//防撞模式收益时间选项
