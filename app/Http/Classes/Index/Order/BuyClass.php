@@ -45,7 +45,8 @@ class BuyClass extends IndexClass
         $other = [
             'where' => $where,
             'orderBy' => [
-                'created_at' => 'desc'
+                'young_status' => 'asc',
+                'created_at' => 'desc',
             ],
             'select' => $select,
         ];
@@ -322,7 +323,7 @@ class BuyClass extends IndexClass
     {
         $member = parent::get_member();
 
-//        if ($member['mode'] != '20') parent::error_json('只有未防撞状态才能开启自动采集');
+        if ($member['mode'] != '20') parent::error_json('只有未防撞状态才能开启自动采集');
 
         $last = new BuyOrderModel();
         $last = $last->where('uid', '=', $member['uid'])->orderBy('created_at', 'desc')->first();
@@ -389,6 +390,7 @@ class BuyClass extends IndexClass
 
         if ($member['mode'] != '20') parent::error_json('只有未防撞状态才能开启自动采集');
         if ($set['buySwitch'] != 'on') parent::error_json('暂时无法采集');//手动采集开关
+        $top_order = self::top_order();
 
         $number_max = 0;
         $time_lower = 0;
@@ -416,6 +418,10 @@ class BuyClass extends IndexClass
         ];
 
         parent::validators_json($request->post(), $term);
+
+        $total = $request->post('number') * $this->set['goodsTotal'];
+
+        if (($this->set['buyTotalUpSwitch'] == 'on') && ($total < $top_order)) parent::error_json('采集金额必须大于历史最大金额：' . $top_order);
 
         $member = MemberModel::whereUid($member['uid'])->first();
         $member->young_auto_buy = $request->post('switchValue');

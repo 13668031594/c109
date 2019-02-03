@@ -167,7 +167,7 @@ class BuyOrderModel extends Model
         return self::test_order($num);
     }
 
-    public function new_order()
+    public function new_order_3()
     {
         $string = 'abcdefghijklmnopqrstuvwxvzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $max = strlen($string) - 1;
@@ -187,5 +187,15 @@ class BuyOrderModel extends Model
         if (is_null($test)) return $key;
 
         return self::new_order();
+    }
+
+    public function new_order($num = 375520)
+    {
+        $add = new BuyOrderModel();
+        $add = $add->count();
+
+        $num = ($num + $add + 1);
+
+        return self::test_order($num);
     }
 }

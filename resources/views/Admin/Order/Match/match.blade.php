@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>订单详情</title>
+    <title>匹配详情</title>
     <link rel="stylesheet" href="{{$static}}layui/css/layui.css">
     <link rel="stylesheet" href="{{$static}}res/css/common.css"/>
     <!--[if lt IE 9]>
@@ -22,7 +22,7 @@
         <span class="layui-breadcrumb" lay-separator="/">
           <a href="javascript:;">首页</a>
           <a href="javascript:;">寄售订单</a>
-          <a href="javascript:;">订单详情</a>
+          <a href="javascript:;">匹配详情</a>
           <a><cite>{{$self['order']}}</cite></a>
         </span>
     </div>
@@ -33,7 +33,7 @@
 
             <div class="layui-col-sm6">
                 <fieldset class="layui-elem-field layui-field-title">
-                    <legend>订单详情</legend>
+                    <legend>匹配详情</legend>
                     <div class="layui-field-box">
                         <table class="layui-table" lay-even>
                             <colgroup>
@@ -51,18 +51,13 @@
                             </tr>
                             <tr>
                                 <td>状态</td>
-
                                 <td>
                                     <span class="layui-badge-rim">{{$status[$self['status']]}}</span>
                                 </td>
                             </tr>
                             <tr>
-                                <td>贡献点</td>
-                                <td>{{$self['gxd']}}</td>
-                            </tr>
-                            <tr>
                                 <td>金额</td>
-                                <td>{{$self['balance']}}</td>
+                                <td>{{$self['total']}}</td>
                             </tr>
                             <tr>
                                 <td>支付凭证</td>
@@ -128,27 +123,27 @@
                                 <tbody>
                                 <tr>
                                     <td>帐号</td>
-                                    <td>{{$self['buy_account'] ?? ''}}</td>
+                                    <td>{{$self['buy_account']}}</td>
                                 </tr>
                                 <tr>
                                     <td>电话</td>
-                                    <td>{{$self['buy_phone'] ?? ''}}</td>
+                                    <td>{{$self['buy_phone']}}</td>
                                 </tr>
                                 <tr>
                                     <td>昵称</td>
-                                    <td>{{$self['buy_nickname'] ?? ''}}</td>
+                                    <td>{{$self['buy_nickname']}}</td>
                                 </tr>
                                 <tr>
                                     <td>身份</td>
-                                    <td>{{$grade[$self['buy_grade']] ?? ''}}</td>
+                                    <td>{{$grade[$self['buy_grade']]}}</td>
                                 </tr>
                                 <tr>
                                     <td>上级账号</td>
-                                    <td>{{$self['buy_referee_account'] ?? ''}}</td>
+                                    <td>{{$self['buy_referee_account']}}</td>
                                 </tr>
                                 <tr>
                                     <td>上级昵称</td>
-                                    <td>{{$self['buy_referee_nickname'] ?? ''}}</td>
+                                    <td>{{$self['buy_referee_nickname']}}</td>
                                 </tr>
                                 <!--<tr>
                                     <td>注册时间</td>

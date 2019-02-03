@@ -6,20 +6,20 @@
  * Time: 下午2:54
  */
 
-namespace App\Http\Classes\Admin\Trad;
-
+namespace App\Http\Classes\Admin\Order;
 
 use App\Http\Classes\Admin\AdminClass;
 use App\Models\Member\MemberModel;
+use App\Models\Order\MatchOrderModel;
 use App\Models\Trad\TradModel;
 use Illuminate\Http\Request;
 
-class TradClass extends AdminClass
+class MatchClass extends AdminClass
 {
     //对比数组
     public function arrays()
     {
-        $model = new TradModel();
+        $model = new MatchOrderModel();
 
         $arrays = $model->arrays();
 
@@ -87,7 +87,7 @@ class TradClass extends AdminClass
             'leftJoin' => $leftJoin
         ];
 
-        $result = parent::list_page('trad as a', $other);
+        $result = parent::list_page('match_order as a', $other);
 
         foreach ($result['message'] as &$v) $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . '/' . $v['pay']);
 
@@ -98,15 +98,15 @@ class TradClass extends AdminClass
     public function show($id)
     {
         $select = [
-            'trad_models.*', 's.young_nickname as sell_nickname', 's.young_phone as sell_phone', 's.young_account as sell_account',
-            's.young_grade as sell_grade', 's.young_referee_account as sell_referee_account', 's.young_referee_nickname as sell_referee_nickname',
+            'match_order_models.*', 's.young_nickname as sell_nickname', 's.young_phone as sell_phone', 's.young_account as sell_account',
+            's.young_grade as sell_grade','s.young_referee_account as sell_referee_account', 's.young_referee_nickname as sell_referee_nickname',
             'b.young_nickname as buy_nickname', 'b.young_phone as buy_phone', 'b.young_account as buy_account',
-            'b.young_grade as buy_grade', 'b.young_referee_account as buy_referee_account', 'b.young_referee_nickname as buy_referee_nickname',
+            'b.young_grade as buy_grade','b.young_referee_account as buy_referee_account', 'b.young_referee_nickname as buy_referee_nickname',
         ];
 
-        $order = TradModel::whereId($id)
-            ->leftJoin('member_models as s', 's.uid', '=', 'trad_models.young_sell_uid')
-            ->leftJoin('member_models as b', 'b.uid', '=', 'trad_models.young_buy_uid')
+        $order = MatchOrderModel::whereId($id)
+            ->leftJoin('member_models as s', 's.uid', '=', 'match_order_models.young_sell_uid')
+            ->leftJoin('member_models as b', 'b.uid', '=', 'match_order_models.young_buy_uid')
             ->select($select)
             ->first();
 
@@ -121,12 +121,10 @@ class TradClass extends AdminClass
 
     public function validator_update($id, Request $request)
     {
-        $model = new TradModel();
+        $model = new MatchOrderModel();
 
         $term = [
-            'id' => 'required|exists:trad_models,id',
-            'gxd|贡献点' => 'required|numeric|between:0,100000000',
-            'balance|价值' => 'required|numeric|between:0,100000000',
+            'id' => 'required|exists:match_order_models,id',
             'status|状态' => 'required|in:' . implode(',', array_keys($model->status)),
         ];
 
@@ -138,10 +136,8 @@ class TradClass extends AdminClass
     public function update($id, Request $request)
     {
         $data = $request->post();
-        $sell = TradModel::whereId($id)->first();
+        $sell = MatchOrderModel::whereId($id)->first();
 
-        $sell->young_gxd = $data['gxd'];
-        $sell->young_balance = $data['balance'];
         $sell->young_status = $data['status'];
         $sell->save();
     }

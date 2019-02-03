@@ -124,7 +124,8 @@ class MasterPowerClass extends AdminClass implements \App\Http\Classes\ListInter
     {
         return [
             'member', 'member.index', 'member.create', 'member.edit', 'member.act', 'member.wallet', 'member.record',
-            'order','buy.index', 'buy.abn','sell.index','trad.index',
+            'order', 'buy.index', 'buy.abn', 'buy.edit', 'sell.index', 'sell.edit', 'trad.index', 'trad.edit', 'match.index',
+            'match.edit'
         ];
     }
 }

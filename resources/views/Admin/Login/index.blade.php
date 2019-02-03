@@ -102,10 +102,23 @@
                                 <dd><a href="javascript:;" data-menu='/admin/sell/index'><i
                                                 class="layui-icon layui-icon-log"></i> 寄售列表</a></dd>
                             @endif
+                                @if(in_array('match.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/match/index'><i
+                                                class="layui-icon layui-icon-log"></i> 匹配列表</a></dd>
+                            @endif
                             @if(in_array('trad.index',$powers) || in_array('-1',$powers))
                                 <dd><a href="javascript:;" data-menu='/admin/trad/index'><i
                                                 class="layui-icon layui-icon-log"></i> 贡献点交易</a></dd>
                             @endif
+                        </dl>
+                    </li>
+                @endif
+                @if(in_array('bill',$powers) || in_array('-1',$powers))
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;"><i class="layui-icon layui-icon-username"></i> 统计</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;" data-menu='/admin/bill/index'><i
+                                            class="layui-icon layui-icon-set-sm"></i> 统计</a></dd>
                         </dl>
                     </li>
                 @endif

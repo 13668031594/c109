@@ -383,7 +383,7 @@ AND b.young_tail_complete < b.young_tail_total";
 
             if (!empty($v['phone'])) foreach ($v['content'] as $va) $this->sendSms($v['phone'], $va);
             if (!empty($v['cid'])) foreach ($v['body'] as $va) $this->pushSms($v['cid'], $va);
-
         }
+
     }
 }

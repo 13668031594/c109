@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>寄售</title>
+    <title>匹配</title>
     <link rel="stylesheet" href="{{$static}}layui/css/layui.css">
     <link rel="stylesheet" href="{{$static}}res/css/common.css"/>
     <!--[if lt IE 9]>
@@ -21,12 +21,12 @@
     <div class="layui-row m-breadcrumb">
         <span class="layui-breadcrumb" lay-separator="/">
           <a href="javascript:;">首页</a>
-          <a href="javascript:;">寄售列表</a>
+          <a href="javascript:;">匹配列表</a>
           <a><cite>{{isset($self) ? '编辑' : '添加'}}</cite></a>
         </span>
     </div>
 
-    <form class="layui-form" action="/admin/trad/{{isset($self) ? 'update/'.$self['id'] : 'store'}}">
+    <form class="layui-form" action="/admin/match/{{isset($self) ? 'update/'.$self['id'] : 'store'}}">
         <div class="layui-form-min">
 
             <div class="layui-form-item">
@@ -35,36 +35,38 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">下单人</label>
+                <label class="layui-form-label">卖家昵称</label>
                 <div class="layui-form-mid">{{$self["sell_nickname"]}}</div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">账号</label>
+                <label class="layui-form-label">卖家账号</label>
                 <div class="layui-form-mid">{{$self["sell_account"]}}</div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">手机</label>
+                <label class="layui-form-label">卖家手机</label>
                 <div class="layui-form-mid">{{$self["sell_phone"]}}</div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">卖出贡献点</label>
-                <div class="layui-input-block">
-                    <input type="text" name="gxd" required title="卖出贡献点" lay-verify="required|number"
-                           placeholder="卖出贡献点"
-                           autocomplete="off" class="layui-input" value='{{$self['gxd']}}'/>
-                </div>
+                <label class="layui-form-label">买家昵称</label>
+                <div class="layui-form-mid">{{$self["buy_nickname"]}}</div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">价值</label>
-                <div class="layui-input-block">
-                    <input type="text" name="balance" required title="价值" lay-verify="required|number"
-                           placeholder="价值"
-                           autocomplete="off" class="layui-input" value='{{$self['balance']}}'/>
-                </div>
+                <label class="layui-form-label">买家账号</label>
+                <div class="layui-form-mid">{{$self["buy_account"]}}</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">买家手机</label>
+                <div class="layui-form-mid">{{$self["buy_phone"]}}</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">金额</label>
+                <div class="layui-form-mid">{{$self["total"]}}</div>
             </div>
 
             <div class="layui-form-item">

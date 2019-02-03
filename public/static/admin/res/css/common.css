@@ -109,3 +109,72 @@
     margin: auto;
     text-align: center;
 }
+
+
+.form-radio-type {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center; }
+
+.form-radio-type > ul {
+    overflow: hidden; }
+
+.form-radio-type ul li {
+    float: left;
+    padding: 5px 15px;
+    border: 1px solid #E7E7E7;
+    border-right: none;
+    cursor: pointer; }
+
+.form-radio-type li:hover {
+    color: #fff;
+    background-color: #009688; }
+
+.form-radio-type li:last-of-type {
+    border-right: 1px solid #E7E7E7; }
+
+.form-radio-type .choice {
+    color: #fff;
+    background-color: #009688; }
+
+.layui-field-box .format:not(:first-of-type) {
+    border-top: #f2f2f2 solid 1px;
+    margin-top: 10px;
+    padding-top: 10px; }
+
+.format-container {
+    padding-bottom: 10px; }
+
+.format {
+    overflow: hidden;
+    height: 110px; }
+.format > div {
+    padding-left: 30px;
+    height: 95px; }
+.format > div h3 {
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 20px; }
+.format > div div.number {
+    color: #999; }
+.format > div div.number span {
+    font-size: 20px;
+    font-weight: 700;
+    color: #009688;
+    margin-right: 5px; }
+.format > div .prompt {
+    font-size: 12px;
+    color: #ccc; }
+.format > div:not(:first-of-type) {
+    border-left: #f2f2f2 solid 1px; }
+.format .format-list li {
+    float: left;
+    width: 33.3%; }
+
+.layui-nav-child a {
+    margin-left: 16px; }

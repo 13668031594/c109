@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>贡献点交易</title>
+    <title>匹配订单</title>
     <link rel="stylesheet" href="{{$static}}layui/css/layui.css"/>
     <link rel="stylesheet" href="{{$static}}res/css/common.css"/>
     <!--[if lt IE 9]>
@@ -21,7 +21,7 @@
     <div class="layui-row m-breadcrumb">
         <span class="layui-breadcrumb" lay-separator="/">
           <a href="javascript:;">首页</a>
-          <a><cite>贡献点交易</cite></a>
+          <a><cite>匹配订单</cite></a>
         </span>
     </div>
 
@@ -37,7 +37,7 @@
             </div>
             <div class="layui-input-inline layui-query-select" style="width:90px;">
                 <select name="keywordType" lay-verify="" style="height:30px;">
-                    <option value="order">订单号</option>
+                    <option value="order">交易号</option>
                     <option value="sell_phone">卖家手机</option>
                     <option value="sell_account">卖家账号</option>
                     <option value="sell_nickname">卖家昵称</option>
@@ -64,10 +64,10 @@
 <script src="{{$static}}layui/layui.js"></script>
 
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/trad/show?id=@{{ d.id }}">详情</a>
-    {{--<a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/trad/wallet-record?id=@{{ d.id }}">钱包</a>--}}
-    {{--<a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/trad/record?id=@{{ d.id }}">记录</a>--}}
-    @if(in_array('trad.edit',$powers) || in_array('-1',$powers))
+    <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/match/show?id=@{{ d.id }}">详情</a>
+    {{--<a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/match/wallet-record?id=@{{ d.id }}">钱包</a>--}}
+    {{--<a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/match/record?id=@{{ d.id }}">记录</a>--}}
+    @if(in_array('match.edit',$powers) || in_array('-1',$powers))
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
     @endif
     {{--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i lass="layui-icon layui-icon-delete"></i>删除</a>--}}
@@ -84,28 +84,26 @@
 
         mTable.init({
             url: {
-                del: '/admin/trad/delete',
-                table: '/admin/trad/table',
-                edit: '/admin/trad/edit',
-                add: '/admin/trad/create'
+                del: '/admin/match/delete',
+                table: '/admin/match/table',
+                edit: '/admin/match/edit',
+                add: '/admin/match/create'
             },
             isPage: true,
             cols: [[
-                {field: 'order', width: 100, title: '订单号'},
+                {field: 'order', width: 100, title: '交易号'},
                 {
                     field: 'status', width: 80, title: '状态', templet: function (d) {
                     return '<span class="layui-badge  layui-bg-blue">' + status[d.status] + '</span>'
                 }
                 },
-                {field: 'gxd', width: 100, title: '贡献点'},
-                {field: 'balance', width: 100, title: '金额'},
+                {field: 'total', width: 100, title: '金额'},
                 {field: 'sell_account', width: 100, title: '卖家账号'},
                 {field: 'sell_phone', width: 120, title: '卖家手机'},
                 {field: 'sell_nickname', width: 100, title: '卖家昵称'},
                 {field: 'buy_account', width: 100, title: '买家账号'},
                 {field: 'buy_phone', width: 120, title: '买家手机'},
                 {field: 'buy_nickname', width: 100, title: '买家昵称'},
-
                 {
                     field: 'image',
                     title: '支付凭证',

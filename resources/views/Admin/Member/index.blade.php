@@ -112,7 +112,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i lass="layui-icon layui-icon-delete"></i>删除</a>
     @endif
     @if(in_array('member.liq',$powers) || in_array('-1',$powers))
-    <a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/liq?id=@{{ d.id }}">清算</a>
+    {{--<a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/liq?id=@{{ d.id }}">清算</a>--}}
     @endif
 </script>
 <script>

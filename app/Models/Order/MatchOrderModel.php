@@ -71,7 +71,7 @@ class MatchOrderModel extends Model
 {
     public $status = [
         10 => '待付款',
-        11 => '重新付款',
+//        11 => '重新付款',
         20 => '待确认',
         30 => '已完结',
     ];

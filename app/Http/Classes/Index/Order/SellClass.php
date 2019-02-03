@@ -34,6 +34,10 @@ class SellClass extends IndexClass
         $other = [
             'where' => $where,
             'select' => ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status'],
+            'orderBy' => [
+                'young_status' => 'asc',
+                'created_at' => 'desc',
+            ],
         ];
 
         $result = parent::list_page('sell_order', $other);
@@ -131,6 +135,9 @@ class SellClass extends IndexClass
         $member = parent::get_member();//会员参数
 
         if (($set['sellPoundageNone'] == 'off') && ($member['poundage'] < 0)) parent::error_json('手续费为负时，无法卖出');
+
+        $today_sell = SellOrderModel::whereUid($member['uid'])->where('crated_at', '>', date('Y-m-d 00:00:00'))->first();
+        if (!is_null($today_sell)) parent::error_json('一天只能添加一个卖出订单');
 
         $term = [
             'amount|订单总价' => 'required|numeric|between:1,100000000',

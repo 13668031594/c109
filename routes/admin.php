@@ -133,6 +133,12 @@ Route::group(['namespace' => 'Order'], function () {
     Route::get('/sell/show', 'SellController@show')->name('sell.index');//寄售详情
     Route::get('/sell/edit', 'SellController@edit')->name('sell.edit');//订单编辑
     Route::post('/sell/update/{id}', 'SellController@update')->name('sell.edit');//订单编辑
+
+    Route::get('match/index', 'MatchController@index')->name('match.index');//匹配列表
+    Route::get('match/table', 'MatchController@table')->name('match.index');//匹配数据
+    Route::get('match/show', 'MatchController@show')->name('match.index');//匹配详情
+    Route::get('match/edit', 'MatchController@edit')->name('match.edit');//订单编辑
+    Route::post('/match/update/{id}', 'MatchController@update')->name('match.edit');//订单编辑
 });
 
 //订单
@@ -143,5 +149,12 @@ Route::group(['namespace' => 'Trad'], function () {
     Route::get('/trad/show', 'TradController@show')->name('trad.index');//挂售详情
     Route::get('/trad/edit', 'TradController@edit')->name('trad.edit');//订单编辑
     Route::post('/trad/update/{id}', 'TradController@update')->name('trad.edit');//订单编辑
+});
+
+//统计
+Route::group(['namespace' => 'Bill'], function () {
+
+    Route::get('/bill/index', 'BillController@index')->name('bill.index');//统计列表
+    Route::get('/bill/table', 'BillController@table')->name('bill.index');//统计数据
 });
 

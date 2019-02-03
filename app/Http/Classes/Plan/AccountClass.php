@@ -30,7 +30,7 @@ class AccountClass extends PlanClass
         //满足未防撞长时间不排单的
         $mode_20_ids = self::mode_20_ids();
 
-        //超时未付收款封号
+        //超时未付款封号
         $not_pay_ids = self::not_pay();
 
         //所有id
@@ -127,9 +127,13 @@ class AccountClass extends PlanClass
     {
         $date = date('Y-m-d 00:00:00');
 
+        $update = date('Y-m-d H:i:s', strtotime('-1 hours'));
+
         $match = new MatchOrderModel();
         return $match->where('created_at', '<', $date)
+            ->where('young_abn', '=', '10')
             ->where('young_status', '=', '10')
+            ->where('updated_at', '<', $update)
             ->get(['young_buy_uid'])
             ->pluck('young_buy_uid')
             ->toArray();
