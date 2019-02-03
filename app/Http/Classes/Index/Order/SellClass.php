@@ -136,7 +136,7 @@ class SellClass extends IndexClass
 
         if (($set['sellPoundageNone'] == 'off') && ($member['poundage'] < 0)) parent::error_json('手续费为负时，无法卖出');
 
-        $today_sell = SellOrderModel::whereUid($member['uid'])->where('crated_at', '>', date('Y-m-d 00:00:00'))->first();
+        $today_sell = SellOrderModel::whereUid($member['uid'])->where('created_at', '>', date('Y-m-d 00:00:00'))->first();
         if (!is_null($today_sell)) parent::error_json('一天只能添加一个卖出订单');
 
         $term = [
