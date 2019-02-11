@@ -283,9 +283,11 @@ class MatchOrderModel extends Model
         $type = $member->young_type;
 
         //判断是否满足永动条件
-        $number = MemberModel::whereYoungRefereeId($uid)
-            ->where('young_formal', '=', '20')
-            ->where('young_all_buy_total', '>=', $set['typeAllTotal'])
+        $number = \DB::table('buy_order_models as b')
+            ->leftJoin('member_models as u', 'b.uid', '=', 'u.uid')
+            ->where('u.young_referee_id', '=', $uid)
+            ->where('u.young_formal', '=', '20')
+            ->where('b.young_total', '>=', $set['typeAllTotal'])
             ->count();
 
         //满足永动条件
@@ -303,9 +305,11 @@ class MatchOrderModel extends Model
         }
 
         //静态转动态
-        $number = MemberModel::whereYoungRefereeId($uid)
-            ->where('young_formal', '=', '20')
-            ->where('young_all_buy_total', '>=', $set['type01'])
+        $number = \DB::table('buy_order_models as b')
+            ->leftJoin('member_models as u', 'b.uid', '=', 'u.uid')
+            ->where('u.young_referee_id', '=', $uid)
+            ->where('u.young_formal', '=', '20')
+            ->where('b.young_total', '>=', $set['type01'])
             ->count();
 
         if ($number > 0) {

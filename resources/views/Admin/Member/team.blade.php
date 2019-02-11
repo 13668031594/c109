@@ -50,6 +50,18 @@
                 <span class="layui-badge layui-badge">{{$number}}</span>
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">团队订单数</label>
+            <div class="layui-form-mid">
+                <span class="layui-badge layui-badge">{{$order_number}}</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">团队业绩</label>
+            <div class="layui-form-mid">
+                <span class="layui-badge layui-badge">{{$order_total}}</span>
+            </div>
+        </div>
 
         <hr>
         <div id="tree"></div>

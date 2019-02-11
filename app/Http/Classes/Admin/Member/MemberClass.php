@@ -17,7 +17,8 @@ use App\Models\Member\MemberActModel;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberRankModel;
 use App\Models\Member\MemberRecordModel;
-use App\Models\Member\MemberWalletModel;
+use App\Models\Order\BuyOrderModel;
+use App\Models\Order\MatchOrderModel;
 use Illuminate\Http\Request;
 
 class MemberClass extends AdminClass implements ListInterface
@@ -301,6 +302,8 @@ class MemberClass extends AdminClass implements ListInterface
         $result = [
             'number' => 0,
             'team' => json_encode([]),
+            'order_number' => 0,
+            'order_total' => 0,
         ];
 
         //初始化模型
@@ -318,13 +321,17 @@ class MemberClass extends AdminClass implements ListInterface
 
         //下级结果数组
         $fathers = [];
+        $ids = [];
 
         foreach ($team as $v) {
 
             $fathers[$v['young_referee_id']][] = $v;
+            $ids[] = $v['uid'];
         }
 
         $result['team'] = str_replace('"', "'", json_encode(self::get_tree($member_id, $fathers)));
+        $result['order_number'] = self::team_order_number($ids);
+        $result['order_total'] = self::team_order_total($ids);
 
         return $result;
     }
@@ -340,7 +347,7 @@ class MemberClass extends AdminClass implements ListInterface
             $result[$k]['name'] = $v['young_nickname'];
             if (isset($team[$v['uid']])) $result[$k]['children'] = self::get_tree($v['uid'], $team);
         }
-//        dd($result);
+
         return $result;
     }
 
@@ -356,5 +363,19 @@ class MemberClass extends AdminClass implements ListInterface
         $class = new SetClass();
 
         return $class->index();
+    }
+
+    private function team_order_number($ids)
+    {
+        $model = new BuyOrderModel();
+
+        return $model->whereIn('uid', $ids)->count();
+    }
+
+    private function team_order_total($ids)
+    {
+        $model = new MatchOrderModel();
+
+        return $model->whereIn('young_buy_uid', $ids)->where('young_status','=','30')->sum('young_total');
     }
 }
