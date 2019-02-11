@@ -35,7 +35,7 @@ class RegClass extends IndexClass
     public function validator_sms($phone)
     {
         $term = [
-            'phone|电话' => 'required|regex:/^1[34578][0-9]{9}$/|unique:member_models,young_phone',//联系电话，必填
+            'phone|电话' => 'required|regex:/^1[3456789][0-9]{9}$/|unique:member_models,young_phone',//联系电话，必填
         ];
 
         //参数判断

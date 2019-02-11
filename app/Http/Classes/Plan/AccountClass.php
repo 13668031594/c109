@@ -91,11 +91,11 @@ class AccountClass extends PlanClass
         return $ids;
     }
 
-    //后台激活，未排单的
+    //防撞
     private function mode_10_ids()
     {
-        if (empty($this->set['goodsCeil0'])) $date = DATE;
-        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['goodsCeil0'] . ' day'));
+        if (empty($this->set['goodsType0'])) $date = DATE;
+        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['goodsType0'] . ' day'));
 
         $model = new MemberModel();
         $ids = $model->where('young_last_buy_time', '<', $date)
@@ -108,11 +108,11 @@ class AccountClass extends PlanClass
         return $ids;
     }
 
-    //后台激活，未排单的
+    //未防撞
     private function mode_20_ids()
     {
-        if (empty($this->set['goodsCeil1'])) $date = DATE;
-        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['goodsCeil1'] . ' day'));
+        if (empty($this->set['goodsType1'])) $date = DATE;
+        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['goodsType1'] . ' day'));
 
         $model = new MemberModel();
         $ids = $model->where('young_last_buy_time', '<', $date)
