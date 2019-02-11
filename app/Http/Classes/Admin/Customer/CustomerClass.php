@@ -90,7 +90,7 @@ class CustomerClass extends AdminClass implements ListInterface
         $term = [
             'nickname|昵称' => 'required|between:2,12|string',
             'text|联系方式' => 'required|string|max:20',
-            'switch|分配开关' => 'required|in:' . implode(',', array_keys($switch)),
+//            'switch|分配开关' => 'required|in:' . implode(',', array_keys($switch)),
         ];
 
         parent::validators_json($request->all(), $term);
@@ -105,7 +105,7 @@ class CustomerClass extends AdminClass implements ListInterface
             'id' => 'required|exists:customer_models,id',
             'nickname|昵称' => 'required|between:2,12|string',
             'text|联系方式' => 'required|string|max:20',
-            'switch|分配开关' => 'required|in:' . implode(',', array_keys($switch)),
+//            'switch|分配开关' => 'required|in:' . implode(',', array_keys($switch)),
         ];
 
         $request->request->add(['id' => $id]);
