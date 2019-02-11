@@ -128,15 +128,19 @@ class AccountClass extends PlanClass
     //超时未付款
     public function not_pay()
     {
+        $end = parent::set_time($this->set['payEnd']);
+
+        if (time() < $end)return [];
+
         $date = date('Y-m-d 00:00:00');
 
-        $update = date('Y-m-d H:i:s', strtotime('-1 hours'));
+//        $update = date('Y-m-d H:i:s', strtotime('-1 hours'));
 
         $match = new MatchOrderModel();
         return $match->where('created_at', '<', $date)
             ->where('young_abn', '=', '10')
             ->where('young_status', '=', '10')
-            ->where('updated_at', '<', $update)
+//            ->where('updated_at', '<', $update)
             ->get(['young_buy_uid'])
             ->pluck('young_buy_uid')
             ->toArray();
