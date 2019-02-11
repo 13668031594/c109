@@ -17,7 +17,7 @@ Route::group(['namespace' => 'Login'], function () {
     Route::post('login', 'LoginController@login');
 });
 
-Route::group(['middleware' => ['auth:api', 'apiAct30', 'apiStatus30']], function () {
+Route::group(['middleware' => ['auth:api', 'apiWebClose', 'apiAct30', 'apiStatus30']], function () {
 
     Route::group(['namespace' => 'Login'], function () {
 

@@ -423,4 +423,25 @@ class ApiLoginClass extends IndexClass
 
         return parent::delete_prefix($customer->toArray());
     }
+
+    public function validator_time()
+    {
+        $set_class = new SetClass();
+
+        $set = $set_class->index();
+
+        if ($set['webSwitch'] == 'off') {
+
+            parent::error_json($set['webCloseTxt']);
+        }
+
+        $open = $this->set_time($set['webOpenTime']);
+
+        $close = $this->set_time($set['webCloseTime']);
+
+        if ((time() < $open) || (time() > $close)) {
+
+            parent::error_json($set['webCloseReason']);
+        }
+    }
 }

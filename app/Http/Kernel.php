@@ -73,5 +73,6 @@ class Kernel extends HttpKernel
         'apiAct30' => \App\Http\Middleware\ApiMemberAct30::class,//必须激活
         'apiStatus30' => \App\Http\Middleware\ApiMemberStatus30::class,//账号被封停
         'apiStatus20' => \App\Http\Middleware\ApiMemberStatus20::class,//账号被冻结
+        'apiWebClose' => \App\Http\Middleware\ApiWebClose::class,//网站开关
     ];
 }

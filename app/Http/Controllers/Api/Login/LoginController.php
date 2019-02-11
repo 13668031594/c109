@@ -48,6 +48,8 @@ class LoginController extends ApiController
      */
     public function login(Request $request)
     {
+        $this->class->validator_time();
+
         if (!is_null($request->refresh_token)) {
 
             //使用刷新令牌获取新的令牌
