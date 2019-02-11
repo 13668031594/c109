@@ -393,7 +393,7 @@ class BuyClass extends IndexClass
 
         $total = $request->post('number') * $this->set['goodsTotal'];
 
-        if (($this->set['buyTotalUpSwitch'] == 'on') && ($total < $top_order)) parent::error_json('采集金额必须大于历史最大金额：' . $top_order);
+        if (($request->post('switchValue') == '10')  && ($this->set['buyTotalUpSwitch'] == 'on') && ($total < $top_order)) parent::error_json('采集金额必须大于历史最大金额：' . $top_order);
 
         $member = MemberModel::whereUid($member['uid'])->first();
         $member->young_auto_buy = $request->post('switchValue');

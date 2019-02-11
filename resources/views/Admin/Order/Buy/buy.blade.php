@@ -251,7 +251,7 @@
                             <td @if($v['abn'] == '20') style="color: red;" @endif>
                                 {{$match_arrays['abn'][$v['abn']]}}
                             </td>
-                            <td><img src="{{$v['image']}}"></td>
+                            <td><img class="images" src="{{$v['image']}}"></td>
                             <td>{{$v['pay_time'] ?? '待支付'}}</td>
                             <td>{{$v['created_at']}}</td>
                         </tr>

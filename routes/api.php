@@ -80,4 +80,17 @@ Route::group(['middleware' => ['auth:api', 'apiWebClose', 'apiAct30', 'apiStatus
         Route::post('trad-buy/{id}', 'TradController@pay');//支付
         Route::get('trad/{id}', 'TradController@over');//确认
     });
+
+    Route::get('help', function () {
+
+        $result = [
+            'status' => 'success',
+            'data' => [
+                'text' => "<b>123123123</b>"
+            ],
+            'message' => '操作成功',
+        ];
+
+        return response()->json($result);
+    });
 });
