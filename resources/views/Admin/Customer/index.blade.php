@@ -57,6 +57,7 @@
 
         var layer = layui.layer;
         var mTable = layui.mTable;
+        var theSwitch = {!! $switch_json !!}
 
         mTable.init({
             url: {
@@ -69,6 +70,13 @@
             cols: [[
                 {field: 'nickname', title: '昵称'},
                 {field: 'text', title: '联系方式'},
+                {
+                    field: 'type', width: 120, title: '随机分配', templet: function (d) {
+
+                    return '<span class="layui-badge layui-bg-gray">' + theSwitch[d.switch] + '</span>'
+
+                }
+                },
                 {field: 'created_at', title: '创建时间'},
                 {fixed: 'right', title: '操作', width: 150, align: 'center', toolbar: '#tableTool'}
             ]]

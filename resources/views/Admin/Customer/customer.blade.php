@@ -44,6 +44,18 @@
             </div>
         </div>
 
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline" style="width:90px;">
+                    <select name="switch" lay-verify="">
+                        @foreach($switch as $k => $v)
+                            <option value="{{$k}}" {{(isset($self) && $self['switch'] == $k) ? 'selected' : null}}>{{$v}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
 
         <div class="layui-form-item">
             <div class="layui-input-block">

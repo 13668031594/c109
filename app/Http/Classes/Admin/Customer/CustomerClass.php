@@ -37,6 +37,13 @@ class CustomerClass extends AdminClass implements ListInterface
         return $result;
     }
 
+    public function arrays()
+    {
+        $model = new CustomerModel();
+
+        return $model->arrays();
+    }
+
     public function show($id)
     {
     }
@@ -55,6 +62,7 @@ class CustomerClass extends AdminClass implements ListInterface
         $model = new CustomerModel();
         $model->young_nickname = $request->post('nickname');
         $model->young_text = $request->post('text');
+        $model->young_switch = $request->post('switch');
 
         //反馈前台操作结果
         if (!$model->save()) parent::error_json('请重试', '000');
@@ -72,6 +80,7 @@ class CustomerClass extends AdminClass implements ListInterface
         $model = CustomerModel::whereId($id)->first();
         $model->young_nickname = $request->post('nickname');
         $model->young_text = $request->post('text');
+        $model->young_switch = $request->post('switch');
 
         //反馈前台操作结果
         if (!$model->save()) parent::error_json('请重试', '000');
@@ -90,7 +99,7 @@ class CustomerClass extends AdminClass implements ListInterface
         $term = [
             'nickname|昵称' => 'required|between:2,12|string',
             'text|联系方式' => 'required|string|max:20',
-//            'switch|分配开关' => 'required|in:' . implode(',', array_keys($switch)),
+            'switch|分配开关' => 'required|in:' . implode(',', array_keys($switch)),
         ];
 
         parent::validators_json($request->all(), $term);
@@ -105,12 +114,19 @@ class CustomerClass extends AdminClass implements ListInterface
             'id' => 'required|exists:customer_models,id',
             'nickname|昵称' => 'required|between:2,12|string',
             'text|联系方式' => 'required|string|max:20',
-//            'switch|分配开关' => 'required|in:' . implode(',', array_keys($switch)),
+            'switch|分配开关' => 'required|in:' . implode(',', array_keys($switch)),
         ];
 
         $request->request->add(['id' => $id]);
 
         parent::validators_json($request->all(), $term);
+
+        if ($request->post('switch') == 'off') {
+
+            $number = $model->where('young_switch', '=', '10')->count();
+
+            if ($number <= '1') parent::error_json('至少保证开启一个客服');
+        }
     }
 
     public function validator_delete($id)

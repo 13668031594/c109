@@ -43,7 +43,13 @@ class CustomerController extends AdminController implements ListInterface
 
     public function create()
     {
-        return parent::views('customer');
+        $array = $this->classes->create();
+
+        $result = [
+            'switch' => $array,
+        ];
+
+        return parent::views('customer',$result);
     }
 
     public function store(Request $request)
@@ -59,8 +65,11 @@ class CustomerController extends AdminController implements ListInterface
     {
         $self = $this->classes->edit($request->get('id'));
 
+        $array = $this->classes->create();
+
         $result = [
             'self' => $self,
+            'switch' => $array,
         ];
 
         return parent::views('customer', $result);

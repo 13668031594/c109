@@ -350,9 +350,9 @@ class MemberModel extends Authenticatable
     {
         $customer = new CustomerModel();
 
-        $c = $customer->get(['id'])->pluck('id')->toArray();
+        $c = $customer->where('young_switch', '=', '10')->get(['id'])->pluck('id')->toArray();
 
-        $rand = array_rand($c,1);
+        $rand = array_rand($c, 1);
 
         $memberModel->young_customer = $c[$rand];
 
