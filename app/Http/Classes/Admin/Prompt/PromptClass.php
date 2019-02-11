@@ -90,7 +90,7 @@ class PromptClass extends AdminClass implements ListInterface
     public function validator_update($id, Request $request)
     {
         $term = [
-            'fwb-content|内容' => 'required|string|max:3000',
+            'fwb-content|内容' => 'required|string|max:5000',
         ];
 
         $request->request->add(['id' => $id]);

@@ -17,7 +17,7 @@ class CreatePromptModelsTable extends Migration
             $table->increments('id');
             $table->string('young_title')->comment('标题');
             $table->string('young_keyword')->comment('关键字');
-            $table->string('young_content')->comment('内容');
+            $table->text('young_content')->comment('内容');
             $table->timestamps();
         });
     }
