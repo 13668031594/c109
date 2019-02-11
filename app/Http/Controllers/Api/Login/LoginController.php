@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Login;
 
 use App\Http\Classes\Index\Login\ApiLoginClass;
+use App\Http\Classes\Index\Login\PromptClass;
 use App\Http\Classes\Set\SetClass;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Member\MemberModel;
@@ -120,6 +121,19 @@ class LoginController extends ApiController
             'gxd_all' => $member['gxd_all'],
             'reward' => $member['reward'],
             'reward_all' => $member['reward_all'],
+        ];
+
+        return parent::success($result);
+    }
+
+    public function prompt($keyword)
+    {
+        $class = new PromptClass();
+
+        $content = $class->prompt($keyword);
+
+        $result = [
+            'text' => $content
         ];
 
         return parent::success($result);

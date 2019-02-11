@@ -67,4 +67,19 @@ trait FwbTrait
         Storage::delete($delete_location->all());//删除文件
         FwbImagesModel::destroy($delete_id->all());//删除数据
     }
+
+    //补全网址
+    public function completion_location($contents)
+    {
+        preg_match_all('/<img src="(.*?)"/', $contents, $result);
+
+        foreach ($result[1] as $v){
+
+            $location = 'http://' . env('LOCALHOST') . $v;
+
+            $contents = str_replace($v,$location,$contents);
+        }
+
+        return $contents;
+    }
 }

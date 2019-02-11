@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth:api', 'apiWebClose', 'apiAct30', 'apiStatus
         Route::get('user', 'LoginController@get_member');//会员资料
         Route::get('user-wallet', 'LoginController@get_wallet');//获取钱包信息
         Route::get('logout', 'LoginController@logout');//登出
+        Route::get('prompt/{keyword}', 'LoginController@prompt');//提示文字
     });
 
     Route::group(['namespace' => 'User'], function () {
@@ -81,16 +82,4 @@ Route::group(['middleware' => ['auth:api', 'apiWebClose', 'apiAct30', 'apiStatus
         Route::get('trad/{id}', 'TradController@over');//确认
     });
 
-    Route::get('help', function () {
-
-        $result = [
-            'status' => 'success',
-            'data' => [
-                'text' => "<b>123123123</b>"
-            ],
-            'message' => '操作成功',
-        ];
-
-        return response()->json($result);
-    });
 });
