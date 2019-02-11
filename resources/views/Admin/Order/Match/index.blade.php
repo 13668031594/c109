@@ -110,7 +110,7 @@
                     width: 100,
                     templet: function (d) {
                         if (d.image) {
-                            return "<div><img class='images' src='@{{ d.image }}' /></div>";
+                            return "<div><img class='images' src=" + d.image + " /></div>";
                         } else {
                             return '';
                         }

@@ -89,7 +89,8 @@ class MatchClass extends AdminClass
 
         $result = parent::list_page('match_order as a', $other);
 
-        foreach ($result['message'] as &$v) $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST'). $v['pay']);
+        foreach ($result['message'] as &$v) $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
+//        foreach ($result['message'] as &$v) $v['image'] = 'http://jwzs.ythx123.com/storage/Order/31_400.jpeg';
 
         return $result;
     }
@@ -99,9 +100,9 @@ class MatchClass extends AdminClass
     {
         $select = [
             'match_order_models.*', 's.young_nickname as sell_nickname', 's.young_phone as sell_phone', 's.young_account as sell_account',
-            's.young_grade as sell_grade','s.young_referee_account as sell_referee_account', 's.young_referee_nickname as sell_referee_nickname',
+            's.young_grade as sell_grade', 's.young_referee_account as sell_referee_account', 's.young_referee_nickname as sell_referee_nickname',
             'b.young_nickname as buy_nickname', 'b.young_phone as buy_phone', 'b.young_account as buy_account',
-            'b.young_grade as buy_grade','b.young_referee_account as buy_referee_account', 'b.young_referee_nickname as buy_referee_nickname',
+            'b.young_grade as buy_grade', 'b.young_referee_account as buy_referee_account', 'b.young_referee_nickname as buy_referee_nickname',
         ];
 
         $order = MatchOrderModel::whereId($id)
