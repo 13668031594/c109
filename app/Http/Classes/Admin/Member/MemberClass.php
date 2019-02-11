@@ -354,5 +354,7 @@ class MemberClass extends AdminClass implements ListInterface
     public function set()
     {
         $class = new SetClass();
+
+        return $class->index();
     }
 }

@@ -97,6 +97,7 @@ class MemberController extends AdminController implements ListInterface
         $result['self'] = $this->classes->edit($request->get('id'));
 
         $result['rank'] = $this->classes->rank($result['self']['rank_id']);
+        $result['set'] = $this->classes->set();
 
         return parent::views('wallet', $result);
     }

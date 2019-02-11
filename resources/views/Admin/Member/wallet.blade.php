@@ -124,7 +124,7 @@
                         <div id="assetTypeContainer" style="display: none;">
                             <div class="layui-form-item">
                                 <label class="layui-form-label">折扣</label>
-                                <div id="discount" class="layui-form-mid layui-word-aux">65</div>
+                                <div id="discount" class="layui-form-mid layui-word-aux">{{$rank['discount']}}</div>
 
                             </div>
                             <div class="layui-form-item">
@@ -160,7 +160,10 @@
     layui.config({
         base: '{{$static}}res/js/common/'
     }).use(['mForm', 'layer', 'jquery', 'element', 'form'], function () {
+
         var form = layui.form;
+        var walletPoundageBalance = {!! $set['walletPoundageBalance'] !!}
+
         form.on('select(type)', function (data) {
 //            console.log(data);
             if (data.value == 1) {
@@ -175,7 +178,7 @@
 
             var discount = Number($('#discount').text());
 
-            $('#total').text(this.value * 10 * discount / 100);
+            $('#total').text(this.value * walletPoundageBalance * discount / 100);
         });
 
 
