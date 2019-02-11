@@ -113,7 +113,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">操作类型</label>
                             <div class="layui-input-block">
-                                <select name="type" lay-filter="type">
+                                <select id="select" name="type" lay-filter="type">
                                     <option value="0">余额</option>
                                     <option value="1">手续费</option>
                                     <option value="2">奖励账户</option>
@@ -121,10 +121,24 @@
                                 </select>
                             </div>
                         </div>
+                        <div id="assetTypeContainer" style="display: none;">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">折扣</label>
+                                <div id="discount" class="layui-form-mid layui-word-aux">65</div>
+
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">应付金额</label>
+                                <div id="total" class="layui-form-mid layui-word-aux">0</div>
+
+                            </div>
+                        </div>
+
                         <div class="layui-form-item">
                             <label class="layui-form-label">充值数量</label>
                             <div class="layui-input-block">
-                                <input type="text" name="number" required title="充值数量" lay-verify="required|number"
+                                <input id="number" type="text" name="number" required title="充值数量"
+                                       lay-verify="required|number"
                                        placeholder="请输入充值数量"
                                        autocomplete="off" class="layui-input" value='0'/>
                             </div>
@@ -148,13 +162,22 @@
     }).use(['mForm', 'layer', 'jquery', 'element', 'form'], function () {
         var form = layui.form;
         form.on('select(type)', function (data) {
-            console.log(data);
-            if (data.value == 0) {
+//            console.log(data);
+            if (data.value == 1) {
                 $("#assetTypeContainer").show();
             } else {
                 $("#assetTypeContainer").hide();
             }
         });
+
+
+        $("#number").on('keyup', function () {
+
+            var discount = Number($('#discount').text());
+
+            $('#total').text(this.value * 10 * discount / 100);
+        });
+
 
         $("#act").on('click', function () {
 

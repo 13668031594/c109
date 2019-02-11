@@ -11,9 +11,11 @@ namespace App\Http\Classes\Member;
 
 use App\Http\Classes\Admin\AdminClass;
 use App\Http\Classes\ListInterface;
+use App\Http\Classes\Set\SetClass;
 use App\Models\Member\MemberAccountModel;
 use App\Models\Member\MemberActModel;
 use App\Models\Member\MemberModel;
+use App\Models\Member\MemberRankModel;
 use App\Models\Member\MemberRecordModel;
 use App\Models\Member\MemberWalletModel;
 use Illuminate\Http\Request;
@@ -321,7 +323,7 @@ class MemberClass extends AdminClass implements ListInterface
 
             $fathers[$v['young_referee_id']][] = $v;
         }
-//dd($fathers);
+
         $result['team'] = str_replace('"', "'", json_encode(self::get_tree($member_id, $fathers)));
 
         return $result;
@@ -340,5 +342,17 @@ class MemberClass extends AdminClass implements ListInterface
         }
 //        dd($result);
         return $result;
+    }
+
+    public function rank($rank_id)
+    {
+        $rank = MemberRankModel::whereId($rank_id)->first();
+
+        return parent::delete_prefix($rank->toArray());
+    }
+
+    public function set()
+    {
+        $class = new SetClass();
     }
 }

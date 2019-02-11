@@ -110,7 +110,7 @@
                     width: 100,
                     templet: function (d) {
                         if (d.image) {
-                            return "<div><img class='images' src=" + d.image + " /></div>";
+                            return "<div><a target='_blank' href=" + d.image + "><img class='images' src=" + d.image + " /></a></div>";
                         } else {
                             return '';
                         }

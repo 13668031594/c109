@@ -24,7 +24,8 @@ class PromptClass extends IndexClass
 
         if (is_null($prompt)) parent::error_json('没有内容');
 
-        $content = $this->completion_location($prompt->young_content);
+//        $content = $this->completion_location($prompt->young_content);
+        $content = $prompt->young_content;
 
         return $content;
     }
