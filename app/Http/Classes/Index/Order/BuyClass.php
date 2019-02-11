@@ -393,7 +393,7 @@ class BuyClass extends IndexClass
 
         $total = $request->post('number') * $this->set['goodsTotal'];
 
-        if (($request->post('switchValue') == '10')  && ($this->set['buyTotalUpSwitch'] == 'on') && ($total < $top_order)) parent::error_json('采集金额必须大于历史最大金额：' . $top_order);
+        if (($request->post('switchValue') == '10') && ($this->set['buyTotalUpSwitch'] == 'on') && ($total < $top_order)) parent::error_json('采集金额必须大于历史最大金额：' . $top_order);
 
         $member = MemberModel::whereUid($member['uid'])->first();
         $member->young_auto_buy = $request->post('switchValue');
@@ -412,7 +412,9 @@ class BuyClass extends IndexClass
 
         if (($buy->young_status != 79) && ($buy->young_status != 80)) parent::error_json('此订单还不能提现');
 
-        if (($buy->young_status == 79) && ($member['poundage'] < $buy->young_poundage) && ($this->set['buyPoundageNone'] != 'on')) parent::error_json('请先充值手续费为正数');
+        if (($buy->young_status == 79) && ($member['poundage'] < $buy->young_poundage) && ($this->set['buyPoundageNone'] != 'on')) parent::error_json('请先充值' . $this->set['walletPoundage'] . '为正数');
+
+        if (($member['gxd'] < 0) && ($this->set['withdrawSwitch'] != 'on')) parent::error_json('请先充值' . $this->set['walletGxd'] . '为正数');
 
         $member = MemberModel::whereUid($member['uid'])->first();
         $change = [];
@@ -439,19 +441,26 @@ class BuyClass extends IndexClass
         $buy->save();
 
         //取消贡献点奖励
-        $buy->young_gxd = 0;
+//        $buy->young_gxd = 0;
+        $gxd = number_format(($buy->young_in * $this->set['withdrawPro'] / 100 / $this->set['walletGxdBalance']), 2, '.', '');
+        if ($gxd > 0) {
+
+            $change['gxd'] = (0 - $gxd);
+            $record .= '，扣除『' . $this->set['walletGxd'] . '』' . $gxd;
+            $member->young_gxd -= $gxd;
+        }
 
         $member->young_balance += $all;
         $member->young_balance_all += $all;
         $member->young_all_in_total += $buy->young_in;
-        if ($buy->young_gxd > 0) {
+        /*if ($buy->young_gxd > 0) {
 
             $member->young_gxd += $buy->young_gxd;
             $member->young_gxd_all += $buy->young_gxd;
 
             $change['gxd'] = $buy->young_gxd;
             $record .= '，获得『' . $this->set['walletGxd'] . '』' . $buy->young_gxd;
-        }
+        }*/
         $member->save();
 
         $wallet = new MemberWalletModel();

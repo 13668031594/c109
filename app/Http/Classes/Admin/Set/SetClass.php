@@ -112,6 +112,7 @@ class SetClass extends AdminClass
             'walletReward|奖励账户别名' => 'required|string|max:40',//奖励账户
             'walletBalance|余额别名' => 'required|string|max:40',//余额
             'walletPoundageBalance|手续费价值' => 'required|integer|between:1,100000000',//手续费价值（相对于余额）
+            'walletGxdBalance|贡献点价值' => 'required|integer|between:1,100000000',//贡献点价值（相对于余额）
             //买单抢单
             'buySwitch|手动买入开关' => 'required|in:on,off',//手动买入开关
             'buyAutoSwitch|自动买入开关' => 'required|in:on,off',//自动买入开关
@@ -157,7 +158,8 @@ class SetClass extends AdminClass
             'inOvertimeAuto|超时自动确认收款' => 'required|in:on,off',//超时自动确认收款
             'inOvertimePunishGxd|收款超时扣除贡献点' => 'required|integer|between:0,100000000',//超时扣除贡献点
             //订单提现
-//            'withdrawSwitch|负手续费提现' => ''
+            'withdrawSwitch|负贡献点提现开关' => 'required|in:on,off',
+            'withdrawPro|提现时扣除' => 'required|numeric|between:0,100',
             //奖励提现
             'rewardPro|下级买单奖励比例' => 'required|numeric|between:0,100',//下级买单奖励比例
             'rewardSwitch|奖励账户提现开关' => 'required|in:on,off',//奖励账户提现开关
@@ -232,6 +234,7 @@ class SetClass extends AdminClass
             'walletReward' => '奖励账户',//奖励账户
             'walletBalance' => '余额',//余额
             'walletPoundageBalance' => '10',//手续费价值（相对于余额）
+            'walletGxdBalance' => '6',//贡献点价值（相对于余额）
             //买单抢单
             'buySwitch' => 'on',//手动买入开关
             'buyAutoSwitch' => 'on',//自动买入开关
@@ -278,6 +281,9 @@ class SetClass extends AdminClass
             'inEnd' => '15:00',//收款结束时间
             'inOvertimeAuto' => 'on',//超时自动确认收款
             'inOvertimePunishGxd' => '300',//超时扣除贡献点
+            //订单提现
+            'withdrawSwitch' => 'on',
+            'withdrawPro' => '20',
             //奖励提现
             'rewardPro' => '5',//下级买单奖励比例
             'rewardSwitch' => 'on',//奖励账户提现开关

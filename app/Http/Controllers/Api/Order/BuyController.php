@@ -138,7 +138,9 @@ $result['date'] = DATE;
     public function withdraw_post($id)
     {
         \DB::beginTransaction();
+
         $this->classes->withdraw($id);
+
         \DB::commit();
 
         return parent::success();

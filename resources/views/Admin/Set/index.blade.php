@@ -374,12 +374,23 @@
                             <div class="layui-form-mid layui-word-aux">一个手续费相对于余额的价值</div>
                         </div>
                     </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">贡献点价值</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="walletGxdBalance" title="贡献点价值" lay-filter="numberZ"
+                                       placeholder="贡献点价值" autocomplete="off" value="{{$self['walletGxdBalance']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">一个贡献点相对于余额的价值</div>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="layui-tab-item">
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label">负债买出</label>
+                        <label class="layui-form-label">负债卖出</label>
                         <div class="layui-input-inline" style="width:70px;">
                             <input type="checkbox" id='sellPoundageNone' lay-filter="sellPoundageNone"
                                    lay-skin="switch"
@@ -749,6 +760,30 @@
                                    lay-text="开启|关闭" {{$self["inOvertimeAuto"] == 'on' ? 'checked' : ''}}/>
                             <input type="hidden" id='inOvertimeAutoValue' name="inOvertimeAuto"
                                    value="{{$self['inOvertimeAuto']}}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">负债提现</label>
+                        <div class="layui-input-inline">
+                            <input type="checkbox" id='withdrawSwitch' lay-filter="withdrawSwitch"
+                                   lay-skin="switch"
+                                   lay-text="开启|关闭" {{$self["withdrawSwitch"] == 'on' ? 'checked' : ''}}/>
+                            <input type="hidden" id='withdrawSwitchValue' name="withdrawSwitch"
+                                   value="{{$self['withdrawSwitch']}}"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">贡献点为负时，是否允许从订单中提现</div>
+                    </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">扣除比例</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="withdrawPro" title="提现时扣除贡献点比例" lay-filter="numberZ"
+                                       placeholder="提现时扣除贡献点比例" autocomplete="off" value="{{$self['withdrawPro']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">提现时，扣除的贡献点比例</div>
                         </div>
                     </div>
                 </div>
@@ -1164,6 +1199,13 @@
                 $('#rewardPoundageNoneValue').prop('value', 'on');
             } else {
                 $('#rewardPoundageNoneValue').prop('value', 'off');
+            }
+        });
+        form.on('switch(withdrawSwitch)', function (data) {
+            if (data.elem.checked) {
+                $('#withdrawSwitchValue').prop('value', 'on');
+            } else {
+                $('#withdrawSwitchValue').prop('value', 'off');
             }
         });
 
