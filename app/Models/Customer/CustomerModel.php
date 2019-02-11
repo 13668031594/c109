@@ -24,5 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CustomerModel extends Model
 {
-    //
+    public $switch = [
+        10 => '开启',
+        20 => '关闭',
+    ];
 }

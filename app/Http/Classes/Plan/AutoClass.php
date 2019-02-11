@@ -63,11 +63,12 @@ class AutoClass extends PlanClass
                 if ($last->young_status < 40) continue;
 
                 //计算下次下单时间
-                $begin = strtotime('+' . $member['auto_time'] . ' day', strtotime($last->created_at));
+                $begin = strtotime('+' . $member['young_auto_time'] . ' day', strtotime($last->created_at));
 
                 //预算时间未到
                 if ($begin <= time()) continue;
 
+                //没有达到采集周期
                 if ($last->created_at >= date('Y-m-d 00:00:00')) continue;
             }
 
@@ -101,7 +102,7 @@ class AutoClass extends PlanClass
 
             $gxd_pro = 0;//贡献点比例
             $gxd = 0;//贡献点
-            if ($member['type'] == '20') {
+            if ($member['young_type'] == '20') {
 
                 $gxd_pro = ($set['typePro1'] - $set['typePro0']);
                 if ($gxd_pro > 0) {

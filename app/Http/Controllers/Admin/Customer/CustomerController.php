@@ -19,7 +19,14 @@ class CustomerController extends AdminController implements ListInterface
 
     public function index()
     {
-        return parent::views('index');
+        $switch = $this->classes->create();
+
+        $result = [
+            'switch_json' => json_encode($switch),
+            'switch' => $switch,
+        ];
+
+        return parent::views('index', $result);
     }
 
     public function table()
@@ -61,16 +68,16 @@ class CustomerController extends AdminController implements ListInterface
 
     public function update($id, Request $request)
     {
-        $this->classes->validator_update($id,$request);
+        $this->classes->validator_update($id, $request);
 
-        $this->classes->update($id,$request);
+        $this->classes->update($id, $request);
 
         return parent::success('/admin/customer/index');
     }
 
     public function destroy(Request $request)
     {
-        $ids = explode(',',$request->get('id'));
+        $ids = explode(',', $request->get('id'));
 
         $this->classes->validator_delete($ids);
 
