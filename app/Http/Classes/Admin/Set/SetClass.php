@@ -156,6 +156,8 @@ class SetClass extends AdminClass
             'inEnd|收款结束时间' => 'required|date_format:"H:i"|after:inStart',//收款结束时间
             'inOvertimeAuto|超时自动确认收款' => 'required|in:on,off',//超时自动确认收款
             'inOvertimePunishGxd|收款超时扣除贡献点' => 'required|integer|between:0,100000000',//超时扣除贡献点
+            //订单提现
+//            'withdrawSwitch|负手续费提现' => ''
             //奖励提现
             'rewardPro|下级买单奖励比例' => 'required|numeric|between:0,100',//下级买单奖励比例
             'rewardSwitch|奖励账户提现开关' => 'required|in:on,off',//奖励账户提现开关
