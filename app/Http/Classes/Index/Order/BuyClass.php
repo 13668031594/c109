@@ -216,7 +216,7 @@ class BuyClass extends IndexClass
 
                     if ($last->young_status < 40) parent::error_json('上一个订单尚未付首款');
                     if ($last->created_at >= date('Y-m-d 00:00:00')) parent::error_json('一天只能下一个单');
-                    if (time() < strtotime('+' . $this->set['goodsLower1'] . ' day', strtotime($last->created_at))) parent::error_json('还未到下一个排单周期');
+//                    if (time() < strtotime('+' . $this->set['goodsLower1'] . ' day', strtotime($last->created_at))) parent::error_json('还未到下一个排单周期');
                 }
                 break;
             default:

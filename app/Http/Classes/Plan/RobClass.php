@@ -34,6 +34,13 @@ class RobClass extends PlanClass
         //已经成功发放过抢单
         if (!is_null($test)) return;
 
+        if ($this->set['robSwitch'] != 'on'){
+
+            $record = '抢单开关关闭，未抢单';
+            self::store_plan($record);
+            return;
+        }
+
         //判断今天抢单人数
         $number = RobModel::whereYoungStatus('10')->count();
 
