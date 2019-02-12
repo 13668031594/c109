@@ -18,7 +18,6 @@ class AutoClass extends PlanClass
 
     public function __construct()
     {
-
         parent::__construct();
 
         //获取所有开启了自动采集的会员
@@ -38,6 +37,8 @@ class AutoClass extends PlanClass
 
     public function add_buy()
     {
+        //初始化配置文件
+        $set = $this->set;
         $order = new BuyOrderModel();
         $young_order = $order->new_order();
         $members = [];
@@ -52,6 +53,12 @@ class AutoClass extends PlanClass
                 empty($member['young_auto_time'])
             ) continue;
 
+            $day = $member['young_auto_time'];
+            $time_lower = $set['goodsLower1'];
+            $time_ceil = $set['goodsCeil1'];
+            if ($day < $time_lower) $day = $time_lower;//保证收益周期不低于配置周期
+            if ($day > $time_ceil) $day = $time_ceil;//保证收益周期不高于配置周期
+
             //寻找该会员的最后一个订单
             $last = new BuyOrderModel();
             $last = $last->where('uid', '=', $member['uid'])->orderBy('created_at', 'desc')->first();
@@ -63,24 +70,21 @@ class AutoClass extends PlanClass
                 if ($last->young_status < 40) continue;
 
                 //计算下次下单时间
-                $begin = strtotime('+' . $member['young_auto_time'] . ' day', strtotime($last->created_at));
+                $begin = strtotime('+' . $day . ' day', strtotime($last->created_at));
 
                 //预算时间未到
-                if ($begin <= time()) continue;
+                if ($begin > time()) continue;
 
-                //没有达到采集周期
+                //今天采集过了
                 if ($last->created_at >= date('Y-m-d 00:00:00')) continue;
             }
 
-            //初始化配置文件
-            $set = $this->set;
+
             //商品单价
             $amount = $set['goodsTotal'];
             //初始化对比变量
-            $time = $member['young_auto_time'];
+            $time = $set['goodsType1'];
             $number = $member['young_auto_number'];
-            $time_lower = $set['goodsLower1'];
-            $time_ceil = $set['goodsCeil1'];
             $number_max = $set['goodsTop1'];
 
             switch ($member['young_type']) {
@@ -92,8 +96,6 @@ class AutoClass extends PlanClass
                     break;
             }
 
-            if ($time < $time_lower) $time = $time_lower;//保证收益周期不低于配置周期
-            if ($time > $time_ceil) $time = $time_ceil;//保证收益周期不高于配置周期
             if ($number <= 0) $number = 1;//保证排单数量不小于1
             if ($number > $number_max) $number = $number_max;//保证排单数量不大于配置最高数量
 

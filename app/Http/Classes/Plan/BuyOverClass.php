@@ -18,11 +18,11 @@ class BuyOverClass extends PlanClass
 
         $today_w = date('w');
 
-        if ($today_w == '6') {
+        /*if ($today_w == '6') {
 
             //今天周六
             self::order_add(2);
-        } elseif ($today_w == '0') {
+        } else*/if ($today_w == '0') {
 
             //今天周日
             self::order_add(1);
