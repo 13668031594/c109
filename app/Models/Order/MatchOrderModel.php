@@ -216,9 +216,11 @@ class MatchOrderModel extends Model
         //佣金灼烧制
         $referee_top = BuyOrderModel::whereUid($referee->uid)->where('young_status', '>=', '70')->orderBy('young_total', 'desc')->first();
         if (is_null($referee_top)) return;
+        $wallet_add = '';
         if ($referee_top->young_total < $total) {
 
             $total = $referee_top->young_total;
+            $wallet_add = '(灼烧)';
         }
 
         //计算奖励金额
@@ -231,7 +233,7 @@ class MatchOrderModel extends Model
 
         //添加到钱包记录
         $wallet = new MemberWalletModel();
-        $record = '下级『' . $member->young_nickname . '』，订单号『' . $model->young_order . '』，付款完结，获得『' . $set['walletReward'] . '』' . $reward;
+        $record = '下级『' . $member->young_nickname . '』，订单号『' . $model->young_order . '』，付款完结，获得『' . $set['walletReward'] . '』' . $reward . $wallet_add;
         $keyword = $model->young_order;
         $change = ['reward' => $reward];
         $wallet->store_record($referee, $change, 80, $record, $keyword);
@@ -278,7 +280,7 @@ class MatchOrderModel extends Model
 
         $member = MemberModel::whereUid($uid)->first();
 
-        if (is_null($member))return;
+        if (is_null($member)) return;
 
         $type = $member->young_type;
 
@@ -299,7 +301,7 @@ class MatchOrderModel extends Model
 
             $record = new MemberRecordModel();
             $text = '直系下级排单，收益状态变更为：' . $type[30];
-            $record->store_record($member,20,$text);
+            $record->store_record($member, 20, $text);
 
             return;
         }
@@ -320,7 +322,7 @@ class MatchOrderModel extends Model
 
             $record = new MemberRecordModel();
             $text = '直系下级排单，收益状态变更为：' . $type[10];
-            $record->store_record($member,20,$text);
+            $record->store_record($member, 20, $text);
         }
     }
 
