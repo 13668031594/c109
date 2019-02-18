@@ -30,7 +30,7 @@ trait DxbSmsTrait
             "43" => "IP地址限制",
             "50" => "内容含有敏感词"
         );
-        $content = '【君王战神】' . $content;
+        $content = '【星伙传递】' . $content;
         $smsapi = "http://api.smsbao.com/";
         $user = "jy00795800"; //短信平台帐号
         $pass = md5("asdasd123"); //短信平台密码

@@ -65,6 +65,10 @@ class IndexClass extends Classes
                 $where[] = ['young_gxd', '<>', 0];
                 $select[] = 'young_gxd as amount';
                 break;
+            case '4':
+                $where[] = ['young_incite', '<>', 0];
+                $select[] = 'young_incite as amount';
+                break;
             default:
                 break;
         }
