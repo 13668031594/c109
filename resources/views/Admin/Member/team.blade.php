@@ -125,7 +125,24 @@
 //    var data = [{"name":"\u5c0f\u6d0b\u6d0b"}];
 
     layui.use(['layer', 'element', 'tree', 'laydate'], function () {
+
         var tree = layui.tree;
+
+        layui.tree({
+            elem: '#tree'
+            , nodes: data
+            , click: function (node) {
+                console.log(node) //node即为当前点击的节点数据
+            }
+        });
+
+        $(function () {
+            $(".layui-tree-branch").html(" ");
+            $(".layui-tree-spread").on('click', function () {
+                $(".layui-tree-branch").html(" ");
+            });
+        });
+
 
         var laydate = layui.laydate;
 
@@ -193,20 +210,7 @@
         MyChart.init(myEChart);
         MyChart.create();
 
-        layui.tree({
-            elem: '#tree'
-            , nodes: data
-            , click: function (node) {
-                console.log(node) //node即为当前点击的节点数据
-            }
-        });
 
-        $(function () {
-            $(".layui-tree-branch").html(" ");
-            $(".layui-tree-spread").on('click', function () {
-                $(".layui-tree-branch").html(" ");
-            });
-        });
     }); //加载入口
 </script>
 </body>
