@@ -85,7 +85,7 @@ class UserController extends ApiController
 
         $request->request->add(['id' => $member['uid']]);
 
-        $result = $this->classes->record_table($request);
+        $result = $this->classes->recor_table($request);
 
         return parent::success($result);
     }

@@ -121,6 +121,8 @@ class LoginController extends ApiController
             'gxd_all' => $member['gxd_all'],
             'reward' => $member['reward'],
             'reward_all' => $member['reward_all'],
+            'incite' => $member['incite'],
+            'incite_all' => $member['incite_all'],
         ];
 
         return parent::success($result);
