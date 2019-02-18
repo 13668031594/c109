@@ -170,7 +170,7 @@ class BillClass extends AdminClass
                 //获取结束时间段
                 $end_time = is_null($end_time) ? (is_null(request()->get('endTime')) ? self::time_date() : request()->get('endTime')) : $end_time;
 
-                if ($end_time < $begin_time) parent::error_json(000, ['起始时间不得大于结束时间']);
+                if ($end_time < $begin_time) exit('起始时间不得大于结束时间');
 
                 //判断差距时间
                 $diff = strtotime($end_time) - strtotime($begin_time);//差距秒数
@@ -228,7 +228,7 @@ class BillClass extends AdminClass
         //获取结束时间段
         $end_time = is_null($end_time) ? (is_null(request()->get('endTime')) ? self::time_date() : request()->get('endTime')) : $end_time;
 
-        if ($end_time < $begin_time) parent::error_json('起始时间不得大于结束时间');
+        if ($end_time < $begin_time) exit('起始时间不得大于结束时间');
 
         //计算起止时间,并给予计算时间戳
         switch ($type) {

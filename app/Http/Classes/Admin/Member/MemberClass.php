@@ -10,6 +10,7 @@ namespace App\Http\Classes\Member;
 
 
 use App\Http\Classes\Admin\AdminClass;
+use App\Http\Classes\Admin\Bill\BillClass;
 use App\Http\Classes\ListInterface;
 use App\Http\Classes\Set\SetClass;
 use App\Models\Member\MemberAccountModel;
@@ -306,6 +307,15 @@ class MemberClass extends AdminClass implements ListInterface
             'order_total' => 0,
         ];
 
+        $class = new BillClass();
+        $times = $class->time_type('all');
+        $begin = $times['begin'];
+        $end = $times['end'];
+        $where_all = [['created_at', '>=', $begin], ['created_at', '<', $end]];
+        $result['type'] = $times['type2'];
+        $result['begin'] = $begin;
+        $result['end'] = $end;
+
         //初始化模型
         $model = new MemberModel();
 
@@ -331,8 +341,8 @@ class MemberClass extends AdminClass implements ListInterface
         }
 
         $result['team'] = str_replace('"', "'", json_encode(self::get_tree($member_id, $fathers)));
-        $result['order_number'] = self::team_order_number($ids);
-        $result['order_total'] = self::team_order_total($ids);
+        $result['order_number'] = self::team_order_number($ids, $where_all);
+        $result['order_total'] = self::team_order_total($ids, $where_all);
 
         return $result;
     }
@@ -366,17 +376,17 @@ class MemberClass extends AdminClass implements ListInterface
         return $class->index();
     }
 
-    private function team_order_number($ids)
+    private function team_order_number($ids, $where_all)
     {
         $model = new BuyOrderModel();
 
-        return $model->whereIn('uid', $ids)->count();
+        return $model->where($where_all)->whereIn('uid', $ids)->count();
     }
 
-    private function team_order_total($ids)
+    private function team_order_total($ids, $where_all)
     {
         $model = new MatchOrderModel();
 
-        return $model->whereIn('young_buy_uid', $ids)->where('young_status','=','30')->sum('young_total');
+        return $model->where($where_all)->whereIn('young_buy_uid', $ids)->where('young_status', '=', '30')->sum('young_total');
     }
 }
