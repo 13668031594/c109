@@ -84,6 +84,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int $young_customer 客服id
  * @property string|null $young_formal_time 成为正式会员时间
  * @property string|null $young_cid 推送cid
+ * @property float $young_incite 鼓励账户
+ * @property float $young_incite_all 累计鼓励账户
+ * @property string|null $young_incite_note 鼓励账户备注
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
@@ -130,6 +133,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungGxd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungGxdAll($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungHosting($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungIncite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungInciteAll($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungInciteNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungLastBuyTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungLastBuyTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungLastLoginIp($value)

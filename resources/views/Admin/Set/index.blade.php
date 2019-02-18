@@ -365,6 +365,17 @@
                     </div>
                     <div class="layui-form-min">
                         <div class="layui-form-item">
+                            <label class="layui-form-label">鼓励账户</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="walletIncite" title="鼓励账户别名"
+                                       placeholder="鼓励账户别名" autocomplete="off" value="{{$self['walletIncite']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">余额在前台显示时的名称</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
                             <label class="layui-form-label">手续费价值</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="walletPoundageBalance" title="手续费价值" lay-filter="numberZ"

@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $young_keyword 关键字
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property float $young_incite 变动鼓励账户
+ * @property float $young_incite_now 当前鼓励账户
+ * @property float $young_incite_all 累计鼓励账户
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel query()
@@ -39,6 +42,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungGxd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungGxdAll($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungGxdNow($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungIncite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungInciteAll($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungInciteNow($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungKeyword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungPoundage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungPoundageAll($value)
@@ -92,12 +98,15 @@ class MemberWalletModel extends Model
         $wallet->young_reward_now = $memberModel->young_reward;
         $wallet->young_gxd_all = $memberModel->young_gxd_all;
         $wallet->young_gxd_now = $memberModel->young_gxd;
+        $wallet->young_incite_all = $memberModel->young_incite_all;
+        $wallet->young_incite_now = $memberModel->young_incite;
 
         //变化信息
         $wallet->young_balance = isset($changes['balance']) ? $changes['balance'] : 0;
         $wallet->young_poundage = isset($changes['poundage']) ? $changes['poundage'] : 0;
         $wallet->young_reward = isset($changes['reward']) ? $changes['reward'] : 0;
         $wallet->young_gxd = isset($changes['gxd']) ? $changes['gxd'] : 0;
+        $wallet->young_incite = isset($changes['incite']) ? $changes['incite'] : 0;
 
         //保存
         $wallet->save();

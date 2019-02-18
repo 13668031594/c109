@@ -179,6 +179,7 @@
                 {field: 'balance', width: 100, title: '余额'},
                 {field: 'gxd', width: 100, title: '贡献点'},
                 {field: 'reward', width: 100, title: '奖励'},
+                {field: 'incite', width: 100, title: '鼓励'},
                 {field: 'created_at', width: 170, title: '创建时间'},
                 {fixed: 'right', title: '操作', minWidth: 330, align: 'center', toolbar: '#tableTool'}
             ]]

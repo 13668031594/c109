@@ -111,6 +111,7 @@ class SetClass extends AdminClass
             'walletPoundage|手续费别名' => 'required|string|max:40',//手续费
             'walletReward|奖励账户别名' => 'required|string|max:40',//奖励账户
             'walletBalance|余额别名' => 'required|string|max:40',//余额
+            'walletIncite|鼓励账户别名' => 'required|string|max:40',//鼓励账户
             'walletPoundageBalance|手续费价值' => 'required|integer|between:1,100000000',//手续费价值（相对于余额）
             'walletGxdBalance|贡献点价值' => 'required|integer|between:1,100000000',//贡献点价值（相对于余额）
             //买单抢单
@@ -233,6 +234,7 @@ class SetClass extends AdminClass
             'walletPoundage' => '手续费',//手续费
             'walletReward' => '奖励账户',//奖励账户
             'walletBalance' => '余额',//余额
+            'walletIncite' => '鼓励账户',//鼓励账户
             'walletPoundageBalance' => '10',//手续费价值（相对于余额）
             'walletGxdBalance' => '6',//贡献点价值（相对于余额）
             //买单抢单

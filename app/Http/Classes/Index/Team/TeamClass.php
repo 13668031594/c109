@@ -30,7 +30,7 @@ class TeamClass extends IndexClass
 
         $orderBy = [
             'young_status' => 'desc',
-            'created_at' => 'desc',
+            'created_at' => 'asc',
         ];
 
         //获取下级信息

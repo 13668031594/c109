@@ -259,7 +259,7 @@ class BuyClass extends IndexClass
         $data = $request->post();
         $member = parent::get_member();
         $set = $this->set;
-        $poundage = $data['poundage'] * $data['number'];
+        $poundage = $data['poundage'];
         $gxd_pro = 0;//贡献点比例
         $gxd = 0;//贡献点
         if ($member['type'] == '20') {

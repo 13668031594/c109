@@ -80,6 +80,10 @@
                         <td>{{$self['gxd']}}/{{$self['gxd_all']}}</td>
                     </tr>
                     <tr>
+                        <td>鼓励账户/累计</td>
+                        <td>{{$self['incite']}}/{{$self['incite_all']}}</td>
+                    </tr>
+                    <tr>
                         <td>银行信息</td>
                         <td>{{$self['bank_name']}}/{{$self['bank_man']}}/{{$self['bank_no']}}</td>
                     </tr>
@@ -118,6 +122,7 @@
                                     <option value="1">手续费</option>
                                     <option value="2">奖励账户</option>
                                     <option value="3">贡献点</option>
+                                    <option value="4">鼓励账户</option>
                                 </select>
                             </div>
                         </div>
@@ -131,6 +136,18 @@
                                 <label class="layui-form-label">应付金额</label>
                                 <div id="total" class="layui-form-mid layui-word-aux">0</div>
 
+                            </div>
+                        </div>
+                        <div id="incite" style="display: none;">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">鼓励账户备注</label>
+
+                                <div class="layui-input-block">
+                            <textarea title="鼓励账户备注" name="incite_note" lay-verify="reason"
+                                      placeholder="鼓励账户备注"
+                                      class="layui-textarea">{{$self['incite_note']}}
+                            </textarea>
+                                </div>
                             </div>
                         </div>
 
@@ -170,6 +187,14 @@
                 $("#assetTypeContainer").show();
             } else {
                 $("#assetTypeContainer").hide();
+            }
+        });
+        form.on('select(type)', function (data) {
+//            console.log(data);
+            if (data.value == 4) {
+                $("#incite").show();
+            } else {
+                $("#incite").hide();
             }
         });
 

@@ -8,7 +8,6 @@
 
 namespace App\Http\Classes\Member;
 
-
 use App\Http\Classes\Admin\AdminClass;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
@@ -19,8 +18,9 @@ class WalletClass extends AdminClass
     public function validator_wallet(Request $request)
     {
         $rule = [
-            'type|充值类型' => 'required|in:0,1,2,3',
+            'type|充值类型' => 'required|in:0,1,2,3,4',
             'number|充值数量' => 'required|integer|between:-1000000,1000000',
+            'incite_note|鼓励账户备注' => 'nullable|max:60',
         ];
 
         parent::validators_json($request->post(), $rule);
@@ -82,12 +82,21 @@ class WalletClass extends AdminClass
                 $record .= '贡献点';
                 $changes = ['gxd' => $number,];
                 break;
+            case '4':
+
+                $member->young_incite += $number;
+                $member->young_incite_all += $number;
+                $member->young_incite_note = $request->post('incite_note') ?? '';
+                $record .= '鼓励账户';
+                $changes = ['incite' => $number,];
+                break;
             default:
                 parent::error_json('充值类型错误');
                 break;
         }
         $number = ($number < 0) ? (0 - $number) : $number;
         $record .= '』：' . $number;
+
 
         $member->save();
         $wallet->store_record($member, $changes, 10, $record);
