@@ -6,6 +6,7 @@ use App\Http\Classes\Index\SmsClass;
 use App\Http\Classes\Index\Team\HostingClass;
 use App\Http\Classes\Index\Team\RegClass;
 use App\Http\Classes\Index\Team\TeamClass;
+use App\Http\Classes\Index\Team\TurnClass;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
 
@@ -110,5 +111,21 @@ class TeamController extends ApiController
         //返回托管令牌
         return parent::success(['access_token' => $token]);
 
+    }
+
+    //转款给下级
+    public function turn(Request $request)
+    {
+        $class = new TurnClass();
+
+        $class->validator_turn($request);
+
+        \DB::beginTransaction();
+
+        $class->turn($request);
+
+        \DB::commit();
+
+        return parent::success();
     }
 }

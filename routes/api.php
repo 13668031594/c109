@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth:api', 'apiWebClose', 'apiAct30', 'apiStatus
         Route::post('reg', 'TeamController@reg')->middleware('apiStatus20');//添加新的账号
         Route::get('act/{uid}', 'TeamController@act')->middleware('apiStatus20');//抢激活
         Route::post('hosting', 'TeamController@hosting')->middleware('apiStatus20');//切换到会员
+        Route::post('turn', 'TeamController@turn')->middleware('apiStatus20');//转账给下级;
     });
 
     Route::group(['namespace' => 'Order'], function () {
@@ -81,5 +82,4 @@ Route::group(['middleware' => ['auth:api', 'apiWebClose', 'apiAct30', 'apiStatus
         Route::post('trad-buy/{id}', 'TradController@pay');//支付
         Route::get('trad/{id}', 'TradController@over');//确认
     });
-
 });
