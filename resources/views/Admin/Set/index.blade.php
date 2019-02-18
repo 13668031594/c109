@@ -371,7 +371,7 @@
                                        placeholder="鼓励账户别名" autocomplete="off" value="{{$self['walletIncite']}}"
                                        class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">余额在前台显示时的名称</div>
+                            <div class="layui-form-mid layui-word-aux">鼓励账户在前台显示时的名称</div>
                         </div>
                     </div>
                     <div class="layui-form-min">

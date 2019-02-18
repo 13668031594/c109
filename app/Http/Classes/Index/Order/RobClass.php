@@ -30,7 +30,9 @@ class RobClass extends IndexClass
 //            'select' => ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number'],
         ];
 
-        return parent::list_page('rob', $other);
+        $list = parent::list_page('rob', $other);
+        foreach ($list['message'] as &$v)$v['amount'] = $v['total'];
+        return $list;
     }
 
     //开始抢单

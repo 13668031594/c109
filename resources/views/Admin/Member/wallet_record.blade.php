@@ -43,6 +43,7 @@
                     <option value="1">手续费</option>
                     <option value="2">奖励账户</option>
                     <option value="3">贡献点</option>
+                    <option value="4">鼓励账户</option>
                 </select>
             </div>
             <div class="layui-input-inline layui-query-select" style="width:70px;">

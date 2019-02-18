@@ -25,7 +25,7 @@ class BuyClass extends IndexClass
             ['uid', '=', $member['uid']],
         ];
 
-        $select = ['id', 'young_order as orderNo', 'young_amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from', 'young_grade'];
+        $select = ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from', 'young_grade'];
 
         $type = \request()->get('type');
         if ($type == '1') {

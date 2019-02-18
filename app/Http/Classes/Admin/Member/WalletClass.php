@@ -124,6 +124,9 @@ class WalletClass extends AdminClass
             case '3':
                 $where[] = ['young_gxd', '<>', 0];
                 break;
+            case '4':
+                $where[] = ['young_incite', '<>', 0];
+                break;
             default:
                 break;
         }
