@@ -311,6 +311,7 @@ class MemberClass extends AdminClass implements ListInterface
 
         //获取下级信息
         $team = $model->where('young_families', 'like', '%' . $member_id . '%')
+            ->orWhere('young_families', 'like', '%' . $member_id . ',%')
             ->orWhere('young_referee_id', '=', $member_id)
             ->get(['uid', 'young_referee_id', 'young_nickname']);
 

@@ -30,7 +30,7 @@ class AutoClass extends PlanClass
 
     public function all_member()
     {
-        $sql = "SELECT * FROM young_member_models WHERE young_auto_buy = 10 AND young_mode = 20";
+        $sql = "SELECT * FROM young_member_models WHERE young_auto_buy = 10 AND young_mode = 20 AND young_status = 10";
 
         $this->member = \DB::select($sql);
     }

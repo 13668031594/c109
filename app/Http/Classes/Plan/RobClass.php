@@ -34,7 +34,7 @@ class RobClass extends PlanClass
         //已经成功发放过抢单
         if (!is_null($test)) return;
 
-        if ($this->set['robSwitch'] != 'on'){
+        if ($this->set['robSwitch'] != 'on') {
 
             $record = '抢单开关关闭，未抢单';
             self::store_plan($record);
@@ -131,7 +131,7 @@ class RobClass extends PlanClass
 
         $gxd_pro = 0;//贡献点比例
         $gxd = 0;//贡献点
-        if ($member['type'] == '20') {
+        if ($member->young_type == '20') {
 
             $gxd_pro = ($set['typePro1'] - $set['typePro0']);
             if ($gxd_pro > 0) {
@@ -163,7 +163,7 @@ class RobClass extends PlanClass
         $order->save();
 
         //扣除会员手续费
-        $member = MemberModel::whereUid($member['uid'])->first();
+//        $member = MemberModel::whereUid($member['uid'])->first();
         $member->young_poundage -= $poundage;
         if (is_null($member->young_first_buy_time)) {
             $member->young_first_buy_time = DATE;

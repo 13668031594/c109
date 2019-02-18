@@ -210,7 +210,7 @@ class MatchOrderModel extends Model
         if (is_null($member) || empty($member->young_referee_id)) return;
 
         //寻找买单人上级
-        $referee = MemberModel::whereUid($member->young_referee_id)->where('young_status', '!=', 'status')->first();
+        $referee = MemberModel::whereUid($member->young_referee_id)->where('young_status', '<>', '30')->first();
         if (is_null($referee)) return;
 
         //佣金灼烧制
@@ -252,11 +252,15 @@ class MatchOrderModel extends Model
 
         foreach ($families as $v) {
 
-            $member = MemberModel::whereUid($v)->first();
+            $member = MemberModel::whereUid($v)->where('young_status', '<>', '30')->first();
             if (is_null($member)) continue;
 
             $child = new MemberModel();
-            $child = $child->where('young_families', 'like', '%' . $v . '%')->where('young_formal', '=', '20')->count();
+            $child = $child->where(function ($query) use ($v) {
+                $query->where('young_families', 'like', '%,' . $v . '%')
+                    ->orWhere('young_families', 'like', '%' . $v . ',%')
+                    ->orWhere('young_referee_id', '=', $v);
+            })->where('young_formal', '=', '20')->count();
 
             foreach ($rank as $va) {
 
@@ -278,7 +282,7 @@ class MatchOrderModel extends Model
         $set = new SetClass();
         $set = $set->index();
 
-        $member = MemberModel::whereUid($uid)->first();
+        $member = MemberModel::whereUid($uid)->where('young_status', '<>', '30')->first();
 
         if (is_null($member)) return;
 
