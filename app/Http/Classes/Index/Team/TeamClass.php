@@ -14,6 +14,7 @@ use App\Models\Member\MemberActModel;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberSmsModel;
 use App\Models\Member\MemberWalletModel;
+use App\Models\Order\MatchOrderModel;
 use Hamcrest\Core\Set;
 use Illuminate\Http\Request;
 
@@ -46,6 +47,11 @@ class TeamClass extends IndexClass
 
         //没有下级
         if (count($team) <= 0) return $result;
+
+        foreach ($team as &$v) {
+
+            $v['pay'] = MatchOrderModel::whereYoungBuyUid($v['uid'])->where('young_status','=',10)->count();
+        }
 
         $result['team'] = $team;
         $result['number'] = count($team);//下级总数
