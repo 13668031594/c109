@@ -59,7 +59,13 @@ trait ModelTrait
     {
         if (is_null($this->table)) exit('please initial table');
 
-        if (!empty($where)) $this->table = $this->table->orWhere($where);
+        if (!empty($where)) {
+
+            foreach ($where as $v){
+
+                $this->table = $this->table->orWhere($v);
+            }
+        }
     }
 
     //进行whereIn筛选
