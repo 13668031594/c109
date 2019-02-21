@@ -227,7 +227,6 @@ class MatchOrderModel extends Model
         $reward = number_format(($total * $set['rewardPro'] / 100), 2, '.', '');
         if ($reward <= 0) return;
 
-
         //添加到钱包记录
         $wallet = new MemberWalletModel();
         $record = '下级『' . $member->young_nickname . '』，订单号『' . $model->young_order . '』，付款完结，获得『' . $set['walletReward'] . '』' . $reward . $wallet_add;
@@ -242,6 +241,7 @@ class MatchOrderModel extends Model
 
             //添加到奖励账户
             $referee->young_reward += $reward;
+            $referee->young_reward_all += $reward;
             $referee->save();
         }
 
