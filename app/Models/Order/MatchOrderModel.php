@@ -227,16 +227,26 @@ class MatchOrderModel extends Model
         $reward = number_format(($total * $set['rewardPro'] / 100), 2, '.', '');
         if ($reward <= 0) return;
 
-        //添加到奖励账户
-        $referee->young_reward += $reward;
-        $referee->save();
 
         //添加到钱包记录
         $wallet = new MemberWalletModel();
         $record = '下级『' . $member->young_nickname . '』，订单号『' . $model->young_order . '』，付款完结，获得『' . $set['walletReward'] . '』' . $reward . $wallet_add;
         $keyword = $model->young_order;
         $change = ['reward' => $reward];
+
+        if ($referee->young_status != 10) {
+
+            $add = $referee->young_status == 20 ? '冻结' : '封停';
+            $record .= '(因账号『' . $add . '』未能到账)';
+        } else {
+
+            //添加到奖励账户
+            $referee->young_reward += $reward;
+            $referee->save();
+        }
+
         $wallet->store_record($referee, $change, 80, $record, $keyword);
+
     }
 
     //尝试提升上级等级
