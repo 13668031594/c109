@@ -17,7 +17,7 @@ use App\Models\Plan\PlanModel;
 class WageClass extends PlanClass
 {
     private $where_time;//筛选时间段
-    private $order_poundage;//订单支付的手续费
+    private $order_poundage;//订单支付的星伙
     private $rank;//参与发工资的等级
     private $wage;//工资发放表
     private $wallet;//工资发放记录
@@ -141,7 +141,7 @@ class WageClass extends PlanClass
         //按下单人分组
         $buys = $buys->groupBy('uid');
 
-        //组合成下单人与总手续费的键值对
+        //组合成下单人与总星伙的键值对
         foreach ($buys as $k => $v) $this->order_poundage[$k] = array_sum(array_pluck($v, 'young_poundage'));
     }
 

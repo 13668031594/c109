@@ -25,9 +25,9 @@ class CreateMemberWalletModelsTable extends Migration
             $table->decimal('young_balance', 18, 2)->default(0)->comment('变动余额');
             $table->decimal('young_balance_now', 18, 2)->default(0)->comment('当前余额');
             $table->decimal('young_balance_all', 18, 2)->default(0)->comment('累计余额');
-            $table->decimal('young_poundage', 18, 2)->default(0)->comment('变动手续费');
-            $table->decimal('young_poundage_now', 18, 2)->default(0)->comment('当前手续费');
-            $table->decimal('young_poundage_all', 18, 2)->default(0)->comment('累计手续费');
+            $table->decimal('young_poundage', 18, 2)->default(0)->comment('变动星伙');
+            $table->decimal('young_poundage_now', 18, 2)->default(0)->comment('当前星伙');
+            $table->decimal('young_poundage_all', 18, 2)->default(0)->comment('累计星伙');
             $table->string('young_record')->comment('文字记录');
             $table->string('young_type')->comment('变更类型');
             $table->string('young_keyword')->comment('关键字');

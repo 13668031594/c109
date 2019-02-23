@@ -134,7 +134,7 @@
                 }
                 },
                 {field: 'total', width: 100, title: '金额'},
-                {field: 'poundage', width: 100, title: '手续费'},
+                {field: 'poundage', width: 100, title: '星伙'},
                 {field: 'in', width: 100, title: '收益'},
                 {field: 'created_at', width: 170, title: '创建时间'},
                 {fixed: 'right', title: '操作', minWidth: 150, align: 'center', toolbar: '#tableTool'}

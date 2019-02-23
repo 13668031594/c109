@@ -175,7 +175,7 @@
 
                 }
                 },
-                {field: 'poundage', width: 100, title: '手续费'},
+                {field: 'poundage', width: 100, title: '星伙'},
                 {field: 'balance', width: 100, title: '余额'},
                 {field: 'gxd', width: 100, title: '贡献点'},
                 {field: 'reward', width: 100, title: '奖励'},

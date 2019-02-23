@@ -201,7 +201,7 @@ class MatchOrderModel extends Model
         $set = new SetClass();
         $set = $set->index();
 
-        //获取手续费情况
+        //获取星伙情况
         $total = $model->young_total;
         if ($total <= 0) return;
 

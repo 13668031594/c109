@@ -158,14 +158,14 @@ class TeamClass extends IndexClass
         //会员不是自己的下级，报错
         if ($member->young_referee_id != $self['uid']) parent::error_json('只能激活自己的下级');
 
-        //关闭负债激活且激活手续费大于0，进行手续费余额判断
+        //关闭负债激活且激活星伙大于0，进行星伙余额判断
         if (($this->set['accountActPoundageNone'] == 'off') && ($this->set['accountActPoundage'] > 0)) {
 
             //获取今日抢激活数量
             $all_number = new MemberActModel();
             $all_number = $all_number->where('young_referee_id', '=', $self['uid'])->where('young_status', '=', '10')->count();
 
-            //判断手续费是否足够支持全部激活
+            //判断星伙是否足够支持全部激活
             if ($self['poundage'] < ($all_number * $this->set['accountActPoundage'])) parent::error_json($this->set['walletGxd'] . '不足');
         }
 

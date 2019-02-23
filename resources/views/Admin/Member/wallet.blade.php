@@ -68,7 +68,7 @@
                         <td>{{$self['balance']}}/{{$self['balance_all']}}</td>
                     </tr>
                     <tr>
-                        <td>手续费/累计</td>
+                        <td>星伙/累计</td>
                         <td>{{$self['poundage']}}/{{$self['poundage_all']}}</td>
                     </tr>
                     <tr>
@@ -119,7 +119,7 @@
                             <div class="layui-input-block">
                                 <select id="select" name="type" lay-filter="type">
                                     <option value="0">余额</option>
-                                    <option value="1">手续费</option>
+                                    <option value="1">星伙</option>
                                     <option value="2">奖励账户</option>
                                     <option value="3">贡献点</option>
                                     <option value="4">鼓励账户</option>

@@ -93,7 +93,7 @@
         </div>
     </fieldset>
     <fieldset class="layui-elem-field">
-        <legend>手续费</legend>
+        <legend>星伙</legend>
         <div class="layui-field-box format-container">
             <div class="layui-row layui-col-space30 format">
                 <div class="layui-col-md3">

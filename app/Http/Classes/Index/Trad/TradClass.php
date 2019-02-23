@@ -142,7 +142,7 @@ class TradClass extends IndexClass
         //添加钱包记录
         $wallet = new MemberWalletModel();
         $record = $this->set['walletGxd'] . '卖出，订单号『' . $model->young_order . '』,扣除『' . $this->set['walletGxd'] . '』' . $data['gxd'];
-        if (!empty($poundage)) $record .= '，支付手续费：' . $poundage;
+        if (!empty($poundage)) $record .= '，支付星伙：' . $poundage;
         $keyword = $model->young_order;
         $change = ['gxd' => (0 - $all)];
         $wallet->store_record($member, $change, 90, $record, $keyword);

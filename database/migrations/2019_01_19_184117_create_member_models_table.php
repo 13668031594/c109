@@ -40,8 +40,8 @@ class CreateMemberModelsTable extends Migration
             $table->decimal('young_gxd_all', 18, 2)->default(0)->comment('累计贡献点');
             $table->decimal('young_reward', 18, 2)->default(0)->comment('奖励账户');
             $table->decimal('young_reward_all', 18, 2)->default(0)->comment('累计奖励账户');
-            $table->decimal('young_poundage', 18, 2)->default(0)->comment('手续费');
-            $table->decimal('young_poundage_all', 18, 2)->default(0)->comment('累计手续费');
+            $table->decimal('young_poundage', 18, 2)->default(0)->comment('星伙');
+            $table->decimal('young_poundage_all', 18, 2)->default(0)->comment('累计星伙');
 
             //身份状态
             $table->char('young_status', 2)->default('10')->comment('账号状态');

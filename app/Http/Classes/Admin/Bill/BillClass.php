@@ -87,7 +87,7 @@ class BillClass extends AdminClass
         $today_match_total = $match_order->where($where_today)->sum('young_total');
         $yesterday_match_total = $match_order->where($where_yesterday)->sum('young_total');
 
-        //手续费
+        //星伙
         $all_poundage = $buy_order->where($where_all)->sum('young_poundage');
         $today_poundage = $buy_order->where($where_today)->sum('young_poundage');
         $yesterday_poundage = $buy_order->where($where_yesterday)->sum('young_poundage');

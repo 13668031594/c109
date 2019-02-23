@@ -144,7 +144,7 @@ class BuyClass extends AdminClass
         $term = [
             'id' => 'required',
             'total|总金额' => 'required|numeric|between:0,100000000',
-            'poundage|手续费' => 'required|numeric|between:0,100000000',
+            'poundage|星伙' => 'required|numeric|between:0,100000000',
             'in|收益' => 'required|numeric|between:0,100000000',
             'gxd|贡献点' => 'required|numeric|between:0,100000000',
             'first_total|首付款' => 'required|numeric|between:0,100000000',

@@ -15,7 +15,7 @@ class TradChange1 extends Migration
     {
         Schema::table('trad_models', function (Blueprint $table) {
             $table->string('young_pay')->nullable()->comment('支付凭证');
-            $table->decimal('young_poundage',18,2)->default(0)->comment('手续费');
+            $table->decimal('young_poundage',18,2)->default(0)->comment('星伙');
             //银行相关
             $table->integer('young_bank_id')->nullable()->comment('银行id');
             $table->string('young_bank_name')->nullable()->comment('银行名称');

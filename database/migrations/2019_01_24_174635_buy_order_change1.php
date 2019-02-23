@@ -15,7 +15,7 @@ class BuyOrderChange1 extends Migration
     {
         Schema::table('buy_order_models', function (Blueprint $table) {
             $table->char('young_from', 2)->default('10')->comment('来源');
-            $table->decimal('young_poundage', 18, 2)->comment('手续费');
+            $table->decimal('young_poundage', 18, 2)->comment('星伙');
         });
     }
 

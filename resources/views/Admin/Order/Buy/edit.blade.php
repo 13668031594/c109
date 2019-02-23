@@ -59,10 +59,10 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">手续费</label>
+                <label class="layui-form-label">星伙</label>
                 <div class="layui-input-block">
-                    <input type="text" name="poundage" required title="手续费" lay-verify="required|number"
-                           placeholder="手续费"
+                    <input type="text" name="poundage" required title="星伙" lay-verify="required|number"
+                           placeholder="星伙"
                            autocomplete="off" class="layui-input" value='{{$self['poundage']}}'/>
                 </div>
             </div>

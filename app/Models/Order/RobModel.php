@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property float $young_total 总价
  * @property float $young_amount 商品单价
- * @property float $young_poundage 手续费
+ * @property float $young_poundage 星伙
  * @property float $young_in_pro 收益率
  * @property int $young_number 采集数量
  * @property int $young_time 收益时间

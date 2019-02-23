@@ -134,7 +134,7 @@ class SellClass extends IndexClass
         $data = $request->post();//获取参数
         $member = parent::get_member();//会员参数
 
-        if (($set['sellPoundageNone'] == 'off') && ($member['poundage'] < 0)) parent::error_json('手续费为负时，无法卖出');
+        if (($set['sellPoundageNone'] == 'off') && ($member['poundage'] < 0)) parent::error_json('星伙为负时，无法卖出');
 
         $today_sell = SellOrderModel::whereUid($member['uid'])->where('created_at', '>', date('Y-m-d 00:00:00'))->first();
         if (!is_null($today_sell)) parent::error_json('一天只能添加一个卖出订单');
@@ -170,8 +170,8 @@ class SellClass extends IndexClass
             if ($member['balance'] < $data['total']) parent::error_json($this->set['walletBalance'] . '不足');
         } else {
 
-            //判断负手续费提现
-            if (($set['rewardPoundageNone'] == 'off') && ($member['poundage'] < 0)) parent::error_json('手续费为负时，无法提现' . $set['walletReward']);
+            //判断负星伙提现
+            if (($set['rewardPoundageNone'] == 'off') && ($member['poundage'] < 0)) parent::error_json('星伙为负时，无法提现' . $set['walletReward']);
 
             //判断提现次数
             $begin = date('Y-m-d 00:00:00');

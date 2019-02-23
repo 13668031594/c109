@@ -61,7 +61,7 @@ class ActClass extends PlanClass
         //激活失败的会员
         self::act_fails(array_diff($ids, $act_ids));
 
-        //扣除上级手续费
+        //扣除上级星伙
         self::poundage($act_ids);
     }
 
@@ -116,13 +116,13 @@ class ActClass extends PlanClass
         $model->whereIn('uid', $ids)->where('young_status', '=', '10')->update(['young_status' => '30']);
     }
 
-    //扣除上级手续费
+    //扣除上级星伙
     public function poundage($ids)
     {
-        //激活手续费
+        //激活星伙
         $poundage = $this->set['accountActPoundage'];
 
-        //未收取手续费
+        //未收取星伙
         if ($poundage <= 0) return;
 
         //获取所有信息
@@ -135,10 +135,10 @@ class ActClass extends PlanClass
         //结算每人激活的会员数量
         foreach ($referee as $k => $v) {
 
-            //合计扣除的手续费
+            //合计扣除的星伙
             $diff = count($v) * $poundage;
 
-            //扣除手续费
+            //扣除星伙
             $member = MemberModel::whereUid($k)->first();
             $member->young_poundage -= $diff;
             $member->save();

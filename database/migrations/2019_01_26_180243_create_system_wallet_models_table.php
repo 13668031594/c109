@@ -19,7 +19,7 @@ class CreateSystemWalletModelsTable extends Migration
             $table->decimal('young_gxd', 18, 2)->default(0)->comment('变动贡献点');
             $table->decimal('young_reward', 18, 2)->default(0)->comment('变动奖励账户');
             $table->decimal('young_balance', 18, 2)->default(0)->comment('变动余额');
-            $table->decimal('young_poundage', 18, 2)->default(0)->comment('变动手续费');
+            $table->decimal('young_poundage', 18, 2)->default(0)->comment('变动星伙');
             $table->string('young_record')->comment('文字记录');
             $table->string('young_type')->comment('变更类型');
             $table->string('young_keyword')->comment('关键字');

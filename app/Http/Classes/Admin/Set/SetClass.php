@@ -85,8 +85,8 @@ class SetClass extends AdminClass
             'accountActStart|抢激活开始时间' => 'required|date_format:"H:i"',//激活开始时间
             'accountActEnd|抢激活结束时间' => 'required|date_format:"H:i"|after:accountActStart',//激活结束时间
             'accountActResult|发放激活结果时间' => 'required|date_format:"H:i"|after:accountActEnd',//发放激活结果
-            'accountActPoundage|激活收取手续费' => 'required|integer|between:0,100000000',//激活收取手续费
-            'accountActPoundageNone|负手续费激活开关' => 'required|in:on,off',//负手续费激活开关
+            'accountActPoundage|激活收取星伙' => 'required|integer|between:0,100000000',//激活收取星伙
+            'accountActPoundageNone|负星伙激活开关' => 'required|in:on,off',//负星伙激活开关
             'accountModeDefault|默认防撞模式' => 'required|in:10,20',//默认防撞模式
             'accountRegOut|禁止注册地区' => 'nullable|max:300',
             //删号设置
@@ -108,17 +108,17 @@ class SetClass extends AdminClass
             'webCloseTxt|网站关闭原因' => 'required_if:webSwitch,off|max:3000',//网站关闭原因
             //钱包名称
             'walletGxd|贡献点别名' => 'required|string|max:40',//贡献点
-            'walletPoundage|手续费别名' => 'required|string|max:40',//手续费
+            'walletPoundage|星伙别名' => 'required|string|max:40',//星伙
             'walletReward|奖励账户别名' => 'required|string|max:40',//奖励账户
             'walletBalance|余额别名' => 'required|string|max:40',//余额
             'walletIncite|鼓励账户别名' => 'required|string|max:40',//鼓励账户
-            'walletPoundageBalance|手续费价值' => 'required|integer|between:1,100000000',//手续费价值（相对于余额）
+            'walletPoundageBalance|星伙价值' => 'required|integer|between:1,100000000',//星伙价值（相对于余额）
             'walletGxdBalance|贡献点价值' => 'required|integer|between:1,100000000',//贡献点价值（相对于余额）
             //买单抢单
             'buySwitch|手动买入开关' => 'required|in:on,off',//手动买入开关
             'buyAutoSwitch|自动买入开关' => 'required|in:on,off',//自动买入开关
-            'buyPoundage|每单收取手续费' => 'required|integer|between:0,100000000',//每单收取手续费
-            'buyPoundageNone|负手续费买入开关' => 'required|in:on,off',//负手续费买入开关
+            'buyPoundage|每单收取星伙' => 'required|integer|between:0,100000000',//每单收取星伙
+            'buyPoundageNone|负星伙买入开关' => 'required|in:on,off',//负星伙买入开关
             'buyTotalUpSwitch|买单金额递增开关' => 'required|in:on,off',//买单金额递增开关
             'robSwitch|抢单开关' => 'required|in:on,off',//抢单开关
             'robNum|每天发放抢单数' => 'required_if:robSwitch,on|integer|between:-1,100000000',//每天发放抢单数
@@ -167,7 +167,7 @@ class SetClass extends AdminClass
 //            'rewardBase|奖励提现基数' => 'required|integer|between:0,100000000',//奖励提现基数
 //            'rewardTimes|奖励提现倍数' => 'required|integer|between:0,100000000',//奖励提现倍数
             'rewardDeposit|提现沉淀比例' => 'required|numeric|between:0,100',//提现沉淀比例
-            'rewardPoundageNone|负手续费提现开关' => 'required|in:on,off',//负手续费提现开关
+            'rewardPoundageNone|负星伙提现开关' => 'required|in:on,off',//负星伙提现开关
             'rewardGxd|奖励提现消耗贡献点' => 'required|integer|between:0,100000000',//老会员提现消耗贡献点
 //            'rewardTime|提现禁止时间' => 'required|integer|between:1,365',//提现禁止时间
             //利率与状态
@@ -181,7 +181,7 @@ class SetClass extends AdminClass
             //挂售设置
             'consignBase|挂售基数' => 'required|integer|between:1,100000000',
             'consignTimes|挂售倍数' => 'required|integer|between:1,100000000',
-            'consignPoundage|挂售手续费' => 'required|numeric|between:0,100',
+            'consignPoundage|挂售星伙' => 'required|numeric|between:0,100',
             //在线更新
             'versionIos|IOS版本' => 'required|string|max:20',
             'versionAndroid|安卓版本' => 'required|string|max:20',
@@ -208,8 +208,8 @@ class SetClass extends AdminClass
             'accountActStart' => '09:00',//激活开始时间
             'accountActEnd' => '09:04',//激活结束时间
             'accountActResult' => '09:14',//发放激活结果
-            'accountActPoundage' => '2',//激活收取手续费
-            'accountActPoundageNone' => 'on',//负手续费激活开关
+            'accountActPoundage' => '2',//激活收取星伙
+            'accountActPoundageNone' => 'on',//负星伙激活开关
             'accountModeDefault' => '10',//默认防撞模式
             'accountRegOut' => '',//禁止注册地区
             //删号设置
@@ -231,17 +231,17 @@ class SetClass extends AdminClass
             'webCloseTxt' => '网站维护中',//网站关闭原因
             //钱包名称
             'walletGxd' => '贡献点',//贡献点
-            'walletPoundage' => '手续费',//手续费
+            'walletPoundage' => '星伙',//星伙
             'walletReward' => '奖励账户',//奖励账户
             'walletBalance' => '余额',//余额
             'walletIncite' => '鼓励账户',//鼓励账户
-            'walletPoundageBalance' => '10',//手续费价值（相对于余额）
+            'walletPoundageBalance' => '10',//星伙价值（相对于余额）
             'walletGxdBalance' => '6',//贡献点价值（相对于余额）
             //买单抢单
             'buySwitch' => 'on',//手动买入开关
             'buyAutoSwitch' => 'on',//自动买入开关
-            'buyPoundage' => '1',//每单收取手续费
-            'buyPoundageNone' => 'on',//负手续费买入开关
+            'buyPoundage' => '1',//每单收取星伙
+            'buyPoundageNone' => 'on',//负星伙买入开关
             'buyTotalUpSwitch' => 'on',//买单金额递增开关
             'robSwitch' => 'on',//抢单开关
             'robNum' => '10',//每天发放抢单数
@@ -250,7 +250,7 @@ class SetClass extends AdminClass
             'robResultTime' => '07:30',//发放结果时间
             'sellBase' => '100',//卖出基数
             'sellTimes' => '100',//卖出倍数
-            'sellPoundageNone' => 'off',//负手续费卖出开关
+            'sellPoundageNone' => 'off',//负星伙卖出开关
             //商品设置
             'goodsName' => '测试商品',//商品名称
             'goodsTotal' => '1000',//商品金额
@@ -292,7 +292,7 @@ class SetClass extends AdminClass
 //            'rewardBase' => '100',//奖励提现基数
 //            'rewardTimes' => '100',//奖励提现倍数
             'rewardDeposit' => '50',//提现沉淀比例
-            'rewardPoundageNone' => 'on',//负手续费提现开关
+            'rewardPoundageNone' => 'on',//负星伙提现开关
             'rewardGxd' => '0',//老会员提现消耗贡献点
 //            'rewardTime' => '365',//提现禁止时间
             //利率与状态

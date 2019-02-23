@@ -211,14 +211,14 @@
 
                     <div class="layui-form-min">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">消耗手续费</label>
+                            <label class="layui-form-label">消耗星伙</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="accountActPoundage" title="消耗手续费" lay-filter="numberZ"
-                                       placeholder="消耗手续费" autocomplete="off"
+                                <input type="text" name="accountActPoundage" title="消耗星伙" lay-filter="numberZ"
+                                       placeholder="消耗星伙" autocomplete="off"
                                        value="{{$self['accountActPoundage']}}"
                                        class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">激活一个账号需要消耗的手续费数</div>
+                            <div class="layui-form-mid layui-word-aux">激活一个账号需要消耗的星伙数</div>
                         </div>
                     </div>
 
@@ -231,7 +231,7 @@
                             <input type="hidden" id='accountActPoundageNoneValue' name="accountActPoundageNone"
                                    value="{{$self['accountActPoundageNone']}}"/>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">是否允许团队长在手续费不足的情况下激活账号</div>
+                        <div class="layui-form-mid layui-word-aux">是否允许团队长在星伙不足的情况下激活账号</div>
                     </div>
 
                     <div class="layui-form-item">
@@ -332,13 +332,13 @@
                     </div>
                     <div class="layui-form-min">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">手续费</label>
+                            <label class="layui-form-label">星伙</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="walletPoundage" title="手续费别名"
-                                       placeholder="手续费别名" autocomplete="off" value="{{$self['walletPoundage']}}"
+                                <input type="text" name="walletPoundage" title="星伙别名"
+                                       placeholder="星伙别名" autocomplete="off" value="{{$self['walletPoundage']}}"
                                        class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">手续费在前台显示时的名称</div>
+                            <div class="layui-form-mid layui-word-aux">星伙在前台显示时的名称</div>
                         </div>
                     </div>
                     <div class="layui-form-min">
@@ -376,13 +376,13 @@
                     </div>
                     <div class="layui-form-min">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">手续费价值</label>
+                            <label class="layui-form-label">星伙价值</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="walletPoundageBalance" title="手续费价值" lay-filter="numberZ"
-                                       placeholder="手续费价值" autocomplete="off" value="{{$self['walletPoundageBalance']}}"
+                                <input type="text" name="walletPoundageBalance" title="星伙价值" lay-filter="numberZ"
+                                       placeholder="星伙价值" autocomplete="off" value="{{$self['walletPoundageBalance']}}"
                                        class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">一个手续费相对于余额的价值</div>
+                            <div class="layui-form-mid layui-word-aux">一个星伙相对于余额的价值</div>
                         </div>
                     </div>
                     <div class="layui-form-min">
@@ -409,7 +409,7 @@
                             <input type="hidden" id='sellPoundageNoneValue' name="buyPoundageNone"
                                    value="{{$self['sellPoundageNone']}}"/>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">是否允许用户负手续费时卖出</div>
+                        <div class="layui-form-mid layui-word-aux">是否允许用户负星伙时卖出</div>
                     </div>
 
                     <div class="layui-form-min">
@@ -460,13 +460,13 @@
                     </div>
                     <div class="layui-form-min">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">收取手续费</label>
+                            <label class="layui-form-label">收取星伙</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="buyPoundage" title="收取手续费" lay-filter="numberZ"
-                                       placeholder="收取手续费" autocomplete="off" value="{{$self['buyPoundage']}}"
+                                <input type="text" name="buyPoundage" title="收取星伙" lay-filter="numberZ"
+                                       placeholder="收取星伙" autocomplete="off" value="{{$self['buyPoundage']}}"
                                        class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">每买一件商品需要支付的手续费</div>
+                            <div class="layui-form-mid layui-word-aux">每买一件商品需要支付的星伙</div>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -478,7 +478,7 @@
                             <input type="hidden" id='buyPoundageNoneValue' name="buyPoundageNone"
                                    value="{{$self['buyPoundageNone']}}"/>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">是否允许用户负手续费时买入订单</div>
+                        <div class="layui-form-mid layui-word-aux">是否允许用户负星伙时买入订单</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">金额递增</label>
@@ -833,7 +833,7 @@
                                 <input type="hidden" id='rewardPoundageNoneValue' name="rewardPoundageNone"
                                        value="{{$self['rewardPoundageNone']}}"/>
                             </div>
-                            <div class="layui-form-mid layui-word-aux">是否允许手续费不足时提现</div>
+                            <div class="layui-form-mid layui-word-aux">是否允许星伙不足时提现</div>
                         </div>
                         {{--<div class="layui-form-min">
                             <div class="layui-form-item">
@@ -997,13 +997,13 @@
                     </div>
                     <div class="layui-form-min">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">手续费</label>
+                            <label class="layui-form-label">星伙</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="consignPoundage" title="手续费" lay-filter="number"
-                                       placeholder="手续费" autocomplete="off" value="{{$self['consignPoundage']}}"
+                                <input type="text" name="consignPoundage" title="星伙" lay-filter="number"
+                                       placeholder="星伙" autocomplete="off" value="{{$self['consignPoundage']}}"
                                        class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">手续相当于此数百分比的手续费</div>
+                            <div class="layui-form-mid layui-word-aux">手续相当于此数百分比的星伙</div>
                         </div>
                     </div>
                 </div>

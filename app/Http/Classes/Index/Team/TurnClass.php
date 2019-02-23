@@ -22,7 +22,7 @@ class TurnClass extends IndexClass
 
         $term = [
             'id|直系下级' => 'required|exists:member_models,uid,young_referee_id,' . $member['uid'],
-            'poundage|转账手续费' => 'required|integer|between:1,100000000',
+            'poundage|转账星伙' => 'required|integer|between:1,100000000',
         ];
 
         parent::validators_json($request->post(), $term);
@@ -32,16 +32,16 @@ class TurnClass extends IndexClass
 
     public function turn(Request $request)
     {
-        //转账手续费
+        //转账星伙
         $poundage = $request->post('poundage');
 
-        //获取本人模型，并扣除手续费
+        //获取本人模型，并扣除星伙
         $member = parent::get_member();
         $member = MemberModel::whereUid($member['uid'])->first();
         $member->young_poundage -= $poundage;
         $member->save();
 
-        //获取下级模型，并添加手续费
+        //获取下级模型，并添加星伙
         $child = MemberModel::whereUid($request->post('id'))->first();
         $child->young_poundage += $poundage;
         $child->young_poundage_all += $poundage;

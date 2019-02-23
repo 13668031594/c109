@@ -32,8 +32,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property float $young_gxd_all 累计贡献点
  * @property float $young_reward 奖励账户
  * @property float $young_reward_all 累计奖励账户
- * @property float $young_poundage 手续费
- * @property float $young_poundage_all 累计手续费
+ * @property float $young_poundage 星伙
+ * @property float $young_poundage_all 累计星伙
  * @property string $young_status 账号状态
  * @property string|null $young_status_time 账号状态变更时间
  * @property string $young_mode 账号模式

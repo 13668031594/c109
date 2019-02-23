@@ -162,7 +162,7 @@ class RobClass extends PlanClass
         $order->young_grade = $member->young_grade;
         $order->save();
 
-        //扣除会员手续费
+        //扣除会员星伙
 //        $member = MemberModel::whereUid($member['uid'])->first();
         $member->young_poundage -= $poundage;
         if (is_null($member->young_first_buy_time)) {

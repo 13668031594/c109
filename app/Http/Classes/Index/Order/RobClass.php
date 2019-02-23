@@ -91,7 +91,7 @@ class RobClass extends IndexClass
             'amount|商品单价' => 'required|numeric|between:1,100000000',
             'number|采集数量' => 'required|integer|between:1,' . $number_max,
             'time|收益时间' => 'required|integer|between:' . $time_lower . ',' . $time_ceil,
-            'poundage|手续费' => 'required|integer|between:1,100000000',
+            'poundage|星伙' => 'required|integer|between:1,100000000',
             'inPro|收益率' => 'required|numeric|between:0,100',
         ];
 

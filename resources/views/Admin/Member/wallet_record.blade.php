@@ -40,7 +40,7 @@
                 <select name="wallet" lay-verify="" style="height:30px;">
                     <option value="">全部</option>
                     <option value="0">余额</option>
-                    <option value="1">手续费</option>
+                    <option value="1">星伙</option>
                     <option value="2">奖励账户</option>
                     <option value="3">贡献点</option>
                     <option value="4">鼓励账户</option>

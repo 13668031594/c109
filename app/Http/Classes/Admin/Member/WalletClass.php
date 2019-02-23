@@ -65,7 +65,7 @@ class WalletClass extends AdminClass
 
                 $member->young_poundage += $number;
                 $member->young_poundage_all += $number;
-                $record .= '手续费';
+                $record .= '星伙';
                 $changes = ['poundage' => $number,];
                 break;
             case '2':
