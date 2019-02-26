@@ -134,6 +134,11 @@ class RegClass extends IndexClass
         $model->young_nickname = $request->post('nickname');
         $model->young_mode = $this->set['accountModeDefault'];
         $model->young_type = '10';
+        if ($this->set['accountRegAct'] == 'on'){
+
+            $model->young_act = '30';
+            $model->young_act_time = DATE;
+        }
         $model->save();
         //添加账号信息
         $end = $model->new_account($model);

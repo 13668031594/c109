@@ -158,6 +158,18 @@
                             <input type="hidden" id='accountRegSwitchValue' name="accountRegSwitch"
                                    value="{{$self['accountRegSwitch']}}"/>
                         </div>
+                        <div class="layui-form-mid layui-word-aux">团队长注册后直接激活账号</div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">自动激活</label>
+                        <div class="layui-input-inline" style="width:70px;">
+                            <input type="checkbox" id='accountRegAct' lay-filter="accountRegAct"
+                                   lay-skin="switch"
+                                   lay-text="开启|关闭" {{$self['accountRegAct'] == 'on' ? 'checked' : ''}}/>
+                            <input type="hidden" id='accountRegActValue' name="accountRegAct"
+                                   value="{{$self['accountRegAct']}}"/>
+                        </div>
                         <div class="layui-form-mid layui-word-aux">是否允许团队长注册账号</div>
                     </div>
 
@@ -1217,6 +1229,13 @@
                 $('#withdrawSwitchValue').prop('value', 'on');
             } else {
                 $('#withdrawSwitchValue').prop('value', 'off');
+            }
+        });
+        form.on('switch(accountRegAct)', function (data) {
+            if (data.elem.checked) {
+                $('#accountRegActValue').prop('value', 'on');
+            } else {
+                $('#accountRegActValue').prop('value', 'off');
             }
         });
 

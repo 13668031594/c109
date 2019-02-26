@@ -79,6 +79,7 @@ class SetClass extends AdminClass
         $rule = [
             //账号设置
             'accountRegSwitch|账号注册开关' => 'required|in:on,off',//账号注册开关
+            'accountRegAct|注册自动激活' => 'required|in:on,off',//注册自动激活
             'accountRegGxd|账号注册消耗贡献点' => 'required|integer|between:0,100000000',//账号注册消耗贡献点
             'accountActSwitch|账号激活开关' => 'required|in:on,off',//账号激活开关
             'accountActNum|每天激活数量' => 'required|integer|between:-1,100000',//每天激活数量
@@ -202,6 +203,7 @@ class SetClass extends AdminClass
         return [
             //账号设置
             'accountRegSwitch' => 'on',//账号注册开关
+            'accountRegAct' => 'off',//注册自动激活
             'accountRegGxd' => '100',//账号注册消耗贡献点
             'accountActSwitch' => 'on',//账号激活开关
             'accountActNum' => '9999',//每天激活数量
