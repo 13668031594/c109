@@ -158,7 +158,7 @@
                             <input type="hidden" id='accountRegSwitchValue' name="accountRegSwitch"
                                    value="{{$self['accountRegSwitch']}}"/>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">团队长注册后直接激活账号</div>
+                        <div class="layui-form-mid layui-word-aux">是否允许团队长注册账号</div>
                     </div>
 
                     <div class="layui-form-item">
@@ -170,7 +170,7 @@
                             <input type="hidden" id='accountRegActValue' name="accountRegAct"
                                    value="{{$self['accountRegAct']}}"/>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">是否允许团队长注册账号</div>
+                        <div class="layui-form-mid layui-word-aux">团队长注册后直接激活账号</div>
                     </div>
 
                     <div class="layui-form-item">
