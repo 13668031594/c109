@@ -58,7 +58,7 @@ class RegClass extends IndexClass
             'phone|手机号' => 'required|string|regex:/^1[3456789]\d{9}$/|unique:member_models,young_phone',
             'email|邮箱' => 'required|string|max:30|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/|unique:member_models,young_email',
             'nickname|昵称' => 'required|string|between:1,10',
-            'password|密码' => 'required|string|between:6,24',
+//            'password|密码' => 'required|string|between:6,24',
             'bank_id|收款银行' => 'required|exists:bank_models,id',
             'bank_address|支行' => 'required|max:30',
             'bank_man|收款人' => 'required|max:30',
@@ -130,7 +130,8 @@ class RegClass extends IndexClass
         $model->young_email = $request->post('email');
         $model->password = \Hash::make($request->post('password'));
 //        $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
-        $model->young_pay_pass = \Hash::make($request->post('password'));
+//        $model->young_pay_pass = \Hash::make($request->post('password'));
+        $model->young_pay_pass = \Hash::make($request->post('123456'));
         $model->young_nickname = $request->post('nickname');
         $model->young_mode = $this->set['accountModeDefault'];
         $model->young_type = '10';
