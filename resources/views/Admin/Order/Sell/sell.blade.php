@@ -207,6 +207,7 @@
                         <th>交易号</th>
                         <th>购买人</th>
                         <th>购买订单号</th>
+                        <th>金额</th>
                         <th>状态</th>
                         <th>类型</th>
                         <th>异常</th>
@@ -221,6 +222,7 @@
                             <td>{{$v['order']}}</td>
                             <td>{{$v['buy_nickname']}}</td>
                             <td>{{$v['buy_order']}}</td>
+                            <td>{{$v['total']}}</td>
                             <td>{{$match_arrays['status'][$v['status']]}}</td>
                             <td>{{$match_arrays['type'][$v['type']]}}</td>
                             <td @if($v['abn'] == '20') style="color: red;" @endif>
