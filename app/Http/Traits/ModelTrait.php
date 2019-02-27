@@ -61,7 +61,7 @@ trait ModelTrait
 
         if (!empty($where)) {
 
-            foreach ($where as $v){
+            foreach ($where as $v) {
 
                 $this->table = $this->table->orWhere($v);
             }
