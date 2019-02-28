@@ -90,6 +90,7 @@ class SetClass extends AdminClass
             'accountActPoundageNone|负星伙激活开关' => 'required|in:on,off',//负星伙激活开关
             'accountModeDefault|默认防撞模式' => 'required|in:10,20',//默认防撞模式
             'accountRegOut|禁止注册地区' => 'nullable|max:300',
+            'accountRegGive|每日赠送' => 'required|numeric|between:0,1000000',
             //删号设置
             'deleteIndexRegSwitch|自主注册不排单删号开关' => 'required|in:on,off',//自主注册不排单删号开关
             'deleteIndexRegTime|自主注册不排单删号时间' => 'required|integer|between:1,3650',//9天后删除
@@ -160,6 +161,8 @@ class SetClass extends AdminClass
             'inOvertimeAuto|超时自动确认收款' => 'required|in:on,off',//超时自动确认收款
             'inOvertimePunishGxd|收款超时扣除贡献点' => 'required|integer|between:0,100000000',//超时扣除贡献点
             //订单提现
+            'signStart' => 'required|date_format:"H:i"',//每日签到时间
+            'signEnd' => 'required|date_format:"H:i"|after:signStart',//每日签到结束时间
             'withdrawSwitch|负贡献点提现开关' => 'required|in:on,off',
             'withdrawPro|提现时扣除' => 'required|numeric|between:0,100',
             //奖励提现
@@ -214,6 +217,7 @@ class SetClass extends AdminClass
             'accountActPoundageNone' => 'on',//负星伙激活开关
             'accountModeDefault' => '10',//默认防撞模式
             'accountRegOut' => '',//禁止注册地区
+            'accountRegGive' => '0.5',//注册每日赠送
             //删号设置
             'deleteIndexRegSwitch' => 'on',//自主注册不排单删号开关
             'deleteIndexRegTime' => '9',//9天后删除
@@ -286,6 +290,8 @@ class SetClass extends AdminClass
             'inOvertimeAuto' => 'on',//超时自动确认收款
             'inOvertimePunishGxd' => '300',//超时扣除贡献点
             //订单提现
+            'signStart' => '07:00',
+            'signEnd' => '23:00',
             'withdrawSwitch' => 'on',
             'withdrawPro' => '20',
             //奖励提现

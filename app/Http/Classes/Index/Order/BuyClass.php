@@ -12,6 +12,7 @@ use App\Http\Classes\Index\IndexClass;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Order\BuyOrderModel;
+use App\Models\Order\OrderSignModel;
 use App\Models\Order\RobModel;
 use Illuminate\Http\Request;
 
@@ -415,6 +416,9 @@ class BuyClass extends IndexClass
         if (($buy->young_status == 79) && ($member['poundage'] < $buy->young_poundage) && ($this->set['buyPoundageNone'] != 'on')) parent::error_json('请先充值' . $this->set['walletPoundage'] . '为正数');
 
         if (($member['gxd'] < 0) && ($this->set['withdrawSwitch'] != 'on')) parent::error_json('请先充值' . $this->set['walletGxd'] . '为正数');
+
+        $sign = OrderSignModel::whereUid($member['uid'])->where('created_at', '>', $buy->young_tail_end)->count();
+        if ($sign < $buy->young_days) parent::error_json('签到时间不足，无法提现，需再签到：' . ($buy->young_days - $sign));
 
         $member = MemberModel::whereUid($member['uid'])->first();
         $change = [];

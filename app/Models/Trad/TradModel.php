@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $young_pay 支付凭证
- * @property float $young_poundage 星伙
+ * @property float $young_poundage 手续费
  * @property int|null $young_bank_id 银行id
  * @property string|null $young_bank_name 银行名称
  * @property string|null $young_bank_address 支行

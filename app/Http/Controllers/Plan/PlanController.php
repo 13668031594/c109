@@ -12,6 +12,7 @@ use App\Http\Classes\Plan\MatchSureClass;
 use App\Http\Classes\Plan\RobClass;
 use App\Http\Classes\Plan\TypeClass;
 use App\Http\Classes\Plan\WageClass;
+use App\Http\Classes\Plan\PoundageGiveClass;
 use App\Http\Controllers\Controller;
 
 class PlanController extends Controller
@@ -40,6 +41,8 @@ class PlanController extends Controller
         new MatchSureClass();//自动确认未收款的匹配订单
 
         new BuyOverClass();//订单收益完结
+
+        new PoundageGiveClass();//每日赠送星伙
 
         \DB::commit();
     }

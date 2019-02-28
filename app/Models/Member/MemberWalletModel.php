@@ -18,9 +18,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $young_balance 变动余额
  * @property float $young_balance_now 当前余额
  * @property float $young_balance_all 累计余额
- * @property float $young_poundage 变动星伙
- * @property float $young_poundage_now 当前星伙
- * @property float $young_poundage_all 累计星伙
+ * @property float $young_poundage 变动手续费
+ * @property float $young_poundage_now 当前手续费
+ * @property float $young_poundage_all 累计手续费
  * @property string $young_record 文字记录
  * @property string $young_type 变更类型
  * @property string $young_keyword 关键字
@@ -62,6 +62,8 @@ class MemberWalletModel extends Model
     public $type = [
         10 => '后台调整',
         20 => '注册账号',
+        21 => '每日赠送',
+        22 => '扣除赠送',
         30 => '激活账号',
         31 => '转款',
         40 => '买单',

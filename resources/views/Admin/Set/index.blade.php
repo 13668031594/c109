@@ -161,6 +161,20 @@
                         <div class="layui-form-mid layui-word-aux">是否允许团队长注册账号</div>
                     </div>
 
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">每日赠送</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="accountRegGive" title="每日赠送" lay-filter="number"
+                                       placeholder="每日赠送" autocomplete="off"
+                                       value="{{$self['accountRegGive']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">每天赠送的星伙数</div>
+                        </div>
+                    </div>
+
+
                     <div class="layui-form-item">
                         <label class="layui-form-label">自动激活</label>
                         <div class="layui-input-inline" style="width:70px;">
@@ -809,6 +823,23 @@
                             <div class="layui-form-mid layui-word-aux">提现时，扣除的贡献点比例</div>
                         </div>
                     </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">签到开始</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="signStart" name="signStart"
+                                   placeholder="签到开始" value="{{$self['signStart']}}">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">每天开始签到时间</div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">签到结束</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="signEnd" name="signEnd"
+                                   placeholder="签到结束" value="{{$self['signEnd']}}">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">每天签到结束时间</div>
+                    </div>
                 </div>
                 <div class="layui-tab-item">
                     <div class="layui-form-min">
@@ -1327,6 +1358,16 @@
         });
         laydate.render({
             elem: '#inEnd', //指定元素
+            format: 'HH:mm',
+            type: 'time',
+        });
+        laydate.render({
+            elem: '#signStart', //指定元素
+            format: 'HH:mm',
+            type: 'time',
+        });
+        laydate.render({
+            elem: '#signEnd', //指定元素
             format: 'HH:mm',
             type: 'time',
         });

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $young_gxd 变动贡献点
  * @property float $young_reward 变动奖励账户
  * @property float $young_balance 变动余额
- * @property float $young_poundage 变动星伙
+ * @property float $young_poundage 变动手续费
  * @property string $young_record 文字记录
  * @property string $young_type 变更类型
  * @property string $young_keyword 关键字

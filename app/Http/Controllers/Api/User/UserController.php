@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Classes\Index\SmsClass;
+use App\Http\Classes\Index\User\SignClass;
 use App\Http\Classes\Index\User\UserClass;
 use App\Http\Classes\Member\WalletClass;
 use App\Http\Controllers\Api\ApiController;
@@ -25,7 +26,7 @@ class UserController extends ApiController
 
         $class = new SmsClass();
 
-        $end = $class->send($member['phone'],'reset');
+        $end = $class->send($member['phone'], 'reset');
 
         //反馈
         return parent::success(['time' => $end]);
@@ -96,5 +97,27 @@ class UserController extends ApiController
         $this->classes->family_binding($request);
 
         return parent::success();
+    }
+
+    //领取每日红包
+    public function sign()
+    {
+        //签到类
+        $class = new SignClass();
+
+        //判断是否在签到允许的时间内
+        $result = $class->validator_time();
+
+        //判断今天是否签到
+        $result = $class->validator_today();
+
+        //领取今日收益
+        $in = $class->today_in();
+
+        //添加今日签到记录
+        $class->created_sign();
+
+        //反馈结果
+        return parent::success(['number' => $in, 'message' => '签到成功，领取收益：' . $in]);
     }
 }

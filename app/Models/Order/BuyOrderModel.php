@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $young_from 来源
- * @property float $young_poundage 星伙
+ * @property float $young_poundage 手续费
  * @property string $young_abn 异常
  * @property float $young_tail_complete 已经匹配尾款
  * @property float $young_gxd_pro 收益贡献点比例

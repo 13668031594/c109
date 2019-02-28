@@ -9,6 +9,7 @@
 namespace App\Http\Classes\Plan;
 
 use App\Models\Member\MemberModel;
+use App\Models\Member\MemberWalletModel;
 use App\Models\Order\MatchOrderModel;
 use function GuzzleHttp\Psr7\str;
 
@@ -46,10 +47,50 @@ class AccountClass extends PlanClass
 
         //修改状态
         $model = new MemberModel();
-        $model->whereIn('uid', $stop_ids)->where(function ($query) use ($date) {
+        /*$model->whereIn('uid', $stop_ids)->where(function ($query) use ($date) {
 
             $query->where('young_status_time', '<', $date)->orWhere('young_status_time', '=', null);
-        })->update(['young_status' => '30', 'young_status_time' => DATE]);
+        })->update(['young_status' => '30', 'young_status_time' => DATE]);*/
+        $members = $model->whereIn('uid', $stop_ids)->where(function ($query) use ($date) {
+
+            $query->where('young_status_time', '<', $date)->orWhere('young_status_time', '=', null);
+        })->get();
+
+        $mr = new MemberWalletModel();
+        foreach ($members as $v) {
+
+            //最后一次封停扣除手续费
+            $last_end = $mr->where('uid','=',$v->uid)
+                ->where('young_type','=','22')
+                ->orderBy('created_at','desc')
+                ->first();
+
+            $where = [
+                ['young_type','=',21],
+            ];
+
+            //时间筛选
+            if (!is_null($last_end)){
+
+                $where[] = ['created_at','>',$last_end->created_at];
+            }
+
+            $diff = $mr->where('uid','=',$v->uid)
+                ->where($where)
+                ->sum('young_poundage');
+
+            if ($diff > 0){
+
+                $v->young_poundage -= $diff;
+
+                $change = ['poundage' => (0-$diff)];
+                $record = '因账号封停，扣除累计赠送的『'.$this->set['walletPoundage'].'』'.$diff;
+                $mr->store_record($v,$change,22,$record);
+            };
+            $v->young_status = '30';
+            $v->young_status_time = DATE;
+            $v->save();
+        }
     }
 
     //寻找自主注册，且打到封号标准的会员
@@ -130,7 +171,7 @@ class AccountClass extends PlanClass
     {
         $end = parent::set_time($this->set['payEnd']);
 
-        if (time() < $end)return [];
+        if (time() < $end) return [];
 
         $date = date('Y-m-d 00:00:00');
 
