@@ -49,18 +49,19 @@ class SignClass extends IndexClass
         $today_in = 0;
         if (count($orders) > 0) foreach ($orders as $v) {
 
-            //进入收益后已经签到的次数
-            $signs = OrderSignModel::whereUid($member['uid'])
-                ->where('created_at', '>', $v->young_tail_end)
-                ->count();
+            if ($v->young_sign_days >= $v->young_days)continue;
 
-            //签到次数少于收益天数,可以签到
-            if ($signs < $v->young_days) {
+            //剩余可领取金额
+            $total = ($v->young_total + $v->young_in - $v->young_sign_total);
 
-                //增加今日领取收益数
-                $today_in += number_format((($v->young_in + $v->young_total) / $v->young_days), 2, '.', '');
-            }
+            //剩余可领取天数
+            $day = $v->young_days - $v->young_sign_days;
+
+            //增加今日领取收益数
+            $today_in += number_format(($total / $day), 2, '.', '');
         }
+
+        if ($today_in <= 0) parent::error_json('没有可以领取的收益');
 
         return $today_in;
     }

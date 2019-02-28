@@ -106,10 +106,28 @@ class UserController extends ApiController
         $class = new SignClass();
 
         //判断是否在签到允许的时间内
-        $result = $class->validator_time();
+        $class->validator_time();
 
         //判断今天是否签到
-        $result = $class->validator_today();
+        $class->validator_today();
+
+        //领取今日收益
+        $in = $class->today_in();
+
+        //反馈结果
+        return parent::success(['number' => $in, 'message' => '可领收益：' . $in]);
+    }
+
+    public function signing()
+    {
+        //签到类
+        $class = new SignClass();
+
+        //判断是否在签到允许的时间内
+        $class->validator_time();
+
+        //判断今天是否签到
+        $class->validator_today();
 
         //领取今日收益
         $in = $class->today_in();

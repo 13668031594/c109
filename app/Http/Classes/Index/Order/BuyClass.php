@@ -417,8 +417,7 @@ class BuyClass extends IndexClass
 
         if (($member['gxd'] < 0) && ($this->set['withdrawSwitch'] != 'on')) parent::error_json('请先充值' . $this->set['walletGxd'] . '为正数');
 
-        $sign = OrderSignModel::whereUid($member['uid'])->where('created_at', '>', $buy->young_tail_end)->count();
-        if ($sign < $buy->young_days) parent::error_json('签到时间不足，无法提现，需再签到：' . ($buy->young_days - $sign));
+//        if ($buy->young_sign_days < $buy->young_days) parent::error_json('签到时间不足，无法提现，需再签到：' . ($buy->young_days - $buy->young_sign_days));
 
         $member = MemberModel::whereUid($member['uid'])->first();
         $change = [];
