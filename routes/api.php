@@ -37,8 +37,8 @@ Route::group(['middleware' => ['auth:api', 'apiWebClose', 'apiAct30', 'apiStatus
 //        Route::get('wallet-type', 'UserController@wallet');//钱包变动类型
         Route::get('wallet', 'UserController@wallet_table');//钱包变更
         Route::post('family', 'UserController@family_binding')->middleware('apiStatus20');//家谱绑定
-        Route::get('sign', 'UserController@sign')->middleware('apiStatus20');//签到
-        Route::post('sign', 'UserController@signing')->middleware('apiStatus20');//签到领取收益
+        Route::get('sign', 'UserController@sign');//签到
+        Route::post('sign', 'UserController@signing');//签到领取收益
     });
 
     Route::group(['namespace' => 'Team'], function () {
