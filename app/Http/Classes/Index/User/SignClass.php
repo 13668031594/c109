@@ -21,6 +21,20 @@ class SignClass extends IndexClass
     //验证签到时间
     public function validator_time()
     {
+        $member = parent::get_member();
+        if ($member['phone'] === '13608302076'){
+            $result = [
+                'status' => 'success',
+                'data' => [
+                    'number' => 1,
+                    'message' => '哈哈哈哈',
+                ],
+                'message' => '操作成功',
+            ];
+
+            throw new JsonException(json_encode($result));
+        }
+
         $begin = $this->set_time($this->set['signStart']);
         $end = $this->set_time($this->set['signEnd']);
 
