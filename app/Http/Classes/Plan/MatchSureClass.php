@@ -33,20 +33,32 @@ class MatchSureClass extends PlanClass
         if (count($match) <= 0) return;
 
         $gxd = $this->set['inOvertimePunishGxd'];
+        $poundage = $this->set['inOvertimePunishPoundage'];
         $member_model = new MemberModel();
         $wallet_model = new MemberWalletModel();
         foreach ($match as $v) {
 
             //有贡献点惩罚
-            if ($gxd > 0) {
+            if (($gxd > 0) || ($poundage > 0)) {
 
                 $member = $member_model->where('young_status', '!=', '30')->find($v->young_sell_uid);
                 if (!is_null($member)) {
 
-                    $member->young_gxd -= $gxd;
+                    $change = [];
+                    $record = '匹配订单『' . $v->young_order . '』确认收款超时，罚款';
+                    if ($gxd > 0) {
+
+                        $member->young_gxd -= $gxd;
+                        $change['gxd'] = (0 - $gxd);
+                        $record .= '『' . $this->set['walletGxd'] . '』' . $gxd . '。';
+                    }
+                    if ($poundage > 0) {
+
+                        $member->young_poundage -= $poundage;
+                        $change['poundage'] = (0 - $poundage);
+                        $record .= '『' . $this->set['walletPoundage'] . '』' . $poundage . '。';
+                    }
                     $member->save();
-                    $change = ['gxd' => (0 - $gxd)];
-                    $record = '匹配订单『' . $v->young_order . '』确认收款超时，罚款『' . $this->set['walletGxd'] . '』' . $gxd;
                     $wallet_model->store_record($member, $change, 51, $record);
 
                     if (!empty($member->young_phone)) $this->sendSms($member->young_phone, $record);
@@ -58,7 +70,7 @@ class MatchSureClass extends PlanClass
             if ($this->set['inOvertimeAuto'] == 'on') {
 
                 $buyer = MemberModel::whereUid($v->young_buy_uid)->first();
-                if (is_null($buyer))return;
+                if (is_null($buyer)) return;
                 $body = '您的采集订单有了新的进展';
                 $content = '您的采集订单有了新的进展，订单号『' . $v->young_buy_order . '』，交易号『' . $v->young_order . '』';
                 if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);

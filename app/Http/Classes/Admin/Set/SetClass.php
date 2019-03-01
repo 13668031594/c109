@@ -150,9 +150,11 @@ class SetClass extends AdminClass
             'payStart|付款开始时间' => 'required|date_format:"H:i"',//付款开始时间
             'payEnd|付款结束时间' => 'required|date_format:"H:i"|after:payStart',//付款结束时间
             'payRewardGxd|付款奖励贡献点' => 'required|integer|between:0,100000000',//奖励贡献点
+            'payRewardPoundage|付款奖励星伙' => 'required|numeric|between:0,100000000',//奖励星伙
             'payRewardStart|付款奖励开始时间' => 'required|date_format:"H:i"',//奖励开始时间
             'payRewardEnd|付款奖励结束时间' => 'required|date_format:"H:i"|after:payRewardStart',//奖励结束时间
             'payPunishGxd|付款惩罚贡献点' => 'required|integer|between:0,100000000',//惩罚贡献点
+            'payPunishPoundage|付款惩罚星伙' => 'required|numeric|between:0,100000000',//惩罚星伙
             'payPunishStart|付款惩罚开始时间' => 'required|date_format:"H:i"',//惩罚开始时间
             'payPunishEnd|付款惩罚结束时间' => 'required|date_format:"H:i"|after:payPunishStart',//惩罚结束时间
             //收款设置
@@ -160,6 +162,7 @@ class SetClass extends AdminClass
             'inEnd|收款结束时间' => 'required|date_format:"H:i"|after:inStart',//收款结束时间
             'inOvertimeAuto|超时自动确认收款' => 'required|in:on,off',//超时自动确认收款
             'inOvertimePunishGxd|收款超时扣除贡献点' => 'required|integer|between:0,100000000',//超时扣除贡献点
+            'inOvertimePunishPoundage|收款超时扣除星伙' => 'required|numeric|between:0,100000000',//超时扣除星伙
             //订单提现
             'signStart' => 'required|date_format:"H:i"',//每日签到时间
             'signEnd' => 'required|date_format:"H:i"|after:signStart',//每日签到结束时间
@@ -278,9 +281,11 @@ class SetClass extends AdminClass
             'payStart' => '07:00',//付款开始时间
             'payEnd' => '12:00',//付款结束时间
             'payRewardGxd' => '1',//奖励贡献点
+            'payRewardPoundage' => '0.1',//奖励星伙
             'payRewardStart' => '07:00',//奖励开始时间
             'payRewardEnd' => '09:00',//奖励结束时间
             'payPunishGxd' => '100',//惩罚贡献点
+            'payPunishPoundage' => '1',//惩罚贡献点
             'payPunishStart' => '11:30',//惩罚开始时间
             'payPunishEnd' => '12:00',//惩罚结束时间
             'payPunishSealAccount' => '12:00',//未付款封号时间
@@ -289,6 +294,7 @@ class SetClass extends AdminClass
             'inEnd' => '15:00',//收款结束时间
             'inOvertimeAuto' => 'on',//超时自动确认收款
             'inOvertimePunishGxd' => '300',//超时扣除贡献点
+            'inOvertimePunishPoundage' => '3',//超时扣除星伙
             //订单提现
             'signStart' => '07:00',
             'signEnd' => '23:00',

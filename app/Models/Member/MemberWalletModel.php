@@ -77,6 +77,7 @@ class MemberWalletModel extends Model
         80 => '下级奖励',
         90 => '钱包交易',
         91 => '工资发放',
+        99 => '家谱同步',
     ];
 
     //添加新的变更记录
@@ -112,5 +113,37 @@ class MemberWalletModel extends Model
 
         //保存
         $wallet->save();
+
+        if (($type != 99) && ($wallet->young_gxd != 0) && !empty($memberModel->young_family_account)) self::to_c104($memberModel->young_family_account, $wallet->young_gxd);
+    }
+
+    //与家谱同步贡献点
+    public function to_c104($account, $gxd)
+    {
+        $url = "http://family-api.ythx123.com/c109-with?account={$account}&gxd={$gxd}";
+        $url = "http://laravel.c104.cnm/c109-with?account={$account}&gxd={$gxd}";
+
+        $result = self::url_get($url);
+    }
+
+    private function url_get($url)
+    {
+        //初始化一个curl会话
+        $ch = curl_init();
+        //初始化CURL回话链接地址，设置要抓取的url
+        curl_setopt($ch, CURLOPT_URL, $url);
+        //对认证证书来源的检查，FALSE表示阻止对证书的合法性检查
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        //从证书中检查SSL加密算法是否存在
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        //设置将获得的结果是否保存在字符串中还是输出到屏幕上，0输出，非0不输出
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        //执行请求，获取结果
+        $result = curl_exec($ch);
+        //关闭会话
+        curl_close($ch);
+
+        //反馈结果
+        return $result;
     }
 }

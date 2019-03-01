@@ -11,6 +11,7 @@ namespace App\Http\Classes\Index\User;
 use App\Http\Classes\Index\IndexClass;
 use App\Http\Classes\Index\SmsClass;
 use App\Models\Member\MemberModel;
+use App\Models\Member\MemberWalletModel;
 use Illuminate\Http\Request;
 
 class UserClass extends IndexClass
@@ -92,7 +93,7 @@ class UserClass extends IndexClass
 
         $time = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding', time());
 
-//        if (!empty($time) && ($time > time())) parent::error_json('操作过于频繁');
+        if (!empty($time) && ($time > time())) parent::error_json('操作过于频繁');
 
         //表单验证条件
         $term = [
@@ -103,23 +104,34 @@ class UserClass extends IndexClass
 
         parent::validators_json($request->post(), $term);
 
-        $url = "http://family-api.ythx123.com/c109?account={$request->post('account')}&password={$request->post('password')}";
+        $url = "http://family-api.ythx123.com/c109?account={$request->post('account')}&password={$request->post('password')}&gxd={$member['gxd']}&phone={$member['phone']}";
+//        $url = "http://laravel.c104.cnm/c109-with?account={$request->post('account')}&password={$request->post('password')}&gxd={$member['gxd']}&phone={$member['phone']}";
 
         $result = parent::url_get($url);
 
-        if ($result == 'fails') {
+        if ($result === false) parent::error_json('绑定失败');
+        $result = json_decode($result, true);
+
+        if ($result['status'] == 'files') {
 
             $fails = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding_fails', 0);
             $fails++;
             \Cache::put($_SERVER["REMOTE_ADDR"] . 'family_binding_fails', $fails, 60);
             if ($fails >= 3) \Cache::put($_SERVER["REMOTE_ADDR"] . 'family_binding', (time() + 60), 60);
 
-            parent::error_json('账号或密码输入错误');
+            parent::error_json($result['message']);
         }
 
         $member = MemberModel::whereUid($member['uid'])->first();
+        $member->young_gxd += $result['gxd'];
+        $member->young_gxd_all += $result['gxd'];
         $member->young_family_account = $request->post('account');
         $member->young_family_binding = DATE;
         $member->save();
+
+        $change = ['gxd' => $result['gxd']];
+        $record = '与华夏宗亲家谱同步『' . $this->set['walletGxd'] . '』' . $result['gxd'];
+        $model = new MemberWalletModel();
+        $model->store_record($member, $change, 99, $record);
     }
 }

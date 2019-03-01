@@ -174,7 +174,6 @@
                         </div>
                     </div>
 
-
                     <div class="layui-form-item">
                         <label class="layui-form-label">自动激活</label>
                         <div class="layui-input-inline" style="width:70px;">
@@ -755,6 +754,28 @@
                             <div class="layui-form-mid layui-word-aux">规定时间内付款，扣除的贡献点</div>
                         </div>
                     </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">奖励星伙</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="payRewardPoundage" title="奖励星伙" lay-filter="number"
+                                       placeholder="奖励星伙" autocomplete="off" value="{{$self['payRewardPoundage']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">规定时间内付款，奖励的星伙</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">惩罚星伙</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="payPunishPoundage" title="惩罚星伙" lay-filter="number"
+                                       placeholder="惩罚星伙" autocomplete="off" value="{{$self['payPunishPoundage']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">规定时间内付款，扣除的星伙</div>
+                        </div>
+                    </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">未付款封号</label>
                         <div class="layui-input-inline">
@@ -787,6 +808,17 @@
                                        class="layui-input">
                             </div>
                             <div class="layui-form-mid layui-word-aux">规定时间内未确认收款，扣除的贡献点</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">惩罚星伙</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="inOvertimePunishPoundage" title="惩罚星伙" lay-filter="number"
+                                       placeholder="惩罚星伙" autocomplete="off" value="{{$self['inOvertimePunishPoundage']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">规定时间内未确认收款，扣除的星伙</div>
                         </div>
                     </div>
                     <div class="layui-form-item">

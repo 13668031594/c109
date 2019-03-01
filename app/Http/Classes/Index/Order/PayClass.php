@@ -64,7 +64,7 @@ class PayClass extends IndexClass
         $match->save();
 
         $seller = MemberModel::whereUid($match->young_sell_uid)->first();
-        if (is_null($seller))return;
+        if (is_null($seller)) return;
         $body = '您的卖出订单有了新的进展';
         $content = '您的卖出订单有了新的进展，订单号『' . $match->young_sell_order . '』，交易号『' . $match->young_order . '』';
         if (!empty($seller->young_phone)) $this->sendSms($seller->young_phone, $content);
@@ -87,15 +87,33 @@ class PayClass extends IndexClass
 
                 //奖励贡献点
                 $gxd = $set['payRewardGxd'];
+                $poundage = $set['payRewardPoundage'];
 
-                $member = MemberModel::whereUid($member['uid']);
-                $member->young_gxd += $gxd;
-                $member->save();
+                if ($gxd > 0 || $poundage > 0) {
 
-                $wallet = new MemberWalletModel();
-                $record = '订单快速付款，奖励『' . $this->set['walletGxd'] . '』' . $gxd;
-                $change = ['gxd' => $gxd];
-                $wallet->store_record($member, $change, 60, $record);
+                    $change = [];
+                    $member = MemberModel::whereUid($member['uid']);
+                    $record = '订单快速付款，奖励';
+                    if ($gxd > 0) {
+
+                        $member->young_gxd += $gxd;
+                        $member->young_gxd_all += $gxd;
+                        $change['gxd'] = $gxd;
+                        $record .= '『' . $this->set['walletGxd'] . '』' . $gxd . '。';
+                    }
+                    if ($poundage > 0) {
+
+                        $member->young_poundage += $poundage;
+                        $member->young_poundage_all += $poundage;
+                        $change['poundage'] = $poundage;
+                        $record .= '『' . $this->set['walletPoundage'] . '』' . $poundage . '。';
+                    }
+                    $member->save();
+
+                    $wallet = new MemberWalletModel();
+                    $wallet->store_record($member, $change, 60, $record);
+
+                }
             }
         }
 
@@ -107,17 +125,33 @@ class PayClass extends IndexClass
             $end = parent::set_time($this->set['payPunishEnd']);
             if (($now >= $begin) && ($now <= $end)) {
 
-                //惩罚贡献点
+                //奖励贡献点
                 $gxd = $set['payPunishGxd'];
+                $poundage = $set['payPunishPoundage'];
 
-                $member = MemberModel::whereUid($member['uid']);
-                $member->young_gxd -= $gxd;
-                $member->save();
+                if ($gxd > 0 || $poundage > 0) {
 
-                $wallet = new MemberWalletModel();
-                $record = '订单付款过慢，惩罚『' . $this->set['walletGxd'] . '』' . $gxd;
-                $change = ['gxd' => (0 - $gxd)];
-                $wallet->store_record($member, $change, 70, $record);
+                    $change = [];
+                    $member = MemberModel::whereUid($member['uid']);
+                    $record = '订单付款过慢，惩罚';
+                    if ($gxd > 0) {
+
+                        $member->young_gxd -= $gxd;
+                        $change['gxd'] = (0 - $gxd);
+                        $record .= '『' . $this->set['walletGxd'] . '』' . $gxd . '。';
+                    }
+                    if ($poundage > 0) {
+
+                        $member->young_poundage -= $poundage;
+                        $change['poundage'] = (0 - $poundage);
+                        $record .= '『' . $this->set['walletPoundage'] . '』' . $poundage . '。';
+                    }
+                    $member->save();
+
+                    $wallet = new MemberWalletModel();
+                    $wallet->store_record($member, $change, 70, $record);
+
+                }
             }
         }
     }
@@ -152,14 +186,14 @@ class PayClass extends IndexClass
         $match->match_end($id);
 
         $buyer = MemberModel::whereUid($match->young_buy_uid)->first();
-        if (is_null($buyer))return;
+        if (is_null($buyer)) return;
         $body = '您的采集订单有了新的进展';
         $content = '您的采集订单有了新的进展，订单号『' . $match->young_buy_order . '』，交易号『' . $match->young_order . '』';
         if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
         if (!empty($buyer->young_cid)) $this->pushSms($buyer->young_cid, $body);
     }
 
-    //确认付款
+    //报告异常
     public function abn($id)
     {
         $begin = parent::set_time($this->set['inStart']);
@@ -191,7 +225,7 @@ class PayClass extends IndexClass
         $buy->save();
 
         $buyer = MemberModel::whereUid($match->young_buy_uid)->first();
-        if (is_null($buyer))return;
+        if (is_null($buyer)) return;
         $body = '您的采集订单发生了异常';
         $content = '您的采集订单发生了异常，订单号『' . $buy->young_order . '』，交易号『' . $match->young_order . '』';
         if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);

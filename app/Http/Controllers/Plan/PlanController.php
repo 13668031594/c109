@@ -7,6 +7,7 @@ use App\Http\Classes\Plan\ActClass;
 use App\Http\Classes\Plan\AutoClass;
 use App\Http\Classes\Plan\BuyOverClass;
 use App\Http\Classes\Plan\GradeClass;
+use App\Http\Classes\Plan\GxdWithClass;
 use App\Http\Classes\Plan\MatchClass;
 use App\Http\Classes\Plan\MatchSureClass;
 use App\Http\Classes\Plan\RobClass;
@@ -45,5 +46,10 @@ class PlanController extends Controller
         new PoundageGiveClass();//每日赠送星伙
 
         \DB::commit();
+    }
+
+    public function gxd_with()
+    {
+        new GxdWithClass();//华夏宗亲家谱贡献点同步
     }
 }

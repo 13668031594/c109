@@ -10,6 +10,7 @@ namespace App\Http\Classes\Plan;
 
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
+use App\Models\Order\BuyOrderModel;
 use App\Models\Plan\PlanModel;
 
 class PoundageGiveClass extends PlanClass
@@ -77,6 +78,13 @@ class PoundageGiveClass extends PlanClass
 
     private function members()
     {
-        return MemberModel::whereYoungStatus('10')->get(['uid'])->toArray();
+        $members = MemberModel::whereYoungStatus('10')->get(['uid'])->toArray();
+        foreach ($members as $k => $v){
+
+            $test = BuyOrderModel::whereUid($v['uid'])->first();
+            if (!is_null($test))unset($members[$k]);
+        }
+
+        return $members;
     }
 }

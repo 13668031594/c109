@@ -13,3 +13,4 @@
 Route::post('test/{id}','Api\Order\BuyController@pay');
 
 Route::get('plan', 'Plan\PlanController@index');
+Route::get('c104','Plan\PlanController@gxd_with');

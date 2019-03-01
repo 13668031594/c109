@@ -10,6 +10,7 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::group(['namespace' => 'Login'], function () {
 
     Route::get('version', 'LoginController@version');
