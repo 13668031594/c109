@@ -121,7 +121,7 @@ class MemberWalletModel extends Model
     public function to_c104($account, $gxd)
     {
         $url = "http://family-api.ythx123.com/c109-with?account={$account}&gxd={$gxd}";
-        $url = "http://laravel.c104.cnm/c109-with?account={$account}&gxd={$gxd}";
+//        $url = "http://laravel.c104.cnm/c109-with?account={$account}&gxd={$gxd}";
 
         $result = self::url_get($url);
     }
