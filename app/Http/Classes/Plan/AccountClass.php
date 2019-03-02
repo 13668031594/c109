@@ -135,8 +135,8 @@ class AccountClass extends PlanClass
     //防撞
     private function mode_10_ids()
     {
-        if (empty($this->set['goodsType0'])) $date = DATE;
-        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['goodsType0'] . ' day'));
+        if (empty($this->set['deleteType0'])) $date = DATE;
+        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['deleteType0'] . ' day'));
 
         $sql = "SELECT m.uid FROM young_member_models AS m,young_buy_order_models AS b 
 WHERE m.uid = b.uid 
@@ -157,8 +157,8 @@ AND m.young_mode = 10";
     //未防撞
     private function mode_20_ids()
     {
-        if (empty($this->set['goodsType1'])) $date = DATE;
-        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['goodsType1'] . ' day'));
+        if (empty($this->set['deleteType1'])) $date = DATE;
+        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['deleteType1'] . ' day'));
 
         /*$model = new MemberModel();
         $ids = $model->where('young_last_buy_time', '<', $date)

@@ -96,6 +96,8 @@ class SetClass extends AdminClass
             'deleteIndexRegTime|自主注册不排单删号时间' => 'required|integer|between:1,3650',//9天后删除
             'deleteAdminActSwitch|后台激活不排单删号开关' => 'required|in:on,off',//后台激活不排单删号开关
             'deleteAdminActTime|后台激活不排单删号时间' => 'required|integer|between:1,3650',//1天后删除
+//            'deleteType0|防撞模式不排单封号时间' => 'required|integer|between:1,3650',
+//            'deleteType1|未防撞模式不排单封号时间' => 'required|integer|between:1,3650',
             //网站设置
             'webName|网站名称' => 'required|string|max:10',
             'webTitle|网站标题' => 'required|string|max:20',
@@ -226,6 +228,8 @@ class SetClass extends AdminClass
             'deleteIndexRegTime' => '9',//9天后删除
             'deleteAdminActSwitch' => 'on',//后台激活不排单删号开关
             'deleteAdminActTime' => '1',//1天后删除
+            'deleteType0' => '12',
+            'deleteType1' => '12',
             //网站设置
             'webName' => '君王战神',
             'webTitle' => '君王战神',
