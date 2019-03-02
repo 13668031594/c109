@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\Login;
 
 use App\Http\Classes\Index\Login\ApiLoginClass;
 use App\Http\Classes\Index\Login\PromptClass;
+use App\Http\Classes\Index\Message\MessageClass;
 use App\Http\Classes\Set\SetClass;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Member\MemberModel;
+use App\Models\Message\MessageModel;
 use Illuminate\Http\Request;
 
 class LoginController extends ApiController
@@ -69,6 +71,8 @@ class LoginController extends ApiController
         $result['contrast'] = array_merge($result['contrast'], $this->class->contrast());
 
         $result['customer'] = $this->class->customer($result['member']['customer']);
+
+        $result['number'] = MessageModel::whereYoungStatus(10)->where('uid', '=', $result['member']['uid'])->count();
 
         //返回状态码
         return parent::success($result);

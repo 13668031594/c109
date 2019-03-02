@@ -23,4 +23,14 @@ class PlanClass
         $set = new SetClass();
         $this->set = $set->index();
     }
+
+    protected function return_date($day)
+    {
+        $day = (int)$day;
+
+        if (empty($day)) $date = date('Y-m-d 00:00:00');
+        else $date = date('Y-m-d 00:00:00', strtotime('-' . ($day - 1) . ' day'));
+
+        return $date;
+    }
 }

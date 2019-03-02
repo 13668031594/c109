@@ -10,13 +10,14 @@ namespace App\Http\Classes\Plan;
 
 use App\Http\Traits\DxbSmsTrait;
 use App\Http\Traits\GetuiTrait;
+use App\Http\Traits\MessageTrait;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Order\MatchOrderModel;
 
 class MatchSureClass extends PlanClass
 {
-    use DxbSmsTrait, GetuiTrait;
+    use DxbSmsTrait, GetuiTrait,MessageTrait;
 
     public function __construct()
     {
@@ -61,7 +62,8 @@ class MatchSureClass extends PlanClass
                     $member->save();
                     $wallet_model->store_record($member, $change, 51, $record);
 
-                    if (!empty($member->young_phone)) $this->sendSms($member->young_phone, $record);
+                    $this->sendMessage($member->uid, 10, $record);
+//                    if (!empty($member->young_phone)) $this->sendSms($member->young_phone, $record);
                     if (!empty($member->young_cid)) $this->pushSms($member->young_cid, $record);
                 }
             }
@@ -73,7 +75,8 @@ class MatchSureClass extends PlanClass
                 if (is_null($buyer)) return;
                 $body = '您的采集订单有了新的进展';
                 $content = '您的采集订单有了新的进展，订单号『' . $v->young_buy_order . '』，交易号『' . $v->young_order . '』';
-                if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
+                $this->sendMessage($buyer->uid, 20, $content);
+//                if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
                 if (!empty($buyer->young_cid)) $this->pushSms($buyer->young_cid, $body);
 
                 MatchOrderModel::whereId($v->id)->update(['young_status' => '30']);

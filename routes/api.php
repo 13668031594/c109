@@ -85,4 +85,12 @@ Route::group(['middleware' => ['auth:api', 'apiWebClose', 'apiAct30', 'apiStatus
         Route::post('trad-buy/{id}', 'TradController@pay');//支付
         Route::get('trad/{id}', 'TradController@over');//确认
     });
+
+    //消息中心
+    Route::group(['namespace' => 'Message'], function () {
+
+        Route::get('message', 'MessageController@index');//列表
+        Route::get('message/{id}', 'MessageController@read');//已读消息
+        Route::post('message', 'MessageController@news');//未读消息数量
+    });
 });

@@ -31,7 +31,8 @@ class MemberRecordModel extends Model
     //变更类型
     public $type = [
         10 => '后台调整',
-        20 => '收益状态'
+        20 => '收益状态',
+        30 => '状态变更',
     ];
 
     //添加新的变更记录

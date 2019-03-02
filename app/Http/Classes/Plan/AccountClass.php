@@ -9,9 +9,9 @@
 namespace App\Http\Classes\Plan;
 
 use App\Models\Member\MemberModel;
+use App\Models\Member\MemberRecordModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Order\MatchOrderModel;
-use function GuzzleHttp\Psr7\str;
 
 class AccountClass extends PlanClass
 {
@@ -38,7 +38,10 @@ class AccountClass extends PlanClass
         $stop_ids = array_merge($reg_ids, $act_ids, $mode_10_ids, $mode_20_ids, $not_pay_ids);
 
         //没有需要封号的
-        if (count($stop_ids) <= 0) return;
+        if (count($stop_ids) <= 0) {
+
+            return;
+        }
 
         //去除重复的
         $stop_ids = array_unique($stop_ids);
@@ -56,11 +59,12 @@ class AccountClass extends PlanClass
             $query->where('young_status_time', '<', $date)->orWhere('young_status_time', '=', null);
         })->get();
 
-        $mr = new MemberWalletModel();
+        $mw = new MemberWalletModel();
+        $mr = new MemberRecordModel();
         foreach ($members as $v) {
 
             //最后一次封停扣除手续费
-            $last_end = $mr->where('uid', '=', $v->uid)
+            $last_end = $mw->where('uid', '=', $v->uid)
                 ->where('young_type', '=', '22')
                 ->orderBy('created_at', 'desc')
                 ->first();
@@ -75,7 +79,7 @@ class AccountClass extends PlanClass
                 $where[] = ['created_at', '>', $last_end->created_at];
             }
 
-            $diff = $mr->where('uid', '=', $v->uid)
+            $diff = $mw->where('uid', '=', $v->uid)
                 ->where($where)
                 ->sum('young_poundage');
 
@@ -85,11 +89,35 @@ class AccountClass extends PlanClass
 
                 $change = ['poundage' => (0 - $diff)];
                 $record = '因账号封停，扣除累计赠送的『' . $this->set['walletPoundage'] . '』' . $diff;
-                $mr->store_record($v, $change, 22, $record);
+                $mw->store_record($v, $change, 22, $record);
             };
             $v->young_status = '30';
             $v->young_status_time = DATE;
             $v->save();
+
+            $r = '';
+            if (in_array($v->uid, $reg_ids)) {
+
+                $r .= '注册后超过限时未排单；';
+            }
+            if (in_array($v->uid, $act_ids)) {
+
+                $r .= '管理员激活后超过限时未排单；';
+            }
+            if (in_array($v->uid, $mode_10_ids)) {
+
+                $r .= '防撞模式下，超过限时未排单；';
+            }
+            if (in_array($v->uid, $mode_20_ids)) {
+
+                $r .= '未防撞模式下，超过限时未排单；';
+            }
+            if (in_array($v->uid, $not_pay_ids)) {
+
+                $r .= '订单付款超时；';
+            }
+            $r .= '账号被封停！';
+            $mr->store_record($v, 30, $r);
         }
     }
 
@@ -98,8 +126,9 @@ class AccountClass extends PlanClass
     {
         if ($this->set['deleteIndexRegSwitch'] == 'off') return [];
 
-        if (empty($this->set['deleteIndexRegTime'])) $date = DATE;
-        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['deleteIndexRegTime'] . ' day'));
+//        if (empty($this->set['deleteIndexRegTime'])) $date = DATE;
+//        else $date = date('Y-m-d 00:00:00', strtotime('-' . ($this->set['deleteIndexRegTime'] - 1) . ' day'));
+        $date = parent::return_date($this->set['deleteIndexRegTime']);
 
         $model = new MemberModel();
         $ids = $model->where('created_at', '<', $date)
@@ -117,8 +146,9 @@ class AccountClass extends PlanClass
     {
         if ($this->set['deleteAdminActSwitch'] == 'off') return [];
 
-        if (empty($this->set['deleteAdminActTime'])) $date = DATE;
-        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['deleteAdminActTime'] . ' day'));
+//        if (empty($this->set['deleteAdminActTime'])) $date = DATE;
+//        else $date = date('Y-m-d 00:00:00', strtotime('-' . ($this->set['deleteAdminActTime'] - 1) . ' day'));
+        $date = parent::return_date($this->set['deleteAdminActTime']);
 
         $model = new MemberModel();
         $ids = $model->where('young_act_time', '<', $date)
@@ -135,8 +165,9 @@ class AccountClass extends PlanClass
     //防撞
     private function mode_10_ids()
     {
-        if (empty($this->set['deleteType0'])) $date = DATE;
-        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['deleteType0'] . ' day'));
+//        if (empty($this->set['deleteType0'])) $date = DATE;
+//        else $date = date('Y-m-d 00:00:00', strtotime('-' . ($this->set['deleteType0'] - 1) . ' day'));
+        $date = parent::return_date($this->set['deleteType0']);
 
         $sql = "SELECT m.uid FROM young_member_models AS m,young_buy_order_models AS b 
 WHERE m.uid = b.uid 
@@ -157,8 +188,9 @@ AND m.young_mode = 10";
     //未防撞
     private function mode_20_ids()
     {
-        if (empty($this->set['deleteType1'])) $date = DATE;
-        else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['deleteType1'] . ' day'));
+//        if (empty($this->set['deleteType1'])) $date = DATE;
+//        else $date = date('Y-m-d 00:00:00', strtotime('-' . ($this->set['deleteType1'] - 1) . ' day'));
+        $date = parent::return_date($this->set['deleteType1']);
 
         /*$model = new MemberModel();
         $ids = $model->where('young_last_buy_time', '<', $date)

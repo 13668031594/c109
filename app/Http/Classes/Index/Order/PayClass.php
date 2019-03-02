@@ -12,6 +12,7 @@ use App\Http\Classes\Index\IndexClass;
 use App\Http\Traits\DxbSmsTrait;
 use App\Http\Traits\GetuiTrait;
 use App\Http\Traits\ImageTrait;
+use App\Http\Traits\MessageTrait;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Order\BuyOrderModel;
@@ -20,7 +21,7 @@ use Illuminate\Http\Request;
 
 class PayClass extends IndexClass
 {
-    use ImageTrait, DxbSmsTrait, GetuiTrait;
+    use ImageTrait, DxbSmsTrait, GetuiTrait,MessageTrait;
 
     //付款惩罚
     public function pay($id, Request $request)
@@ -67,7 +68,8 @@ class PayClass extends IndexClass
         if (is_null($seller)) return;
         $body = '您的卖出订单有了新的进展';
         $content = '您的卖出订单有了新的进展，订单号『' . $match->young_sell_order . '』，交易号『' . $match->young_order . '』';
-        if (!empty($seller->young_phone)) $this->sendSms($seller->young_phone, $content);
+        $this->sendMessage($seller->uid, 10, $content);
+//        if (!empty($seller->young_phone)) $this->sendSms($seller->young_phone, $content);
         if (!empty($seller->young_cid)) $this->pushSms($seller->young_cid, $body);
     }
 
@@ -189,7 +191,8 @@ class PayClass extends IndexClass
         if (is_null($buyer)) return;
         $body = '您的采集订单有了新的进展';
         $content = '您的采集订单有了新的进展，订单号『' . $match->young_buy_order . '』，交易号『' . $match->young_order . '』';
-        if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
+        $this->sendMessage($buyer->uid, 20, $content);
+//        if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
         if (!empty($buyer->young_cid)) $this->pushSms($buyer->young_cid, $body);
     }
 
@@ -228,7 +231,8 @@ class PayClass extends IndexClass
         if (is_null($buyer)) return;
         $body = '您的采集订单发生了异常';
         $content = '您的采集订单发生了异常，订单号『' . $buy->young_order . '』，交易号『' . $match->young_order . '』';
-        if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
+        $this->sendMessage($buyer->uid, 20, $content);
+//        if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
         if (!empty($buyer->young_cid)) $this->pushSms($buyer->young_cid, $body);
     }
 }

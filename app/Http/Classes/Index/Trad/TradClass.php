@@ -12,6 +12,7 @@ use App\Http\Classes\Index\IndexClass;
 use App\Http\Traits\DxbSmsTrait;
 use App\Http\Traits\GetuiTrait;
 use App\Http\Traits\ImageTrait;
+use App\Http\Traits\MessageTrait;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Trad\TradModel;
@@ -19,7 +20,7 @@ use Illuminate\Http\Request;
 
 class TradClass extends IndexClass
 {
-    use ImageTrait, DxbSmsTrait, GetuiTrait;
+    use ImageTrait, DxbSmsTrait, GetuiTrait, MessageTrait;
 
     public function index()
     {
@@ -196,7 +197,8 @@ class TradClass extends IndexClass
         if (is_null($seller)) return;
         $body = '您的挂售订单被认购了';
         $content = '您的挂售订单被认购了，订单号『' . $trad->young_order . '』';
-        if (!empty($seller->young_phone)) $this->sendSms($seller->young_phone, $content);
+        $this->sendMessage($seller->uid, 10, $content);
+//        if (!empty($seller->young_phone)) $this->sendSms($seller->young_phone, $content);
         if (!empty($seller->young_cid)) $this->pushSms($seller->young_cid, $body);
     }
 
@@ -237,7 +239,8 @@ class TradClass extends IndexClass
         if (is_null($seller)) return;
         $body = '您的挂售订单已经付款，请确认';
         $content = '您的挂售订单已经付款，请确认，订单号『' . $trad->young_order . '』';
-        if (!empty($seller->young_phone)) $this->sendSms($seller->young_phone, $content);
+        $this->sendMessage($seller->uid, 10, $content);
+//        if (!empty($seller->young_phone)) $this->sendSms($seller->young_phone, $content);
         if (!empty($seller->young_cid)) $this->pushSms($seller->young_cid, $body);
     }
 
@@ -275,7 +278,8 @@ class TradClass extends IndexClass
         if (is_null($buyer)) return;
         $body = '你购买的挂售订单已经确认收款了';
         $content = '你购买的挂售订单已经确认收款了，订单号『' . $trad->young_order . '』';
-        if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
+        $this->sendMessage($buyer->uid, 20, $content);
+//        if (!empty($buyer->young_phone)) $this->sendSms($buyer->young_phone, $content);
         if (!empty($buyer->young_cid)) $this->pushSms($buyer->young_cid, $body);
     }
 

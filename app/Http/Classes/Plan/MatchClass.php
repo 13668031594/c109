@@ -10,13 +10,14 @@ namespace App\Http\Classes\Plan;
 
 use App\Http\Traits\DxbSmsTrait;
 use App\Http\Traits\GetuiTrait;
+use App\Http\Traits\MessageTrait;
 use App\Models\Order\MatchOrderModel;
 use App\Models\Order\SellOrderModel;
-use App\Vendor\Sms\SmsTrait;
+use App\Models\Plan\PlanModel;
 
 class MatchClass extends PlanClass
 {
-    use DxbSmsTrait, GetuiTrait;
+    use DxbSmsTrait, GetuiTrait, MessageTrait;
 
     private $remind;//剩余卖出金额
     private $sell;//卖出订单
@@ -25,10 +26,19 @@ class MatchClass extends PlanClass
     private $buy_40 = [];//购买订单编辑数组
     private $match_order;//匹配交易号
     private $users = [];//会员信息表
+    private $sell_message = [];//卖出订单匹配情况
+    private $buy_message = [];//买入订单匹配情况
 
     public function __construct()
     {
         parent::__construct();
+
+        //判断今天是否成功发放了激活码
+        $test = new PlanModel();
+        $test = $test->where('young_type', '=', 'match')
+            ->where('young_status', '=', '10')
+            ->where('created_at', '>=', date('Y-m-d 00:00:00'))
+            ->first();
 
         //获取总卖出金额
         self::all_remind();
@@ -57,26 +67,38 @@ class MatchClass extends PlanClass
         //新会员首付款匹配
         self::match_10($_10);
 
-        //获取所有首付款匹配订单
-        $first = self::first_match($others);
+        if (is_null($test)) {
 
-        //首付款匹配
-        self::match_10($first);
+            //获取所有首付款匹配订单
+            $first = self::first_match($others);
+
+            //首付款匹配
+            self::match_10($first);
+        };
 
         //新会员尾款匹配
         self::match_40($_40);
 
-        //获取所有尾款订单
-        $tail = self::tail_match($others);
+        if (is_null($test)) {
 
-        //匹配尾款
-        self::match_40($tail);
+            //获取所有尾款订单
+            $tail = self::tail_match($others);
+
+            //匹配尾款
+            self::match_40($tail);
+        }
 
         //修改所有修改
         self::all_change();
 
         //发送推送消息
         self::push_send();
+
+        if (is_null($test)) {
+
+            $plan = new PlanModel();
+            $plan->store_plan('match', '', 10);
+        }
     }
 
     private function all_remind()
@@ -84,6 +106,16 @@ class MatchClass extends PlanClass
         $model = new SellOrderModel();
 
         $this->remind = $model->where('young_remind', '>', 0)->sum('young_remind');
+    }
+
+    private function match_order()
+    {
+        $order = 375895;
+
+        $add = new MatchOrderModel();
+        $add = $add->count();
+
+        $this->match_order = ($order + $add + 1);
     }
 
     //所有的卖出订单
@@ -123,21 +155,14 @@ ORDER BY b.young_status ASC, b.created_at ASC
         return $a;
     }
 
-    private function match_order()
-    {
-        $order = 375895;
 
-        $add = new MatchOrderModel();
-        $add = $add->count();
-
-        $this->match_order = ($order + $add + 1);
-    }
-
+    //首付款匹配订单
     private function first_match($others)
     {
-        $add = $this->set['matchFirstStart'];
-        $str = empty($add) ? 'today' : '- ' . $add . 'day';
-        $date = date('Y-m-d H:i:s', strtotime($str));
+//        $add = (int)$this->set['matchFirstStart'];
+//        $str = empty($add) ? 'today' : '-' . ($add - 1) . ' day';
+//        $date = date('Y-m-d 00:00:00', strtotime($str));
+        $date = parent::return_date($this->set['matchFirstStart']);
 
         $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
@@ -156,9 +181,10 @@ AND b.created_at <= '{$date}'";
 
     private function tail_match($others)
     {
-        $add = $this->set['matchTailStart'];
-        $str = empty($add) ? 'today' : '- ' . $add . 'day';
-        $date = date('Y-m-d H:i:s', strtotime($str));
+//        $add = (int)$this->set['matchTailStart'];
+//        $str = empty($add) ? 'today' : '-' . ($add - 1) . ' day';
+//        $date = date('Y-m-d H:i:s', strtotime($str));
+        $date = parent::return_date($this->set['matchTailStart']);
 
         $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
@@ -329,6 +355,12 @@ AND b.young_tail_complete < b.young_tail_total";
                 'body' => [],
             ];
         }
+        if (!isset($this->buy_message[$buy->uid])) {
+
+            $this->buy_message[$buy->uid] = [
+                'content' => [],
+            ];
+        }
         if (!isset($this->users[$sell->uid])) {
 
             $this->users[$sell->uid] = [
@@ -336,6 +368,12 @@ AND b.young_tail_complete < b.young_tail_total";
                 'cid' => $sell->young_cid,
                 'content' => [],
                 'body' => [],
+            ];
+        }
+        if (!isset($this->sell_message[$sell->uid])) {
+
+            $this->sell_message[$sell->uid] = [
+                'content' => [],
             ];
         }
         $buy_content = '您的采集订单『' . $buy->young_order . '』已经匹配成功，交易号『' . $order . '』，请尽快付款';
@@ -346,6 +384,8 @@ AND b.young_tail_complete < b.young_tail_total";
         $this->users[$buy->uid]['body'][] = $buy_body;
         $this->users[$sell->uid]['content'][] = $sell_content;
         $this->users[$sell->uid]['body'][] = $sell_body;
+        $this->buy_message[$buy->uid]['content'][] = $buy_content;
+        $this->sell_message[$sell->uid]['content'][] = $sell_content;
     }
 
     private function all_change()
@@ -377,12 +417,18 @@ AND b.young_tail_complete < b.young_tail_total";
 
     private function push_send()
     {
-        if (count($this->users) <= 0) return;
-
-        foreach ($this->users as $v) {
+        if (count($this->users) > 0) foreach ($this->users as $v) {
 
             if (!empty($v['phone'])) foreach ($v['content'] as $va) $this->sendSms($v['phone'], $va);
             if (!empty($v['cid'])) foreach ($v['body'] as $va) $this->pushSms($v['cid'], $va);
+        }
+        if (count($this->sell_message) > 0) foreach ($this->sell_message as $k => $v) {
+
+            foreach ($v['content'] as $va) $this->sendMessage($k, 10, $va);
+        }
+        if (count($this->buy_message) > 0) foreach ($this->buy_message as $k => $v) {
+
+            foreach ($v['content'] as $va) $this->sendMessage($k, 20, $va);
         }
 
     }
