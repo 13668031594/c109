@@ -60,32 +60,32 @@ class AccountClass extends PlanClass
         foreach ($members as $v) {
 
             //最后一次封停扣除手续费
-            $last_end = $mr->where('uid','=',$v->uid)
-                ->where('young_type','=','22')
-                ->orderBy('created_at','desc')
+            $last_end = $mr->where('uid', '=', $v->uid)
+                ->where('young_type', '=', '22')
+                ->orderBy('created_at', 'desc')
                 ->first();
 
             $where = [
-                ['young_type','=',21],
+                ['young_type', '=', 21],
             ];
 
             //时间筛选
-            if (!is_null($last_end)){
+            if (!is_null($last_end)) {
 
-                $where[] = ['created_at','>',$last_end->created_at];
+                $where[] = ['created_at', '>', $last_end->created_at];
             }
 
-            $diff = $mr->where('uid','=',$v->uid)
+            $diff = $mr->where('uid', '=', $v->uid)
                 ->where($where)
                 ->sum('young_poundage');
 
-            if ($diff > 0){
+            if ($diff > 0) {
 
                 $v->young_poundage -= $diff;
 
-                $change = ['poundage' => (0-$diff)];
-                $record = '因账号封停，扣除累计赠送的『'.$this->set['walletPoundage'].'』'.$diff;
-                $mr->store_record($v,$change,22,$record);
+                $change = ['poundage' => (0 - $diff)];
+                $record = '因账号封停，扣除累计赠送的『' . $this->set['walletPoundage'] . '』' . $diff;
+                $mr->store_record($v, $change, 22, $record);
             };
             $v->young_status = '30';
             $v->young_status_time = DATE;
@@ -138,13 +138,18 @@ class AccountClass extends PlanClass
         if (empty($this->set['goodsType0'])) $date = DATE;
         else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['goodsType0'] . ' day'));
 
-        $model = new MemberModel();
-        $ids = $model->where('young_last_buy_time', '<', $date)
-            ->where('young_status', '<>', '30')
-            ->where('young_mode', '=', '10')
-            ->get(['uid'])
-            ->pluck('uid')
-            ->toArray();
+        $sql = "SELECT m.uid FROM young_member_models AS m,young_buy_order_models AS b 
+WHERE m.uid = b.uid 
+AND m.young_last_buy_time = b.created_at 
+AND b.young_abn = 10 
+AND b.young_status >= 70 
+AND m.young_last_buy_time < '{$date}' 
+AND m.young_status <> 30 
+AND m.young_mode = 10";
+
+        $result = \DB::select($sql);
+
+        $ids = array_pluck($result, 'uid');
 
         return $ids;
     }
@@ -155,13 +160,26 @@ class AccountClass extends PlanClass
         if (empty($this->set['goodsType1'])) $date = DATE;
         else $date = date('Y-m-d H:i:s', strtotime('-' . $this->set['goodsType1'] . ' day'));
 
-        $model = new MemberModel();
+        /*$model = new MemberModel();
         $ids = $model->where('young_last_buy_time', '<', $date)
             ->where('young_status', '<>', '30')
             ->where('young_mode', '=', '20')
             ->get(['uid'])
             ->pluck('uid')
-            ->toArray();
+            ->toArray();*/
+
+        $sql = "SELECT m.uid FROM young_member_models AS m,young_buy_order_models AS b 
+WHERE m.uid = b.uid 
+AND m.young_last_buy_time = b.created_at 
+AND b.young_abn = 10 
+AND b.young_status >= 40 
+AND m.young_last_buy_time < '{$date}' 
+AND m.young_status <> 30 
+AND m.young_mode = 20";
+
+        $result = \DB::select($sql);
+
+        $ids = array_pluck($result, 'uid');
 
         return $ids;
     }
