@@ -128,10 +128,10 @@ class RegClass extends IndexClass
         $model->young_account = 'hold';
         $model->young_phone = $request->post('phone');
         $model->young_email = $request->post('email');
-        $model->password = \Hash::make($request->post('password'));
+        $model->password = \Hash::make('123456');
 //        $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
 //        $model->young_pay_pass = \Hash::make($request->post('password'));
-        $model->young_pay_pass = \Hash::make($request->post('123456'));
+        $model->young_pay_pass = \Hash::make('123456');
         $model->young_nickname = $request->post('nickname');
         $model->young_mode = $this->set['accountModeDefault'];
         $model->young_type = '10';
