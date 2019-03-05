@@ -419,7 +419,7 @@ AND b.young_tail_complete < b.young_tail_total";
     {
         if (count($this->users) > 0) foreach ($this->users as $v) {
 
-            if (!empty($v['phone'])) foreach ($v['content'] as $va) $this->sendSms($v['phone'], $va);
+//            if (!empty($v['phone'])) foreach ($v['content'] as $va) $this->sendSms($v['phone'], $va);
             if (!empty($v['cid'])) foreach ($v['body'] as $va) $this->pushSms($v['cid'], $va);
         }
         if (count($this->sell_message) > 0) foreach ($this->sell_message as $k => $v) {
