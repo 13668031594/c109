@@ -19,12 +19,14 @@ Route::get('test', function () {
 
     $uid = '100010';
     $model = new \App\Models\Member\MemberWalletModel();
-    $poundage = $model->where('created_at','>','2019-03-05 22:00:00')
+    $poundage = $model->where('uid','=',$uid)
+        ->where('created_at','>','2019-03-05 22:00:00')
         ->where('created_at','<=','2019-03-05 23:59:59')
         ->where('young_type','=',51)
         ->sum('young_poundage');
 
-    $gxd = $poundage = $model->where('created_at','>','2019-03-05 22:00:00')
+    $gxd = $poundage = $model->where('uid','=',$uid)
+        ->where('created_at','>','2019-03-05 22:00:00')
         ->where('created_at','<=','2019-03-05 23:59:59')
         ->where('young_type','=',51)
         ->sum('young_poundage');
