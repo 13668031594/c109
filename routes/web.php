@@ -17,11 +17,17 @@ Route::get('c104', 'Plan\PlanController@gxd_with');
 
 Route::get('test', function () {
 
-    $day = 'asd';
-    $day = (int)$day;
+    $uid = '100010';
+    $model = new \App\Models\Member\MemberWalletModel();
+    $poundage = $model->where('created_at','>','2019-03-05 22:00:00')
+        ->where('created_at','<=','2019-03-05 23:59:59')
+        ->where('young_type','=',51)
+        ->sum('young_poundage');
 
-    if (empty($day)) $date = date('Y-m-d 00:00:00');
-    else $date = date('Y-m-d 00:00:00', strtotime('-' . ($day - 1) . ' day'));
+    $gxd = $poundage = $model->where('created_at','>','2019-03-05 22:00:00')
+        ->where('created_at','<=','2019-03-05 23:59:59')
+        ->where('young_type','=',51)
+        ->sum('young_poundage');
 
-    return $date;
+    dd($gxd,$poundage);
 });
