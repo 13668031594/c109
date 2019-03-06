@@ -27,9 +27,10 @@ class PlanClass
     protected function return_date($day)
     {
         $day = (int)$day;
+        $day = $day - 1;
 
-        if (empty($day)) $date = date('Y-m-d 00:00:00');
-        else $date = date('Y-m-d 00:00:00', strtotime('-' . ($day - 1) . ' day'));
+        if (empty($day) || ($day <= 0)) $date = date('Y-m-d 00:00:00');
+        else $date = date('Y-m-d 00:00:00', strtotime('-' . $day . ' day'));
 
         return $date;
     }

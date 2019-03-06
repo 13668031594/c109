@@ -33,7 +33,7 @@ class MatchClass extends PlanClass
     {
         parent::__construct();
 
-        //判断今天是否成功发放了激活码
+        //判断今天是否成功匹配
         $test = new PlanModel();
         $test = $test->where('young_type', '=', 'match')
             ->where('young_status', '=', '10')
