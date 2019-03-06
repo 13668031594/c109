@@ -17,30 +17,4 @@ Route::get('c104', 'Plan\PlanController@gxd_with');
 
 Route::get('test', function () {
 
-    $uid = '29';
-    $model = new \App\Models\Member\MemberWalletModel();
-    $poundage = $model->where('uid','=',$uid)
-        ->where('created_at','>','2019-03-05 22:00:00')
-        ->where('created_at','<=','2019-03-05 23:59:59')
-        ->where('young_type','=',51)
-        ->sum('young_poundage');
-
-    $gxd = $model->where('uid','=',$uid)
-        ->where('created_at','>','2019-03-05 22:00:00')
-        ->where('created_at','<=','2019-03-05 23:59:59')
-        ->where('young_type','=',51)
-        ->sum('young_gxd');
-
-    $user = \App\Models\Member\MemberModel::whereUid($uid)->first();
-    $user->young_poundage += $poundage;
-    $user->young_gxd += $gxd;
-    $user->save();
-
-    $model->where('uid','=',$uid)
-        ->where('created_at','>','2019-03-05 22:00:00')
-        ->where('created_at','<=','2019-03-05 23:59:59')
-        ->where('young_type','=',51)
-        ->delete();
-
-    return 'success';
 });
