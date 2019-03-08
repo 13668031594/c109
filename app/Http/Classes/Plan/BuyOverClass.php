@@ -16,21 +16,31 @@ class BuyOverClass extends PlanClass
     {
         parent::__construct();
 
+        $this->keyword = 'buyOver';
+
+        if (parent::test_plan()) return;
+
         $today_w = date('w');
 
         /*if ($today_w == '6') {
 
             //今天周六
             self::order_add(2);
-        } else*/if ($today_w == '0') {
+        } else*/
+        if ($today_w == '0') {
 
             //今天周日
-            self::order_add(1);
+            $number = self::order_add(1);
+
+            $record = '星期日，共延长收益订单：' . $number . '个';
         } else {
 
             //工作日，修改状态
-            self::order_over();
+            $number = self::order_over();
+            $record = '工作日，收益完结订单：' . $number . '个';
         }
+
+        parent::store_plan($record);
     }
 
     //周六，今天到收益时间的，给增加收益
@@ -42,7 +52,7 @@ class BuyOverClass extends PlanClass
             ->where('young_in_over', '>=', date('Y-m-d 00:00:00'))
             ->get();
 
-        if (count($buy) <= 0) return;
+        if (count($buy) <= 0) return 0;
 
         //所有参与编辑的
         $update = [];
@@ -61,7 +71,11 @@ class BuyOverClass extends PlanClass
             $update[] = $u;
         }
 
-        if (count($update) > 0) parent::table_update('buy_order_models', $update);
+        $numbers = count($update);
+
+        if ($numbers > 0) parent::table_update('buy_order_models', $update);
+
+        return $numbers;
     }
 
     //工作日，正常完结订单
@@ -72,7 +86,7 @@ class BuyOverClass extends PlanClass
             ->where('young_in_over', '<=', DATE)
             ->get();
 
-        if (count($buy) <= 0) return;
+        if (count($buy) <= 0) return 0;
 
         //所有参与编辑的
         $update = [];
@@ -92,6 +106,10 @@ class BuyOverClass extends PlanClass
             $update[] = $u;
         }
 
-        if (count($update) > 0) parent::table_update('buy_order_models', $update);
+        $numbers = count($update);
+
+        if ($numbers > 0) parent::table_update('buy_order_models', $update);
+
+        return $numbers;
     }
 }

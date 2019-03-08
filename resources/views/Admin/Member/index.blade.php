@@ -11,9 +11,9 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="http://code.jquery.com/jquery-1.12.4.min.js"
-            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"
+
+            ></script>
 </head>
 
 <div class="layui-fluid">
@@ -131,6 +131,7 @@
         var act = {!! $act !!};
         var liq = {!! $liq !!};
         var grade = {!! $grade !!};
+        var match_level = {!! $match_level !!};
 
         mTable.init({
             url: {
@@ -143,7 +144,7 @@
             cols: [[
                 {field: 'account', width: 80, title: '帐号'},
                 {field: 'phone', width: 120, title: '手机'},
-                {field: 'email', width: 150, title: '邮箱'},
+//                {field: 'email', width: 150, title: '邮箱'},
                 {field: 'nickname', width: 100, title: '昵称'},
                 {
                     field: 'status', width: 80, title: '状态', templet: function (d) {
@@ -172,6 +173,12 @@
                 {
                     field: 'type', width: 80, title: '收益', templet: function (d) {
                     return '<span class="layui-badge layui-bg-gray">' + type[d.type] + '</span>'
+
+                }
+                },
+                {
+                    field: 'match_level', width: 80, title: '优先级', templet: function (d) {
+                    return '<span class="layui-badge layui-bg-gray">' + match_level[d.match_level] + '</span>'
 
                 }
                 },

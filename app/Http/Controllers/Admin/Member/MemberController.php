@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Member;
 
-use App\Http\Classes\Member\MemberClass;
-use App\Http\Classes\Member\WalletClass;
+use App\Http\Classes\Admin\Member\MemberClass;
+use App\Http\Classes\Admin\Member\WalletClass;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ListInterface;
 use App\Models\Member\MemberModel;

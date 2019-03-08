@@ -19,15 +19,10 @@ class PoundageGiveClass extends PlanClass
     {
         parent::__construct();
 
-        //判断今天是否赠送过了
-        $test = new PlanModel();
-        $test = $test->where('young_type', '=', 'reggive')
-            ->where('young_status', '=', '10')
-            ->where('created_at', '>=', date('Y-m-d 00:00:00'))
-            ->first();
+        $this->keyword = 'reggive';
 
         //已经成功发放过激活码
-        if (!is_null($test)) return;
+        if (parent::test_plan()) return;
 
         //判断是否有赠送
         $number = $this->set['accountRegGive'];
@@ -35,7 +30,7 @@ class PoundageGiveClass extends PlanClass
         if ($number <= 0) {
 
             $record = '赠送数为0，停止赠送！';
-            self::store_plan($record);
+            parent::store_plan($record);
             return;
         }
 
@@ -44,8 +39,8 @@ class PoundageGiveClass extends PlanClass
 
         if (count($members) <= 0) {
 
-            $record = '可赠送人数为0，赠送' . $test->set['walletPoundage'] . '0';
-            self::store_plan($record);
+            $record = '可赠送人数为0，赠送' . $this->set['walletPoundage'] . '0';
+            parent::store_plan($record);
             return;
         }
 
@@ -66,14 +61,7 @@ class PoundageGiveClass extends PlanClass
         }
 
         $record = '赠送' . $this->set['walletPoundage'] . ($number * count($members)) . '，合计赠送会员『' . count($members) . '』人';
-        self::store_plan($record);
-    }
-
-    //添加本次激活记录
-    private function store_plan($record, $status = 10)
-    {
-        $plan = new PlanModel();
-        $plan->store_plan('reggive', $record, $status);
+        parent::store_plan($record);
     }
 
     private function members()

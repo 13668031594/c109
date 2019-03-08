@@ -11,9 +11,9 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="http://code.jquery.com/jquery-1.12.4.min.js"
-            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"
+
+            ></script>
 </head>
 
 <div class="layui-fluid">
@@ -65,7 +65,7 @@
                 <div class="layui-form-mid layui-word-aux">登录时的手机号码</div>
             </div>
 
-            <div class="layui-form-item">
+            {{--<div class="layui-form-item">
                 <label class="layui-form-label">邮箱</label>
                 <div class="layui-input-inline">
                     <input type="text" name="email" required lay-verify="required" title="邮箱" placeholder="请输入会员邮箱"
@@ -74,6 +74,26 @@
                            maxlength="30"/>
                 </div>
                 <div class="layui-form-mid layui-word-aux">登录时的邮箱</div>
+            </div>--}}
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份证姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="idcard_name" title="身份证姓名" placeholder="请输入会员身份证姓名"
+                           autocomplete="off"
+                           class="layui-input" value='{{isset($self) ? $self["idcard_name"] : ''}}'
+                           maxlength="30"/>
+                </div>
+                <div class="layui-form-mid layui-word-aux">请输入会员身份证姓名</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份证号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="idcard_no" title="身份证号" placeholder="请输入会员身份证号"
+                           autocomplete="off"
+                           class="layui-input" value='{{isset($self) ? $self["idcard_no"] : ''}}'
+                           maxlength="30"/>
+                </div>
+                <div class="layui-form-mid layui-word-aux">请输入会员身份证号</div>
             </div>
 
             <div class="layui-form-item">
@@ -133,6 +153,23 @@
                         <select name="grade" lay-verify="">
                             @foreach($grade as $k => $v)
                                 <option value="{{$k}}" {{(isset($self) && $self['grade'] == $k) ? 'selected' : null}}>{{$v}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">匹配优先级</label>
+                    <div class="layui-input-inline" style="width:90px;">
+                        <select name="match_level" lay-verify="">
+                            @foreach($match_level as $k => $v)
+                                <option value="{{$k}}" {{(isset($self) && $self['match_level'] == $k) ? 'selected' : null}}>{{$v}}</option>
                             @endforeach
                         </select>
                     </div>

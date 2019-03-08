@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Member;
 
-use App\Http\Classes\Member\MemberRankClass;
-use App\Http\Classes\Member\WalletClass;
+use App\Http\Classes\Admin\Member\MemberRankClass;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ListInterface;
-use App\Models\Member\MemberModel;
-use App\Models\Member\MemberRecordModel;
-use App\Models\Member\MemberWalletModel;
 use Illuminate\Http\Request;
 
 class RankController extends AdminController implements ListInterface

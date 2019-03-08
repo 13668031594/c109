@@ -11,9 +11,9 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="http://code.jquery.com/jquery-1.12.4.min.js"
-            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"
+
+    ></script>
 
 </head>
 
@@ -31,7 +31,7 @@
             <ul class="layui-tab-title">
                 <li class="layui-this">基础设置</li>
                 <li>注册激活</li>
-                <li>删号设置</li>
+                <li>封号设置</li>
                 <li>钱包设置</li>
                 <li>订单买卖</li>
                 <li>商品设置</li>
@@ -304,7 +304,7 @@
                             <input type="hidden" id='deleteIndexRegSwitchValue' name="deleteIndexRegSwitch"
                                    value="{{$self['deleteIndexRegSwitch']}}"/>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">自主注册不排单删号开关</div>
+                        <div class="layui-form-mid layui-word-aux">自主注册不排单封号开关</div>
                     </div>
 
                     <div class="layui-form-min">
@@ -315,7 +315,7 @@
                                        placeholder="时间" autocomplete="off" value="{{$self['deleteIndexRegTime']}}"
                                        class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">自主注册不排单超过该时间，则自动删号</div>
+                            <div class="layui-form-mid layui-word-aux">自主注册不排单超过该时间，则自动封号</div>
                         </div>
                     </div>
 
@@ -328,7 +328,7 @@
                             <input type="hidden" id='deleteAdminActSwitchValue' name="deleteAdminActSwitch"
                                    value="{{$self['deleteAdminActSwitch']}}"/>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">后台激活不排单删号开关</div>
+                        <div class="layui-form-mid layui-word-aux">后台激活不排单封号开关</div>
                     </div>
 
                     <div class="layui-form-min">
@@ -339,7 +339,19 @@
                                        placeholder="时间" autocomplete="off" value="{{$self['deleteAdminActTime']}}"
                                        class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">后台激活不排单超过该时间，则自动删号</div>
+                            <div class="layui-form-mid layui-word-aux">后台激活不排单超过该时间，则自动封号</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">封号惩罚</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="deletePoundage" title="封号惩罚"
+                                       placeholder="封号惩罚" autocomplete="off" value="{{$self['deletePoundage']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">封号时自动扣除的星伙数量</div>
                         </div>
                     </div>
                 </div>
@@ -458,6 +470,18 @@
                                        class="layui-input">
                             </div>
                             <div class="layui-form-mid layui-word-aux">卖出订单金额必须是此数的正整数倍</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">卖出上限</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="sellTop" title="卖出上限" lay-filter="numberZ"
+                                       placeholder="卖出上限" autocomplete="off" value="{{$self['sellTop']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">单日卖出上限金额</div>
                         </div>
                     </div>
 
@@ -690,6 +714,14 @@
                         </div>
                         <div class="layui-form-mid layui-word-aux">预付款相对于全款的比例，填写30.5即为30.5%</div>
                     </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">模拟匹配</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="matchSimu" name="matchSimu"
+                                   placeholder="模拟匹配" value="{{$self['matchSimu']}}">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">模拟匹配结果的时间</div>
+                    </div>
                 </div>
                 <div class="layui-tab-item">
                     <div class="layui-form-item">
@@ -815,7 +847,8 @@
                             <label class="layui-form-label">惩罚星伙</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="inOvertimePunishPoundage" title="惩罚星伙" lay-filter="number"
-                                       placeholder="惩罚星伙" autocomplete="off" value="{{$self['inOvertimePunishPoundage']}}"
+                                       placeholder="惩罚星伙" autocomplete="off"
+                                       value="{{$self['inOvertimePunishPoundage']}}"
                                        class="layui-input">
                             </div>
                             <div class="layui-form-mid layui-word-aux">规定时间内未确认收款，扣除的星伙</div>
@@ -1400,6 +1433,11 @@
         });
         laydate.render({
             elem: '#signEnd', //指定元素
+            format: 'HH:mm',
+            type: 'time',
+        });
+        laydate.render({
+            elem: '#matchSimu', //指定元素
             format: 'HH:mm',
             type: 'time',
         });

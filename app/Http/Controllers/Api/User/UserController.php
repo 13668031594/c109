@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Classes\Index\SmsClass;
 use App\Http\Classes\Index\User\SignClass;
 use App\Http\Classes\Index\User\UserClass;
-use App\Http\Classes\Member\WalletClass;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Member\MemberWalletModel;
 use Illuminate\Http\Request;

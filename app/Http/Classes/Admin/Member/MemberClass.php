@@ -6,8 +6,7 @@
  * Time: 下午4:12
  */
 
-namespace App\Http\Classes\Member;
-
+namespace App\Http\Classes\Admin\Member;
 
 use App\Http\Classes\Admin\AdminClass;
 use App\Http\Classes\Admin\Bill\BillClass;
@@ -106,7 +105,11 @@ class MemberClass extends AdminClass implements ListInterface
         //添加基础信息
         $model->young_account = 'hold';
         $model->young_phone = $request->post('phone');
-        $model->young_email = $request->post('email');
+        $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
+        $model->young_idcard_name = empty($request->post('young_idcard_name')) ? '未填写' : $request->post('young_idcard_name');
+        $model->young_idcard_no = empty($request->post('young_idcard_no')) ? '未填写' : $request->post('young_idcard_no');
+        $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
+        $model->young_match_level = $request->post('match_level');
         $model->password = \Hash::make($request->post('password'));
 //        $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
         $model->young_pay_pass = \Hash::make($request->post('password'));
@@ -139,7 +142,10 @@ class MemberClass extends AdminClass implements ListInterface
         $model = $model->change_bank($model, $request);
         //添加基础信息
         $model->young_phone = $request->post('phone');
-        $model->young_email = $request->post('email');
+        $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
+        $model->young_idcard_name = empty($request->post('young_idcard_name')) ? '未填写' : $request->post('young_idcard_name');
+        $model->young_idcard_no = empty($request->post('young_idcard_no')) ? '未填写' : $request->post('young_idcard_no');
+        $model->young_match_level = $request->post('match_level');
         if ($request->post('password') != 'sba___duia') $model->password = \Hash::make($request->post('password'));
 //        if ($request->post('pay_pass') != 'sba___duia') $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
         $model->young_nickname = $request->post('nickname');
@@ -186,7 +192,7 @@ class MemberClass extends AdminClass implements ListInterface
         $term = [
             'referee|推荐号' => 'nullable|exists:member_models,young_account',
             'phone|手机号' => 'required|string|regex:/^1[3456789]\d{9}$/|unique:member_models,young_phone',
-            'email|邮箱' => 'required|string|max:30|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/|unique:member_models,young_email',
+            'email|邮箱' => 'nullable|string|max:30|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/|unique:member_models,young_email',
             'nickname|昵称' => 'required|string|between:1,10',
             'password|密码' => 'required|string|between:6,24',
 //            'pay_pass|支付密码' => 'required|string|between:6,24',
@@ -200,6 +206,9 @@ class MemberClass extends AdminClass implements ListInterface
             'mode|排单模式' => 'required|in:' . implode(',', array_keys($arrays['mode'])),
             'type|收益模式' => 'required|in:' . implode(',', array_keys($arrays['type'])),
             'grade|身份' => 'required|in:' . implode(',', array_keys($arrays['grade'])),
+            'match_level|匹配优先级' => 'required|in:' . implode(',', array_keys($arrays['match_level'])),
+            'idcard_name|身份证姓名' => 'nullable|string|between:1,30',
+            'incard_no|身份证号' => 'nullable|string|between:1,30',
         ];
 
         parent::validators_json($request->post(), $term);
@@ -212,7 +221,7 @@ class MemberClass extends AdminClass implements ListInterface
 
         $term = [
             'phone|手机号' => 'required|string|regex:/^1[3456789]\d{9}$/|unique:member_models,young_phone,' . $id . ',uid',
-            'email|邮箱' => 'required|string|max:30|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/|unique:member_models,young_email,' . $id . ',uid',
+            'email|邮箱' => 'nullable|string|max:30|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/|unique:member_models,young_email,' . $id . ',uid',
             'password|密码' => 'required|string|between:6,24',
 //            'pay_pass|支付密码' => 'required|string|between:6,24',
             'bank_id|收款银行' => 'required|exists:bank_models,id',
@@ -225,6 +234,9 @@ class MemberClass extends AdminClass implements ListInterface
             'mode|排单模式' => 'required|in:' . implode(',', array_keys($arrays['mode'])),
             'type|收益模式' => 'required|in:' . implode(',', array_keys($arrays['type'])),
             'grade|身份' => 'required|in:' . implode(',', array_keys($arrays['grade'])),
+            'match_level|匹配优先级' => 'required|in:' . implode(',', array_keys($arrays['match_level'])),
+            'idcard_name|身份证姓名' => 'nullable|string|between:1,30',
+            'incard_no|身份证号' => 'nullable|string|between:1,30',
         ];
 
         parent::validators_json($request->post(), $term);

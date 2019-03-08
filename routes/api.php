@@ -26,6 +26,8 @@ Route::group(['middleware' => ['auth:api', 'apiWebClose', 'apiAct30', 'apiStatus
         Route::get('user-wallet', 'LoginController@get_wallet');//获取钱包信息
         Route::get('logout', 'LoginController@logout');//登出
         Route::get('prompt/{keyword}', 'LoginController@prompt');//提示文字
+        Route::get('notice', 'LoginController@prompt');//提示文字
+        Route::post('notice', 'LoginController@prompt');//提示文字
     });
 
     Route::group(['namespace' => 'User'], function () {
@@ -92,5 +94,11 @@ Route::group(['middleware' => ['auth:api', 'apiWebClose', 'apiAct30', 'apiStatus
         Route::get('message', 'MessageController@index');//列表
         Route::get('message/{id}', 'MessageController@read');//已读消息
         Route::post('message', 'MessageController@news');//未读消息数量
+    });
+
+    Route::group(['namespace' => 'Notice'], function () {
+
+        Route::get('notice', 'NoticeController@index');//公告
+        Route::get('notice/{id}', 'NoticeController@show');//公告
     });
 });

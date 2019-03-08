@@ -29,20 +29,34 @@ class MatchClass extends PlanClass
     private $sell_message = [];//卖出订单匹配情况
     private $buy_message = [];//买入订单匹配情况
 
-    public function __construct()
+    public function __construct($type = 'match')
     {
         parent::__construct();
 
-        //判断今天是否成功匹配
-        $test = new PlanModel();
-        $test = $test->where('young_type', '=', 'match')
-            ->where('young_status', '=', '10')
-            ->where('created_at', '>=', date('Y-m-d 00:00:00'))
-            ->first();
+        $this->keyword = $type;
+
+        switch ($type) {
+            case 'match_simu';
+                self::simu();
+                break;
+            default:
+                self::match();
+                break;
+        }
+    }
+
+    private function simu()
+    {
+        if (parent::test_plan()) return;
 
         //获取总卖出金额
         self::all_remind();
-        if ($this->remind <= 0) return;//没有可以匹配的订单
+        if ($this->remind <= 0) {
+
+            $record = '没有卖出订单，匹配无法进行！';
+            parent::store_plan($record);
+            return;
+        }//没有可以匹配的订单
 
         //获取全部卖出订单
         self::all_sell();
@@ -67,7 +81,75 @@ class MatchClass extends PlanClass
         //新会员首付款匹配
         self::match_10($_10);
 
-        if (is_null($test)) {
+        //获取所有首付款匹配订单
+        $first = self::first_match($others);
+
+        //首付款匹配
+        self::match_10($first);
+
+        //新会员尾款匹配
+        self::match_40($_40);
+
+        //获取所有尾款订单
+        $tail = self::tail_match($others);
+
+        //匹配尾款
+        self::match_40($tail);
+
+        $_10_number = 0;
+        $_10_total = 0;
+        $_20_number = 0;
+        $_20_total = 0;
+        foreach ($this->match as $v) {
+
+            if ($v['type'] == '10') {
+
+                $_10_number += 1;
+                $_10_total += $v['young_total'];
+            } else {
+
+                $_20_number += 1;
+                $_20_total += $v['young_total'];
+            }
+        }
+
+        $record = '即将匹配首付款：' . $_10_number . '单，合计：' . $_10_total . '；匹配尾款：' . $_20_number . '单，合计：' . $_20_total . '。';
+        parent::store_plan($record);
+    }
+
+    private function match()
+    {
+        $test = parent::test_plan();
+
+        //获取总卖出金额
+        self::all_remind();
+        if ($this->remind <= 0) return;//没有可以匹配的订单
+
+        //获取全部卖出订单
+        self::all_sell();
+
+        //获取新会员的快速匹配订单
+        $new = self::new_member();
+
+        //计算交易号
+        self::match_order();
+
+        $others = [];//排除id
+        $_10 = [];//首付款匹配订单
+        $_40 = [];//付款匹配订单
+
+        //循环放入数组
+        foreach ($new as $v) {
+
+            $others[] = $v->id;
+            if ($v->young_status == '10') $_10[] = $v;
+            if ($v->young_status == '40') $_40[] = $v;
+        }
+
+        //新会员首付款匹配
+        self::match_10($_10);
+
+        if (!$test) {
 
             //获取所有首付款匹配订单
             $first = self::first_match($others);
@@ -79,7 +161,7 @@ class MatchClass extends PlanClass
         //新会员尾款匹配
         self::match_40($_40);
 
-        if (is_null($test)) {
+        if (!$test) {
 
             //获取所有尾款订单
             $tail = self::tail_match($others);
@@ -94,7 +176,7 @@ class MatchClass extends PlanClass
         //发送推送消息
         self::push_send();
 
-        if (is_null($test)) {
+        if (!$test) {
 
             $plan = new PlanModel();
             $plan->store_plan('match', '', 10);
@@ -121,12 +203,12 @@ class MatchClass extends PlanClass
     //所有的卖出订单
     private function all_sell()
     {
-        $sql = "SELECT s.*,u.young_nickname , u.young_phone, u.young_cid FROM young_sell_order_models as s,young_member_models as u 
-WHERE young_remind > 0 
+        $sql = "SELECT s.*,u.young_nickname, u.young_phone, u.young_cid FROM young_sell_order_models as s,young_member_models as u 
+WHERE s.young_remind > 0 
 AND u.young_status = 10
 AND s.uid = u.uid 
 AND s.young_status = 10
-ORDER BY young_remind ASC,created_at ASC 
+ORDER BY u.young_match_level DESC,s.young_remind ASC,s.created_at ASC 
 ";
 
         $this->sell = \DB::select($sql);
@@ -147,14 +229,13 @@ AND (SELECT COUNT('*') FROM young_buy_order_models WHERE uid = u.uid) <= {$numbe
 AND b.young_abn = 10
 AND b.young_status in (10,40)
 AND b.young_tail_complete < b.young_tail_total
-ORDER BY b.young_status ASC, b.created_at ASC
+ORDER BY u.young_match_level DESC,b.young_status ASC, b.created_at ASC
 ";
 
         $a = \DB::select($sql);
 
         return $a;
     }
-
 
     //首付款匹配订单
     private function first_match($others)
@@ -172,7 +253,7 @@ AND b.young_status = 10
 AND b.created_at <= '{$date}'";
         if (count($others) > 0) $sql .= " AND b.id NOT IN (" . implode(',', $others) . ")";
 
-        $sql .= " ORDER BY b.young_grade ASC , b.created_at ASC";
+        $sql .= " ORDER BY  u.young_match_level DESC,b.young_grade ASC , b.created_at ASC";
 //dd($sql);
         $a = \DB::select($sql);
 
@@ -195,7 +276,7 @@ AND b.created_at <= '{$date}'
 AND b.young_tail_complete < b.young_tail_total";
         if (count($others) > 0) $sql .= " AND b.id NOT IN (" . implode(',', $others) . ")";
 
-        $sql .= " ORDER BY b.young_grade ASC , b.created_at ASC";
+        $sql .= " ORDER BY  u.young_match_level DESC,b.young_grade ASC , b.created_at ASC";
 
         $a = \DB::select($sql);
 

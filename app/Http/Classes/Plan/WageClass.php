@@ -32,15 +32,10 @@ class WageClass extends PlanClass
         //5号和20号发工资
         if (($day != '5') && ($day != '20')) return;
 
-        //工资发了没
-        $test = new PlanModel();
-        $test->where('young_type', '=', 'wage')
-            ->where('young_status', '=', '10')
-            ->where('created_at', '>=', date('Y-m-d 00:00:00'))
-            ->first();
+        $this->keyword = 'wage';
 
         //已经发了
-        if (!empty($test->toArray())) return;
+        if (parent::test_plan()) return;
 
         //计算时间筛选
         self::where_date($day);
@@ -52,7 +47,7 @@ class WageClass extends PlanClass
         if (empty($this->order_poundage)) {
 
             $record = '没有新的采集订单完结，工资发放为0';
-            self::store_plan($record);
+            parent::store_plan($record);
             return;
         }
 
@@ -63,7 +58,7 @@ class WageClass extends PlanClass
         if (empty($this->rank)) {
 
             $record = '没有符合工资发放条件的会员等级，工资发放为0';
-            self::store_plan($record);
+            parent::store_plan($record);
             return;
         }
 
@@ -74,7 +69,7 @@ class WageClass extends PlanClass
         if (empty($this->wage)) {
 
             $record = '没有人满足工资发放条件，工资发放为0';
-            self::store_plan($record);
+            parent::store_plan($record);
             return;
         }
 
@@ -86,14 +81,7 @@ class WageClass extends PlanClass
 
         //发放完毕
         $record = '本次发放工资：' . array_sum($this->wallet) . '，发放人数：' . count($this->wallet);
-        self::store_plan($record);
-    }
-
-    //添加本次激活记录
-    private function store_plan($record, $status = 10)
-    {
-        $plan = new PlanModel();
-        $plan->store_plan('wage', $record, $status);
+        parent::store_plan($record);
     }
 
     //计算时间

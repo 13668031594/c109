@@ -20,12 +20,18 @@ class AutoClass extends PlanClass
     {
         parent::__construct();
 
+        $this->keyword = 'auto';
+
+        if (parent::test_plan())return;
+
         //获取所有开启了自动采集的会员
         self::all_member();
 
         //添加订单
         self::add_buy();
 
+        $record = '新增自动采集订单：'.count($this->insert).'个';
+        parent::store_plan($record);
     }
 
     public function all_member()

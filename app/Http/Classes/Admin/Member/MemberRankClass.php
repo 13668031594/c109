@@ -6,7 +6,7 @@
  * Time: 下午4:12
  */
 
-namespace App\Http\Classes\Member;
+namespace App\Http\Classes\Admin\Member;
 
 use App\Http\Classes\Admin\AdminClass;
 use App\Http\Classes\ListInterface;

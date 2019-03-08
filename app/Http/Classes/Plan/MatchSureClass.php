@@ -26,15 +26,11 @@ class MatchSureClass extends PlanClass
 
         if (time() < parent::set_time($this->set['inEnd'])) return;
 
-        //判断今天是否成功对确认收款超时进行处罚
-        $test = new PlanModel();
-        $test = $test->where('young_type', '=', 'match_sure')
-            ->where('young_status', '=', '10')
-            ->where('created_at', '>=', date('Y-m-d 00:00:00'))
-            ->first();
+        $this->keyword = 'match_sure';
+
 
         //已经成功发放过激活码
-        if (!is_null($test)) return;
+        if (parent::test_plan()) return;
 
         //所有超时订单
         $match_model = new MatchOrderModel();
@@ -96,13 +92,6 @@ class MatchSureClass extends PlanClass
             }
         }
 
-        self::store_plan('成功处罚超时订单：' . count($match) . '个', 10);
-    }
-
-    //添加本次激活记录
-    private function store_plan($record, $status = 10)
-    {
-        $plan = new PlanModel();
-        $plan->store_plan('act', $record, $status);
+        parent::store_plan('成功处罚超时订单：' . count($match) . '个', 10);
     }
 }

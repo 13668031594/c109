@@ -24,20 +24,15 @@ class RobClass extends PlanClass
         //判断是否到了结果发放时间
         if (time() < parent::set_time($this->set['robResultTime'])) return;
 
-        //判断今天是否成功触发了抢单
-        $test = new PlanModel();
-        $test = $test->where('young_type', '=', 'rob')
-            ->where('young_status', '=', '10')
-            ->where('created_at', '>=', date('Y-m-d 00:00:00'))
-            ->first();
+        $this->keyword = 'rob';
 
         //已经成功发放过抢单
-        if (!is_null($test)) return;
+        if (parent::test_plan()) return;
 
         if ($this->set['robSwitch'] != 'on') {
 
             $record = '抢单开关关闭，未抢单';
-            self::store_plan($record);
+            parent::store_plan($record);
             return;
         }
 
@@ -48,14 +43,14 @@ class RobClass extends PlanClass
         if ($number <= 0) {
 
             $record = '抢单人数0，发放数0';
-            self::store_plan($record);
+            parent::store_plan($record);
             return;
         }
 
         if ($this->set['robNum'] <= 0) {
 
             $record = '抢单发放数为0,抢到人数0';
-            self::store_plan($record);
+            parent::store_plan($record);
             return;
         }
 
@@ -69,6 +64,9 @@ class RobClass extends PlanClass
 
         //激活失败的会员
         self::rob_fails(array_diff($ids, $rob_ids));
+
+        $record = '抢单发放数为' . $this->set['robNum'] . ',抢到人数' . count($rob_ids);
+        parent::store_plan($record);
     }
 
     //所有的抢激活的人的id
@@ -91,13 +89,6 @@ class RobClass extends PlanClass
 
         //放入结果,比较键名，返回交集
         return array_intersect_key($ids, $keys);
-    }
-
-    //添加本次激活记录
-    private function store_plan($record, $status = 10)
-    {
-        $plan = new PlanModel();
-        $plan->store_plan('rob', $record, $status);
     }
 
     //激活

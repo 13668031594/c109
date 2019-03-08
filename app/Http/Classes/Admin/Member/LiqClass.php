@@ -6,7 +6,7 @@
  * Time: 下午5:47
  */
 
-namespace App\Http\Classes\Member;
+namespace App\Http\Classes\Admin\Member;
 
 
 class LiqClass

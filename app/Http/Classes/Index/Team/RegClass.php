@@ -56,7 +56,7 @@ class RegClass extends IndexClass
 
         $term = [
             'phone|手机号' => 'required|string|regex:/^1[3456789]\d{9}$/|unique:member_models,young_phone',
-            'email|邮箱' => 'required|string|max:30|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/|unique:member_models,young_email',
+//            'email|邮箱' => 'required|string|max:30|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/|unique:member_models,young_email',
             'nickname|昵称' => 'required|string|between:1,10',
 //            'password|密码' => 'required|string|between:6,24',
             'bank_id|收款银行' => 'required|exists:bank_models,id',
@@ -65,6 +65,8 @@ class RegClass extends IndexClass
             'bank_no|收款账号' => 'required|max:30',
             'alipay|支付宝' => 'required|max:30',
             'note|备注' => 'nullable|max:40',
+            'idcard_name|身份证姓名' =>'nullable|string|max:30',
+            'idcard_no|身份证号' =>'nullable|string|max:30',
         ];
 
         parent::validators_json($request->post(), $term);
@@ -127,7 +129,9 @@ class RegClass extends IndexClass
         //添加基础信息
         $model->young_account = 'hold';
         $model->young_phone = $request->post('phone');
-        $model->young_email = $request->post('email');
+        $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
+        $model->young_idcard_name = empty($request->post('young_idcard_name')) ? '未填写' : $request->post('young_idcard_name');
+        $model->young_idcard_no = empty($request->post('young_idcard_no')) ? '未填写' : $request->post('young_idcard_no');
         $model->password = \Hash::make('123456');
 //        $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
 //        $model->young_pay_pass = \Hash::make($request->post('password'));

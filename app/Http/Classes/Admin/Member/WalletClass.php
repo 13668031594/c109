@@ -6,7 +6,7 @@
  * Time: 下午10:26
  */
 
-namespace App\Http\Classes\Member;
+namespace App\Http\Classes\Admin\Member;
 
 use App\Http\Classes\Admin\AdminClass;
 use App\Models\Member\MemberModel;

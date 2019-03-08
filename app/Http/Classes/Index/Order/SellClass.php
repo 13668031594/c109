@@ -81,7 +81,7 @@ class SellClass extends IndexClass
 
             $v['toReferee'] = MemberModel::whereUid($v['buy_uid'])->first()->young_referee_nickname;
             $v['payeeReferee'] = $member['referee_nickname'];
-            $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST'). $v['pay']);
+            $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
             unset($v['buy_uid']);
             unset($v['pay']);
         }
@@ -163,6 +163,11 @@ class SellClass extends IndexClass
                 empty($member['bank_address'])
             ) parent::error_json('请先完善收款信息');
         }
+
+        //单日卖出上限
+        $top = $set['sellTop'];
+        $today = SellOrderModel::whereUid($member['uid'])->where('created_at', '>=', date('Y-m-d 00:00:00'))->sum('young_total');
+        if (($data['total'] + $today) > $top) parent::error_json('超出单日卖出上限（剩余：' . ($top - $today) . '）');
 
         $type = $request->post('accountType');
         if ($type == '1') {

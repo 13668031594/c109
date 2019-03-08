@@ -59,6 +59,18 @@ Route::group(['namespace' => 'Prompt'], function () {
     Route::get('/prompt/delete', 'PromptController@destroy')->name('prompt.destroy');//提示文字删除
 });
 
+//公告文字
+Route::group(['namespace' => 'Notice'], function () {
+
+    Route::get('/notice/index', 'NoticeController@index')->name('notice.index');//公告首页
+    Route::get('/notice/table', 'NoticeController@table')->name('notice.index');//公告列表
+    Route::get('/notice/create', 'NoticeController@create')->name('notice.create');//公告添加
+    Route::post('/notice/store', 'NoticeController@store')->name('notice.create');//公告添加
+    Route::get('/notice/edit', 'NoticeController@edit')->name('notice.edit');//公告编辑
+    Route::post('/notice/update/{id}', 'NoticeController@update')->name('notice.edit');//公告编辑
+    Route::get('/notice/delete', 'NoticeController@destroy')->name('notice.destroy');//公告删除
+});
+
 //银行列表
 Route::group(['namespace' => 'Bank'], function () {
 
@@ -157,5 +169,7 @@ Route::group(['namespace' => 'Bill'], function () {
 
     Route::get('/bill/index', 'BillController@index')->name('bill.index');//统计列表
     Route::get('/bill/table', 'BillController@table')->name('bill.index');//统计数据
+    Route::get('/match-simu/index', 'MatchSimuController@index')->name('bill.match-simu');//预匹配数据
+    Route::get('/match-simu/table', 'MatchSimuController@table')->name('bill.match-simu');//预匹配数据
 });
 

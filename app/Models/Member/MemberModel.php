@@ -87,6 +87,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property float $young_incite 鼓励账户
  * @property float $young_incite_all 累计鼓励账户
  * @property string|null $young_incite_note 鼓励账户备注
+ * @property string $young_match_level 匹配优先级
+ * @property string|null $young_idcard_name 身份证姓名
+ * @property string|null $young_idcard_no 身份证号
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
@@ -133,6 +136,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungGxd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungGxdAll($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungHosting($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungIdcardName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungIdcardNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungIncite($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungInciteAll($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungInciteNote($value)
@@ -146,6 +151,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungLiq($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungLiqTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungLoginTimes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungMatchLevel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungMode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungModeTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungNickname($value)
@@ -258,6 +264,12 @@ class MemberModel extends Authenticatable
         20 => '关闭',
     ];
 
+    public $match_level = [
+        10 => '低',
+        20 => '正常',
+        30 => '高',
+    ];
+
     //所有对比数组
     public function arrays()
     {
@@ -269,6 +281,7 @@ class MemberModel extends Authenticatable
             'liq' => $this->liq,
             'grade' => $this->grade,
             'act' => $this->act,
+            'match_level' => $this->match_level,
         ];
 
         return $result;

@@ -96,6 +96,7 @@ class SetClass extends AdminClass
             'deleteIndexRegTime|自主注册不排单删号时间' => 'required|integer|between:1,3650',//9天后删除
             'deleteAdminActSwitch|后台激活不排单删号开关' => 'required|in:on,off',//后台激活不排单删号开关
             'deleteAdminActTime|后台激活不排单删号时间' => 'required|integer|between:1,3650',//1天后删除
+            'deletePoundage|封号扣除星伙' => 'required|numeric|between:0,1000',//封号扣除的星伙
 //            'deleteType0|防撞模式不排单封号时间' => 'required|integer|between:1,3650',
 //            'deleteType1|未防撞模式不排单封号时间' => 'required|integer|between:1,3650',
             //网站设置
@@ -129,8 +130,10 @@ class SetClass extends AdminClass
             'robStartTime|抢单开始时间' => 'required_if:robSwitch,on|date_format:"H:i"',//抢单开始时间
             'robEndTime|抢单结束时间' => 'required_if:robSwitch,on|date_format:"H:i"|after:robStartTime',//抢单结束时间
             'robResultTime|发放结果时间' => 'required_if:robSwitch,on|date_format:"H:i"|after:robEndTime',//发放结果时间
-//            'sellBase|卖出订单基数' => 'required|integer|between:0,100000000',//奖励提现基数
-//            'sellTimes|卖出订单倍数' => 'required|integer|between:0,100000000',//奖励提现倍数
+            'sellBase|卖出订单基数' => 'required|integer|between:0,100000000',//奖励提现基数
+            'sellTimes|卖出订单倍数' => 'required|integer|between:0,100000000',//奖励提现倍数
+            'sellPoundageNone|负债卖出' => 'required|in:on,off',//负债卖出
+            'sellTop|每日卖出上限' => 'required|integer|between:0,100000000',//单日卖出上限
             //商品设置
             'goodsName|商品名称' => 'required|string|max:40',//商品名称
             'goodsTotal|商品金额' => 'required|integer|between:1,100000000',//商品金额
@@ -148,6 +151,7 @@ class SetClass extends AdminClass
             'matchFirstStart|预付款匹配开始时间' => 'required|integer|between:1,100000000',//首付款匹配开始时间
             'matchTailStart|尾款匹配开始时间' => 'required|integer|between:1,100000000',//全款匹配开始时间
             'matchFirstPro|预付款百分比' => 'required|numeric|between:0,100',//预付款百分比
+            'matchSimu|模拟匹配时间' => 'required|date_format:"H:i"',
             //付款设置
             'payStart|付款开始时间' => 'required|date_format:"H:i"',//付款开始时间
             'payEnd|付款结束时间' => 'required|date_format:"H:i"|after:payStart',//付款结束时间
@@ -230,6 +234,7 @@ class SetClass extends AdminClass
             'deleteAdminActTime' => '1',//1天后删除
             'deleteType0' => '12',
             'deleteType1' => '12',
+            'deletePoundage' => '0',
             //网站设置
             'webName' => '君王战神',
             'webTitle' => '君王战神',
@@ -281,6 +286,7 @@ class SetClass extends AdminClass
             'matchFirstStart' => '2',//首付款匹配开始时间
             'matchTailStart' => '4',//全款匹配开始时间
             'matchFirstPro' => '20',//预付款百分比
+            'matchSimu' => '22:01',//模拟匹配时间
             //付款设置
             'payStart' => '07:00',//付款开始时间
             'payEnd' => '12:00',//付款结束时间

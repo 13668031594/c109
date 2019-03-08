@@ -45,6 +45,8 @@ class PlanController extends Controller
 
         new PoundageGiveClass();//每日赠送星伙
 
+        new MatchClass('match_simu');//执行订单预匹配
+
         \DB::commit();
     }
 

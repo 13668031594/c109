@@ -11,9 +11,9 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="http://code.jquery.com/jquery-1.12.4.min.js"
-            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"
+
+    ></script>
 </head>
 
 <body class="layui-layout-body">
@@ -59,6 +59,10 @@
                                 <dd><a href="javascript:;" data-menu='/admin/prompt/index'><i
                                                 class="layui-icon layui-icon-set-sm"></i> 提示文字</a></dd>
                             @endif
+                            @if(in_array('notice.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/notice/index'><i
+                                                class="layui-icon layui-icon-set-sm"></i> 公告列表</a></dd>
+                            @endif
                             @if(in_array('bank.index',$powers) || in_array('-1',$powers))
                                 <dd><a href="javascript:;" data-menu='/admin/bank/index'><i
                                                 class="layui-icon layui-icon-file"></i> 银行列表</a></dd>
@@ -102,7 +106,7 @@
                                 <dd><a href="javascript:;" data-menu='/admin/sell/index'><i
                                                 class="layui-icon layui-icon-log"></i> 寄售列表</a></dd>
                             @endif
-                                @if(in_array('match.index',$powers) || in_array('-1',$powers))
+                            @if(in_array('match.index',$powers) || in_array('-1',$powers))
                                 <dd><a href="javascript:;" data-menu='/admin/match/index'><i
                                                 class="layui-icon layui-icon-log"></i> 匹配列表</a></dd>
                             @endif
@@ -117,12 +121,17 @@
                     <li class="layui-nav-item layui-nav-itemed">
                         <a class="" href="javascript:;"><i class="layui-icon layui-icon-username"></i> 统计</a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;" data-menu='/admin/bill/index'><i
-                                            class="layui-icon layui-icon-set-sm"></i> 统计</a></dd>
+                            @if(in_array('bill.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/bill/index'><i
+                                                class="layui-icon layui-icon-set-sm"></i> 统计</a></dd>
+                            @endif
+                            @if(in_array('bill.match_simu',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/match-simu/index'><i
+                                                class="layui-icon layui-icon-set-sm"></i> 预匹配</a></dd>
+                            @endif
                         </dl>
                     </li>
                 @endif
-
             </ul>
         </div>
     </div>

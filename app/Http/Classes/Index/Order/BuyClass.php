@@ -300,10 +300,10 @@ class BuyClass extends IndexClass
         $member = MemberModel::whereUid($member['uid'])->first();
         $member->young_poundage -= $poundage;
         if (is_null($member->young_first_buy_time)) {
-            $member->young_first_buy_time = DATE;
+            $member->young_first_buy_time = $order->created_at;
             $member->young_first_buy_total = $data['total'];
         }
-        $member->young_last_buy_time = DATE;
+        $member->young_last_buy_time = $order->created_at;
         $member->young_last_buy_total = $data['total'];
         $member->young_all_buy_total += $data['total'];
         $member->save();

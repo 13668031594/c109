@@ -22,15 +22,8 @@ class ActClass extends PlanClass
         //判断是否到了结果发放时间
         if (time() < parent::set_time($this->set['accountActResult'])) return;
 
-        //判断今天是否成功发放了激活码
-        $test = new PlanModel();
-        $test = $test->where('young_type', '=', 'act')
-            ->where('young_status', '=', '10')
-            ->where('created_at', '>=', date('Y-m-d 00:00:00'))
-            ->first();
-
-        //已经成功发放过激活码
-        if (!is_null($test)) return;
+        $this->keyword = 'act';
+        if (parent::test_plan())return;
 
         //判断今天抢激活码的人数是否超过总发放激活码数
         $number = MemberActModel::whereYoungStatus('10')->count();
@@ -39,14 +32,14 @@ class ActClass extends PlanClass
         if ($number <= 0) {
 
             $record = '抢激活人数0，激活人数0';
-            self::store_plan($record);
+            parent::store_plan($record);
             return;
         }
 
         if ($this->set['accountActNum'] <= 0) {
 
             $record = '激活码发放数为0,激活人数0';
-            self::store_plan($record);
+            parent::store_plan($record);
             return;
         }
 
@@ -85,13 +78,6 @@ class ActClass extends PlanClass
 
         //放入结果,比较键名，返回交集
         return array_intersect_key($ids, $keys);
-    }
-
-    //添加本次激活记录
-    private function store_plan($record, $status = 10)
-    {
-        $plan = new PlanModel();
-        $plan->store_plan('act', $record, $status);
     }
 
     //激活

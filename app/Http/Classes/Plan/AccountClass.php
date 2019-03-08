@@ -12,12 +12,17 @@ use App\Models\Member\MemberModel;
 use App\Models\Member\MemberRecordModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Order\MatchOrderModel;
+use App\Models\Plan\PlanModel;
 
 class AccountClass extends PlanClass
 {
     public function __construct()
     {
         parent::__construct();
+
+        $this->keyword = 'account';
+
+        if (parent::test_plan()) return;
 
         //满足注册不排单封号的
         $reg_ids = self::reg_ids();
@@ -61,6 +66,7 @@ class AccountClass extends PlanClass
 
         $mw = new MemberWalletModel();
         $mr = new MemberRecordModel();
+        $difs = 0;
         foreach ($members as $v) {
 
             //最后一次封停扣除手续费
@@ -79,21 +85,38 @@ class AccountClass extends PlanClass
                 $where[] = ['created_at', '>', $last_end->created_at];
             }
 
+            //扣除累计赠送星伙
             $diff = $mw->where('uid', '=', $v->uid)
                 ->where($where)
                 ->sum('young_poundage');
 
-            if ($diff > 0) {
+            //封号扣除星伙
+            $poundage = $this->set['deletePoundage'];
+            $poundage = number_format($poundage, 2, '.', '');
 
-                $v->young_poundage -= $diff;
+            $dif = 0;
+            if (($diff > 0) || ($poundage > 0)) {
 
-                $change = ['poundage' => (0 - $diff)];
-                $record = '因账号封停，扣除累计赠送的『' . $this->set['walletPoundage'] . '』' . $diff;
+                $record = '因账号封停';
+
+                if ($diff > 0) {
+
+                    $v->young_poundage -= $diff;
+                    $dif += $diff;
+                    $record .= '，扣除累计赠送的『' . $this->set['walletPoundage'] . '』' . $diff;
+                };
+
+
+                if ($poundage > 0) {
+
+                    $v->young_poundage -= $poundage;
+                    $dif += $poundage;
+                    $record .= '，并惩罚『' . $this->set['walletPoundage'] . '』' . $poundage;
+                }
+
+                $change = ['poundage' => (0 - $dif)];
                 $mw->store_record($v, $change, 22, $record);
-            };
-            $v->young_status = '30';
-            $v->young_status_time = DATE;
-            $v->save();
+            }
 
             $r = '';
             if (in_array($v->uid, $reg_ids)) {
@@ -117,8 +140,17 @@ class AccountClass extends PlanClass
                 $r .= '订单付款超时；';
             }
             $r .= '账号被封停！';
+
+            $v->young_status = '30';
+            $v->young_status_time = DATE;
+            $v->save();
             $mr->store_record($v, 30, $r);
+
+            $difs += $dif;
         }
+
+        $plan_record = '封号：' . count($members) . '人，共扣除『' . $this->set['walletPoundage'] . '』' . $difs;
+        parent::store_plan($plan_record);
     }
 
     //寻找自主注册，且打到封号标准的会员

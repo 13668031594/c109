@@ -16,9 +16,12 @@ class TypeClass extends PlanClass
     {
         parent::__construct();
 
+        $this->keyword = 'typeChange';
+
+        if (parent::test_plan())return;
+
         //时间节点
-        $days = $this->set['type10'];
-        $date = date('Y-m-d H:i:s', strtotime('-' . $days . ' day'));
+        $date = parent::return_date($this->set['type10']);
 
         //不用修改为静态的人
         $member = new MemberModel();
@@ -32,5 +35,8 @@ class TypeClass extends PlanClass
             ->whereNotIn('uid', $member)
             ->where('young_type', '=', '10')
             ->update(['young_type' => '20', 'young_type_time' => DATE]);
+
+        $record = '操作成功';
+        parent::store_plan($record);
     }
 }
