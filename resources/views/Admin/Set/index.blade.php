@@ -443,7 +443,7 @@
                             <input type="checkbox" id='sellPoundageNone' lay-filter="sellPoundageNone"
                                    lay-skin="switch"
                                    lay-text="开启|关闭" {{$self['sellPoundageNone'] == 'on' ? 'checked' : ''}}/>
-                            <input type="hidden" id='sellPoundageNoneValue' name="buyPoundageNone"
+                            <input type="hidden" id='sellPoundageNoneValue' name="sellPoundageNone"
                                    value="{{$self['sellPoundageNone']}}"/>
                         </div>
                         <div class="layui-form-mid layui-word-aux">是否允许用户负星伙时卖出</div>
