@@ -269,6 +269,7 @@ class SetClass extends AdminClass
             'sellBase' => '100',//卖出基数
             'sellTimes' => '100',//卖出倍数
             'sellPoundageNone' => 'off',//负星伙卖出开关
+            'sellTop' => '100000000',
             //商品设置
             'goodsName' => '测试商品',//商品名称
             'goodsTotal' => '1000',//商品金额
