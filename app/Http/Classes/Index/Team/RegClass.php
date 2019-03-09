@@ -130,8 +130,8 @@ class RegClass extends IndexClass
         $model->young_account = 'hold';
         $model->young_phone = $request->post('phone');
         $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
-        $model->young_idcard_name = empty($request->post('young_idcard_name')) ? '未填写' : $request->post('young_idcard_name');
-        $model->young_idcard_no = empty($request->post('young_idcard_no')) ? '未填写' : $request->post('young_idcard_no');
+        $model->young_idcard_name = empty($request->post('young_idcard_name')) ? '未填写' : $request->post('idcard_name');
+        $model->young_idcard_no = empty($request->post('young_idcard_no')) ? '未填写' : $request->post('idcard_no');
         $model->password = \Hash::make('123456');
 //        $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
 //        $model->young_pay_pass = \Hash::make($request->post('password'));
