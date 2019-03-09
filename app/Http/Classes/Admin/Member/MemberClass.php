@@ -143,8 +143,8 @@ class MemberClass extends AdminClass implements ListInterface
         //添加基础信息
         $model->young_phone = $request->post('phone');
         $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
-        $model->young_idcard_name = empty($request->post('young_idcard_name')) ? '未填写' : $request->post('idcard_name');
-        $model->young_idcard_no = empty($request->post('young_idcard_no')) ? '未填写' : $request->post('idcard_no');
+        $model->young_idcard_name = empty($request->post('idcard_name')) ? '未填写' : $request->post('idcard_name');
+        $model->young_idcard_no = empty($request->post('idcard_no')) ? '未填写' : $request->post('idcard_no');
         $model->young_match_level = $request->post('match_level');
         if ($request->post('password') != 'sba___duia') $model->password = \Hash::make($request->post('password'));
 //        if ($request->post('pay_pass') != 'sba___duia') $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
