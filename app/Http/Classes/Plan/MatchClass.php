@@ -47,6 +47,10 @@ class MatchClass extends PlanClass
 
     private function simu()
     {
+        $test_time = $this->set_time($this->set['matchSimu']);
+
+        if (time() < $test_time) return;
+
         if (parent::test_plan()) return;
 
         //获取总卖出金额
