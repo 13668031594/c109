@@ -232,7 +232,7 @@ class SetClass extends AdminClass
             'deleteIndexRegTime' => '9',//9天后删除
             'deleteAdminActSwitch' => 'on',//后台激活不排单删号开关
             'deleteAdminActTime' => '1',//1天后删除
-            'deleteType0' => '12',
+            'deleteType0' => '15',
             'deleteType1' => '12',
             'deletePoundage' => '0',
             //网站设置
