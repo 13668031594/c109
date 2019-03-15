@@ -153,14 +153,14 @@ class MatchClass extends PlanClass
         //新会员首付款匹配
         self::match_10($_10);
 
-        if (!$test) {
+//        if (!$test) {
 
             //获取所有首付款匹配订单
             $first = self::first_match($others);
 
             //首付款匹配
             self::match_10($first);
-        };
+//        };
 
         //新会员尾款匹配
         self::match_40($_40);
@@ -247,7 +247,7 @@ ORDER BY u.young_match_level DESC,b.young_status ASC, b.created_at ASC
 //        $add = (int)$this->set['matchFirstStart'];
 //        $str = empty($add) ? 'today' : '-' . ($add - 1) . ' day';
 //        $date = date('Y-m-d 00:00:00', strtotime($str));
-        $date = parent::return_date($this->set['matchFirstStart']);
+        $date = parent::return_date($this->set['matchFirstStart'] - 1);
 
         $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
@@ -269,7 +269,7 @@ AND b.created_at <= '{$date}'";
 //        $add = (int)$this->set['matchTailStart'];
 //        $str = empty($add) ? 'today' : '-' . ($add - 1) . ' day';
 //        $date = date('Y-m-d H:i:s', strtotime($str));
-        $date = parent::return_date($this->set['matchTailStart']);
+        $date = parent::return_date($this->set['matchTailStart'] - 1);
 
         $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 

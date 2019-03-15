@@ -101,6 +101,8 @@ class UserController extends ApiController
     //领取每日红包
     public function sign()
     {
+        return parent::success(['number' => 0, 'message' => '已经关闭']);
+
         //签到类
         $class = new SignClass();
 

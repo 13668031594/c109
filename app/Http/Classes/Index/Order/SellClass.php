@@ -169,6 +169,10 @@ class SellClass extends IndexClass
         $today = SellOrderModel::whereUid($member['uid'])->where('created_at', '>=', date('Y-m-d 00:00:00'))->sum('young_total');
         if (($data['total'] + $today) > $top) parent::error_json('超出单日卖出上限（剩余：' . ($top - $today) . '）');
 
+        //只能存在一个卖出订单
+        $test = SellOrderModel::whereYoungStatus(10)->where('uid', '=', $member['uid'])->first();
+        if ($test) parent::error_json('同一时间只能有一个正在匹配的卖出订单');
+
         $type = $request->post('accountType');
         if ($type == '1') {
 
