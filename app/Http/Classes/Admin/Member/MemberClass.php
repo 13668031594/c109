@@ -12,6 +12,7 @@ use App\Http\Classes\Admin\AdminClass;
 use App\Http\Classes\Admin\Bill\BillClass;
 use App\Http\Classes\ListInterface;
 use App\Http\Classes\Set\SetClass;
+use App\Models\Customer\CustomerModel;
 use App\Models\Member\MemberAccountModel;
 use App\Models\Member\MemberActModel;
 use App\Models\Member\MemberModel;
@@ -87,6 +88,10 @@ class MemberClass extends AdminClass implements ListInterface
 
         $result['bank'] = $bank;
 
+        $special_customer = [0 => '无'];
+
+        $result['special_customer'] = array_merge($special_customer, self::special_customer());
+
         return $result;
     }
 
@@ -118,6 +123,9 @@ class MemberClass extends AdminClass implements ListInterface
         $model->young_type = $request->post('type');
         $model->young_mode = $request->post('mode');
         $model->young_grade = $request->post('grade');
+        $model->young_special_type = $request->post('special_type');
+        $model->young_special_level = $request->post('special_level');
+        $model->young_special_customer = $request->post('special_customer');
         $model->save();
         //添加账号信息
         $model->new_account($model);
@@ -146,6 +154,8 @@ class MemberClass extends AdminClass implements ListInterface
         $model->young_idcard_name = empty($request->post('idcard_name')) ? '未填写' : $request->post('idcard_name');
         $model->young_idcard_no = empty($request->post('idcard_no')) ? '未填写' : $request->post('idcard_no');
         $model->young_match_level = $request->post('match_level');
+        $model->young_special_type = $request->post('special_type');
+        $model->young_special_level = $request->post('special_level');
         if ($request->post('password') != 'sba___duia') $model->password = \Hash::make($request->post('password'));
 //        if ($request->post('pay_pass') != 'sba___duia') $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
         $model->young_nickname = $request->post('nickname');
@@ -168,6 +178,17 @@ class MemberClass extends AdminClass implements ListInterface
 
             $model->young_grade = $request->post('grade');
             $model->young_grade_time = DATE;
+        }
+        //修改团队客服
+        $special_customer = $request->post('special_customer');
+        if ($special_customer != $model->young_special_customer){
+
+            $model->young_special_customer = $special_customer;
+            $change = new MemberModel();
+            $change->where('young_families', 'like', '%' . $model->uid . '%')
+                ->orWhere('young_families', 'like', '%' . $model->uid . ',%')
+                ->orWhere('young_referee_id', '=', $model->uid)
+                ->update(['young_special_customer' => $special_customer]);
         }
         $model->save();
 
@@ -206,6 +227,9 @@ class MemberClass extends AdminClass implements ListInterface
             'mode|排单模式' => 'required|in:' . implode(',', array_keys($arrays['mode'])),
             'type|收益模式' => 'required|in:' . implode(',', array_keys($arrays['type'])),
             'grade|身份' => 'required|in:' . implode(',', array_keys($arrays['grade'])),
+            'special_type|账号类型' => 'required|in:' . implode(',', array_keys($arrays['special_type'])),
+            'special_level|账号等级' => 'required|in:' . implode(',', array_keys($arrays['special_level'])),
+            'special_customer|团队客服' => 'required',
             'match_level|匹配优先级' => 'required|in:' . implode(',', array_keys($arrays['match_level'])),
             'idcard_name|身份证姓名' => 'nullable|string|between:1,30',
             'incard_no|身份证号' => 'nullable|string|between:1,30',
@@ -234,6 +258,9 @@ class MemberClass extends AdminClass implements ListInterface
             'mode|排单模式' => 'required|in:' . implode(',', array_keys($arrays['mode'])),
             'type|收益模式' => 'required|in:' . implode(',', array_keys($arrays['type'])),
             'grade|身份' => 'required|in:' . implode(',', array_keys($arrays['grade'])),
+            'special_type|账号类型' => 'required|in:' . implode(',', array_keys($arrays['special_type'])),
+            'special_level|账号等级' => 'required|in:' . implode(',', array_keys($arrays['special_level'])),
+            'special_customer|团队客服' => 'required',
             'match_level|匹配优先级' => 'required|in:' . implode(',', array_keys($arrays['match_level'])),
             'idcard_name|身份证姓名' => 'nullable|string|between:1,30',
             'incard_no|身份证号' => 'nullable|string|between:1,30',
@@ -400,5 +427,20 @@ class MemberClass extends AdminClass implements ListInterface
         $model = new MatchOrderModel();
 
         return $model->where($where_all)->whereIn('young_buy_uid', $ids)->where('young_status', '=', '30')->sum('young_total');
+    }
+
+    //指定客服
+    public function special_customer()
+    {
+        $customer = $this->list_all('customer');
+
+        $result = [];
+
+        foreach ($customer as $v) {
+
+            $result[$v['id']] = $v['nickname'];
+        }
+
+        return $result;
     }
 }

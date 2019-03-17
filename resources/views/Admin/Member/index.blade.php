@@ -13,7 +13,7 @@
     <![endif]-->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"
 
-            ></script>
+    ></script>
 </head>
 
 <div class="layui-fluid">
@@ -113,7 +113,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i lass="layui-icon layui-icon-delete"></i>删除</a>
     @endif
     @if(in_array('member.liq',$powers) || in_array('-1',$powers))
-    {{--<a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/liq?id=@{{ d.id }}">清算</a>--}}
+        {{--<a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/member/liq?id=@{{ d.id }}">清算</a>--}}
     @endif
 </script>
 <script>
@@ -132,6 +132,8 @@
         var liq = {!! $liq !!};
         var grade = {!! $grade !!};
         var match_level = {!! $match_level !!};
+        var special_type = {!! $special_type !!};
+        var special_level = {!! $special_level !!};
 
         mTable.init({
             url: {
@@ -179,6 +181,18 @@
                 {
                     field: 'match_level', width: 80, title: '优先级', templet: function (d) {
                     return '<span class="layui-badge layui-bg-gray">' + match_level[d.match_level] + '</span>'
+
+                }
+                },
+                {
+                    field: 'special_type', width: 90, title: '账号类型', templet: function (d) {
+                    return '<span class="layui-badge layui-bg-gray">' + special_type[d.special_type] + '</span>'
+
+                }
+                },
+                {
+                    field: 'special_level', width: 90, title: '账号等级', templet: function (d) {
+                    return '<span class="layui-badge layui-bg-gray">' + special_level[d.special_level] + '</span>'
 
                 }
                 },

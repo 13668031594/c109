@@ -65,7 +65,7 @@ class TeamController extends ApiController
         //验证短信验证码
         $class = new SmsClass();
 
-        $class->validator_phone($request);
+//        $class->validator_phone($request);
 
         $reg->validator_reg($request);
 

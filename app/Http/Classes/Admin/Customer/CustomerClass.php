@@ -135,5 +135,9 @@ class CustomerClass extends AdminClass implements ListInterface
         $test = $model->whereIn('young_customer', $id)->first();
 
         if (!is_null($test)) parent::error_json('无法删除已经上任的客服');
+
+        $test2 = $model->whereIn('young_special_customer', $id)->first();
+
+        if (!is_null($test2)) parent::error_json('无法删除已经上任的指定客服');
     }
 }

@@ -41,7 +41,7 @@ class MasterController extends AdminController implements ListInterface
         $result = [
             'power_list' => $powers
         ];
-//dd($powers);
+
         return parent::views('master', $result);
     }
 

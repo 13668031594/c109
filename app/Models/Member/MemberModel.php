@@ -90,6 +90,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $young_match_level 匹配优先级
  * @property string|null $young_idcard_name 身份证姓名
  * @property string|null $young_idcard_no 身份证号
+ * @property string $young_special_type 特殊类型
+ * @property string $young_special_level 特殊等级
+ * @property int $young_special_customer 特殊客服
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
@@ -167,6 +170,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungRefereeNickname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungReward($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungRewardAll($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungSpecialCustomer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungSpecialLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungSpecialType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungStatusTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungThisLoginIp($value)
@@ -265,9 +271,19 @@ class MemberModel extends Authenticatable
     ];
 
     public $match_level = [
-        10 => '低',
         20 => '正常',
+        10 => '低',
         30 => '高',
+    ];
+
+    public $special_type = [
+        10 => '正常',
+        20 => '特殊',
+    ];
+
+    public $special_level = [
+        10 => '全权限',
+        20 => '限制权限',
     ];
 
     //所有对比数组
@@ -282,6 +298,8 @@ class MemberModel extends Authenticatable
             'grade' => $this->grade,
             'act' => $this->act,
             'match_level' => $this->match_level,
+            'special_type' => $this->special_type,
+            'special_level' => $this->special_level,
         ];
 
         return $result;
@@ -329,6 +347,19 @@ class MemberModel extends Authenticatable
         $memberModel->young_referee_account = $referee->young_account;//上级账号
         $memberModel->young_referee_nickname = $referee->young_nickname;//上级昵称
         $memberModel->young_level = $referee->young_level + 1;//自身层级
+
+        //上级是特殊账号，且全权限的
+        if ($referee->young_special_type == '20' && $referee->young_special_level == '10'){
+
+            $memberModel->young_special_type = '20';
+            $memberModel->young_special_level = '20';
+        }
+
+        //上级有指定客服
+        if (!empty($referee->young_special_customer)){
+
+            $memberModel->young_special_customer = $referee->young_special_customer;
+        }
 
         return $memberModel;
     }

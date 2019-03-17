@@ -174,6 +174,44 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">团队客服</label>
+                    <div class="layui-input-inline" style="width:90px;">
+                        <select name="special_customer" lay-verify="">
+                            @foreach($special_customer as $k => $v)
+                                <option value="{{$k}}" {{(isset($self) && $self['special_customer'] == $k) ? 'selected' : null}}>{{$v}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号类型</label>
+                    <div class="layui-input-inline" style="width:90px;">
+                        <select name="special_type" lay-verify="">
+                            @foreach($special_type as $k => $v)
+                                <option value="{{$k}}" {{(isset($self) && $self['special_type'] == $k) ? 'selected' : null}}>{{$v}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号等级</label>
+                    <div class="layui-input-inline" style="width:90px;">
+                        <select name="special_level" lay-verify="">
+                            @foreach($special_level as $k => $v)
+                                <option value="{{$k}}" {{(isset($self) && $self['special_level'] == $k) ? 'selected' : null}}>{{$v}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <hr>

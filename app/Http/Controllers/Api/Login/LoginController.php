@@ -70,7 +70,7 @@ class LoginController extends ApiController
 
         $result['contrast'] = array_merge($result['contrast'], $this->class->contrast());
 
-        $result['customer'] = $this->class->customer($result['member']['customer']);
+        $result['customer'] = $this->class->customer(empty($result['member']['special_customer']) ? $result['member']['customer'] : $result['member']['special_customer']);
 
         $result['number'] = MessageModel::whereYoungStatus(10)->where('uid', '=', $result['member']['uid'])->count();
 

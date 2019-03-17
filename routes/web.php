@@ -16,5 +16,4 @@ Route::get('plan', 'Plan\PlanController@index');
 Route::get('c104', 'Plan\PlanController@gxd_with');
 
 Route::get('test', function () {
-
 });

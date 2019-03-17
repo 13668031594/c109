@@ -65,11 +65,15 @@ class RegClass extends IndexClass
             'bank_no|收款账号' => 'required|max:30',
             'alipay|支付宝' => 'required|max:30',
             'note|备注' => 'nullable|max:40',
-            'idcard_name|身份证姓名' =>'nullable|string|max:30',
-            'idcard_no|身份证号' =>'nullable|string|max:30',
+            'idcard_name|身份证姓名' => 'nullable|string|max:30',
+            'idcard_no|身份证号' => 'nullable|string|max:30',
         ];
 
         parent::validators_json($request->post(), $term);
+
+        $member = parent::get_member();
+
+        if ($member['special_type'] == '20' && $member['special_level'] == '20') parent::error_json('没有建号权限');
     }
 
     //验证是否在禁止注册地区
@@ -139,7 +143,7 @@ class RegClass extends IndexClass
         $model->young_nickname = $request->post('nickname');
         $model->young_mode = $this->set['accountModeDefault'];
         $model->young_type = '10';
-        if ($this->set['accountRegAct'] == 'on'){
+        if ($this->set['accountRegAct'] == 'on') {
 
             $model->young_act = '30';
             $model->young_act_time = DATE;
