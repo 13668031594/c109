@@ -97,7 +97,7 @@ class LoginController extends ApiController
             'member' => $member,
             'set' => $this->class->set(),
             'contrast' => $model->arrays(),
-            'customer' => $this->class->customer($member['customer'])
+            'customer' => $this->class->customer(empty($member['special_customer']) ? $member['customer'] : $member['special_customer'])
         ];
 
         $result['contrast'] = array_merge($result['contrast'], $this->class->contrast());
