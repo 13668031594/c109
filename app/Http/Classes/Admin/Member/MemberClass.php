@@ -88,9 +88,7 @@ class MemberClass extends AdminClass implements ListInterface
 
         $result['bank'] = $bank;
 
-        $special_customer = [0 => '无'];
-
-        $result['special_customer'] = array_merge($special_customer, self::special_customer());
+        $result['special_customer'] = self::special_customer();
 
         return $result;
     }
@@ -434,7 +432,9 @@ class MemberClass extends AdminClass implements ListInterface
     {
         $customer = $this->list_all('customer');
 
-        $result = [];
+        $result = [
+            0 => '无',
+        ];
 
         foreach ($customer as $v) {
 
