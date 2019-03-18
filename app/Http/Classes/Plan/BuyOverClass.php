@@ -18,7 +18,7 @@ class BuyOverClass extends PlanClass
 
         $this->keyword = 'buyOver';
 
-        if (parent::test_plan()) return;
+//        if (parent::test_plan()) return;
 
         $today_w = date('w');
 
@@ -40,7 +40,7 @@ class BuyOverClass extends PlanClass
             $record = '工作日，收益完结订单：' . $number . '个';
         }
 
-        parent::store_plan($record);
+//        parent::store_plan($record);
     }
 
     //周六，今天到收益时间的，给增加收益
