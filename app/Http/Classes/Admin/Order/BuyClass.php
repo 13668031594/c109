@@ -44,6 +44,9 @@ class BuyClass extends AdminClass
         $status = \request()->get('status');
         $abn = \request()->get('abn');
         $from = \request()->get('from');
+        $begin = \request()->get('startTime');
+        $end = \request()->get('endtime');
+
 
         switch ($keywordType) {
             case 'order' :
@@ -64,6 +67,9 @@ class BuyClass extends AdminClass
         if (!empty($status)) $where[] = ['a.young_status', '=', $status];
         if (!empty($abn)) $where[] = ['a.young_abn', '=', $abn];
         if (!empty($from)) $where[] = ['a.young_from', '=', $from];
+        if (!empty($begin)) $where[] = ['a.young_in_over', '>=', $begin];
+        if (!empty($end)) $where[] = ['a.young_in_over', '<=', $end];
+        if (!empty($begin) || !empty($end)) $where[] = ['a.young_in_over', '<>', null];
 
         $orderBy = [
             'created_at' => 'desc'

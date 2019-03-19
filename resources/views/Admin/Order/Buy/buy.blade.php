@@ -87,6 +87,10 @@
                                 <td>{{$self['in']}} / {{$self['days']}} / {{$self['in_pro']}}%</td>
                             </tr>
                             <tr>
+                                <td>收益完结</td>
+                                <td>{{$self['in_over']}}</td>
+                            </tr>
+                            <tr>
                                 <td>贡献点</td>
                                 <td>{{$self['gxd']}}</td>
                             </tr>

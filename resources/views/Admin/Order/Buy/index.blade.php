@@ -62,6 +62,14 @@
             <div class="layui-input-inline">
                 <input type="text" name='keyword' placeholder="请输入关键字" class="layui-input layui-input-mid"/>
             </div>
+
+            <label class="layui-form-label" style="width: 70px;">选择时间段</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="time-start" name="startTime" value="" placeholder="开始时间">
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="time-end" name="endTime" value="" placeholder="结束时间">
+            </div>
             <div class="layui-input-inline">
                 <button class="layui-btn layui-btn-sm" lay-submit lay-filter="query">
                     <i class="layui-icon ">&#xe615;</i>搜索
@@ -83,19 +91,20 @@
     @if(in_array('buy.edit',$powers) || in_array('-1',$powers))
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
     @endif
-    {{--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i lass="layui-icon layui-icon-delete"></i>删除</a>--}}
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i lass="layui-icon layui-icon-delete"></i>删除</a>
 </script>
 <script>
 
     layui.config({
         base: '{{$static}}res/js/common/'
-    }).use(['layer', 'mTable', 'jquery', 'element'], function () {
+    }).use(['layer', 'mTable', 'jquery', 'element', 'laydate'], function () {
 
         var layer = layui.layer;
         var mTable = layui.mTable;
         var status = {!! $status !!};
         var abn = {!! $abn !!};
         var froms = {!! $from !!};
+        var laydate = layui.laydate;
 
 
         mTable.init({
@@ -136,11 +145,22 @@
                 {field: 'total', width: 100, title: '金额'},
                 {field: 'poundage', width: 100, title: '星伙'},
                 {field: 'in', width: 100, title: '收益'},
+                {field: 'in_over', width: 170, title: '收益时间'},
                 {field: 'created_at', width: 170, title: '创建时间'},
                 {fixed: 'right', title: '操作', minWidth: 150, align: 'center', toolbar: '#tableTool'}
             ]]
         });
         mTable.render();
+
+        laydate.render({
+            elem: '#time-start', //指定元素
+//            format: 'HH:mm',
+//            type:'time',
+        });
+
+        laydate.render({
+            elem: '#time-end', //指定元素
+        });
     });
 </script>
 </body>

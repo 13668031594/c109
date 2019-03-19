@@ -9,6 +9,7 @@
 namespace App\Http\Classes\Plan;
 
 use App\Models\Order\BuyOrderModel;
+use App\Models\Order\MatchOrderModel;
 
 class BuyOverClass extends PlanClass
 {
@@ -81,6 +82,8 @@ class BuyOverClass extends PlanClass
     //工作日，正常完结订单
     public function order_over()
     {
+        $match_model = new MatchOrderModel();
+
         //寻找收益中，且完结时间小于等于今天的
         $buy = BuyOrderModel::whereYoungStatus('70')
             ->where('young_in_over', '<=', DATE)
@@ -104,6 +107,8 @@ class BuyOverClass extends PlanClass
             $u['young_status'] = $status;
 
             $update[] = $u;
+
+            if (($status == '79') || ($status == '80')) $match_model->reward($v);
         }
 
         $numbers = count($update);

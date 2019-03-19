@@ -23,6 +23,8 @@ class PlanController extends Controller
     {
         \DB::beginTransaction();
 
+        new BuyOverClass();//订单收益完结
+        exit();
         new GradeClass();//新老会员
 
         new TypeClass();//修改会员下单类型

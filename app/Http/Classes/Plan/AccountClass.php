@@ -31,7 +31,8 @@ class AccountClass extends PlanClass
         $act_ids = self::act_ids();
 
         //满足防撞长时间不排单的
-        $mode_10_ids = self::mode_10_ids();
+        //$mode_10_ids = self::mode_10_ids();
+        $mode_10_ids = [];
 
         //满足未防撞长时间不排单的
         $mode_20_ids = self::mode_20_ids();

@@ -11,6 +11,7 @@ namespace App\Http\Classes\Plan;
 use App\Http\Traits\DxbSmsTrait;
 use App\Http\Traits\GetuiTrait;
 use App\Http\Traits\MessageTrait;
+use App\Models\Order\BuyOrderModel;
 use App\Models\Order\MatchOrderModel;
 use App\Models\Order\SellOrderModel;
 use App\Models\Plan\PlanModel;
@@ -155,11 +156,11 @@ class MatchClass extends PlanClass
 
 //        if (!$test) {
 
-            //获取所有首付款匹配订单
-            $first = self::first_match($others);
+        //获取所有首付款匹配订单
+        $first = self::first_match($others);
 
-            //首付款匹配
-            self::match_10($first);
+        //首付款匹配
+        self::match_10($first);
 //        };
 
         //新会员尾款匹配
@@ -290,6 +291,7 @@ AND b.young_tail_complete < b.young_tail_total";
     //首付款匹配
     private function match_10($orders)
     {
+
         //剩余卖出款不足
         if ($this->remind <= 0) return;
 
@@ -350,6 +352,21 @@ AND b.young_tail_complete < b.young_tail_total";
 
         //循环买入列表
         foreach ($orders as $k => $v) {
+
+            //判断上一个订单是否收益完成了
+            $last_buy = BuyOrderModel::whereUid($v->uid)->where('created_at', '<', $v->created_at)->orderBy('created_at', 'desc')->first();
+
+            if (!is_null($last_buy)) {
+
+                //有上一个订单，且上一个订单收益未完成，不匹配尾款
+                if ($last_buy->young_status <= 70) continue;
+
+                //判断上一个订单完结后，是否有卖出订单，卖出订单是否完结
+                $last_sell = SellOrderModel::whereUid($v->uid)->where('created_at', '>=', $last_buy->young_in_over)->orderBy('created_at', 'asc')->first();
+
+                //完结后没有卖出，或卖出订单没有完结，不匹配尾款
+                if (is_null($last_sell) || ($last_sell->young_status < 20)) continue;
+            }
 
             //剩余匹配金额
             $complete = $v->young_tail_total - $v->young_tail_complete;

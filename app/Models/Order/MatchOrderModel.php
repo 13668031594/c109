@@ -123,16 +123,33 @@ class MatchOrderModel extends Model
         $buy->young_first_end = DATE;//修改首付款完结时间
         $buy->save();
 
-        //将上一个订单解冻
-        $model = new BuyOrderModel();
-        $model->where('uid', '=', $buy->uid)
+        //将上一个订单解冻，并发放奖励
+        $_80 = BuyOrderModel::whereUid($buy->uid)
             ->where('young_status', '=', '75')
             ->where('young_from', '<>', '20')
-            ->update(['young_status' => '80']);
-        $model->where('uid', '=', $buy->uid)
+            ->get();
+            //->update(['young_status' => '80']);
+        $_79 = BuyOrderModel::whereUid($buy->uid)
             ->where('young_status', '=', '75')
             ->where('young_from', '=', '20')
-            ->update(['young_status' => '79']);
+            ->get();
+//            ->update(['young_status' => '79']);
+
+        foreach ($_80 as $v){
+
+            $v->young_status = 80;
+            $v->save();
+
+            self::reward($v);
+        }
+
+        foreach ($_79 as $va){
+
+            $va->young_status = 79;
+            $va->save();
+
+            self::reward($va);
+        }
     }
 
     //完结购买订单
@@ -170,7 +187,7 @@ class MatchOrderModel extends Model
         self::type_change($member->young_referee_id);
 
         //分佣给上级
-        self::reward($buy);
+        //self::reward($buy);
 
         //尝试为上级提升等级
         self::rank_up($buy);
@@ -207,6 +224,7 @@ class MatchOrderModel extends Model
 
         //寻找买单人
         $member = MemberModel::whereUid($model->uid)->first();
+        $member->young_referee_id = $member->uid;
         if (is_null($member) || empty($member->young_referee_id)) return;
 
         //寻找买单人上级
@@ -246,7 +264,6 @@ class MatchOrderModel extends Model
         }
 
         $wallet->store_record($referee, $change, 80, $record, $keyword);
-
     }
 
     //尝试提升上级等级

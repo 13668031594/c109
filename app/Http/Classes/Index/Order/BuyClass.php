@@ -14,6 +14,7 @@ use App\Models\Member\MemberWalletModel;
 use App\Models\Order\BuyOrderModel;
 use App\Models\Order\OrderSignModel;
 use App\Models\Order\RobModel;
+use App\Models\Order\SellOrderModel;
 use Illuminate\Http\Request;
 
 class BuyClass extends IndexClass
@@ -418,6 +419,11 @@ class BuyClass extends IndexClass
         if (($member['gxd'] < 0) && ($this->set['withdrawSwitch'] != 'on')) parent::error_json('请先充值' . $this->set['walletGxd'] . '为正数');
 
 //        if ($buy->young_sign_days < $buy->young_days) parent::error_json('签到时间不足，无法提现，需再签到：' . ($buy->young_days - $buy->young_sign_days));
+        //判断上一个订单完结后，是否有卖出订单，卖出订单是否完结
+        $last_sell = SellOrderModel::whereUid($buy->uid)->where('created_at', '>=', $buy->young_in_over)->orderBy('created_at', 'asc')->first();
+
+        //完结后没有卖出，或卖出订单没有完结，不匹配尾款
+        if (is_null($last_sell) || ($last_sell->young_status < 20)) parent::error_json('上一个挂售订单还未完全卖出');
 
         $member = MemberModel::whereUid($member['uid'])->first();
         $change = [];
