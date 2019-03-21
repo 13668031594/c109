@@ -50,7 +50,7 @@ class MatchClass extends PlanClass
     {
         $test_time = $this->set_time($this->set['matchSimu']);
 
-//        if (time() < $test_time) return;
+        if (time() < $test_time) return;
 
         if (parent::test_plan()) return;
 
@@ -87,7 +87,7 @@ class MatchClass extends PlanClass
         self::match_10($_10);
 
         //获取所有首付款匹配订单
-        $first = self::first_match($others,$this->set['matchFirstStart'] - 2);
+        $first = self::first_match($others,$this->set['matchFirstStart'] - 1);
 
         //首付款匹配
         self::match_10($first);
@@ -96,7 +96,7 @@ class MatchClass extends PlanClass
         self::match_40($_40);
 
         //获取所有尾款订单
-        $tail = self::tail_match($others,$this->set['matchTailStart'] - 2);
+        $tail = self::tail_match($others,$this->set['matchTailStart'] - 1);
 
         //匹配尾款
         self::match_40($tail);
@@ -117,7 +117,7 @@ class MatchClass extends PlanClass
                 $_20_total += $v['young_total'];
             }
         }
-dd($this->sell,$this->match);
+//dd($this->sell,$this->match,$first,$tail);
         $record = '即将匹配首付款：' . $_10_number . '单，合计：' . $_10_total . '；匹配尾款：' . $_20_number . '单，合计：' . $_20_total . '。';
         parent::store_plan($record);
     }
