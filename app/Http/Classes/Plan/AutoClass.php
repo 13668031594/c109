@@ -131,7 +131,7 @@ class AutoClass extends PlanClass
             $insert['young_in'] = number_format(($inPro * $total * $time / 100), 2, '.', '');
             $insert['young_amount'] = $amount;
             $insert['young_number'] = $number;
-            $insert['young_poundage'] = $set['buyPoundage'];
+            $insert['young_poundage'] = $set['buyPoundage'] * $number;
             $insert['young_name'] = $set['goodsName'];
             $insert['young_first_total'] = number_format(($total * $set['matchFirstPro'] / 100), 2, '.', '');
             $insert['young_first_pro'] = $set['matchFirstPro'];
