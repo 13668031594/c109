@@ -16,10 +16,4 @@ Route::get('plan', 'Plan\PlanController@index');
 Route::get('c104', 'Plan\PlanController@gxd_with');
 
 Route::get('test', function () {
-    $order = \App\Models\Order\BuyOrderModel::whereYoungFrom(20)->get();
-    foreach ($order as $v){
-
-        $v->young_poundage = $v->young_poundage * $v->young_number;
-        $v->save();
-    }
 });
