@@ -39,7 +39,6 @@ class PlanClass
 
     protected function test_plan()
     {
-        return null;
         //判断今天是否成功发放了激活码
         $test = new PlanModel();
         $test = $test->where('young_type', '=', $this->keyword)
