@@ -117,7 +117,7 @@ class MatchClass extends PlanClass
                 $_20_total += $v['young_total'];
             }
         }
-
+dd($this->match);
         $record = '即将匹配首付款：' . $_10_number . '单，合计：' . $_10_total . '；匹配尾款：' . $_20_number . '单，合计：' . $_20_total . '。';
         parent::store_plan($record);
     }
