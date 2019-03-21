@@ -356,7 +356,7 @@ AND b.young_tail_complete < b.young_tail_total";
             //判断上一个订单是否收益完成了
             $last_buy = BuyOrderModel::whereUid($v->uid)->where('created_at', '<', $v->created_at)->orderBy('created_at', 'desc')->first();
 
-            if (!is_null($last_buy)) {
+            if (!is_null($last_buy) && !is_null($last_buy->young_in_over)) {
 
                 //有上一个订单，且上一个订单收益未完成，不匹配尾款
                 if ($last_buy->young_status <= 70) continue;
