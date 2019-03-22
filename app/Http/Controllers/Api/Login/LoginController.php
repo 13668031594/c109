@@ -127,6 +127,8 @@ class LoginController extends ApiController
             'reward_all' => $member['reward_all'],
             'incite' => $member['incite'],
             'incite_all' => $member['incite_all'],
+            'reward_freeze' => $member['reward_freeze'],
+            'reward_freeze_all' => $member['reward_freeze_all'],
         ];
 
         return parent::success($result);
