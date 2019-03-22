@@ -60,8 +60,10 @@ class IndexClass extends Classes
                 $select[] = 'young_poundage as amount';
                 break;
             case '2':
+                $or = $where;
+                $or[] = ['young_reward_freeze', '<>', 0];
                 $where[] = ['young_reward', '<>', 0];
-                $orWhere[] = ['young_reward_freeze', '<>', 0];
+                $orWhere[] = $or;
                 $select[] = 'young_reward as amount';
                 break;
             case '3':
