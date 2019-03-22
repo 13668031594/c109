@@ -11,7 +11,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"
+    <script src="{{$static}}res/js/jquery.js"
 
             ></script>
 </head>
