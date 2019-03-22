@@ -40,9 +40,9 @@ class MemberChange5 extends Migration
         });
 
         Schema::table('member_wallet_models', function (Blueprint $table) {
-            $table->decimal('young_incite', 18, 2);
-            $table->decimal('young_incite_now', 18, 2);
-            $table->decimal('young_incite_all', 18, 2);
+            $table->dropColumn('young_incite');
+            $table->dropColumn('young_incite_now');
+            $table->dropColumn('young_incite_all');
         });
     }
 }

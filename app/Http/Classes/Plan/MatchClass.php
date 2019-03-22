@@ -86,8 +86,14 @@ class MatchClass extends PlanClass
         //新会员首付款匹配
         self::match_10($_10);
 
+        $day = (int)$this->set['matchFirstStart'];
+        $day = $day - 1;
+
+        if (empty($day) || ($day <= 0)) $date = date('Y-m-d 00:00:00', strtotime('tomorrow'));
+        else $date = date('Y-m-d 00:00:00', strtotime('-' . $day . ' day', strtotime('tomorrow')));
+
         //获取所有首付款匹配订单
-        $first = self::first_match($others,$this->set['matchFirstStart'] - 1);
+        $first = self::first_match($others,$date);
 
         //首付款匹配
         self::match_10($first);
@@ -95,8 +101,14 @@ class MatchClass extends PlanClass
         //新会员尾款匹配
         self::match_40($_40);
 
+        $day = (int)$this->set['matchTailStart'];
+        $day = $day - 1;
+
+        if (empty($day) || ($day <= 0)) $date = date('Y-m-d 00:00:00', strtotime('tomorrow'));
+        else $date = date('Y-m-d 00:00:00', strtotime('-' . $day . ' day', strtotime('tomorrow')));
+
         //获取所有尾款订单
-        $tail = self::tail_match($others,$this->set['matchTailStart'] - 1);
+        $tail = self::tail_match($others,  $date);
 
         //匹配尾款
         self::match_40($tail);
@@ -243,12 +255,12 @@ ORDER BY u.young_match_level DESC,b.young_status ASC, b.created_at ASC
     }
 
     //首付款匹配订单
-    private function first_match($others,$time = null)
+    private function first_match($others, $time = null)
     {
 //        $add = (int)$this->set['matchFirstStart'];
 //        $str = empty($add) ? 'today' : '-' . ($add - 1) . ' day';
 //        $date = date('Y-m-d 00:00:00', strtotime($str));
-        $date = parent::return_date(is_null($time) ? $this->set['matchFirstStart'] : $time);
+        $date = is_null($time) ? parent::return_date($this->set['matchFirstStart']) : $time;
 
         $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
@@ -265,12 +277,12 @@ AND b.created_at <= '{$date}'";
         return $a;
     }
 
-    private function tail_match($others,$time = null)
+    private function tail_match($others, $time = null)
     {
 //        $add = (int)$this->set['matchTailStart'];
 //        $str = empty($add) ? 'today' : '-' . ($add - 1) . ' day';
 //        $date = date('Y-m-d H:i:s', strtotime($str));
-        $date = parent::return_date(is_null($time) ? $this->set['matchTailStart'] : $time);
+        $date = is_null($time) ? parent::return_date($this->set['matchTailStart']) : $time;
 
         $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 

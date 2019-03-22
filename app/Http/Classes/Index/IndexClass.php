@@ -48,6 +48,8 @@ class IndexClass extends Classes
 
         $select = ['id', 'young_record as detail', 'young_type', 'created_at'];
 
+        $orWhere = [];
+
         switch ($request->get('wallet')) {
             case '0':
                 $where[] = ['young_balance', '<>', 0];
@@ -59,6 +61,7 @@ class IndexClass extends Classes
                 break;
             case '2':
                 $where[] = ['young_reward', '<>', 0];
+                $orWhere[] = ['young_reward_freeze', '<>', 0];
                 $select[] = 'young_reward as amount';
                 break;
             case '3':
@@ -95,6 +98,7 @@ class IndexClass extends Classes
             'where' => $where,
             'orderBy' => $orderBy,
             'select' => $select,
+            'orWhere' => $orWhere,
         ];
 
         return parent::list_page('member_wallet', $other);

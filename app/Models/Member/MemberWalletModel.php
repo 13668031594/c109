@@ -29,6 +29,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $young_incite 变动鼓励账户
  * @property float $young_incite_now 当前鼓励账户
  * @property float $young_incite_all 累计鼓励账户
+ * @property float $young_reward_freeze 变动奖励账户冻结资金
+ * @property float $young_reward_freeze_now 当前奖励账户冻结资金
+ * @property float $young_reward_freeze_all 累计奖励账户冻结资金
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel query()
@@ -52,6 +55,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungRecord($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungReward($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungRewardAll($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungRewardFreeze($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungRewardFreezeAll($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungRewardFreezeNow($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungRewardNow($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungType($value)
  * @mixin \Eloquent
@@ -75,6 +81,7 @@ class MemberWalletModel extends Model
         60 => '付款奖励',
         70 => '付款惩罚',
         80 => '下级奖励',
+        81 => '下级奖励解冻',
         90 => '钱包交易',
         91 => '工资发放',
         99 => '家谱同步',
@@ -103,6 +110,8 @@ class MemberWalletModel extends Model
         $wallet->young_gxd_now = $memberModel->young_gxd;
         $wallet->young_incite_all = $memberModel->young_incite_all;
         $wallet->young_incite_now = $memberModel->young_incite;
+        $wallet->young_reward_freeze_all = $memberModel->young_reward_freeze_all;
+        $wallet->young_reward_freeze_now = $memberModel->young_reward_freeze;
 
         //变化信息
         $wallet->young_balance = isset($changes['balance']) ? $changes['balance'] : 0;
@@ -110,6 +119,7 @@ class MemberWalletModel extends Model
         $wallet->young_reward = isset($changes['reward']) ? $changes['reward'] : 0;
         $wallet->young_gxd = isset($changes['gxd']) ? $changes['gxd'] : 0;
         $wallet->young_incite = isset($changes['incite']) ? $changes['incite'] : 0;
+        $wallet->young_reward_freeze = isset($changes['freeze']) ? $changes['freeze'] : 0;
 
         //保存
         $wallet->save();

@@ -93,6 +93,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $young_special_type 特殊类型
  * @property string $young_special_level 特殊等级
  * @property int $young_special_customer 特殊客服
+ * @property float $young_reward_freeze 奖励账户冻结资金
+ * @property float $young_reward_freeze_all 累计奖励账户冻结资金
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
@@ -170,6 +172,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungRefereeNickname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungReward($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungRewardAll($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungRewardFreeze($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungRewardFreezeAll($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungSpecialCustomer($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungSpecialLevel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberModel whereYoungSpecialType($value)

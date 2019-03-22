@@ -88,7 +88,7 @@ class BuyOverClass extends PlanClass
         $buy = BuyOrderModel::whereYoungStatus('70')
             ->where('young_in_over', '<=', DATE)
             ->get();
-
+//dd($buy);
         if (count($buy) <= 0) return 0;
 
         //所有参与编辑的
