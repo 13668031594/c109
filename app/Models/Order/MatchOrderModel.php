@@ -172,7 +172,7 @@ class MatchOrderModel extends Model
         if ($buy->young_tail_complete < $buy->young_tail_total) return;
         $buy->young_status = 70;//修改收益中状态
         $buy->young_tail_end = DATE;//修改尾款完结时间
-        $buy->young_in_over = date('Y-m-d H:i:s', strtotime('+ ' . $buy->young_days . 'day'));
+        $buy->young_in_over = date('Y-m-d 00:00:00', strtotime('+ ' . ($buy->young_days + 1) . 'day'));
         $buy->save();
 
         //修改为正式会员
@@ -271,7 +271,7 @@ class MatchOrderModel extends Model
             $referee->young_reward_freeze_all += $reward;
             $referee->save();
 
-            $freeze->freeze($referee->uid,$keyword,$reward);
+            $freeze->freeze($referee->uid, $keyword, $reward);
         }
 //dump($referee->uid);
         $wallet->store_record($referee, $change, 80, $record, $keyword);
