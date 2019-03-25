@@ -112,7 +112,7 @@ class UserClass extends IndexClass
         if ($result === false) parent::error_json('绑定失败');
         $result = json_decode($result, true);
 
-        if ($result['status'] == 'files') {
+        if ($result['status'] == 'fails') {
 
             $fails = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding_fails', 0);
             $fails++;
