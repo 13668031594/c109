@@ -130,8 +130,8 @@ class BuyClass extends AdminClass
 
         $result = parent::list_all('match_order', $other);
 
-//        foreach ($result as &$v) $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
-        foreach ($result as &$v) $v['image'] = 'http://jwzs.ythx123.com/storage/Order/31_400.jpeg';
+        foreach ($result as &$v) $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
+//        foreach ($result as &$v) $v['image'] = 'http://jwzs.ythx123.com/storage/Order/31_400.jpeg';
 
         return $result;
     }

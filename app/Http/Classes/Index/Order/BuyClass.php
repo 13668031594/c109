@@ -102,7 +102,9 @@ class BuyClass extends IndexClass
         $result = parent::list_all('match_order', $other);
         foreach ($result as &$v) {
 
-            $v['payeeReferee'] = MemberModel::whereUid($v['sell_uid'])->first()->young_referee_nickname;
+            $referee = MemberModel::whereUid($v['sell_uid'])->first();
+
+            $v['payeeReferee'] = $referee ? $referee->young_referee_nickname : '未找到';
             $v['toReferee'] = $member['referee_nickname'];
             $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
             unset($v['sell_uid']);
@@ -419,11 +421,11 @@ class BuyClass extends IndexClass
         if (($member['gxd'] < 0) && ($this->set['withdrawSwitch'] != 'on')) parent::error_json('请先充值' . $this->set['walletGxd'] . '为正数');
 
 //        if ($buy->young_sign_days < $buy->young_days) parent::error_json('签到时间不足，无法提现，需再签到：' . ($buy->young_days - $buy->young_sign_days));
-        if ($member['mode'] == '10'){
+        if ($member['mode'] == '10') {
 
             $last_buy = BuyOrderModel::whereUid($buy->uid)->where('young_in_over', '<>', null)->where('young_in_over', '<', $buy->young_in_over)->orderBy('young_in_over', 'desc')->first();
 
-            if (!is_null($last_buy)){
+            if (!is_null($last_buy)) {
 
                 //判断上一个订单完结后，是否有卖出订单，卖出订单是否完结
                 $last_sell = SellOrderModel::whereUid($last_buy->uid)->where('created_at', '>=', $last_buy->young_in_over)->orderBy('created_at', 'asc')->first();
