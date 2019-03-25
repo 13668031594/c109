@@ -221,7 +221,7 @@ class MatchClass extends PlanClass
     //所有的卖出订单
     private function all_sell()
     {
-        $sql = "SELECT s.*,u.young_nickname, u.young_phone, u.young_cid, u.young_mode FROM young_sell_order_models as s,young_member_models as u 
+        $sql = "SELECT s.*,u.young_nickname, u.young_phone, u.young_cid FROM young_sell_order_models as s,young_member_models as u 
 WHERE s.young_remind > 0 
 AND u.young_status = 10
 AND s.uid = u.uid 
@@ -240,7 +240,7 @@ ORDER BY u.young_match_level DESC,s.young_remind ASC,s.created_at ASC
 
         if (empty($number)) return [];
 
-        $sql = "SELECT b.* , u.young_nickname, u.young_phone, u.young_cid, u.young_mode FROM young_member_models as u,young_buy_order_models as b 
+        $sql = "SELECT b.* , u.young_nickname, u.young_phone, u.young_cid, u.young_mode as mode FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
 AND (SELECT COUNT('*') FROM young_buy_order_models WHERE uid = u.uid) <= {$number}
@@ -263,7 +263,7 @@ ORDER BY u.young_match_level DESC,b.young_status ASC, b.created_at ASC
 //        $date = date('Y-m-d 00:00:00', strtotime($str));
         $date = is_null($time) ? parent::return_date($this->set['matchFirstStart']) : $time;
 
-        $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid, u.young_mode FROM young_member_models as u,young_buy_order_models as b 
+        $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid, u.young_mode as mode FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
 AND b.young_abn = 10
@@ -285,7 +285,7 @@ AND b.created_at <= '{$date}'";
 //        $date = date('Y-m-d H:i:s', strtotime($str));
         $date = is_null($time) ? parent::return_date($this->set['matchTailStart']) : $time;
 
-        $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
+        $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid, u.young_mode as mode FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
 AND b.young_abn = 10
