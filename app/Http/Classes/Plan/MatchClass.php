@@ -51,7 +51,7 @@ class MatchClass extends PlanClass
     {
         $test_time = $this->set_time($this->set['matchSimu']);
 
-//        if (time() < $test_time) return;
+        if (time() < $test_time) return;
 
         if (parent::test_plan()) return;
 

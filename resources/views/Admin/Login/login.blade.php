@@ -6,7 +6,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>君王战神管理登录</title>
+    <title>星伙传递管理登录</title>
     <link rel="stylesheet" href="{{$static}}layui/css/layui.css">
     <link rel="stylesheet" href="{{$static}}res/css/login.css">
     <!--[if lt IE 9]>
@@ -21,7 +21,7 @@
 <!-- 你的HTML代码 -->
 <div class='layui-container login-container layui-anim layui-anim-up'>
     <fieldset class="layui-elem-field layui-field-title">
-        <legend>君王战神管理登录</legend>
+        <legend>星伙传递管理登录</legend>
     </fieldset>
     <form class="layui-form">
         <div class="layui-form-item">

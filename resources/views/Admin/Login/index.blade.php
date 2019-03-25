@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>君王战神管理系统</title>
+    <title>星伙传递管理系统</title>
     <link rel="stylesheet" href="{{$static}}layui/css/layui.css">
     <link rel="stylesheet" href="{{$static}}res/css/common.css">
     <!--[if lt IE 9]>
@@ -19,7 +19,7 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo" style="color:#fff;">君王战神管理系统</div>
+        <div class="layui-logo" style="color:#fff;">星伙传递管理系统</div>
         <div class="layui-layout-left">
             <ul class="layui-nav layui-op">
                 <li class="layui-nav-item1"><a id='back' href="javascript:;"><i

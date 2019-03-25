@@ -27,7 +27,7 @@ class CreateMemberModelsTable extends Migration
             $table->string('young_families')->default(0)->comment('上级缓存');
             $table->string('young_referee_id')->default(0)->comment('上级id');
             $table->string('young_referee_account')->default('无')->comment('上级账号');
-            $table->string('young_referee_nickname')->default('君王战神')->comment('上级昵称');
+            $table->string('young_referee_nickname')->default('星伙传递')->comment('上级昵称');
 
             //家谱相关
             $table->string('young_family_account')->nullable()->comment('家谱绑定账号');

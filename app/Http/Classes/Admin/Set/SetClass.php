@@ -236,10 +236,10 @@ class SetClass extends AdminClass
             'deleteType1' => '12',
             'deletePoundage' => '0',
             //网站设置
-            'webName' => '君王战神',
-            'webTitle' => '君王战神',
-            'webKeyword' => '君王战神',
-            'webDesc' => '君王战神',
+            'webName' => '星伙传递',
+            'webTitle' => '星伙传递',
+            'webKeyword' => '星伙传递',
+            'webDesc' => '星伙传递',
             'webCopyright' => '版权',
 //            'webLoginActNone' => 'off',//未激活登录开关
             'webSwitch' => 'on',//网站开关
