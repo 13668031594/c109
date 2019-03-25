@@ -221,7 +221,7 @@ class MatchClass extends PlanClass
     //所有的卖出订单
     private function all_sell()
     {
-        $sql = "SELECT s.*,u.young_nickname, u.young_phone, u.young_cid FROM young_sell_order_models as s,young_member_models as u 
+        $sql = "SELECT s.*,u.young_nickname, u.young_phone, u.young_cid, u.young_mode FROM young_sell_order_models as s,young_member_models as u 
 WHERE s.young_remind > 0 
 AND u.young_status = 10
 AND s.uid = u.uid 
