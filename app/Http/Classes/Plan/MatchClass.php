@@ -94,7 +94,7 @@ class MatchClass extends PlanClass
         else $date = date('Y-m-d 00:00:00', strtotime('-' . $day . ' day', strtotime('tomorrow')));
 
         //获取所有首付款匹配订单
-        $first = self::first_match($others,$date);
+        $first = self::first_match($others, $date);
 
         //首付款匹配
         self::match_10($first);
@@ -109,7 +109,7 @@ class MatchClass extends PlanClass
         else $date = date('Y-m-d 00:00:00', strtotime('-' . $day . ' day', strtotime('tomorrow')));
 //        dd($this->set['matchTailStart'],$date);
         //获取所有尾款订单
-        $tail = self::tail_match($others,  $date);
+        $tail = self::tail_match($others, $date);
 
         //匹配尾款
         self::match_40($tail);
@@ -366,7 +366,7 @@ AND b.young_tail_complete < b.young_tail_total";
         //循环买入列表
         foreach ($orders as $k => $v) {
 
-            if ($v->mode == '10'){
+            if ($v->mode == '10') {
 
                 //判断上一个订单是否收益完成了
                 $last_buy = BuyOrderModel::whereUid($v->uid)->where('created_at', '<', $v->created_at)->orderBy('created_at', 'desc')->first();

@@ -29,7 +29,7 @@ class PlanController extends Controller
 
         new WageClass();//发工资
 
-//        new AccountClass();//封号操作
+        new AccountClass();//封号操作
 
         new RobClass();//执行抢单发放
 
