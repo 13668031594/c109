@@ -11,6 +11,7 @@ namespace App\Http\Classes\Plan;
 use App\Http\Traits\DxbSmsTrait;
 use App\Http\Traits\GetuiTrait;
 use App\Http\Traits\MessageTrait;
+use App\Models\Member\MemberModel;
 use App\Models\Order\BuyOrderModel;
 use App\Models\Order\MatchOrderModel;
 use App\Models\Order\SellOrderModel;
@@ -50,7 +51,7 @@ class MatchClass extends PlanClass
     {
         $test_time = $this->set_time($this->set['matchSimu']);
 
-        if (time() < $test_time) return;
+//        if (time() < $test_time) return;
 
         if (parent::test_plan()) return;
 
@@ -106,7 +107,7 @@ class MatchClass extends PlanClass
 
         if (empty($day) || ($day <= 0)) $date = date('Y-m-d 00:00:00', strtotime('tomorrow'));
         else $date = date('Y-m-d 00:00:00', strtotime('-' . $day . ' day', strtotime('tomorrow')));
-
+//        dd($this->set['matchTailStart'],$date);
         //获取所有尾款订单
         $tail = self::tail_match($others,  $date);
 
@@ -239,7 +240,7 @@ ORDER BY u.young_match_level DESC,s.young_remind ASC,s.created_at ASC
 
         if (empty($number)) return [];
 
-        $sql = "SELECT b.* , u.young_nickname, u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
+        $sql = "SELECT b.* , u.young_nickname, u.young_phone, u.young_cid, u.young_mode FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
 AND (SELECT COUNT('*') FROM young_buy_order_models WHERE uid = u.uid) <= {$number}
@@ -262,7 +263,7 @@ ORDER BY u.young_match_level DESC,b.young_status ASC, b.created_at ASC
 //        $date = date('Y-m-d 00:00:00', strtotime($str));
         $date = is_null($time) ? parent::return_date($this->set['matchFirstStart']) : $time;
 
-        $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid FROM young_member_models as u,young_buy_order_models as b 
+        $sql = "SELECT b.*, u.young_nickname , u.young_phone, u.young_cid, u.young_mode FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
 AND b.young_abn = 10
@@ -365,19 +366,22 @@ AND b.young_tail_complete < b.young_tail_total";
         //循环买入列表
         foreach ($orders as $k => $v) {
 
-            //判断上一个订单是否收益完成了
-            $last_buy = BuyOrderModel::whereUid($v->uid)->where('created_at', '<', $v->created_at)->orderBy('created_at', 'desc')->first();
+            if ($v->mode == '10'){
 
-            if (!is_null($last_buy) && !is_null($last_buy->young_in_over)) {
+                //判断上一个订单是否收益完成了
+                $last_buy = BuyOrderModel::whereUid($v->uid)->where('created_at', '<', $v->created_at)->orderBy('created_at', 'desc')->first();
 
-                //有上一个订单，且上一个订单收益未完成，不匹配尾款
-                if ($last_buy->young_status <= 70) continue;
+                if (!is_null($last_buy) && !is_null($last_buy->young_in_over)) {
 
-                //判断上一个订单完结后，是否有卖出订单，卖出订单是否完结
-                $last_sell = SellOrderModel::whereUid($v->uid)->where('created_at', '>=', $last_buy->young_in_over)->orderBy('created_at', 'asc')->first();
+                    //有上一个订单，且上一个订单收益未完成，不匹配尾款
+                    if ($last_buy->young_status <= 70) continue;
 
-                //完结后没有卖出，或卖出订单没有完结，不匹配尾款
-                if (is_null($last_sell) || ($last_sell->young_status < 20)) continue;
+                    //判断上一个订单完结后，是否有卖出订单，卖出订单是否完结
+                    $last_sell = SellOrderModel::whereUid($v->uid)->where('created_at', '>=', $last_buy->young_in_over)->orderBy('created_at', 'asc')->first();
+
+                    //完结后没有卖出，或卖出订单没有完结，不匹配尾款
+                    if (is_null($last_sell) || ($last_sell->young_status < 20)) continue;
+                }
             }
 
             //剩余匹配金额
