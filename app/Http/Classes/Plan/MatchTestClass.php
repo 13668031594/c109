@@ -119,7 +119,7 @@ class MatchTestClass extends PlanClass
         $_20_total = 0;
         foreach ($this->match as $v) {
 
-            if ($v['type'] == '10') {
+            if ($v['young_type'] == '10') {
 
                 $_10_number += 1;
                 $_10_total += $v['young_total'];
