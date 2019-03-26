@@ -19,7 +19,7 @@ Route::get('test', function () {
 
     DB::beginTransaction();
 
-    new \App\Http\Classes\Plan\MatchClass('match_simu');//执行订单预匹配
+    new \App\Http\Classes\Plan\MatchTestClass('match_simu');//执行订单预匹配
 
     DB::rollBack();
 });
