@@ -34,8 +34,9 @@ Route::get('test', function () {
         if ($v->young_status == 20) {
 
             $result[$v->uid]['total'] += $v->young_freeze;
-            $result[$v->uid]['number'] ++;
         }
+
+        $result[$v->uid]['number'] ++;
 
 //        $v->delete();
     }
