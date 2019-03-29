@@ -21,14 +21,29 @@ Route::get('test', function () {
 
     $freeze = \App\Models\Order\RewardFreezeModels::all();
 
-    $wallet = new \App\Models\Member\MemberWalletModel();
+    $result = [];
+    $number = [];
 
-    foreach ($freeze as $v){
+    foreach ($freeze as $v) {
 
-        $wallet = $wallet->where('young_keyword','=',$v->young_order)->get()->toArray();
+        $wallets = \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '<>', 0)->where('young_type', '80')->first();
 
-        dump($wallet);
+        if (is_null($wallets)) continue;
+
+        if (!isset($result[$v->uid])) $result[$v->uid] = 0;
+        if (!isset($number[$v->uid])) $number[$v->uid] = 0;
+
+        $result[$v->uid] += $wallets->young_reward;
+        $number[$v->uid]++;
+
     }
+    foreach ($result as $k => $v) {
+
+        $member = \App\Models\Member\MemberModel::whereUid($k)->first();
+
+        dump($k . '-' . $member->young_nickname . '重复收益：' . $number[$k] . '单，合计重复收益：' . $v);
+    }
+
 
     DB::rollBack();
 });

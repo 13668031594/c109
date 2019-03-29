@@ -111,6 +111,8 @@ class WalletClass extends AdminClass
 
         $where[] = ['uid', '=', $request->get('id')];
 
+        $orWhere = [];
+
         switch ($request->get('wallet')) {
             case '0':
                 $where[] = ['young_balance', '<>', 0];
@@ -119,7 +121,12 @@ class WalletClass extends AdminClass
                 $where[] = ['young_poundage', '<>', 0];
                 break;
             case '2':
+//                $where[] = ['young_reward', '<>', 0];
+                $or = $where;
+                $or[] = ['young_reward_freeze', '<>', 0];
                 $where[] = ['young_reward', '<>', 0];
+                $orWhere[] = $or;
+                $select[] = 'young_reward as amount';
                 break;
             case '3':
                 $where[] = ['young_gxd', '<>', 0];
@@ -151,7 +158,8 @@ class WalletClass extends AdminClass
 
         $other = [
             'where' => $where,
-            'orderBy' => $orderBy
+            'orderBy' => $orderBy,
+            'orWhere' => $orWhere,
         ];
 
         return parent::list_page('member_wallet', $other);
