@@ -27,6 +27,8 @@ Route::get('test', function () {
 
     foreach ($orders as $v){
 
+        if (is_null($v->young_tail_end))continue;
+
         $member = \App\Models\Member\MemberModel::whereUid($v->uid)->first();
 
         if (is_null($member))continue;
@@ -38,7 +40,7 @@ Route::get('test', function () {
             ->first();
 
         if (!is_null($test))continue;
-dd($v->young_tail_end);
+//dd($v->young_tail_end);
         define('DDDATE',$v->young_tail_end);
 
         $match->reward($v);
