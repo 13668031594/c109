@@ -38,7 +38,7 @@ Route::get('test', function () {
             ->first();
 
         if (!is_null($test))continue;
-
+dd($v->young_tail_end);
         define('DDDATE',$v->young_tail_end);
 
         $match->reward($v);
