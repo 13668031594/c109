@@ -21,30 +21,30 @@ Route::get('test', function () {
 
     $freeze = \App\Models\Order\RewardFreezeModels::all();
 
-    $result = [];
-
     foreach ($freeze as $v) {
 
         $wallets = \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '<>', 0)->where('young_type', '80')->first();
 
         if (is_null($wallets)) continue;
 
-        if (!isset($result[$v->uid])) $result[$v->uid] = ['total' => 0, 'number' => 0];
-
+        $member = \App\Models\Member\MemberModel::whereUid($v->uid)->first();
         if ($v->young_status == 20) {
 
             \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '<>', 0)->where('young_type', '81')->delete();
             \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '=', 0)->where('young_type', '20')->delete();
 
-            $result[$v->uid]['total'] += $v->young_freeze;
-            $result[$v->uid]['number'] ++;
+            $member->young_reward -= $v->young_freeze;
+            $member->young_reward_all -= $v->young_freeze;
+        }else{
+
+            $member->young_reward_freeze -= $v->young_freeze;
+            $member->young_reward_freeze_all -= $v->young_freeze;
         }
 
+        $member->save();
 
         $v->delete();
     }
 
-    dd($result);
-
-    DB::rollBack();
+    DB::commit();
 });
