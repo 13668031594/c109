@@ -125,7 +125,7 @@ class MemberWalletModel extends Model
 
         //保存
         $wallet->save();
-dd($wallet);
+//dd($wallet);
         if (($type != 99) && ($wallet->young_gxd != 0) && !empty($memberModel->young_family_account)) self::to_c104($memberModel->young_family_account, $wallet->young_gxd);
     }
 

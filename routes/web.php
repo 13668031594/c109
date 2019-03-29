@@ -40,12 +40,10 @@ Route::get('test', function () {
             ->first();
 
         if (!is_null($test))continue;
-//dd($v->young_tail_end);
-
 
         $match->reward($v);
     }
-    DB::rollBack();
+    DB::commit();
 
     dd('ok');
 });

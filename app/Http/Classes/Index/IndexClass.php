@@ -93,7 +93,7 @@ class IndexClass extends Classes
         }
 
         $orderBy = [
-            'id' => 'desc'
+            'created_at' => 'desc'
         ];
 
         $other = [

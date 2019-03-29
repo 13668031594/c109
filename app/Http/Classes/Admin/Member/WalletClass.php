@@ -152,7 +152,7 @@ class WalletClass extends AdminClass
         }
 
         $orderBy = [
-            'id' => 'desc'
+            'created_at' => 'desc'
         ];
 
         $other = [
