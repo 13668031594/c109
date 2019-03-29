@@ -19,7 +19,8 @@ Route::get('test', function () {
 
     DB::beginTransaction();
 
-    $freeze = \App\Models\Order\RewardFreezeModels::all();
+    \App\Models\Member\MemberWalletModel::whereYoungReward( 0)->where('young_type', '80')->delete();
+    /*$freeze = \App\Models\Order\RewardFreezeModels::all();
 
     foreach ($freeze as $v) {
 
@@ -31,7 +32,7 @@ Route::get('test', function () {
         if ($v->young_status == 20) {
 
             \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '<>', 0)->where('young_type', '81')->delete();
-            \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '=', 0)->where('young_type', '20')->delete();
+            \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '=', 0)->where('young_type', '80')->delete();
 
             $member->young_reward -= $v->young_freeze;
             $member->young_reward_all -= $v->young_freeze;
@@ -44,7 +45,7 @@ Route::get('test', function () {
         $member->save();
 
         $v->delete();
-    }
+    }*/
 
     DB::commit();
 });
