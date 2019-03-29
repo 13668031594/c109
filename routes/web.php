@@ -26,7 +26,7 @@ Route::get('test', function () {
 
     foreach ($freeze as $v) {
 
-        $wallets = \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '<>', 0)->where('young_type', '80')->first();
+        $wallets = \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_status', '=', 20)->where('young_keyword', '=', $v->young_order)->where('young_reward', '<>', 0)->where('young_type', '80')->first();
 
         if (is_null($wallets)) continue;
 
