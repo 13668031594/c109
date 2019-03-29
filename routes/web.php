@@ -19,9 +19,16 @@ Route::get('test', function () {
 
     DB::beginTransaction();
 
-    $freeze = new \App\Models\Order\RewardFreezeModels();
+    $freeze = \App\Models\Order\RewardFreezeModels::all();
 
-    dd($freeze->get());
+    $wallet = new \App\Models\Member\MemberWalletModel();
+
+    foreach ($freeze as $v){
+
+        $wallet = $wallet->where('young_keyword','=',$v->young_order)->get()->toArray();
+
+        dump($wallet);
+    }
 
     DB::rollBack();
 });
