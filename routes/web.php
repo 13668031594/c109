@@ -33,12 +33,15 @@ Route::get('test', function () {
 
         if ($v->young_status == 20) {
 
+            \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '<>', 0)->where('young_type', '81')->delete();
+            \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '=', 0)->where('young_type', '20')->delete();
+
             $result[$v->uid]['total'] += $v->young_freeze;
+            $result[$v->uid]['number'] ++;
         }
 
-        $result[$v->uid]['number'] ++;
 
-//        $v->delete();
+        $v->delete();
     }
 
     dd($result);
