@@ -19,7 +19,9 @@ Route::get('test', function () {
 
     DB::beginTransaction();
 
-    new \App\Http\Classes\Plan\MatchTestClass('match_simu');//执行订单预匹配
+    $freeze = new \App\Models\Order\RewardFreezeModels();
+
+    dd($freeze->get());
 
     DB::rollBack();
 });

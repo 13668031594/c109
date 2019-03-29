@@ -140,7 +140,7 @@ class MatchOrderModel extends Model
             $v->young_status = 80;
             $v->save();
 
-            self::reward($v);
+            self::freeze($v);
         }
 
         foreach ($_79 as $va) {
@@ -148,7 +148,7 @@ class MatchOrderModel extends Model
             $va->young_status = 79;
             $va->save();
 
-            self::reward($va);
+            self::freeze($va);
         }
     }
 
@@ -187,7 +187,7 @@ class MatchOrderModel extends Model
         self::type_change($member->young_referee_id);
 
         //分佣给上级
-        //self::reward($buy);
+        self::reward($buy);
 
         //尝试为上级提升等级
         self::rank_up($buy);
@@ -214,7 +214,6 @@ class MatchOrderModel extends Model
     //上级分佣
     public function reward(BuyOrderModel $model)
     {
-//        dump(1);
         //查看设置信息
         $set = new SetClass();
         $set = $set->index();
@@ -222,27 +221,24 @@ class MatchOrderModel extends Model
         //获取星伙情况
         $total = $model->young_total;
         if ($total <= 0) return;
-//        dump(2);
 
         //寻找买单人
         $member = MemberModel::whereUid($model->uid)->first();
-//        $member->young_referee_id = $member->uid;
+
         if (is_null($member) || empty($member->young_referee_id)) return;
 
         //寻找买单人上级
         $referee = MemberModel::whereUid($member->young_referee_id)->first();
         if (is_null($referee)) return;
-//        dump(3);
-//dd($referee->uid);
         $freeze = new RewardFreezeModels();
 
         //将上次的分佣解冻
-        $freeze->thaw($referee->uid);
+//        $freeze->thaw($referee->uid);
 
         //佣金灼烧制
         $referee_top = BuyOrderModel::whereUid($referee->uid)->where('young_status', '>=', '70')->orderBy('young_total', 'desc')->first();
         if (is_null($referee_top)) return;
-//        dump(4);
+
         $wallet_add = '';
         if ($referee_top->young_total < $total) {
 
@@ -253,7 +249,7 @@ class MatchOrderModel extends Model
         //计算奖励金额
         $reward = number_format(($total * $set['rewardPro'] / 100), 2, '.', '');
         if ($reward <= 0) return;
-//dump(5);
+
         //添加到钱包记录
         $wallet = new MemberWalletModel();
         $record = '下级『' . $member->young_nickname . '』，订单号『' . $model->young_order . '』，付款完结，获得『' . $set['walletReward'] . '（冻结）』' . $reward . $wallet_add;
@@ -273,8 +269,16 @@ class MatchOrderModel extends Model
 
             $freeze->freeze($referee->uid, $keyword, $reward);
         }
-//dump($referee->uid);
+
         $wallet->store_record($referee, $change, 80, $record, $keyword);
+    }
+
+    public function freeze(BuyOrderModel $model)
+    {
+        $freeze = new RewardFreezeModels();
+
+        //将上次的分佣解冻
+        $freeze->thaw($model->young_order);
     }
 
     //尝试提升上级等级

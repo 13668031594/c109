@@ -48,14 +48,14 @@ class RewardFreezeModels extends Model
         $model->save();
     }
 
-    public function thaw($uid)
+    public function thaw($order)
     {
         //之前的冻结资金
-        $freeze = self::whereUid($uid)->where('young_status', '=', 10)->get();
-        if (count($freeze) <= 0) return;
+        $freeze = self::whereYoungOrder($order)->where('young_status', '=', 10)->first();
+        if (is_null($freeze)) return;
 
         //寻找会员
-        $referee = MemberModel::whereUid($uid)->first();
+        $referee = MemberModel::whereUid($freeze->uid)->first();
         if (is_null($referee)) return;
 
         //查看设置信息
@@ -65,24 +65,21 @@ class RewardFreezeModels extends Model
         //初始化钱包信息
         $wallet = new MemberWalletModel();
 
-        foreach ($freeze as $v) {
+        $freeze->young_status = 20;
+        $freeze->young_thaw = DATE;
+        $freeze->save();
 
-            $v->young_status = 20;
-            $v->young_thaw = DATE;
-            $v->save();
+        //添加到钱包记录
+        $record = '解冻『' . $set['walletReward'] . '』' . $freeze->young_freeze . '，来源订单『' . $order . '』';
+        $keyword = $freeze->young_order;
+        $change = ['reward' => $freeze->young_freeze, 'freeze' => (0 - $freeze->young_freeze)];
 
-            //添加到钱包记录
-            $record = '解冻『' . $set['walletReward'] . '』' . $v->young_freeze;
-            $keyword = $v->young_order;
-            $change = ['reward' => $v->young_freeze, 'freeze' => (0 - $v->young_freeze)];
+        //添加到奖励账户
+        $referee->young_reward_freeze -= $freeze->young_freeze;
+        $referee->young_reward += $freeze->young_freeze;
+        $referee->young_reward_all += $freeze->young_freeze;
 
-            //添加到奖励账户
-            $referee->young_reward_freeze -= $v->young_freeze;
-            $referee->young_reward += $v->young_freeze;
-            $referee->young_reward_all += $v->young_freeze;
-
-            $wallet->store_record($referee, $change, 81, $record, $keyword);
-        }
+        $wallet->store_record($referee, $change, 81, $record, $keyword);
 
         $referee->save();
     }

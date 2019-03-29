@@ -10,6 +10,7 @@ namespace App\Http\Classes\Plan;
 
 use App\Models\Order\BuyOrderModel;
 use App\Models\Order\MatchOrderModel;
+use App\Models\Order\RewardFreezeModels;
 
 class BuyOverClass extends PlanClass
 {
@@ -108,7 +109,7 @@ class BuyOverClass extends PlanClass
 
             $update[] = $u;
 
-            if (($status == '79') || ($status == '80')) $match_model->reward($v);
+            if (($status == '79') || ($status == '80')) $match_model->freeze($v);
         }
 
         $numbers = count($update);
