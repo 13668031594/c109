@@ -25,9 +25,6 @@ Route::get('test', function () {
 
     $orders = $order->whereIn('young_status',[70,75])->get();
 
-
-    $insert = [];
-
     foreach ($orders as $v){
 
         $member = \App\Models\Member\MemberModel::whereUid($v->uid)->first();
@@ -42,9 +39,11 @@ Route::get('test', function () {
 
         if (!is_null($test))continue;
 
+        define('DDDATE',$v->young_tail_end);
+
         $match->reward($v);
     }
-    DB::rollBack();
+    DB::commit();
 
     dd('ok');
 });
