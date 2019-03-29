@@ -19,30 +19,11 @@ Route::get('test', function () {
 
     DB::beginTransaction();
 
-    $match = new \App\Models\Order\MatchOrderModel();
+    $freeze = new \App\Models\Order\RewardFreezeModels();
 
-    $order = new \App\Models\Order\BuyOrderModel();
+    //将上次的分佣解冻
+    $freeze->thaw('B375592');
 
-    $orders = $order->whereIn('young_status',[70,75])->get();
-
-    foreach ($orders as $v){
-
-        if (is_null($v->young_tail_end))continue;
-
-        $member = \App\Models\Member\MemberModel::whereUid($v->uid)->first();
-
-        if (is_null($member))continue;
-
-        $test = \App\Models\Member\MemberWalletModel::whereUid($member->young_referee_id)
-            ->where('young_reward','<>',0)
-            ->where('young_keyword','=',$v->young_order)
-            ->where('young_type','=',80)
-            ->first();
-
-        if (!is_null($test))continue;
-
-        $match->reward($v);
-    }
     DB::commit();
 
     dd('ok');
