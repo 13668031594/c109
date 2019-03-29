@@ -126,7 +126,6 @@ class WalletClass extends AdminClass
                 $or[] = ['young_reward_freeze', '<>', 0];
                 $where[] = ['young_reward', '<>', 0];
                 $orWhere[] = $or;
-                $select[] = 'young_reward as amount';
                 break;
             case '3':
                 $where[] = ['young_gxd', '<>', 0];
