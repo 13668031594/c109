@@ -43,7 +43,7 @@ Route::get('test', function () {
 
         $match->reward($v);
     }
-    DB::commit();
+    DB::rollBack();
 
     dd('ok');
 });
