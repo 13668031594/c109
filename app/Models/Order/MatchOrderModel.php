@@ -270,7 +270,7 @@ class MatchOrderModel extends Model
             $freeze->freeze($referee->uid, $keyword, $reward);
         }
 
-        $wallet->store_record($referee, $change, 80, $record, $keyword);
+        $wallet->store_record($referee, $change, 80, $record, $keyword,$model->young_tail_end);
     }
 
     public function freeze(BuyOrderModel $model)

@@ -88,7 +88,7 @@ class MemberWalletModel extends Model
     ];
 
     //添加新的变更记录
-    public function store_record(MemberModel $memberModel, $changes = [], $type, $record = '', $keyword = '')
+    public function store_record(MemberModel $memberModel, $changes = [], $type, $record = '', $keyword = '',$time = null)
     {
         //初始化模型
         $wallet = new self;
@@ -120,8 +120,8 @@ class MemberWalletModel extends Model
         $wallet->young_gxd = isset($changes['gxd']) ? $changes['gxd'] : 0;
         $wallet->young_incite = isset($changes['incite']) ? $changes['incite'] : 0;
         $wallet->young_reward_freeze = isset($changes['freeze']) ? $changes['freeze'] : 0;
-        $wallet->created_at = DDDATE;
-        $wallet->updated_at = DDDATE;
+        $wallet->created_at = $time;
+        $wallet->updated_at = $time;
 
         //保存
         $wallet->save();
