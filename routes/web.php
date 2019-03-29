@@ -41,7 +41,7 @@ Route::get('test', function () {
 
         $member = \App\Models\Member\MemberModel::whereUid($k)->first();
 
-        dump($k . '-' . $member->young_nickname . '重复收益：' . $number[$k] . '单，合计重复收益：' . $v);
+        dump($k . '-' . $member->young_nickname . '重复收益：' . $number[$k] . '单，合计重复收益：' . $v . '，用户当前奖励余额：' . $member->young_reward);
     }
 
 
