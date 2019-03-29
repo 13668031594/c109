@@ -19,33 +19,31 @@ Route::get('test', function () {
 
     DB::beginTransaction();
 
-    \App\Models\Member\MemberWalletModel::whereYoungReward( 0)->where('young_type', '80')->delete();
-    /*$freeze = \App\Models\Order\RewardFreezeModels::all();
+    $match = new \App\Models\Order\MatchOrderModel();
 
-    foreach ($freeze as $v) {
+    $order = new \App\Models\Order\BuyOrderModel();
 
-        $wallets = \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '<>', 0)->where('young_type', '80')->first();
+    $orders = $order->whereIn('young_status',[70,75])->get();
 
-        if (is_null($wallets)) continue;
+
+    $insert = [];
+
+    foreach ($orders as $v){
 
         $member = \App\Models\Member\MemberModel::whereUid($v->uid)->first();
-        if ($v->young_status == 20) {
 
-            \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '<>', 0)->where('young_type', '81')->delete();
-            \App\Models\Member\MemberWalletModel::whereUid($v->uid)->where('young_keyword', '=', $v->young_order)->where('young_reward', '=', 0)->where('young_type', '80')->delete();
+        if (is_null($member))continue;
 
-            $member->young_reward -= $v->young_freeze;
-            $member->young_reward_all -= $v->young_freeze;
-        }else{
+        $test = \App\Models\Member\MemberWalletModel::whereUid($member->young_referee_id)
+            ->where('young_reward','<>',0)
+            ->where('young_keyword','=',$v->young_order)
+            ->where('young_type','=',80)
+            ->first();
 
-            $member->young_reward_freeze -= $v->young_freeze;
-            $member->young_reward_freeze_all -= $v->young_freeze;
-        }
+        if (!is_null($test))continue;
 
-        $member->save();
+        $match->reward($v);
+    }
 
-        $v->delete();
-    }*/
-
-    DB::commit();
+    DB::rollBack();
 });

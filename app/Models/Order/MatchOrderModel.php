@@ -269,7 +269,7 @@ class MatchOrderModel extends Model
 
             $freeze->freeze($referee->uid, $keyword, $reward);
         }
-
+dump($referee->young_nickname.'-'.$record);
         $wallet->store_record($referee, $change, 80, $record, $keyword);
     }
 
