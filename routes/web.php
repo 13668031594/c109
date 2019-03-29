@@ -19,10 +19,9 @@ Route::get('test', function () {
 
     DB::beginTransaction();
 
-    $freeze = \App\Models\Order\RewardFreezeModels::whereYoungStatus(20)->all();
+    $freeze = \App\Models\Order\RewardFreezeModels::all();
 
     $result = [];
-    $number = [];
 
     foreach ($freeze as $v) {
 
@@ -30,20 +29,18 @@ Route::get('test', function () {
 
         if (is_null($wallets)) continue;
 
-        if (!isset($result[$v->uid])) $result[$v->uid] = 0;
-        if (!isset($number[$v->uid])) $number[$v->uid] = 0;
+        if (!isset($result[$v->uid])) $result[$v->uid] = ['total' => 0, 'number' => 0];
 
-        $result[$v->uid] += $wallets->young_reward;
-        $number[$v->uid]++;
+        if ($v->young_status == 20) {
 
-    }
-    foreach ($result as $k => $v) {
+            $result[$v->uid]['total'] += $v->young_freeze;
+            $result[$v->uid]['number'] ++;
+        }
 
-        $member = \App\Models\Member\MemberModel::whereUid($k)->first();
-
-        dump($k . '-' . $member->young_nickname . '重复收益：' . $number[$k] . '单，合计重复收益：' . $v . '，用户当前奖励余额：' . $member->young_reward);
+//        $v->delete();
     }
 
+    dd($result);
 
     DB::rollBack();
 });
