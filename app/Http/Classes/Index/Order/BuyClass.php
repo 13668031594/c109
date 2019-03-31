@@ -156,7 +156,7 @@ class BuyClass extends IndexClass
             'goodsTotal' => $setting['goodsTotal'],
             'goodsCover' => 'http://' . env('LOCALHOST') . '/' . $setting['goodsCover'],
             'topOrder' => self::top_order(),
-            'fast_order_day' => $setting['fast_order_day'],
+            'fast_order_day' => $setting['fastOrderDay'],
         ];
 
         $member = parent::get_member();
