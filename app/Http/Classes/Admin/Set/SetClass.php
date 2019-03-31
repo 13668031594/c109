@@ -134,6 +134,8 @@ class SetClass extends AdminClass
             'sellTimes|卖出订单倍数' => 'required|integer|between:0,100000000',//奖励提现倍数
             'sellPoundageNone|负债卖出' => 'required|in:on,off',//负债卖出
             'sellTop|每日卖出上限' => 'required|integer|between:0,100000000',//单日卖出上限
+            'fastOrderDay|快速订单周期' => 'required|integer|between:0,15',
+            'fastOrderNumber|快速订单数量' => 'required|integer|between:0,100000000',
             //商品设置
             'goodsName|商品名称' => 'required|string|max:40',//商品名称
             'goodsTotal|商品金额' => 'required|integer|between:1,100000000',//商品金额
@@ -270,6 +272,8 @@ class SetClass extends AdminClass
             'sellTimes' => '100',//卖出倍数
             'sellPoundageNone' => 'off',//负星伙卖出开关
             'sellTop' => '100000000',
+            'fastOrderDay' => '5',
+            'fastOrderNumber' => '1',
             //商品设置
             'goodsName' => '测试商品',//商品名称
             'goodsTotal' => '1000',//商品金额

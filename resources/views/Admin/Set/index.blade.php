@@ -540,6 +540,28 @@
                         </div>
                         <div class="layui-form-mid layui-word-aux">订单金额必须大于等于历史最大订单</div>
                     </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">快单周期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="fastOrderDay" title="快速订单周期" lay-filter="numberZ"
+                                       placeholder="快速订单周期" autocomplete="off" value="{{$self['fastOrderDay']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">快速订单收益周期</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-min">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">快单数量</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="fastOrderNumber" title="快速订单数量" lay-filter="numberZ"
+                                       placeholder="快速订单数量" autocomplete="off" value="{{$self['fastOrderNumber']}}"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">前几单可以采集快速订单</div>
+                        </div>
+                    </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">抢单开关</label>
                         <div class="layui-input-inline" style="width:70px;">

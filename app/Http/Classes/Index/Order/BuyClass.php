@@ -156,6 +156,7 @@ class BuyClass extends IndexClass
             'goodsTotal' => $setting['goodsTotal'],
             'goodsCover' => 'http://' . env('LOCALHOST') . '/' . $setting['goodsCover'],
             'topOrder' => self::top_order(),
+            'fast_order_day' => $setting['fast_order_day'],
         ];
 
         $member = parent::get_member();
@@ -266,6 +267,13 @@ class BuyClass extends IndexClass
         $poundage = $data['poundage'];
         $gxd_pro = 0;//贡献点比例
         $gxd = 0;//贡献点
+        if (isset($data['fast_order']) && ($data['fast_order'] == 'success')) {
+
+            if (self::fast_order() != 'success') parent::error_json('不能采集快速订单');
+
+            $data['time'] = $set['fastOrderDay'];
+        }
+
         if ($member['type'] == '20') {
 
             $gxd_pro = ($set['typePro1'] - $set['typePro0']);
@@ -519,5 +527,14 @@ class BuyClass extends IndexClass
         }
 
         return $set;
+    }
+
+    public function fast_order()
+    {
+        $member = parent::get_member();
+
+        $order = BuyOrderModel::whereUid($member['uid'])->count();
+
+        return $order < $this->set['fastOrderNumber'] ? 'success' : 'fails';
     }
 }

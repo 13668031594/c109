@@ -45,6 +45,8 @@ $result['date'] = DATE;
     {
         $set = $this->classes->member_set();
 
+        $set['fast_order'] = $this->classes->fast_order();
+
         return parent::success($set);
     }
 
