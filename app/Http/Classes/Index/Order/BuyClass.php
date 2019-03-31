@@ -305,6 +305,7 @@ class BuyClass extends IndexClass
         $order->young_gxd_pro = $gxd_pro;
         $order->young_gxd = $gxd;
         $order->young_grade = $member['grade'];
+        if (isset($data['fast_order']) && ($data['fast_order'] == 'success'))$order->young_fast_order = '1';
         $order->save();
 
         //扣除会员星伙

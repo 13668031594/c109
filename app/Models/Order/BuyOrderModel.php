@@ -37,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $young_grade 会员下单时候的身份
  * @property int $young_sign_days 签到天数
  * @property float $young_sign_total 签到获得收益
+ * @property string $young_fast_order 是否为快速订单
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel query()
@@ -47,6 +48,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungAbn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungDays($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungFastOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungFirstEnd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungFirstMatch($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order\BuyOrderModel whereYoungFirstPro($value)
