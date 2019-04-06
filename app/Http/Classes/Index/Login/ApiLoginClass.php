@@ -347,6 +347,7 @@ class ApiLoginClass extends IndexClass
         $member['referee_phone'] = '88888888888';
         $member['referee_email'] = '00000@qq.com';
         $member['referee_idcard_no'] = '未填写';
+        $member['referee_qq'] = '未填写';
 
         if (!empty($member['referee_id'])) {
 
@@ -357,6 +358,7 @@ class ApiLoginClass extends IndexClass
                 $member['referee_phone'] = $referee->young_phone;
                 $member['referee_email'] = $referee->young_email;
                 $member['referee_idcard_no'] = $referee->young_idcard_no;
+                $member['referee_qq'] = $referee->young_qq;
             }
         }
 

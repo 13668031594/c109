@@ -75,7 +75,7 @@
                 </div>
                 <div class="layui-form-mid layui-word-aux">登录时的邮箱</div>
             </div>--}}
-            <div class="layui-form-item">
+            {{--<div class="layui-form-item">
                 <label class="layui-form-label">身份证姓名</label>
                 <div class="layui-input-inline">
                     <input type="text" name="idcard_name" title="身份证姓名" placeholder="请输入会员身份证姓名"
@@ -94,6 +94,16 @@
                            maxlength="30"/>
                 </div>
                 <div class="layui-form-mid layui-word-aux">请输入会员身份证号</div>
+            </div>--}}
+            <div class="layui-form-item">
+                <label class="layui-form-label">qq号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="qq" title="qq号" placeholder="请输入会员qq号"
+                           autocomplete="off"
+                           class="layui-input" value='{{isset($self) ? $self["qq"] : ''}}'
+                           maxlength="30"/>
+                </div>
+                <div class="layui-form-mid layui-word-aux">请输入会员qq号</div>
             </div>
 
             <div class="layui-form-item">

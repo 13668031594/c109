@@ -67,6 +67,7 @@ class RegClass extends IndexClass
             'note|备注' => 'nullable|max:40',
             'idcard_name|身份证姓名' => 'nullable|string|max:30',
             'idcard_no|身份证号' => 'nullable|string|max:30',
+            'qq|QQ号' => 'nullable|string|max:30',
         ];
 
         parent::validators_json($request->post(), $term);
@@ -136,6 +137,7 @@ class RegClass extends IndexClass
         $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
         $model->young_idcard_name = empty($request->post('idcard_name')) ? '未填写' : $request->post('idcard_name');
         $model->young_idcard_no = empty($request->post('idcard_no')) ? '未填写' : $request->post('idcard_no');
+        $model->young_qq = empty($request->post('qq')) ? '未填写' : $request->post('qq');
         $model->password = \Hash::make('123456');
 //        $model->young_pay_pass = \Hash::make($request->post('pay_pass'));
 //        $model->young_pay_pass = \Hash::make($request->post('password'));

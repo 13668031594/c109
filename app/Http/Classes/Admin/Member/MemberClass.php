@@ -109,8 +109,9 @@ class MemberClass extends AdminClass implements ListInterface
         $model->young_account = 'hold';
         $model->young_phone = $request->post('phone');
         $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
-        $model->young_idcard_name = empty($request->post('young_idcard_name')) ? '未填写' : $request->post('idcard_name');
-        $model->young_idcard_no = empty($request->post('young_idcard_no')) ? '未填写' : $request->post('idcard_no');
+        $model->young_qq = empty($request->post('qq')) ? '未填写' : $request->post('qq');
+        $model->young_idcard_name = empty($request->post('idcard_name')) ? '未填写' : $request->post('idcard_name');
+        $model->young_idcard_no = empty($request->post('idcard_no')) ? '未填写' : $request->post('idcard_no');
         $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
         $model->young_match_level = $request->post('match_level');
         $model->password = \Hash::make($request->post('password'));
@@ -151,6 +152,7 @@ class MemberClass extends AdminClass implements ListInterface
         $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
         $model->young_idcard_name = empty($request->post('idcard_name')) ? '未填写' : $request->post('idcard_name');
         $model->young_idcard_no = empty($request->post('idcard_no')) ? '未填写' : $request->post('idcard_no');
+        $model->young_qq = empty($request->post('qq')) ? '未填写' : $request->post('qq');
         $model->young_match_level = $request->post('match_level');
         $model->young_special_type = $request->post('special_type');
         $model->young_special_level = $request->post('special_level');
@@ -231,6 +233,7 @@ class MemberClass extends AdminClass implements ListInterface
             'match_level|匹配优先级' => 'required|in:' . implode(',', array_keys($arrays['match_level'])),
             'idcard_name|身份证姓名' => 'nullable|string|between:1,30',
             'incard_no|身份证号' => 'nullable|string|between:1,30',
+            'qq|QQ号' => 'nullable|string|max:30',
         ];
 
         parent::validators_json($request->post(), $term);
@@ -262,6 +265,7 @@ class MemberClass extends AdminClass implements ListInterface
             'match_level|匹配优先级' => 'required|in:' . implode(',', array_keys($arrays['match_level'])),
             'idcard_name|身份证姓名' => 'nullable|string|between:1,30',
             'incard_no|身份证号' => 'nullable|string|between:1,30',
+            'qq|QQ号' => 'nullable|string|max:30',
         ];
 
         parent::validators_json($request->post(), $term);
