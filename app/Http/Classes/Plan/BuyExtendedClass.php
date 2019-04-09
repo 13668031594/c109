@@ -25,7 +25,7 @@ class BuyExtendedClass extends PlanClass
         if (parent::test_plan()) return;
 
         $sql = "SELECT b.* FROM young_buy_order_models as b,young_member_models as m 
-WHERE b.young_in_over <= {date('Y-m-d 00:00:00')} 
+WHERE b.young_in_over >= {date('Y-m-d 00:00:00')} 
 AND m.young_status <> 10
 AND b.uid = m.uid 
 ";
