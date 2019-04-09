@@ -73,7 +73,7 @@
                     </tr>
                     <tr>
                         <td>奖励账户/累计/冻结</td>
-                        <td>{{$self['reward'] + $self['reward_freeze']}}/{{$self['reward_all']}}/{{$self['reward_freeze']}}</td>
+                        <td>{{$self['reward']}}/{{$self['reward_all']}}/{{$self['reward_freeze']}}</td>
                     </tr>
                     <tr>
                         <td>贡献点/累计</td>
