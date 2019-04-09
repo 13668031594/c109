@@ -17,14 +17,6 @@ Route::get('c104', 'Plan\PlanController@gxd_with');
 
 Route::get('test', function () {
 
-    DB::beginTransaction();
+    new \App\Http\Controllers\Plan\PlanController();
 
-    $freeze = new \App\Models\Order\RewardFreezeModels();
-
-    //将上次的分佣解冻
-    $freeze->thaw('B375592');
-
-    DB::commit();
-
-    dd('ok');
 });

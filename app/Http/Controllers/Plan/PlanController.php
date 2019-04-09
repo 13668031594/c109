@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Plan;
 use App\Http\Classes\Plan\AccountClass;
 use App\Http\Classes\Plan\ActClass;
 use App\Http\Classes\Plan\AutoClass;
+use App\Http\Classes\Plan\BuyExtendedClass;
 use App\Http\Classes\Plan\BuyOverClass;
 use App\Http\Classes\Plan\GradeClass;
 use App\Http\Classes\Plan\GxdWithClass;
@@ -21,6 +22,7 @@ class PlanController extends Controller
     //开始执行计划任务
     public function index()
     {
+
         \DB::beginTransaction();
 
         new GradeClass();//新老会员
@@ -40,6 +42,8 @@ class PlanController extends Controller
         new MatchClass();//执行订单匹配
 
         new MatchSureClass();//自动确认未收款的匹配订单
+
+        new BuyExtendedClass();//延长订单收益时间
 
         new BuyOverClass();//订单收益完结
 

@@ -33,6 +33,7 @@ class MemberRecordModel extends Model
         10 => '后台调整',
         20 => '收益状态',
         30 => '状态变更',
+        40 => '收益延时',
     ];
 
     //添加新的变更记录
