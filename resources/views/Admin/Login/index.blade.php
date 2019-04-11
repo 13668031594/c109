@@ -67,6 +67,10 @@
                                 <dd><a href="javascript:;" data-menu='/admin/bank/index'><i
                                                 class="layui-icon layui-icon-file"></i> 银行列表</a></dd>
                             @endif
+                            @if(in_array('rest_day.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/rest_day/index'><i
+                                                class="layui-icon layui-icon-file"></i> 休息日列表</a></dd>
+                            @endif
                             @if(in_array('bank.index',$powers) || in_array('-1',$powers))
                                 <dd><a href="javascript:;" data-menu='/admin/master/index'><i
                                                 class="layui-icon layui-icon-face-smile-fine"></i> 管理员列表</a></dd>

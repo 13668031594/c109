@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Order;
 
+use App\Http\Classes\Index\Order\AllClass;
 use App\Http\Classes\Index\Order\BuyClass;
 use App\Http\Classes\Index\Order\PayClass;
 use App\Http\Controllers\Api\ApiController;
@@ -20,7 +21,12 @@ class BuyController extends ApiController
     public function index()
     {
         $result = $this->classes->index('1');
-$result['date'] = DATE;
+
+        $result['date'] = DATE;
+
+        $class = new AllClass();
+        $result['all'] = $class->index();
+
         return parent::success($result);
     }
 
@@ -101,7 +107,7 @@ $result['date'] = DATE;
     }
 
     //订单付款
-    public function pay($id,Request $request)
+    public function pay($id, Request $request)
     {
         \DB::beginTransaction();
 
@@ -109,7 +115,7 @@ $result['date'] = DATE;
         $class = new PayClass();
 
         //添加支付信息
-        $class->pay($id,$request);
+        $class->pay($id, $request);
 
         //给予支付奖励
         $class->pay_reward();

@@ -24,7 +24,8 @@ class PlanController extends Controller
     {
 
         \DB::beginTransaction();
-
+        new BuyExtendedClass();//延长订单收益时间
+dd('ok');
         new GradeClass();//新老会员
 
         new TypeClass();//修改会员下单类型

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Order;
 
+use App\Http\Classes\Index\Order\AllClass;
 use App\Http\Classes\Index\Order\PayClass;
 use App\Http\Classes\Index\Order\SellClass;
 use App\Http\Controllers\Api\ApiController;
@@ -21,6 +22,9 @@ class SellController extends ApiController
     public function index()
     {
         $result = $this->classes->index();
+
+        $class = new AllClass();
+        $result['all'] = $class->index();
 
         return parent::success($result);
     }

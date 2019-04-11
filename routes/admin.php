@@ -173,3 +173,15 @@ Route::group(['namespace' => 'Bill'], function () {
     Route::get('/match-simu/table', 'MatchSimuController@table')->name('bill.match-simu');//预匹配数据
 });
 
+//休息日列表
+Route::group(['namespace' => 'RestDay'], function () {
+
+    Route::get('/rest_day/index', 'RestDayController@index')->name('rest_day.index');//休息日首页
+    Route::get('/rest_day/table', 'RestDayController@table')->name('rest_day.index');//休息日列表
+    Route::get('/rest_day/create', 'RestDayController@create')->name('rest_day.create');//休息日添加
+    Route::post('/rest_day/store', 'RestDayController@store')->name('rest_day.create');//休息日添加
+    Route::get('/rest_day/edit', 'RestDayController@edit')->name('rest_day.edit');//休息日编辑
+    Route::post('/rest_day/update/{id}', 'RestDayController@update')->name('rest_day.edit');//休息日编辑
+    Route::get('/rest_day/delete', 'RestDayController@destroy')->name('rest_day.destroy');//休息日删除
+});
+
