@@ -7,7 +7,6 @@ use App\Http\Classes\Index\Order\PayClass;
 use App\Http\Classes\Index\Order\SellClass;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class SellController extends ApiController
 {
