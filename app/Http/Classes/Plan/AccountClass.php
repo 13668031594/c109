@@ -30,11 +30,11 @@ class AccountClass extends PlanClass
         //满足后台激活不排单封号的
         $act_ids = self::act_ids();
 
-        //满足防撞长时间不排单的
+        //满足一单长时间不排单的
         //$mode_10_ids = self::mode_10_ids();
         $mode_10_ids = [];
 
-        //满足未防撞长时间不排单的
+        //满足多单长时间不排单的
         $mode_20_ids = self::mode_20_ids();
 
         //超时未付款封号
@@ -130,11 +130,11 @@ class AccountClass extends PlanClass
             }
             if (in_array($v->uid, $mode_10_ids)) {
 
-                $r .= '防撞模式下，超过限时未排单；';
+                $r .= '一单模式下，超过限时未排单；';
             }
             if (in_array($v->uid, $mode_20_ids)) {
 
-                $r .= '未防撞模式下，超过限时未排单；';
+                $r .= '多单模式下，超过限时未排单；';
             }
             if (in_array($v->uid, $not_pay_ids)) {
 
@@ -195,7 +195,7 @@ class AccountClass extends PlanClass
         return $ids;
     }
 
-    //防撞
+    //一单
     private function mode_10_ids()
     {
 //        if (empty($this->set['deleteType0'])) $date = DATE;
@@ -218,7 +218,7 @@ AND m.young_mode = 10";
         return $ids;
     }
 
-    //未防撞
+    //多单
     private function mode_20_ids()
     {
 //        if (empty($this->set['deleteType1'])) $date = DATE;

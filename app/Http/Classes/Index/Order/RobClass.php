@@ -40,7 +40,7 @@ class RobClass extends IndexClass
     {
         $member = parent::get_member();//会员参数
 
-        if ($member['mode'] != '20') parent::error_json('只有开启未防撞模式的会员才能参与抢单');
+        if ($member['mode'] != '20') parent::error_json('只有开启多单模式的会员才能参与抢单');
 
         $set = $this->set;//配置文件
 

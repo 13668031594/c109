@@ -226,8 +226,8 @@ class MemberModel extends Authenticatable
 
     //账号模式
     public $mode = [
-        10 => '防撞',
-        20 => '未防撞',
+        10 => '一单',
+        20 => '多单',
     ];
 
     //收益模式

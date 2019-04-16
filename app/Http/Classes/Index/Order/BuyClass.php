@@ -336,7 +336,7 @@ class BuyClass extends IndexClass
     {
         $member = parent::get_member();
 
-        if ($member['mode'] != '20') parent::error_json('只有未防撞状态才能开启自动采集');
+        if ($member['mode'] != '20') parent::error_json('只有多单状态才能开启自动采集');
 
         $last = new BuyOrderModel();
         $last = $last->where('uid', '=', $member['uid'])->orderBy('created_at', 'desc')->first();
@@ -388,7 +388,7 @@ class BuyClass extends IndexClass
         $set = $this->set;//配置文件
         $member = parent::get_member();//会员参数
 
-        if ($member['mode'] != '20') parent::error_json('只有未防撞状态才能开启自动采集');
+        if ($member['mode'] != '20') parent::error_json('只有多单状态才能开启自动采集');
         if ($set['buySwitch'] != 'on') parent::error_json('暂时无法采集');//手动采集开关
         $top_order = self::top_order();
 

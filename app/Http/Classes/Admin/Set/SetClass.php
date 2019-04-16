@@ -88,7 +88,7 @@ class SetClass extends AdminClass
             'accountActResult|发放激活结果时间' => 'required|date_format:"H:i"|after:accountActEnd',//发放激活结果
             'accountActPoundage|激活收取星伙' => 'required|integer|between:0,100000000',//激活收取星伙
             'accountActPoundageNone|负星伙激活开关' => 'required|in:on,off',//负星伙激活开关
-            'accountModeDefault|默认防撞模式' => 'required|in:10,20',//默认防撞模式
+            'accountModeDefault|默认一单模式' => 'required|in:10,20',//默认一单模式
             'accountRegOut|禁止注册地区' => 'nullable|max:300',
             'accountRegGive|每日赠送' => 'required|numeric|between:0,1000000',
             //删号设置
@@ -97,8 +97,8 @@ class SetClass extends AdminClass
             'deleteAdminActSwitch|后台激活不排单删号开关' => 'required|in:on,off',//后台激活不排单删号开关
             'deleteAdminActTime|后台激活不排单删号时间' => 'required|integer|between:1,3650',//1天后删除
             'deletePoundage|封号扣除星伙' => 'required|numeric|between:0,1000',//封号扣除的星伙
-//            'deleteType0|防撞模式不排单封号时间' => 'required|integer|between:1,3650',
-//            'deleteType1|未防撞模式不排单封号时间' => 'required|integer|between:1,3650',
+//            'deleteType0|一单模式不排单封号时间' => 'required|integer|between:1,3650',
+//            'deleteType1|多单模式不排单封号时间' => 'required|integer|between:1,3650',
             //网站设置
             'webName|网站名称' => 'required|string|max:10',
             'webTitle|网站标题' => 'required|string|max:20',
@@ -140,14 +140,14 @@ class SetClass extends AdminClass
             'goodsName|商品名称' => 'required|string|max:40',//商品名称
             'goodsTotal|商品金额' => 'required|integer|between:1,100000000',//商品金额
             'goodsCover|商品封面' => 'required|string',//商品封面
-//            'goodsType0|防撞模式购买周期' => 'required|integer|between:1,100000000',//防撞模式购买周期
-//            'goodsType1|未防撞模式购买周期' => 'required|integer|between:1,100000000',//未防撞模式购买周期
-            'goodsTop0|防撞模式购买上限' => 'required|integer|between:1,100000000',//防撞模式购买上限
-            'goodsTop1|未防撞模式购买上限' => 'required|integer|between:1,100000000',//未防撞模式购买上限
-//            'goodsLower0|防撞模式收益时间下限' => 'required|integer|between:1,365',//防撞模式收益时间选项
-//            'goodsCeil0|防撞模式收益时间上限' => 'required|integer|between:1,366',//防撞模式收益时间选项
-            'goodsLower1|未防撞模式收益时间下限' => 'required|integer|between:1,365',//未防撞模式收益时间选项
-            'goodsCeil1|未防撞模式收益时间上限' => 'required|integer|between:1,366',//未防撞模式收益时间选项
+//            'goodsType0|一单模式购买周期' => 'required|integer|between:1,100000000',//一单模式购买周期
+//            'goodsType1|多单模式购买周期' => 'required|integer|between:1,100000000',//多单模式购买周期
+            'goodsTop0|一单模式购买上限' => 'required|integer|between:1,100000000',//一单模式购买上限
+            'goodsTop1|多单模式购买上限' => 'required|integer|between:1,100000000',//多单模式购买上限
+//            'goodsLower0|一单模式收益时间下限' => 'required|integer|between:1,365',//一单模式收益时间选项
+//            'goodsCeil0|一单模式收益时间上限' => 'required|integer|between:1,366',//一单模式收益时间选项
+            'goodsLower1|多单模式收益时间下限' => 'required|integer|between:1,365',//多单模式收益时间选项
+            'goodsCeil1|多单模式收益时间上限' => 'required|integer|between:1,366',//多单模式收益时间选项
             //匹配设置
             'matchNewMember|新会员立即匹配数' => 'required|integer|between:1,100000000',//新会员立即匹配数
             'matchFirstStart|预付款匹配开始时间' => 'required|integer|between:1,100000000',//首付款匹配开始时间
@@ -226,7 +226,7 @@ class SetClass extends AdminClass
             'accountActResult' => '09:14',//发放激活结果
             'accountActPoundage' => '2',//激活收取星伙
             'accountActPoundageNone' => 'on',//负星伙激活开关
-            'accountModeDefault' => '10',//默认防撞模式
+            'accountModeDefault' => '10',//默认一单模式
             'accountRegOut' => '',//禁止注册地区
             'accountRegGive' => '0.5',//注册每日赠送
             //删号设置
@@ -278,14 +278,14 @@ class SetClass extends AdminClass
             'goodsName' => '测试商品',//商品名称
             'goodsTotal' => '1000',//商品金额
             'goodsCover' => '',//商品封面
-            'goodsType0' => '15',//防撞周期
-            'goodsType1' => '15',//未防撞周期
-            'goodsTop0' => '5',//防撞模式购买上限
-            'goodsTop1' => '20',//未防撞模式购买上限
-//            'goodsLower0' => '7',//防撞模式收益时间下限
-//            'goodsCeil0' => '15',//防撞模式收益时间上限
-            'goodsLower1' => '7',//未防撞模式收益时间下限
-            'goodsCeil1' => '12',//未防撞模式收益时间上限
+            'goodsType0' => '15',//一单周期
+            'goodsType1' => '15',//多单周期
+            'goodsTop0' => '5',//一单模式购买上限
+            'goodsTop1' => '20',//多单模式购买上限
+//            'goodsLower0' => '7',//一单模式收益时间下限
+//            'goodsCeil0' => '15',//一单模式收益时间上限
+            'goodsLower1' => '7',//多单模式收益时间下限
+            'goodsCeil1' => '12',//多单模式收益时间上限
             //匹配设置
             'matchNewMember' => '1',//新会员立即匹配数
             'matchFirstStart' => '2',//首付款匹配开始时间

@@ -187,7 +187,7 @@
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label">默认防撞</label>
+                        <label class="layui-form-label">默认一单</label>
                         <div class="layui-input-inline" style="width:70px;">
                             <input type="checkbox" id='accountModeDefault' lay-filter="accountModeDefault"
                                    lay-skin="switch"
@@ -195,7 +195,7 @@
                             <input type="hidden" id='accountModeDefaultValue' name="accountModeDefault"
                                    value="{{$self['accountModeDefault']}}"/>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">账号注册后默认开启防撞模式</div>
+                        <div class="layui-form-mid layui-word-aux">账号注册后默认开启一单模式</div>
                     </div>
 
                     <div class="layui-form-min">
@@ -571,7 +571,7 @@
                             <input type="hidden" id='robSwitchValue' name="robSwitch"
                                    value="{{$self['robSwitch']}}"/>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">是否允许未防撞的用户进行抢单</div>
+                        <div class="layui-form-mid layui-word-aux">是否允许多单的用户进行抢单</div>
                     </div>
                     <div id="robOn" class="layui-form-item"
                          @if($self['robSwitch'] == 'off')style="display:none"@endif>
@@ -651,52 +651,52 @@
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">防撞上限</label>
+                        <label class="layui-form-label">一单上限</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="goodsTop0" lay-filter="numberZ" title="防撞上限"
-                                   placeholder="防撞上限" autocomplete="off" value="{{$self['goodsTop0']}}"
+                            <input type="text" name="goodsTop0" lay-filter="numberZ" title="一单上限"
+                                   placeholder="一单上限" autocomplete="off" value="{{$self['goodsTop0']}}"
                                    class="layui-input">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">防撞模式下，一单购买商品数量</div>
+                        <div class="layui-form-mid layui-word-aux">一单模式下，一单购买商品数量</div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">未防撞上限</label>
+                        <label class="layui-form-label">多单上限</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="goodsTop1" lay-filter="numberZ" title="未防撞上限"
-                                   placeholder="未防撞上限" autocomplete="off" value="{{$self['goodsTop1']}}"
+                            <input type="text" name="goodsTop1" lay-filter="numberZ" title="多单上限"
+                                   placeholder="多单上限" autocomplete="off" value="{{$self['goodsTop1']}}"
                                    class="layui-input">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">未防撞模式下，一单购买商品数量</div>
+                        <div class="layui-form-mid layui-word-aux">多单模式下，一单购买商品数量</div>
                     </div>
                     {{--<div class="layui-form-item">
-                        <label class="layui-form-label">防撞收益</label>
+                        <label class="layui-form-label">一单收益</label>
                         <div class="layui-input-inline" style="width: 40px;">
-                            <input type="text" name="goodsLower0" lay-filter="numberZ" title="防撞收益"
+                            <input type="text" name="goodsLower0" lay-filter="numberZ" title="一单收益"
                                    placeholder="" autocomplete="off" value="{{$self['goodsLower0']}}"
                                    class="layui-input">
                         </div>
                         <div class="layui-form-mid layui-word-aux">-</div>
                         <div class="layui-input-inline" style="width: 40px;">
-                            <input type="text" name="goodsCeil0" lay-verify="required" title="防撞收益"
+                            <input type="text" name="goodsCeil0" lay-verify="required" title="一单收益"
                                    placeholder="" autocomplete="off" value="{{$self['goodsCeil0']}}"
                                    class="layui-input">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">防撞模式下，可选的收益时间，单位：天</div>
+                        <div class="layui-form-mid layui-word-aux">一单模式下，可选的收益时间，单位：天</div>
                     </div>--}}
                     <div class="layui-form-item">
-                        <label class="layui-form-label">未防撞收益</label>
+                        <label class="layui-form-label">多单收益</label>
                         <div class="layui-input-inline" style="width: 40px;">
-                            <input type="text" name="goodsLower1" lay-filter="numberZ" title="未防撞收益"
+                            <input type="text" name="goodsLower1" lay-filter="numberZ" title="多单收益"
                                    placeholder="" autocomplete="off" value="{{$self['goodsLower1']}}"
                                    class="layui-input">
                         </div>
                         <div class="layui-form-mid layui-word-aux">-</div>
                         <div class="layui-input-inline" style="width: 40px;">
-                            <input type="text" name="goodsCeil1" lay-verify="required" title="未防撞收益"
+                            <input type="text" name="goodsCeil1" lay-verify="required" title="多单收益"
                                    placeholder="" autocomplete="off" value="{{$self['goodsCeil1']}}"
                                    class="layui-input">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">未防撞模式下，可选的收益时间，单位：天</div>
+                        <div class="layui-form-mid layui-word-aux">多单模式下，可选的收益时间，单位：天</div>
                     </div>
                 </div>
                 <div class="layui-tab-item">
