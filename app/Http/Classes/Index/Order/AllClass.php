@@ -39,13 +39,13 @@ class AllClass extends IndexClass
             if (($v->young_status == 20) && ($v->young_sell_uid == $user['uid']))$sell[] = $v->young_sell_id;
         }
 
-        $buy_select = ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from', 'young_grade','young_fast_order'];
-        $buy = BuyOrderModel::whereUid($user['uid'])->whereIn('id',$buy)->orderBy('created_at','asc')->get($buy_select);
+        $buy_select = ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from', 'young_grade','young_fast_order','young_in_over as in'];
+        $buy = BuyOrderModel::whereUid($user['uid'])->where('young_status','<','70')->whereIn('id',$buy)->orderBy('created_at','asc')->get($buy_select);
         $buy = parent::delete_prefix($buy->toArray());
         foreach ($buy as &$v) $v['speed'] = ($v['grade'] == '10') ? '1' : '0';
 
         $sell_select = ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status'];
-        $sell = SellOrderModel::whereUid($user['uid'])->whereIn('id',$sell)->orderBy('created_at','asc')->get($sell_select);
+        $sell = SellOrderModel::whereUid($user['uid'])->where('young_status','<','30')->whereIn('id',$sell)->orderBy('created_at','asc')->get($sell_select);
         $sell = parent::delete_prefix($sell->toArray());
         foreach ($sell as &$v) {
 
