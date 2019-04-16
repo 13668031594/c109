@@ -8,7 +8,6 @@
 
 namespace App\Http\Classes\Index\Order;
 
-
 use App\Http\Classes\Index\IndexClass;
 use App\Models\Order\BuyOrderModel;
 use App\Models\Order\MatchOrderModel;
@@ -40,7 +39,7 @@ class AllClass extends IndexClass
         }
 
         $buy_select = ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from', 'young_grade','young_fast_order','young_in_over as in'];
-        $buy = BuyOrderModel::whereUid($user['uid'])->where('young_status','<','70')->whereIn('id',$buy)->orderBy('created_at','asc')->get($buy_select);
+        $buy = BuyOrderModel::whereUid($user['uid'])->where('young_status','<','90')->whereIn('id',$buy)->orderBy('created_at','asc')->get($buy_select);
         $buy = parent::delete_prefix($buy->toArray());
         foreach ($buy as &$v) $v['speed'] = ($v['grade'] == '10') ? '1' : '0';
 
