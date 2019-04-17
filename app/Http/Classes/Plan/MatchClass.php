@@ -169,11 +169,11 @@ class MatchClass extends PlanClass
 
         if (!$test) {
 
-        //获取所有首付款匹配订单
-        $first = self::first_match($others);
+            //获取所有首付款匹配订单
+            $first = self::first_match($others);
 
-        //首付款匹配
-        self::match_10($first);
+            //首付款匹配
+            self::match_10($first);
         };
 
         //新会员尾款匹配
