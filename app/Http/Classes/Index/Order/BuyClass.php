@@ -27,7 +27,7 @@ class BuyClass extends IndexClass
             ['uid', '=', $member['uid']],
         ];
 
-        $select = ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from', 'young_grade','young_fast_order'];
+        $select = ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from', 'young_grade','young_fast_order','young_in as in','young_in_over as in_over'];
 
         $type = \request()->get('type');
         if ($type == '1') {
@@ -37,11 +37,9 @@ class BuyClass extends IndexClass
         if ($type == '2') {
             $where[] = ['young_status', '>=', 70];
             $where[] = ['young_status', '<', 90];
-            $select = array_merge($select, ['young_in_over', 'young_in']);
         }
         if ($type == '3') {
             $where[] = ['young_status', '>=', 70];
-            $select = array_merge($select, ['young_in_over', 'young_in']);
         }
 
         $other = [
