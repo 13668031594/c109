@@ -314,8 +314,8 @@ class MatchOrderModel extends Model
 
                 if ($va->young_child <= $child) {
 
-                    $member->young_rank_id = $rank->id;
-                    $member->young_rank_name = $rank->young_name;
+                    $member->young_rank_id = $va->id;
+                    $member->young_rank_name = $va->young_name;
                     $member->save();
                 }
             }
