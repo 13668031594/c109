@@ -85,7 +85,7 @@
                         </div>
 
                         <div class="layui-form-item">
-                            <label class="layui-form-label">充值数量</label>
+                            <label class="layui-form-label">发放数量</label>
                             <div class="layui-input-block">
                                 <input id="number" type="text" name="number" required title="发放数量"
                                        lay-verify="required|number"
