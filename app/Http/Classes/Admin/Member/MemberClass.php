@@ -90,6 +90,10 @@ class MemberClass extends AdminClass implements ListInterface
 
         $result['special_customer'] = self::special_customer();
 
+        $rank = new MemberRankModel();
+
+        $result['rank'] = parent::delete_prefix($rank->orderBy('id', 'asc')->get(['id', 'young_name'])->toArray());
+
         return $result;
     }
 
@@ -98,6 +102,7 @@ class MemberClass extends AdminClass implements ListInterface
         \DB::beginTransaction();
 
         $model = new MemberModel();
+        $rank = MemberRankModel::find($request->post('rank_id'));
 
         //添加客服信息
         $model = $model->rand_customer($model);
@@ -105,6 +110,9 @@ class MemberClass extends AdminClass implements ListInterface
         $model = $model->change_bank($model, $request);
         //添加推荐人信息
         $model = $model->referee($model, $request->post('referee'));
+        //等级信息
+        $model->young_rank_id = $rank->id;
+        $model->young_rank_name = $rank->young_name;
         //添加基础信息
         $model->young_account = 'hold';
         $model->young_phone = $request->post('phone');
@@ -144,9 +152,13 @@ class MemberClass extends AdminClass implements ListInterface
         \DB::beginTransaction();
 
         $model = MemberModel::whereUid($id)->first();
+        $rank = MemberRankModel::find($request->post('rank_id'));
 
         //添加银行卡信息
         $model = $model->change_bank($model, $request);
+        //等级信息
+        $model->young_rank_id = $rank->id;
+        $model->young_rank_name = $rank->young_name;
         //添加基础信息
         $model->young_phone = $request->post('phone');
         $model->young_email = empty($request->post('email')) ? '未填写' : $request->post('email');
@@ -181,7 +193,7 @@ class MemberClass extends AdminClass implements ListInterface
         }
         //修改团队客服
         $special_customer = $request->post('special_customer');
-        if ($special_customer != $model->young_special_customer){
+        if ($special_customer != $model->young_special_customer) {
 
             $model->young_special_customer = $special_customer;
             $change = new MemberModel();
@@ -234,6 +246,7 @@ class MemberClass extends AdminClass implements ListInterface
             'idcard_name|身份证姓名' => 'nullable|string|between:1,30',
             'incard_no|身份证号' => 'nullable|string|between:1,30',
             'qq|QQ号' => 'nullable|string|max:30',
+            'rank_id|会员等级' => 'required|exists:member_rank_models,id',
         ];
 
         parent::validators_json($request->post(), $term);
@@ -266,6 +279,7 @@ class MemberClass extends AdminClass implements ListInterface
             'idcard_name|身份证姓名' => 'nullable|string|between:1,30',
             'incard_no|身份证号' => 'nullable|string|between:1,30',
             'qq|QQ号' => 'nullable|string|max:30',
+            'rank_id|会员等级' => 'required|exists:member_rank_models,id',
         ];
 
         parent::validators_json($request->post(), $term);

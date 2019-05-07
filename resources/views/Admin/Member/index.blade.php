@@ -148,6 +148,7 @@
                 {field: 'phone', width: 120, title: '手机'},
 //                {field: 'email', width: 150, title: '邮箱'},
                 {field: 'nickname', width: 100, title: '昵称'},
+                {field: 'rank_name', width: 100, title: '等级'},
                 {
                     field: 'status', width: 80, title: '状态', templet: function (d) {
                     return '<span class="layui-badge  layui-bg-blue">' + status[d.status] + '</span>'

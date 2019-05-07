@@ -94,6 +94,14 @@
                                 <dd><a href="javascript:;" data-menu='/admin/customer/index'><i
                                                 class="layui-icon layui-icon-file"></i> 客服列表</a></dd>
                             @endif
+                            @if(in_array('wage.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/wage/index'><i
+                                                class="layui-icon layui-icon-file"></i> 待发工资</a></dd>
+                            @endif
+                            @if(in_array('wage.record',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/wage/record'><i
+                                                class="layui-icon layui-icon-file"></i> 工资记录</a></dd>
+                            @endif
                         </dl>
                     </li>
                 @endif

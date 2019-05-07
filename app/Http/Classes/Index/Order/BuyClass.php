@@ -105,6 +105,7 @@ class BuyClass extends IndexClass
             $v['payeeReferee'] = $referee ? $referee->young_referee_nickname : '未找到';
             $v['toReferee'] = $member['referee_nickname'];
             $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
+            $v['created_at'] = date('Y-m-d',strtotime($v['created_at']));
             unset($v['sell_uid']);
             unset($v['pay']);
         }

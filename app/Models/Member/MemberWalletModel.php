@@ -32,6 +32,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $young_reward_freeze 变动奖励账户冻结资金
  * @property float $young_reward_freeze_now 当前奖励账户冻结资金
  * @property float $young_reward_freeze_all 累计奖励账户冻结资金
+ * @property float $young_wage 变动工资
+ * @property float $young_wage_now 当前工资
+ * @property float $young_wage_all 累计工资
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel query()
@@ -60,6 +63,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungRewardFreezeNow($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungRewardNow($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungWage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungWageAll($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member\MemberWalletModel whereYoungWageNow($value)
  * @mixin \Eloquent
  */
 class MemberWalletModel extends Model
@@ -84,6 +90,7 @@ class MemberWalletModel extends Model
         81 => '下级奖励解冻',
         90 => '钱包交易',
         91 => '工资发放',
+        92 => '工资获得',
         99 => '家谱同步',
     ];
 
@@ -112,6 +119,8 @@ class MemberWalletModel extends Model
         $wallet->young_incite_now = $memberModel->young_incite;
         $wallet->young_reward_freeze_all = $memberModel->young_reward_freeze_all;
         $wallet->young_reward_freeze_now = $memberModel->young_reward_freeze;
+        $wallet->young_wage_all = $memberModel->young_wage_all;
+        $wallet->young_wage_now = $memberModel->young_wage;
 
         //变化信息
         $wallet->young_balance = isset($changes['balance']) ? $changes['balance'] : 0;
@@ -120,6 +129,7 @@ class MemberWalletModel extends Model
         $wallet->young_gxd = isset($changes['gxd']) ? $changes['gxd'] : 0;
         $wallet->young_incite = isset($changes['incite']) ? $changes['incite'] : 0;
         $wallet->young_reward_freeze = isset($changes['freeze']) ? $changes['freeze'] : 0;
+        $wallet->young_wage = isset($changes['wage']) ? $changes['wage'] : 0;
 
         //保存
         $wallet->save();

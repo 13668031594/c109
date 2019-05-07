@@ -191,6 +191,9 @@ class MatchOrderModel extends Model
 
         //尝试为上级提升等级
         self::rank_up($buy);
+
+        //为上级发放工资
+        self::wage($buy);
     }
 
     //完结挂售订单
@@ -273,6 +276,7 @@ class MatchOrderModel extends Model
         $wallet->store_record($referee, $change, 80, $record, $keyword);
     }
 
+    //解冻佣金
     public function freeze(BuyOrderModel $model)
     {
         $freeze = new RewardFreezeModels();
@@ -372,6 +376,7 @@ class MatchOrderModel extends Model
         }
     }
 
+    //定的订单号
     public function new_order()
     {
         $string = 'abcdefghijklmnopqrstuvwxvzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -392,5 +397,104 @@ class MatchOrderModel extends Model
         if (is_null($test)) return $key;
 
         return self::new_order();
+    }
+
+    //为上级发放工资
+    public function wage(BuyOrderModel $model)
+    {
+        //没有收取手续费
+        if ($model->young_poundage <= 0) return;
+
+        $set = new SetClass();
+        $set = $set->index();
+        $base = number_format(($model->young_poundage * $set['walletPoundageBalance']), 2, '.', '');
+
+        if ($base <= 0) return;
+
+        //计算参加发放工资的会员等级
+        $ranks = new MemberRankModel();
+        $ranks = $ranks->where('young_wage', '>', 0)->orderBy('young_sort', 'asc')->get(['id', 'young_wage']);
+        if (count($ranks) <= 0) return;
+        $rank = [];
+        foreach ($ranks as $v) $rank[$v->id] = $v->young_wage;
+
+        //寻找会员
+        $member = MemberModel::whereUid($model->uid)->first();
+        if (is_null($member) || empty($member->young_families)) return;
+
+        //寻找参与发放工资的上级
+        $referee_ids = explode(',', $member->young_families);
+        $families = new MemberModel();
+        $families = $families->whereIn('uid', $referee_ids)//是上级
+        ->whereIn('young_rank_id', array_keys($rank))//属于参与分佣的等级
+//        ->where('young_status', '!=', '30')//没有被封停
+        ->orderBy('young_rank_id', 'asc')//由近及远
+        ->orderBy('uid', 'desc')//由近及远
+        ->get();
+
+        //没有上级，结束
+        if (empty($families)) return;
+
+        //钱包模型
+        $wallet = new MemberWalletModel();
+
+        //循环发放工资
+        foreach ($families as $va) {
+
+            //没有可以发放工资的等级了
+            if (empty($rank)) break;
+
+            //当前等级工资已经发放过了
+            if (!in_array($va->young_rank_id, array_keys($rank))) break;
+
+            //初始化工资比例
+            $pro = 0;
+
+            //计算当发工资
+            foreach ($rank as $k => $v) {
+
+                //等级已经大于上级等级，跳出循环
+                if ($k > $va->young_rank_id) break;
+
+                //叠加工资比例
+                $pro += $v;
+
+                //工资已发，剔除数组
+                unset($rank[$k]);
+            }
+
+            //没有工资可发
+            if ($pro <= 0) continue;
+
+            //计算当发工资
+            $wage = number_format(($base * $pro / 100), 2, '.', '');
+
+            //没有可发工资，下一个
+            if ($wage <= 0) continue;
+
+            //记录内容
+            $record = '下级『' . $member->young_nickname . '』，订单号『' . $model->young_order . '』，付款完结，获得『工资』' . $wage;
+
+            //发放工资
+            if ($va->young_status != '10') {
+
+                //正常状态
+                $va->young_wage += $wage;
+                $va->young_wage_all += $wage;
+                $va->save();
+
+            } else {
+
+                //异常状态
+                $add = $va->young_status == 20 ? '冻结' : '封停';
+                $record .= '(因账号『' . $add . '』未能到账)';
+            }
+
+            $keyword = $model->young_order;
+            $change = ['wage' => $wage];
+//            dump($va->uid,$record);
+            $wallet->store_record($va, $change, 92, $record, $keyword);
+        }
+
     }
 }

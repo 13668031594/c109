@@ -220,6 +220,24 @@
                         </select>
                     </div>
                 </div>
+
+            </div>
+
+            <div class="layui-form-item">
+
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">会员等级</label>
+                    <div class="layui-input-inline" style="width:90px;">
+                        <select name="rank_id" lay-verify="">
+                            @foreach($rank as $k => $v)
+                                <option value="{{$v['id']}}" {{(isset($self) && $self['rank_id'] == $v['id']) ? 'selected' : null}}>{{$v['name']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <hr>

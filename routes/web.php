@@ -17,6 +17,9 @@ Route::get('c104', 'Plan\PlanController@gxd_with');
 
 Route::get('test', function () {
 
-    new \App\Http\Controllers\Plan\PlanController();
-
+//    \DB::beginTransaction();
+//    $match = new \App\Models\Order\MatchOrderModel();
+//    $match->match_end(8);
+//    \DB::rollBack();
+//    exit('ok');
 });

@@ -185,3 +185,17 @@ Route::group(['namespace' => 'RestDay'], function () {
     Route::get('/rest_day/delete', 'RestDayController@destroy')->name('rest_day.destroy');//休息日删除
 });
 
+//工资列表
+Route::group(['namespace' => 'Wage'], function () {
+
+    Route::get('/wage/index', 'WageController@index')->name('wage.index');//待发首页
+    Route::get('/wage/table', 'WageController@table')->name('wage.index');//待发列表
+
+    Route::get('/wage/wage', 'WageController@wage')->name('wage.wage');//发放页面
+    Route::post('/wage/wage', 'WageController@post_wage')->name('wage.wage_change');//工资发放
+
+    Route::get('/wage/record', 'WageController@wage_record')->name('wage.record');//获得首页
+    Route::get('/wage/record-table', 'WageController@wage_record_table')->name('wage.record');//获得记录
+    Route::get('/wage/record-delete', 'WageController@wage_record_delete')->name('wage.record_destroy');//删除记录
+});
+

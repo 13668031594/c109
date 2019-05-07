@@ -30,7 +30,7 @@ class PlanController extends Controller
 
         new TypeClass();//修改会员下单类型
 
-        new WageClass();//发工资
+//        new WageClass();//发工资
 
         new AccountClass();//封号操作
 
