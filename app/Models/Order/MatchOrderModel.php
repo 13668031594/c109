@@ -476,13 +476,12 @@ class MatchOrderModel extends Model
             $record = '下级『' . $member->young_nickname . '』，订单号『' . $model->young_order . '』，付款完结，获得『工资』' . $wage;
 
             //发放工资
-            if ($va->young_status != '10') {
+            if ($va->young_status == '10') {
 
                 //正常状态
                 $va->young_wage += $wage;
                 $va->young_wage_all += $wage;
                 $va->save();
-
             } else {
 
                 //异常状态
