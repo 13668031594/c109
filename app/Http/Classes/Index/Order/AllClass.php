@@ -41,7 +41,7 @@ class AllClass extends IndexClass
 
         $buy_select = ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from', 'young_grade', 'young_fast_order', 'young_in as in', 'young_in_over as in_over'];
         $buy = BuyOrderModel::whereUid($user['uid'])->where('young_status', '<', '90')->where(function ($query) use ($buy) {
-            $query->whereIn('id', $buy)->orWhere('young_status', '=', 80);
+            $query->whereIn('id', $buy)->orWhereIn('young_status', [79, 80]);
         })->orderBy('created_at', 'asc')->get($buy_select);
         $buy = parent::delete_prefix($buy->toArray());
         foreach ($buy as &$v) $v['speed'] = ($v['grade'] == '10') ? '1' : '0';
