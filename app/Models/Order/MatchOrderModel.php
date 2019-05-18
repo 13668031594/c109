@@ -366,12 +366,12 @@ class MatchOrderModel extends Model
 
         if ($number > 0) {
 
-            //修改为永动状态
-            $member->young_type = '10';
+            //修改为动态
+            $member->young_type = '20';
             $member->young_type_time = DATE;
 
             $record = new MemberRecordModel();
-            $text = '直系下级排单，收益状态变更为：' . $type[10];
+            $text = '直系下级排单，收益状态变更为：' . $type[20];
             $record->store_record($member, 20, $text);
         }
     }
