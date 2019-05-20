@@ -26,19 +26,20 @@ class PlanController extends Controller
         \DB::beginTransaction();
 //        new BuyExtendedClass();//延长订单收益时间
 //dd('ok');
+
         new GradeClass();//新老会员
 
         new TypeClass();//修改会员下单类型
 
 //        new WageClass();//发工资
 
+        new AutoClass();//自动排单
+
         new AccountClass();//封号操作
 
         new RobClass();//执行抢单发放
 
         new ActClass();//执行抢激活码任务
-
-        new AutoClass();//自动排单
 
         new MatchClass();//执行订单匹配
 
