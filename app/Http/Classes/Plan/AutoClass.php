@@ -22,7 +22,7 @@ class AutoClass extends PlanClass
 
         $this->keyword = 'auto';
 
-        if (parent::test_plan())return;
+        if (parent::test_plan()) return;
 
         //获取所有开启了自动采集的会员
         self::all_member();
@@ -30,7 +30,7 @@ class AutoClass extends PlanClass
         //添加订单
         self::add_buy();
 
-        $record = '新增自动采集订单：'.count($this->insert).'个';
+        $record = '新增自动采集订单：' . count($this->insert) . '个';
         parent::store_plan($record);
     }
 
@@ -76,7 +76,7 @@ class AutoClass extends PlanClass
                 if ($last->young_status < 40) continue;
 
                 //计算下次下单时间
-                $begin = strtotime('+' . $day . ' day', strtotime($last->created_at));
+                $begin = strtotime('+' . $day . ' day', strtotime(date('Y-m-d 00:00:00', strtotime($last->created_at))));
 
                 //预算时间未到
                 if ($begin > time()) continue;
