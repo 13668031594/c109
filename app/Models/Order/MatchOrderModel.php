@@ -182,24 +182,10 @@ class MatchOrderModel extends Model
             $member->young_formal = '20';
 //            $member->young_formal_time = $member;
             $member->save();
+
+            //修改上级状态
+            self::type_change($member->young_referee_id, $buy->young_total);
         }
-
-        //延长动态时间
-        $referee = MemberModel::whereUid($member->young_referee_id)->first();
-        if (!is_null($referee) && ($referee->young_type == '10')){
-
-            $set = new SetClass();
-            $set = $set->index();
-
-            if ($buy->young_total >= $set['type01']){
-
-                $member->young_formal_time = date('Y-m-d H:i:s', strtotime('+30 day', strtotime($member->young_formal_time)));
-                $member->save();
-            }
-        }
-
-        //修改上级状态
-        self::type_change($member->young_referee_id);
 
         //分佣给上级
         self::reward($buy);
@@ -227,6 +213,21 @@ class MatchOrderModel extends Model
         if ($sell->young_remind > 0) return;
         $sell->young_status = 30;//修改收益中状态
         $sell->save();
+
+        $number = SellOrderModel::whereUid($sell->uid)->where('young_status', '=', 30)->count();
+
+        if ($number >= 4) {
+
+            $member = MemberModel::whereUid($sell->uid)->first();
+            $member->young_mode = 20;
+            $member->young_mode_time = DATE;
+            $member->save();
+
+            $mode = $member->mode;
+
+            $record = new MemberRecordModel();
+            $record->store_record($member, 50, '卖出订单完结4单以上，自动切换为' . $mode[20] . '模式');
+        }
     }
 
     //上级分佣
@@ -338,7 +339,7 @@ class MatchOrderModel extends Model
     }
 
     //修改上级下单类型
-    private function type_change($uid)
+    private function type_change($uid, $buy_total)
     {
         $set = new SetClass();
         $set = $set->index();
@@ -393,6 +394,13 @@ class MatchOrderModel extends Model
             $record->store_record($member, 20, $text);
 
             return;
+        }
+
+        //延长动态时间
+        if (($member->young_type == '10') && ($buy_total >= $set['type01'])) {
+
+            $member->young_formal_time = date('Y-m-d H:i:s', strtotime('+30 day', strtotime($member->young_formal_time)));
+            $member->save();
         }
     }
 
