@@ -2,6 +2,7 @@
 
 namespace App\Models\Member;
 
+use App\Http\Classes\Set\SetClass;
 use App\Models\Bank\BankModel;
 use App\Models\Customer\CustomerModel;
 use Illuminate\Http\Request;
@@ -359,14 +360,14 @@ class MemberModel extends Authenticatable
         $memberModel->young_level = $referee->young_level + 1;//自身层级
 
         //上级是特殊账号，且全权限的
-        if ($referee->young_special_type == '20' && $referee->young_special_level == '10'){
+        if ($referee->young_special_type == '20' && $referee->young_special_level == '10') {
 
             $memberModel->young_special_type = '20';
             $memberModel->young_special_level = '20';
         }
 
         //上级有指定客服
-        if (!empty($referee->young_special_customer)){
+        if (!empty($referee->young_special_customer)) {
 
             $memberModel->young_special_customer = $referee->young_special_customer;
         }
@@ -394,6 +395,13 @@ class MemberModel extends Authenticatable
         $account->save();
 
         $memberModel->young_account = $account->young_account;
+
+
+        //添加动转静时间
+        $set = new SetClass();
+        $set = $set->index();
+        $time = $set['type10'];
+        $memberModel->young_formal_time = date('Y-m-d H:i:s', strtotime('+' . $time . ' day'));
 
         $memberModel->save();
 
