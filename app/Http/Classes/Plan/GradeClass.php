@@ -23,6 +23,4 @@ class GradeClass extends PlanClass
         $model = new MemberModel();
         $model->where('created_at','<=',$date)->update(['young_grade' => '20','young_grade_time' => DATE]);
     }
-
-
 }

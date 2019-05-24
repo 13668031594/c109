@@ -180,7 +180,22 @@ class MatchOrderModel extends Model
         if ($member->young_formal == '10') {
 
             $member->young_formal = '20';
-            $member->young_formal_time = DATE;
+//            $member->young_formal_time = $member;
+            $member->save();
+        }
+
+        //延长动态时间
+        $referee = MemberModel::whereUid($member->young_referee_id)->first();
+        if (!is_null($referee) && ($referee->young_type == '10')){
+
+            $set = new SetClass();
+            $set = $set->index();
+
+            if ($buy->young_total >= $set['type01']){
+
+                $member->young_formal_time = date('Y-m-d H:i:s', strtotime('+30 day', strtotime($member->young_formal_time)));
+                $member->save();
+            }
         }
 
         //修改上级状态
@@ -332,7 +347,7 @@ class MatchOrderModel extends Model
 
         if (is_null($member)) return;
 
-        $type = $member->young_type;
+        $type = $member->type;
 
         //判断是否满足永动条件
         $number = \DB::table('buy_order_models as b')
@@ -348,6 +363,7 @@ class MatchOrderModel extends Model
             //修改为永动状态
             $member->young_type = '30';
             $member->young_type_time = DATE;
+            $member->save();
 
             $record = new MemberRecordModel();
             $text = '直系下级排单，收益状态变更为：' . $type[30];
@@ -364,15 +380,19 @@ class MatchOrderModel extends Model
             ->where('b.young_total', '>=', $set['type01'])
             ->count();
 
-        if ($number > 0) {
+        if ($number > 0 && $member->young_type == '20') {
 
             //修改为动态
-            $member->young_type = '20';
+            $member->young_type = '10';
             $member->young_type_time = DATE;
+            $member->young_formal_time = date('Y-m-d H:i:s', strtotime('+30 day'));
+            $member->save();
 
             $record = new MemberRecordModel();
-            $text = '直系下级排单，收益状态变更为：' . $type[20];
+            $text = '直系下级排单，收益状态变更为：' . $type[10];
             $record->store_record($member, 20, $text);
+
+            return;
         }
     }
 
