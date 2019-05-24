@@ -45,6 +45,7 @@ Route::get('test', function () {
 
         $user = $member->find($v[0]['uid']);
         $user = $member->find($user->young_referee_id);
+        if (is_null($user))continue;
         if ($v[0]['young_tail_end'] > $user->young_formal_time) {
 
             $user->young_formal_time = date('Y-m-d H:i:s', strtotime('+30 day', strtotime($v[0]['young_tail_end'])));
