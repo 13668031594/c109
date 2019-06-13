@@ -21,8 +21,8 @@ class TypeClass extends PlanClass
         if (parent::test_plan())return;
 
         //时间节点
-        $date = parent::return_date($this->set['type10']);
-
+//        $date = parent::return_date($this->set['type10']);
+        $date = date('Y-m-d H:i:s');
         //不用修改为静态的人
 //        $member = new MemberModel();
 //        $member = $member->where('young_formal_time', '>=', $date)->get(['young_referee_id'])->pluck('young_referee_id')->toArray();

@@ -182,10 +182,10 @@ class MatchOrderModel extends Model
             $member->young_formal = '20';
 //            $member->young_formal_time = $member;
             $member->save();
-
-            //修改上级状态
-            self::type_change($member->young_referee_id, $buy->young_total);
         }
+
+        //修改上级状态
+        self::type_change($member);
 
         //分佣给上级
         self::reward($buy);
@@ -339,12 +339,12 @@ class MatchOrderModel extends Model
     }
 
     //修改上级下单类型
-    private function type_change($uid, $buy_total)
+    private function type_change(MemberModel $child)
     {
         $set = new SetClass();
         $set = $set->index();
 
-        $member = MemberModel::whereUid($uid)->first();
+        $member = MemberModel::whereUid($child->young_referee_id)->first();
 
         if (is_null($member)) return;
 
@@ -353,11 +353,13 @@ class MatchOrderModel extends Model
         //判断是否满足永动条件
         $number = \DB::table('buy_order_models as b')
             ->leftJoin('member_models as u', 'b.uid', '=', 'u.uid')
-            ->where('u.young_referee_id', '=', $uid)
+            ->where('u.young_referee_id', '=', $member->uid)
             ->where('u.young_formal', '=', '20')
             ->where('b.young_total', '>=', $set['typeAllTotal'])
+            ->get(['b.*'])
+            ->groupBy('uid')
             ->count();
-
+//dd($number);
         //满足永动条件
         if ($number >= $set['typeAllNum']) {
 
@@ -376,9 +378,11 @@ class MatchOrderModel extends Model
         //静态转动态
         $number = \DB::table('buy_order_models as b')
             ->leftJoin('member_models as u', 'b.uid', '=', 'u.uid')
-            ->where('u.young_referee_id', '=', $uid)
+            ->where('u.young_referee_id', '=', $member->uid)
             ->where('u.young_formal', '=', '20')
             ->where('b.young_total', '>=', $set['type01'])
+            ->get(['b.*'])
+            ->groupBy('uid')
             ->count();
 
         if ($number > 0 && $member->young_type == '20') {
@@ -396,8 +400,14 @@ class MatchOrderModel extends Model
             return;
         }
 
+        //静态转动态
+        $number = \DB::table('buy_order_models as b')
+            ->where('b.uid', '=', $child->uid)
+            ->where('b.young_total', '>=', $set['type01'])
+            ->count();
+
         //延长动态时间
-        if (($member->young_type == '10') && ($buy_total >= $set['type01'])) {
+        if (($member->young_type == '10') && ($number == 1)) {
 
             $member->young_formal_time = date('Y-m-d H:i:s', strtotime('+30 day', strtotime($member->young_formal_time)));
             $member->save();
