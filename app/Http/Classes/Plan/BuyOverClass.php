@@ -29,18 +29,18 @@ class BuyOverClass extends PlanClass
             //今天周六
             self::order_add(2);
         } else*/
-        if ($today_w == '0') {
+//        if ($today_w == '0') {
 
             //今天周日
-            $number = self::order_add(1);
+//            $number = self::order_add(1);
 
-            $record = '星期日，共延长收益订单：' . $number . '个';
-        } else {
+//            $record = '星期日，共延长收益订单：' . $number . '个';
+//        } else {
 
             //工作日，修改状态
             $number = self::order_over();
             $record = '工作日，收益完结订单：' . $number . '个';
-        }
+//        }
 
 //        parent::store_plan($record);
     }
