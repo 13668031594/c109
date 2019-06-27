@@ -139,7 +139,7 @@ class BuyClass extends IndexClass
         //获取历史金额最高的一单
         $top = BuyOrderModel::whereUid($member['uid'])->orderBy('young_total', 'desc')->first();
 
-        return !$top ? '0' : $top['young_total'];
+        return !$top ? '0' : $top->young_total;
     }
 
     public function member_set()

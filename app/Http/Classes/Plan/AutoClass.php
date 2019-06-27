@@ -103,6 +103,9 @@ class AutoClass extends PlanClass
             }
 
             if ($number <= 0) $number = 1;//保证排单数量不小于1
+            //获取历史金额最高的一单
+            $top = BuyOrderModel::whereUid($member['uid'])->orderBy('young_number', 'desc')->first();
+            if (!is_null($top) && $number < $top->young_number)$number = $top->young_number;
             if ($number > $number_max) $number = $number_max;//保证排单数量不大于配置最高数量
 
             //计算总金额
