@@ -216,9 +216,10 @@ class MatchOrderModel extends Model
 
         $number = SellOrderModel::whereUid($sell->uid)->where('young_status', '=', 30)->count();
 
-        if ($number >= 4) {
+        if (($number >= 4)) {
 
             $member = MemberModel::whereUid($sell->uid)->first();
+            if ($member->young_mode == 20) return;
             $member->young_mode = 20;
             $member->young_mode_time = DATE;
             $member->save();
@@ -359,7 +360,7 @@ class MatchOrderModel extends Model
             ->get(['b.*'])
             ->groupBy('uid')
             ->count();
-//dd($number);
+        //dd($number);
         //满足永动条件
         if ($number >= $set['typeAllNum']) {
 
@@ -401,7 +402,7 @@ class MatchOrderModel extends Model
         }
 
         //静态转动态
-        $number = \DB::table('buy_order_models as b')
+        /*$number = \DB::table('buy_order_models as b')
             ->where('b.uid', '=', $child->uid)
             ->where('b.young_total', '>=', $set['type01'])
             ->count();
@@ -411,7 +412,7 @@ class MatchOrderModel extends Model
 
             $member->young_formal_time = date('Y-m-d H:i:s', strtotime('+30 day', strtotime($member->young_formal_time)));
             $member->save();
-        }
+        }*/
     }
 
     //定的订单号

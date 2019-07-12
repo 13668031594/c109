@@ -24,14 +24,12 @@ class PlanController extends Controller
     {
 
         \DB::beginTransaction();
-//        new BuyExtendedClass();//延长订单收益时间
-//dd('ok');
 
+        new TypeClass();//修改会员下单类型
+dd('ok');
         new GradeClass();//新老会员
 
         new TypeClass();//修改会员下单类型
-
-//        new WageClass();//发工资
 
         new AutoClass();//自动排单
 
@@ -52,7 +50,7 @@ class PlanController extends Controller
         new PoundageGiveClass();//每日赠送星伙
 
         new MatchClass('match_simu');//执行订单预匹配
-//dd(123);
+
         \DB::commit();
     }
 
