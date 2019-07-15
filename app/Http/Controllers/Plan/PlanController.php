@@ -22,7 +22,6 @@ class PlanController extends Controller
     //开始执行计划任务
     public function index()
     {
-
         \DB::beginTransaction();
 
         new GradeClass();//新老会员

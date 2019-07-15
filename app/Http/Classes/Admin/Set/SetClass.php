@@ -203,7 +203,7 @@ class SetClass extends AdminClass
             //卖单开关
             'sellSwitch|订单卖出开关' => 'required|string|in:on,off',
             'sellCloseTxt|订单卖出关闭原因' => 'required_if:sellSwitch,off|string|max:2000',
-            'sellExceptionTxt|订单卖出关闭时的例外账号' => 'required_if:sellSwitch,off|string|max:2000',
+            'sellExceptionTxt|订单卖出关闭时的例外账号' => 'nullable|string|max:2000',
         ];
 
         parent::validators_json($request->post(), $rule);
