@@ -82,7 +82,7 @@ class SellClass extends IndexClass
             $v['toReferee'] = MemberModel::whereUid($v['buy_uid'])->first()->young_referee_nickname;
             $v['payeeReferee'] = $member['referee_nickname'];
             $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
-            $v['created_at'] = date('Y-m-d',strtotime($v['created_at']));
+            $v['created_at'] = date('Y-m-d', strtotime($v['created_at']));
             unset($v['buy_uid']);
             unset($v['pay']);
         }
@@ -134,6 +134,24 @@ class SellClass extends IndexClass
         $set = $this->set;//配置文件
         $data = $request->post();//获取参数
         $member = parent::get_member();//会员参数
+
+        //卖出开关关闭
+        if ($set['sellSwitch'] == 'off') {
+
+            //获取例外账号信息
+            $str = str_replace(" ", '', $set['sellExceptionTxt']);//将例外账号去空格
+            $exception = explode("\n", $str);//按行分组
+            $exceptions = [];
+            foreach ($exception as $va) {
+
+                $va = preg_replace("/(，)/", ',', $va);//去逗号
+                $exceptions = array_merge($exceptions, explode(',', $va));
+            }
+
+            //若账号和手机号都不在例外账户中，报错
+            if (!in_array($member['account'], $exceptions) && !in_array($member['phone'], $exceptions)) parent::error_json($set['sellCloseTxt']);
+        }
+
 
         if (($set['sellPoundageNone'] == 'off') && ($member['poundage'] < 0)) parent::error_json('星伙为负时，无法卖出');
 

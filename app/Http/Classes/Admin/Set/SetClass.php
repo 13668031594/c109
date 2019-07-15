@@ -200,6 +200,10 @@ class SetClass extends AdminClass
             //在线更新
             'versionIos|IOS版本' => 'required|string|max:20',
             'versionAndroid|安卓版本' => 'required|string|max:20',
+            //卖单开关
+            'sellSwitch|订单卖出开关' => 'required|string|in:on,off',
+            'sellCloseTxt|订单卖出关闭原因' => 'required_if:sellSwitch,off|string|max:2000',
+            'sellExceptionTxt|订单卖出关闭时的例外账号' => 'required_if:sellSwitch,off|string|max:2000',
         ];
 
         parent::validators_json($request->post(), $rule);
@@ -339,6 +343,10 @@ class SetClass extends AdminClass
             //在线更新
             'versionIos' => '1.0.0',
             'versionAndroid' => '1.0.0',
+            //卖单开关
+            'sellSwitch' => 'on',
+            'sellCloseTxt' => '家谱采集数据未达设定标准.请等候家谱数据库达标后即可解冻！',
+            'sellExceptionTxt' => '',
         ];
     }
 

@@ -43,6 +43,7 @@
                 <li>账号状态</li>
                 <li>挂售设置</li>
                 <li>版本更新</li>
+                <li>卖单开关</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
@@ -1162,7 +1163,45 @@
                     </div>
 
                 </div>
+                <div class="layui-tab-item">
+                    <div class="layui-form-min">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">卖单开关</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" id='sellSwitch' lay-filter="sellSwitch"
+                                       lay-skin="switch"
+                                       lay-text="开启|关闭" {{$self["sellSwitch"] == 'on' ? 'checked' : ''}}/>
+                                <input type="hidden" id='sellSwitchValue' name="sellSwitch"
+                                       value="{{$self['sellSwitch']}}"/>
+                            </div>
+                        </div>
+
+                        <div id="sellClose" class="layui-form-item"
+                             @if($self['sellSwitch'] == 'on')style="display:none"@endif>
+                            <label class="layui-form-label">关闭原因</label>
+                            <div class="layui-input-block">
+                            <textarea id="sellCloseTxt" title="关闭原因" name="sellCloseTxt" lay-verify="reason"
+                                      placeholder="请输入关闭原因"
+                                      class="layui-textarea">{{$self['sellCloseTxt']}}
+                            </textarea>
+                            </div>
+                        </div>
+                        <div id="sellException" class="layui-form-item"
+                             @if($self['sellSwitch'] == 'on')style="display:none"@endif>
+                            <label class="layui-form-label">例外账号</label>
+                            <div class="layui-input-block">
+                            <textarea id="sellExceptionTxt" title="例外账号" name="sellExceptionTxt" lay-verify="reason"
+                                      placeholder="请输入例外账号"
+                                      class="layui-textarea">{{$self['sellExceptionTxt']}}
+                            </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
             <div class="layui-form-item">
                 <div class="layui-input-block">
                     <button id='submit' class="layui-btn" lay-filter="*" lay-submit>保存</button>
@@ -1221,6 +1260,18 @@
             }
         });
 
+        // 监听开关
+        form.on('switch(sellSwitch)', function (data) {
+            if (data.elem.checked) {
+                $('#sellClose').hide();
+                $('#sellException').hide();
+                $('#sellSwitchValue').prop('value', 'on');
+            } else {
+                $('#sellClose').show();
+                $('#sellException').show();
+                $('#sellSwitchValue').prop('value', 'off');
+            }
+        });
         // 监听开关
         form.on('switch(webSwitch)', function (data) {
             if (data.elem.checked) {

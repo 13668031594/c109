@@ -25,8 +25,6 @@ class PlanController extends Controller
 
         \DB::beginTransaction();
 
-//        new TypeClass();//修改会员下单类型
-//dd('ok');
         new GradeClass();//新老会员
 
         new TypeClass();//修改会员下单类型
