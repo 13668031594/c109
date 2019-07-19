@@ -17,7 +17,9 @@ Route::get('c104', 'Plan\PlanController@gxd_with');
 
 Route::get('test', function () {
 
-    /*$model = new \App\Models\Order\MatchOrderModel();
-    $model->match_end(8);
-    dd(1);*/
+
+});
+
+Route::get('/live', function () {
+    return view('live');
 });
