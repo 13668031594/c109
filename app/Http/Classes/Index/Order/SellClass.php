@@ -280,4 +280,93 @@ class SellClass extends IndexClass
 
         $member->save();
     }
+
+    public function sell_list()
+    {
+        $member = parent::get_member();
+
+        $where = [
+            ['uid', '=', $member['uid']],
+        ];
+
+        $select = ['young_order as orderNo', 'young_total as amount', 'young_status', 'young_remind', 'created_at as date', 'id'];
+
+        $where[] = ['young_status', '<', 30];
+
+        $other = [
+            'where' => $where,
+            'orderBy' => [
+                'created_at' => 'desc',
+            ],
+            'select' => $select,
+        ];
+
+        $result = parent::list_page('sell_order', $other);
+
+        $status = new SellOrderModel();
+        $status = $status->status;
+
+        $order = new MatchOrderModel();
+        $match_status = $order->status;
+
+        //判断是否加速
+        foreach ($result['message'] as &$v) {
+
+            $children = $order->where([
+                ['young_sell_id', '=', $v['id']],
+            ])->get();
+
+            $children = parent::delete_prefix($children->toArray());
+
+            foreach ($children as &$va) {
+
+                $seller = MemberModel::whereUid($va['sell_uid'])->first();
+                if (is_null($seller)){
+
+                    $va['sell_p'] = '未知';
+                }elseif(empty($seller->young_referee_id)){
+
+                    $va['sell_p'] = '公司';
+                }else{
+
+                    $sell_p = MemberModel::whereUid($seller->young_referee_id)->first();
+                    if (is_null($sell_p))$va['sell_p'] = '未知';
+                    else $va['sell_p'] = $sell_p->young_nickname;
+                }
+
+                $buyer = MemberModel::whereUid($va['buy_uid'])->first();
+                if (is_null($buyer)){
+
+                    $va['buy_p'] = '未知';
+                }elseif(empty($buyer->young_referee_id)){
+
+                    $va['buy_p'] = '公司';
+                }else{
+
+                    $buy_p = MemberModel::whereUid($buyer->young_referee_id)->first();
+                    if (is_null($buy_p))$va['sell_p'] = '未知';
+                    else $va['buy_p'] = $buy_p->young_nickname;
+                }
+
+                $va['buyNo'] = $va['buy_order'];
+                $va['sellNo'] = $va['sell_order'];
+                $va['status'] = $match_status[$va['status']];
+                $va['date'] = $va['created_at'];
+                $va['from'] = $va['buy_nickname'];
+                $va['to'] = '我';
+                $va['amount'] = $va['total'];
+            }
+
+            $v['typeName'] = '卖出申请';
+            $v['username'] = $member['nickname'];
+            $v['statusName'] = $status[$v['status']];
+            $v['isExistTotal'] = $v['total'] = $v['remind'];
+            $v['children'] = $children;
+
+            $v['goodsName'] = '余额';
+            $v['number'] = '1';
+        };
+
+        return $result;
+    }
 }

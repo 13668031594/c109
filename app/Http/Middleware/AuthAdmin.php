@@ -25,7 +25,7 @@ class AuthAdmin
 
         //获取路由信息
         $route = $request->route()->getAction();
-//dump($route);
+
         //没有路由别名
         if (!isset($route['as'])) abort(403, '没有权限!');
 

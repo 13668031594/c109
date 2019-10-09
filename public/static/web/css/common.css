@@ -1,0 +1,26 @@
+@-webkit-keyframes layui-left {
+    from {
+        -webkit-transform: translate3d(-100%, 0, 0);
+        opacity: .3
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        opacity: 1
+    }
+}
+
+@keyframes layui-left {
+    from {
+        transform: translate3d(-100%, 0, 0);
+        opacity: .3
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1
+    }
+}
+
+.layui-anim-left {
+    -webkit-animation-name: layui-left;
+    animation-name: layui-left
+}

@@ -1,0 +1,40 @@
+
+
+*{
+	background-color:#fff;
+}
+.subject{
+	width:100%;
+}
+.subject-content{
+	border-bottom:1px solid #ddd;
+}
+.content{
+	margin:0px 20px;
+	display:flex;
+	border-bottom:1px solid #ddd;
+	height:35px;
+	line-height:35px;
+}
+.content:last-child{
+	border-bottom:0px;
+}
+.content-sel{
+	margin-left:10px;
+	border:0px;
+	flex-grow:1;
+}
+.content input{
+	margin-left:10px;
+	border:0px;
+	flex-grow:1;
+}
+.tips{
+	color:#c2c2c2;
+	background-color:#fff;
+	margin-top:10px;
+	text-align: center;
+}
+.input{
+	display: none;
+}

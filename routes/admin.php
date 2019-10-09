@@ -199,3 +199,15 @@ Route::group(['namespace' => 'Wage'], function () {
     Route::get('/wage/record-delete', 'WageController@wage_record_delete')->name('wage.record_destroy');//删除记录
 });
 
+//店长列表
+Route::group(['namespace' => 'Shopowner'], function () {
+
+    Route::get('/shopowner/index', 'ShopownerController@index')->name('shopowner.index');//店长首页
+    Route::get('/shopowner/table', 'ShopownerController@table')->name('shopowner.index');//店长列表
+    Route::get('/shopowner/create', 'ShopownerController@create')->name('shopowner.create');//店长添加
+    Route::post('/shopowner/store', 'ShopownerController@store')->name('shopowner.create');//店长添加
+    Route::get('/shopowner/edit', 'ShopownerController@edit')->name('shopowner.edit');//店长编辑
+    Route::post('/shopowner/update/{id}', 'ShopownerController@update')->name('shopowner.edit');//店长编辑
+    Route::get('/shopowner/delete', 'ShopownerController@destroy')->name('shopowner.destroy');//店长删除
+});
+

@@ -11,8 +11,6 @@ namespace App\Http\Classes\Plan;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberRecordModel;
 use App\Models\Order\BuyOrderModel;
-use App\Models\Order\MatchOrderModel;
-use App\Models\Order\RewardFreezeModels;
 use App\Models\RestDayModel;
 
 class BuyExtendedClass extends PlanClass

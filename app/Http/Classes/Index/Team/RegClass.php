@@ -35,7 +35,7 @@ class RegClass extends IndexClass
     public function validator_sms($phone)
     {
         $term = [
-            'phone|电话' => 'required|regex:/^1[3456789][0-9]{9}$/|unique:member_models,young_phone',//联系电话，必填
+            'phone|电话' => 'required|regex:/^1[3456789][0-9]{9}$/|unique:member_models,young_phone|unique:member_models,young_family_account',//联系电话，必填
         ];
 
         //参数判断
@@ -119,7 +119,6 @@ class RegClass extends IndexClass
     //注册账号
     public function reg(Request $request)
     {
-        \DB::beginTransaction();
 
         $member = parent::get_member();
 
@@ -154,9 +153,7 @@ class RegClass extends IndexClass
         //添加账号信息
         $end = $model->new_account($model);
 
-        \DB::commit();
-
-        return parent::delete_prefix($end->toArray());
+        return $end;
     }
 
     //注册账号消耗贡献点
@@ -179,5 +176,58 @@ class RegClass extends IndexClass
 
         $wallet = new MemberWalletModel();
         $wallet->store_record($member, $change, '20', $record);
+    }
+
+    public function family_binding_validators(Request $request)
+    {
+        $time = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding', time());
+
+        if (!empty($time) && ($time > time())) parent::error_json('操作过于频繁');
+
+        //表单验证条件
+        $term = [
+            'phone|家谱账号' => 'required|between:6,24|unique:member_models,young_family_account',
+
+            'family_password|家谱密码' => 'required|between:6,24',
+        ];
+
+        parent::validators_json($request->post(), $term);
+
+        $url = "http://family-api.ythx123.com/c109?account={$request->post('phone')}&password={$request->post('family_password')}&gxd=0&phone={$request->post('phone')}";
+
+        $result = parent::url_get($url);
+
+        if ($result === false) parent::error_json('绑定失败');
+        $result = json_decode($result, true);
+
+        if ($result['status'] == 'fails') {
+
+            $fails = \Cache::get($_SERVER["REMOTE_ADDR"] . 'family_binding_fails', 0);
+            $fails++;
+            \Cache::put($_SERVER["REMOTE_ADDR"] . 'family_binding_fails', $fails, 60);
+            if ($fails >= 3) \Cache::put($_SERVER["REMOTE_ADDR"] . 'family_binding', (time() + 60), 60);
+
+            parent::error_json($result['message']);
+        }
+
+        //返回贡献点
+        return $result['gxd'];
+    }
+
+    public function family_binding(MemberModel $member,$gxd)
+    {
+        $member = MemberModel::whereUid($member['uid'])->first();
+        $member->young_gxd += $gxd;
+        $member->young_gxd_all += $gxd;
+        $member->young_family_account = $member->young_phone;
+        $member->young_family_binding = DATE;
+        $member->save();
+
+        $change = ['gxd' => $gxd];
+        $record = '与华夏宗亲家谱同步『' . $this->set['walletGxd'] . '』' . $gxd;
+        $model = new MemberWalletModel();
+        $model->store_record($member, $change, 99, $record);
+
+        return parent::delete_prefix($member->toArray());
     }
 }

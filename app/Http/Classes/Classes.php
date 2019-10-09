@@ -128,7 +128,7 @@ class Classes
      * @param null $key
      * @return array
      */
-    protected function delete_prefix($array = [], $key = null)
+    public function delete_prefix($array = [], $key = null)
     {
         $arrays = [];
 

@@ -1,0 +1,53 @@
+
+body {
+    background-color: #fff;
+}
+
+.title {
+    margin: 20px 10px 0px 10px;
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content-list {
+    flex: 1;
+    border: 1px solid #c2c2c2;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    max-width: 265px;
+    min-width: 265px;
+    padding: 10px;
+}
+
+.content-list-news {
+    margin: 20px 0px 20px 40px;
+}
+
+.content-list-bot {
+    padding-left: 25px;
+    cursor: pointer;
+}
+.content-list-bot a{
+	color: red;
+}
+
+.details {
+    display: flex;
+    margin: 10px;
+    border-bottom: 1px solid #c2c2c2;
+}
+
+.details-list {
+    color: #6d6d6d;
+}
+
+.details-right {
+    display: flex;
+}
+
+.details-right h1 {
+    align-self: center;
+}

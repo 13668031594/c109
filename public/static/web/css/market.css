@@ -1,0 +1,45 @@
+
+
+
+body{
+	background-color:#fff;
+}
+.container{
+	margin:0px 5px;
+}
+.content{
+	max-width:970px;
+}
+
+.layui-input-inline input{
+	border:0px;
+}
+.layui-form-item{
+	margin-bottom:0px;
+}
+.background{
+	background-color:red;
+	color:#fff;
+}
+.details{
+	margin:0px 5px;
+	display:flex;
+	flex-wrap: wrap; 
+}
+.btn{
+	margin-top:20px;
+	max-width:100px;
+}
+
+.details-content{
+	min-width:260px;
+	flex:1;
+}
+.details-btn{
+	max-width:260px;
+	margin:20px auto;
+	display:flex;
+}
+.layui-btn-fluid{
+	margin:0px 10px;
+}

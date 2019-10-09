@@ -1,0 +1,82 @@
+.popup {
+    background-color: #fff;
+    overflow-x: hidden;
+    /*height: 100%;*/
+}
+
+.popup-tips {
+    width: 100%;
+    background-color: red;
+    text-align: center;
+    position: fixed;
+}
+
+.popup-tips h3 {
+    color: #fff;
+}
+
+.popup-img {
+    width: 300px;
+    height: 200px;
+    margin: 0px auto;
+    padding-top: 21px;
+}
+
+.popup-img img {
+    max-width: 100%;
+    height: auto;
+}
+
+.popup-head {
+    text-align: center;
+}
+
+.popup-inp {
+    text-align: center;
+    margin: 5px 0px;
+}
+
+.popup-inp input {
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    border: 3px solid #000;
+    border-radius: 10px;
+}
+
+.popup-inp a {
+    font-size: 18px;
+    color: red;
+}
+
+.popup-inp-tips {
+    text-align: center;
+}
+
+.popup-inp-tips h5 {
+    color: red;
+}
+
+.popup-leg {
+    text-align: center;
+}
+
+.popup-leg input {
+    width: 50px;
+    border: 0px;
+    text-align: center;
+}
+
+.popup-bottom {
+    text-align: center;
+}
+
+.popup-bottom h5 {
+    color: red;
+}
+
+#inp3 {
+    width: 30px;
+    border: 0px;
+    text-align: center;
+}

@@ -102,6 +102,10 @@
                                 <dd><a href="javascript:;" data-menu='/admin/wage/record'><i
                                                 class="layui-icon layui-icon-file"></i> 工资记录</a></dd>
                             @endif
+                            @if(in_array('shopowner.index',$powers) || in_array('-1',$powers))
+                                <dd><a href="javascript:;" data-menu='/admin/shopowner/index'><i
+                                                class="layui-icon layui-icon-user"></i> 店长列表</a></dd>
+                            @endif
                         </dl>
                     </li>
                 @endif

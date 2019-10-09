@@ -149,7 +149,7 @@ class SetClass extends AdminClass
             'goodsLower1|多单模式收益时间下限' => 'required|integer|between:1,365',//多单模式收益时间选项
             'goodsCeil1|多单模式收益时间上限' => 'required|integer|between:1,366',//多单模式收益时间选项
             //匹配设置
-            'matchNewMember|新会员立即匹配数' => 'required|integer|between:1,100000000',//新会员立即匹配数
+            'matchNewMember|新会员立即匹配数' => 'required|integer|between:0,100000000',//新会员立即匹配数
             'matchFirstStart|预付款匹配开始时间' => 'required|integer|between:1,100000000',//首付款匹配开始时间
             'matchTailStart|尾款匹配开始时间' => 'required|integer|between:1,100000000',//全款匹配开始时间
             'matchFirstPro|预付款百分比' => 'required|numeric|between:0,100',//预付款百分比

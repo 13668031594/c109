@@ -1,0 +1,67 @@
+
+
+body {
+	background-color: #fff;
+}
+.content{
+	max-width:800px;
+	margin-top:5px;
+}
+.list{
+	height:40px;
+	background-color:#ededed;
+	line-height:40px;
+	padding:0px 20px;
+	display:flex;
+}
+.menu{
+	cursor: pointer;
+}
+.list-content{
+	flex:2;
+}
+.list-state-span{
+	background-color:#25f448;
+	color:#fff;
+	padding:5px 10px;
+	border-radius: 20px;
+}
+.list-news{
+	margin-top:20px;
+	position: relative;
+	display:none;
+}
+.list-news-list{
+	margin:0px 0px 5px 20px;
+}
+.list-news-btn{
+	position: absolute;
+	top:15px;
+	left:210px;
+}
+.btn{
+	margin-bottom:10px;
+	background-color:red;
+	color:#fff;
+	padding:5px 20px;
+	border-radius: 20px;
+	cursor: pointer;
+}
+.show{
+	display:block;
+}
+.team{
+	margin:20px 0px 0px 20px;
+}
+#inp{
+	border:0px;
+	border-bottom:1px solid #c2c2c2;
+	width:80px;
+	text-align: right;
+}
+.btn-list{
+	padding:20px;
+	color:red;
+	font-size:16px;
+	text-align: right;
+}

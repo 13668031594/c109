@@ -243,7 +243,7 @@ ORDER BY u.young_match_level DESC,s.young_remind ASC,s.created_at ASC
         $sql = "SELECT b.* , u.young_nickname, u.young_phone, u.young_cid, u.young_mode as mode FROM young_member_models as u,young_buy_order_models as b 
 WHERE b.uid = u.uid 
 AND u.young_status = 10
-AND (SELECT COUNT('*') FROM young_buy_order_models WHERE uid = u.uid) <= {$number}
+AND (SELECT COUNT('*') FROM young_buy_order_models WHERE uid = u.uid) < {$number}
 AND b.young_abn = 10
 AND b.young_status in (10,40)
 AND b.young_tail_complete < b.young_tail_total

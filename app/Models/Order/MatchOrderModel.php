@@ -7,6 +7,7 @@ use App\Models\Member\MemberModel;
 use App\Models\Member\MemberRankModel;
 use App\Models\Member\MemberRecordModel;
 use App\Models\Member\MemberWalletModel;
+use App\Models\Shopowner\ShopownerModel;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -74,6 +75,7 @@ class MatchOrderModel extends Model
 //        11 => '重新付款',
         20 => '待确认',
         30 => '已完结',
+        40 => '作废',
     ];
 
     public $abn = [
@@ -300,6 +302,43 @@ class MatchOrderModel extends Model
 
         //将上次的分佣解冻
         $freeze->thaw($model->young_order);
+
+        $member = MemberModel::whereUid($model->uid)->first();
+        $families = explode(',',$member->young_families);
+
+        //寻找店长
+        $shopowner = \DB::table('shopowner a s')
+            ->leftJoin('member as m','m.uid','=','s.uid')
+            ->whereIn('s.uid',$families)
+            ->where('m.young_status','=',10)
+            ->where('s.young_status','=',10)
+            ->orderBy('s.id','asc')
+            ->first();
+
+        if (!is_null($shopowner) && $shopowner->young_reward > 0){
+
+            $reward = number_format(($model->young_total * $shopowner->young_reward / 100),2,'.','');
+            if ($reward > 0){
+
+                $me = MemberModel::whereUid($shopowner->uid)->first();
+                $me->young_reward += $reward;
+                $me->young_reward_all += $reward;
+                $me->save();
+
+                $set = new SetClass();
+                $set = $set->index();
+
+                //初始化钱包信息
+                $wallet = new MemberWalletModel();
+
+                //添加到钱包记录
+                $record = '因店内会员『'.$member->young_nickname.'』订单解冻，获得『' . $set['walletReward'] . '』' . $reward . '，来源订单『' . $model->young_order . '』';
+                $keyword = $model->young_order;
+                $change = ['reward' => $reward];
+
+                $wallet->store_record($me, $change, 83, $record, $keyword);
+            }
+        }
     }
 
     //尝试提升上级等级

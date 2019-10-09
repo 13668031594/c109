@@ -182,5 +182,65 @@ class TeamClass extends IndexClass
         return $member->young_act;
     }
 
+    public function child_all($member_id)
+    {
+        $member = parent::get_member();
 
+        $number = new MemberModel();
+        $number = $number->where('young_families', 'like', '%' . $member['uid'] . ',%')
+            ->orWhere('young_families', 'like', '%,' . $member['uid'] . '%')
+            ->orWhere('young_referee_id', '=', $member['uid'])
+            ->count();
+
+        //结果数组
+        $result = [
+            'number' => $number,
+            'team' => [],
+        ];
+
+        //获取下级信息
+        $other = [
+            'where' => [
+                ['young_referee_id', '=', $member_id],
+            ],
+            'orWhere' => [
+                [['young_families', 'like', '%,' . $member_id . '%']],
+                [['young_families', 'like', '%' . $member_id . ',%']]
+            ],
+            'select' => ['uid', 'young_nickname', 'young_referee_id', 'young_status'],
+        ];
+
+        $team = parent::list_all('member', $other);
+
+        //没有下级
+        if (count($team) <= 0) return $result;
+
+        //下级结果数组
+        $fathers = [];
+
+        foreach ($team as $v) {
+
+            $fathers[$v['referee_id']][] = $v;
+        }
+
+        $result['team'] = self::get_tree_all($member_id, $fathers);
+
+        return $result;
+    }
+
+    //下级信息格式组合
+    public function get_tree_all($father_id, $team)
+    {
+        if (!isset($team[$father_id])) return [];
+
+        $result = [];
+
+        foreach ($team[$father_id] as $k => $v) {
+
+            $result[$k]['title'] = $v['nickname'];
+            $result[$k]['children'] = isset($team[$v['uid']]) ? self::get_tree_all($v['uid'],$team) : [];
+        }
+
+        return $result;
+    }
 }

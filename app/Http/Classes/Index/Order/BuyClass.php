@@ -12,6 +12,7 @@ use App\Http\Classes\Index\IndexClass;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberWalletModel;
 use App\Models\Order\BuyOrderModel;
+use App\Models\Order\MatchOrderModel;
 use App\Models\Order\OrderSignModel;
 use App\Models\Order\RobModel;
 use App\Models\Order\SellOrderModel;
@@ -27,7 +28,7 @@ class BuyClass extends IndexClass
             ['uid', '=', $member['uid']],
         ];
 
-        $select = ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from', 'young_grade','young_fast_order','young_in as in','young_in_over as in_over'];
+        $select = ['id', 'young_order as orderNo', 'young_total as amount', 'created_at', 'young_status', 'young_number', 'young_abn', 'young_from', 'young_grade', 'young_fast_order', 'young_in as in', 'young_in_over as in_over'];
 
         $type = \request()->get('type');
         if ($type == '1') {
@@ -105,7 +106,7 @@ class BuyClass extends IndexClass
             $v['payeeReferee'] = $referee ? $referee->young_referee_nickname : '未找到';
             $v['toReferee'] = $member['referee_nickname'];
             $v['image'] = is_null($v['pay']) ? null : ('http://' . env('LOCALHOST') . $v['pay']);
-            $v['created_at'] = date('Y-m-d',strtotime($v['created_at']));
+            $v['created_at'] = date('Y-m-d', strtotime($v['created_at']));
             unset($v['sell_uid']);
             unset($v['pay']);
         }
@@ -207,7 +208,7 @@ class BuyClass extends IndexClass
                 //寻找该会员的最后一个订单
                 $last = new BuyOrderModel();
                 $last = $last->where('uid', '=', $member['uid'])->where('young_status', '<', '70')->orderBy('created_at', 'desc')->first();
-                if (!is_null($last)) parent::error_json('上一个订单尚未付完全款');
+//                if (!is_null($last)) parent::error_json('上一个订单尚未付完全款');
                 break;
             case '20':
                 $time_lower = $set['goodsType1'];
@@ -304,7 +305,7 @@ class BuyClass extends IndexClass
         $order->young_gxd_pro = $gxd_pro;
         $order->young_gxd = $gxd;
         $order->young_grade = $member['grade'];
-        if (isset($data['fast_order']) && ($data['fast_order'] == 'success'))$order->young_fast_order = '1';
+        if (isset($data['fast_order']) && ($data['fast_order'] == 'success')) $order->young_fast_order = '1';
         $order->save();
 
         //扣除会员星伙
@@ -335,7 +336,7 @@ class BuyClass extends IndexClass
     {
         $member = parent::get_member();
 
-        if ($member['mode'] != '20') parent::error_json('只有多单状态才能开启自动采集');
+//        if ($member['mode'] != '20') parent::error_json('只有多单状态才能开启自动采集');
 
         $last = new BuyOrderModel();
         $last = $last->where('uid', '=', $member['uid'])->orderBy('created_at', 'desc')->first();
@@ -387,7 +388,7 @@ class BuyClass extends IndexClass
         $set = $this->set;//配置文件
         $member = parent::get_member();//会员参数
 
-        if ($member['mode'] != '20') parent::error_json('只有多单状态才能开启自动采集');
+//        if ($member['mode'] != '20') parent::error_json('只有多单状态才能开启自动采集');
         if ($set['buySwitch'] != 'on') parent::error_json('暂时无法采集');//手动采集开关
         $top_order = self::top_order();
 
@@ -429,6 +430,7 @@ class BuyClass extends IndexClass
         if (($member['gxd'] < 0) && ($this->set['withdrawSwitch'] != 'on')) parent::error_json('请先充值' . $this->set['walletGxd'] . '为正数');
 
 //        if ($buy->young_sign_days < $buy->young_days) parent::error_json('签到时间不足，无法提现，需再签到：' . ($buy->young_days - $buy->young_sign_days));
+        //验证挂售订单必须全部卖出
         if ($member['mode'] == '10') {
 
             $last_buy = BuyOrderModel::whereUid($buy->uid)->where('young_in_over', '<>', null)->where('young_in_over', '<', $buy->young_in_over)->orderBy('young_in_over', 'desc')->first();
@@ -442,6 +444,11 @@ class BuyClass extends IndexClass
                 if (is_null($last_sell) || ($last_sell->young_status < 20)) parent::error_json('上一个挂售订单还未完全卖出');
             }
         }
+
+        //验证之后有订单付了首付款 即 滚单
+        $future_order = BuyOrderModel::whereUid($buy->uid)->where('created_at', '>', $buy->created_at)->where('young_status', '>=', 40)->first();
+        if (is_null($future_order)) parent::error_json('下一单首付款付款成功后方可提现');
+
 
         $member = MemberModel::whereUid($member['uid'])->first();
         $change = [];
@@ -536,5 +543,92 @@ class BuyClass extends IndexClass
         $order = BuyOrderModel::whereUid($member['uid'])->count();
 
         return $order < $this->set['fastOrderNumber'] ? 'success' : 'fails';
+    }
+
+    public function buy_list()
+    {
+        $member = parent::get_member();
+
+        $where = [
+            ['uid', '=', $member['uid']],
+        ];
+
+        $select = ['young_order as orderNo', 'young_name as goodsName', 'young_total as amount', 'young_number', 'young_status', 'young_tail_complete', 'created_at as date', 'young_first_total', 'id'];
+
+        $where[] = ['young_status', '<', 90];
+
+        $other = [
+            'where' => $where,
+            'orderBy' => [
+                'created_at' => 'desc',
+            ],
+            'select' => $select,
+        ];
+
+        $result = parent::list_page('buy_order', $other);
+
+        $status = new BuyOrderModel();
+        $status = $status->status;
+
+        $order = new MatchOrderModel();
+        $match_status = $order->status;
+
+
+        //判断是否加速
+        foreach ($result['message'] as &$v) {
+
+            $children = $order->where([
+                ['young_buy_id', '=', $v['id']],
+            ])->get();
+
+            $children = parent::delete_prefix($children->toArray());
+
+            foreach ($children as &$va) {
+
+                $seller = MemberModel::whereUid($va['sell_uid'])->first();
+                if (is_null($seller)){
+
+                    $va['sell_p'] = '未知';
+                }elseif(empty($seller->young_referee_id)){
+
+                    $va['sell_p'] = '公司';
+                }else{
+
+                    $sell_p = MemberModel::whereUid($seller->young_referee_id)->first();
+                    if (is_null($sell_p))$va['sell_p'] = '未知';
+                    else $va['sell_p'] = $sell_p->young_nickname;
+                }
+
+                $buyer = MemberModel::whereUid($va['buy_uid'])->first();
+                if (is_null($buyer)){
+
+                    $va['buy_p'] = '未知';
+                }elseif(empty($buyer->young_referee_id)){
+
+                    $va['buy_p'] = '公司';
+                }else{
+
+                    $buy_p = MemberModel::whereUid($buyer->young_referee_id)->first();
+                    if (is_null($buy_p))$va['sell_p'] = '未知';
+                    else $va['buy_p'] = $buy_p->young_nickname;
+                }
+
+                $va['buyNo'] = $va['buy_order'];
+                $va['sellNo'] = $va['sell_order'];
+                $va['status'] = $match_status[$va['status']];
+                $va['date'] = $va['created_at'];
+                $va['from'] = '我';
+                $va['to'] = $va['sell_nickname'];
+                $va['amount'] = $va['total'];
+            }
+
+            $v['typeName'] = '买入申请';
+            $v['username'] = $member['nickname'];
+            $v['statusName'] = $status[$v['status']];
+            $v['isExistTotal'] = $v['status'] >= '20' ? ($v['tail_complete'] + $v['first_total']) : 0;
+            $v['children'] = $children;
+        };
+
+        return $result;
     }
 }

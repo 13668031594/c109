@@ -11,7 +11,9 @@ namespace App\Http\Classes\Plan;
 use App\Models\Member\MemberModel;
 use App\Models\Member\MemberRecordModel;
 use App\Models\Member\MemberWalletModel;
+use App\Models\Order\BuyOrderModel;
 use App\Models\Order\MatchOrderModel;
+use App\Models\Order\SellOrderModel;
 use App\Models\Plan\PlanModel;
 
 class AccountClass extends PlanClass
@@ -261,12 +263,40 @@ AND m.young_mode = 20";
 //        $update = date('Y-m-d H:i:s', strtotime('-1 hours'));
 
         $match = new MatchOrderModel();
-        return $match->where('created_at', '<', $date)
+        $orders = $match->where('created_at', '<', $date)
             ->where('young_abn', '=', '10')
             ->where('young_status', '=', '10')
 //            ->where('updated_at', '<', $update)
-            ->get(['young_buy_uid'])
-            ->pluck('young_buy_uid')
-            ->toArray();
+            ->get();
+//        dd($orders);
+        foreach ($orders as $v){
+
+            $v->young_status = 40;
+            $v->save();
+
+            $buy_order = BuyOrderModel::whereId($v->young_buy_id)->first();
+            if ($buy_order->young_status == 20){
+
+                $buy_order->young_status = 10;
+                $buy_order->young_first_match = null;
+            }else{
+
+                $buy_order->young_status = 40;
+                $buy_order->young_tail_complete -= $v->young_total;
+                if ($buy_order->young_tail_complete <= 0){
+                    $buy_order->young_tail_complete = 0;
+                    $buy_order->young_tail_match = null;
+                }
+            }
+            $buy_order->save();
+
+            //还原待卖出金额
+            $sell_order = SellOrderModel::whereId($v->young_sell_id)->first();
+            $sell_order->young_status = 10;
+            $sell_order->young_remind += $v->young_total;
+            $sell_order->save();
+        }
+
+        return $orders->pluck('young_buy_uid')->toArray();
     }
 }

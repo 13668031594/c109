@@ -60,18 +60,32 @@ class TeamController extends ApiController
     //添加新的账号
     public function reg(Request $request)
     {
+        \DB::beginTransaction();
+
         $reg = new RegClass();
 
         //验证短信验证码
         $class = new SmsClass();
 
+        //手机验证码验证
         $class->validator_phone($request);
 
+        //注册字段验证
         $reg->validator_reg($request);
 
+        //注册地区验证
         $reg->validator_region($request->post('phone'));
 
+        //家谱绑定验证
+        $gxd = $reg->family_binding_validators($request);
+
+        //注册会员
         $member = $reg->reg($request);
+
+        //绑定家谱与贡献点
+        $member = $reg->family_binding($member,$gxd);
+
+        \DB::commit();
 
         return parent::success(['member' => $member]);
     }
@@ -110,7 +124,6 @@ class TeamController extends ApiController
 
         //返回托管令牌
         return parent::success(['access_token' => $token]);
-
     }
 
     //转款给下级

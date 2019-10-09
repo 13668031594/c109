@@ -283,5 +283,10 @@ class TradClass extends IndexClass
         if (!empty($buyer->young_cid)) $this->pushSms($buyer->young_cid, $body);
     }
 
+    public function show($id)
+    {
+        $order = TradModel::whereId($id)->first();
 
+        return parent::delete_prefix($order->toArray());
+    }
 }

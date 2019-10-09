@@ -1,0 +1,62 @@
+
+
+.title{
+	color:#c2c2c2;
+	margin:10px;
+}
+.layui-form-switch{
+	margin-top:3px;
+}
+.layui-form{
+	margin:0px 10px;
+}
+.border-bottom{
+	border-bottom:1px solid #ddd;
+}
+.layui-form-item{
+	line-height:30px;
+	display:flex;
+	margin:0px;
+}
+.layui-input{
+	height:30px;
+	border:0px;
+}
+.text{
+	width:100px;
+}
+.container{
+	margin:0px 10px;
+	display:none;
+}
+.show{
+	display:block;
+}
+.sel{
+	width:100%;
+	border:0px;
+	background-color:#fff;
+	margin-left:25px;
+}
+.input{
+	border:0px;
+}
+.container-title{
+	width:100%;
+	background-color:#ddd;
+}
+.list{
+	flex:3;
+	height:60px;
+}
+.list-content{
+	color:#c2c2c2;
+}
+.state{
+	height:20px;
+	background-color:#f7ce2d;
+	border-radius:20px;
+	line-height:20px;
+	padding:0px 10px;
+	margin-top:20px;
+}
