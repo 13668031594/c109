@@ -103,8 +103,10 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">家谱密码</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="family_password" class="layui-input layui-input-inp">
+                    <input type="text" name="family_password" required placeholder="家谱中的密码" autocomplete="off"
+                           class="layui-input">
                 </div>
+                <div class="layui-form-mid layui-word-aux layui-hide-xs">家谱中的密码</div>
             </div>
 
             <div class="layui-form-item">
