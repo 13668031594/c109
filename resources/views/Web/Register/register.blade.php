@@ -101,6 +101,13 @@
             </div>
 
             <div class="layui-form-item">
+                <label class="layui-form-label">家谱密码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="family_password" class="layui-input layui-input-inp">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
                 <label class="layui-form-label">昵称</label>
                 <div class="layui-input-inline">
                     <input type="text" name="nickname" required placeholder="请输入会员昵称" autocomplete="off"
