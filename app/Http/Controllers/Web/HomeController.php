@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Classes\Index\IndexClass;
+use App\Http\Classes\Index\Login\PromptClass;
 use App\Http\Classes\Index\Notice\NoticeClass;
 use App\Http\Classes\Index\Order\AllClass;
 use App\Http\Classes\Index\Order\BuyClass;
@@ -150,5 +151,35 @@ class HomeController extends WebController
         ];
 
         return parent::views('popup2',$result);
+    }
+
+
+    public function notice()
+    {
+        $class = new NoticeClass();
+
+        $notice = $class->web_show();
+//dd($notice);
+        return parent::views('tip', $notice);
+    }
+
+    public function prompt()
+    {
+        $class = new PromptClass();
+
+        $member = $class->get_member();
+
+        $keyword = $member['type'] == '20' ? 'type20' : 'type10';
+
+        $title = $member['type'] == '20' ? '静态规则' : '动态规则';
+
+        $prompt = $class->prompt($keyword);
+
+        $result = [
+            'title' => $title,
+            'content' => $prompt,
+        ];
+
+        return parent::views('tip', $result);
     }
 }

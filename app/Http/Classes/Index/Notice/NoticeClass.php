@@ -49,4 +49,17 @@ class NoticeClass extends IndexClass
 
         return $content;
     }
+
+    public function web_show()
+    {
+        $notice = NoticeModel::whereId(request()->get('id'))->first();
+
+        if (is_null($notice)) parent::error_json('没有内容');
+
+        $notice = parent::delete_prefix($notice->toArray());
+
+        $notice['content'] = $this->completion_location($notice['content']);
+
+        return $notice;
+    }
 }

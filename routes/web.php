@@ -39,6 +39,8 @@ Route::group(['middleware' => ['authWeb']], function () {
         Route::get('homepage', 'HomeController@index')->name('web.home');
         Route::get('buy-list', 'HomeController@buy_list')->name('web.home');
         Route::get('sell-list', 'HomeController@sell_list')->name('web.home');
+        Route::get('notice', 'HomeController@notice')->name('web.notice');
+        Route::get('prompt', 'HomeController@prompt')->name('web.notice');
 
         //购入推广权
         Route::get('popup', 'HomeController@popup')->name('web.home');
@@ -77,8 +79,8 @@ Route::group(['middleware' => ['authWeb']], function () {
         Route::post('auto', 'Order\BuyController@auto_change')->name('web.home')->middleware('apiStatus20');//修改自主排单设置
         Route::post('sell', 'Order\SellController@store')->name('web.home')->middleware('apiStatus20');//下挂卖订单
 
-        Route::get('sms/{phone}','Team\TeamController@sms')->name('web.home')->middleware('apiStatus20');//注册短信
-        Route::post('register','Team\TeamController@reg')->name('web.home')->middleware('apiStatus20');//注册账号
+        Route::get('sms/{phone}', 'Team\TeamController@sms')->name('web.home')->middleware('apiStatus20');//注册短信
+        Route::post('register', 'Team\TeamController@reg')->name('web.home')->middleware('apiStatus20');//注册账号
 
         Route::post('trad', 'Trad\TradController@sell')->name('web.market')->middleware('apiStatus20');//卖出贡献点
         Route::get('trad_buy/{id}', 'Trad\TradController@buy')->name('web.market')->middleware('apiStatus20');//认购贡献点

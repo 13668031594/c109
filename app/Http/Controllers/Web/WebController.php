@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Classes\Index\Notice\NoticeClass;
 use App\Http\Classes\Set\SetClass;
 use App\Http\Controllers\Controller;
 
