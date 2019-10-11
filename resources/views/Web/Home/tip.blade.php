@@ -19,7 +19,7 @@
 <div class="container">
     <div class="title"><h1>{{$title}}</h1></div>
     <hr class="layui-bg-cyan">
-    <div class="content">{{$content}}</div>
+    <div class="content">{!! $content !!}</div>
 </div>
 </body>
 <script src="{{$static}}layui/layui.js"></script>
